@@ -1,5 +1,4 @@
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -13,7 +12,7 @@ import {
 const Home = ({navigation}) => {
   return (
     <View>
-      <Text>�ѱ۵Ƕ�</Text>
+      <Text>�ѱ۵Ƕ�</Text>
     </View>
   );
 };
