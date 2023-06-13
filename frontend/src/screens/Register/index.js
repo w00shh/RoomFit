@@ -10,7 +10,7 @@ const Register = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [registerDisabled, setRegisterDisablbed] = useState(true);
 
   const handleRegisterPress = () => {};
 
@@ -49,7 +49,7 @@ const Register = ({navigation}) => {
       <CustomButton_B
         width={356}
         onPress={handleRegisterPress}
-        disabled={isDisabled}
+        disabled={registerDisabled}
         content="회원가입"></CustomButton_B>
       <View style={styles.toLogin}>
         <Text style={styles.questionText}>이미 회원이신가요?</Text>

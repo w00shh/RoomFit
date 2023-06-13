@@ -10,13 +10,13 @@ const Login = ({navigation}) => {
   const [isEmail, setIsEmail] = useState(false);
   const [password, setPassword] = useState('');
   const [isPassword, setIsPassword] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [loginDisabled, setLoginDisabled] = useState(true);
 
   const handleEmailChange = e => {};
 
   const handlePasswordChange = e => {};
 
-  const handleDisabled = () => {
+  const handleLoginDiabled = () => {
     if (isEmail && isPassword) {
       setIsDisabled(false);
     } else {
@@ -26,9 +26,9 @@ const Login = ({navigation}) => {
 
   const handleLoginPress = () => {};
 
-  const handleFindIdPress = () => {};
+  const handleselectionIdPress = () => {};
 
-  const handleFindPasswordPress = () => {};
+  const handleselectionPasswordPress = () => {};
 
   const handleToRegisterPress = () => {
     navigation.navigate('Register');
@@ -56,20 +56,20 @@ const Login = ({navigation}) => {
       <CustomButton_B
         width={356}
         onPress={handleLoginPress}
-        disabled={isDisabled}
+        disabled={loginDisabled}
         content="로그인하기"></CustomButton_B>
-      <View style={styles.findContainer}>
-        <View style={styles.findBox}>
-          <TouchableOpacity onPress={handleFindIdPress}>
-            <Text style={styles.findText}>아이디 찾기</Text>
+      <View style={styles.selectionContainer}>
+        <View style={styles.selectionBox}>
+          <TouchableOpacity onPress={handleselectionIdPress}>
+            <Text style={styles.selectionText}>아이디 찾기</Text>
           </TouchableOpacity>
         </View>
         <Image
           style={styles.divider}
           source={require('../../assets/images/divider.png')}></Image>
-        <View style={styles.findBox}>
-          <TouchableOpacity onPress={handleFindPasswordPress}>
-            <Text style={styles.findText}>비밀번호 찾기</Text>
+        <View style={styles.selectionBox}>
+          <TouchableOpacity onPress={handleselectionPasswordPress}>
+            <Text style={styles.selectionText}>비밀번호 찾기</Text>
           </TouchableOpacity>
         </View>
       </View>

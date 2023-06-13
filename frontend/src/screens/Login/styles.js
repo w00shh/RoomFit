@@ -19,19 +19,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
-  findContainer: {
+  selectionContainer: {
     flexDirection: 'row',
     alignItems: 'space-between',
     marginVertical: 8,
   },
 
-  findBox: {
+  selectionBox: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  findText: {
+  selectionText: {
     fontSize: 14,
     color: '#242424',
   },
