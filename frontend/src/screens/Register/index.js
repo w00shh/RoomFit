@@ -1,16 +1,20 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Input from '../components/Input';
+import React, {useState} from 'react';
+import {Text, TouchableWithoutFeedback, View} from 'react-native';
+import styles from './styles.js';
+import Input from '../../components/Input/index.js';
 
 const Register = ({navigation}) => {
-  const [nickname, setNickname] = React.useState('');
+  const [nickname, setNickname] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const handleToLoginPress = () => {
+    navigation.navigate('Login');
+  };
 
   return (
     <View style={styles.pageContainer}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>이메일로 회원가입</Text>
+        <Text style={styles.titleText}>이메일로 회원가입</Text>
       </View>
       <Input label="닉네임" placeholder="닉네임 입력" inputMode="text"></Input>
       <Input
@@ -28,28 +32,14 @@ const Register = ({navigation}) => {
         placeholder="비밀번호 확인"
         inputMode="text"
         secureTextEntry={true}></Input>
+      <View style={styles.toLogin}>
+        <Text style={styles.questionText}>이미 회원이신가요?</Text>
+        <TouchableWithoutFeedback onPress={handleToLoginPress}>
+          <Text style={styles.loginText}>로그인하기</Text>
+        </TouchableWithoutFeedback>
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  pageContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    backgroundColor: 'white',
-  },
-  titleContainer: {
-    marginBottom: 32,
-    alignSelf: 'flex-start',
-  },
-  title: {
-    fontWeight: '700',
-    fontSize: 20,
-  },
-});
 
 export default Register;
