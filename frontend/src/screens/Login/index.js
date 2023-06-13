@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from './styles';
 import {Text, TouchableWithoutFeedback, View} from 'react-native';
 import Input from '../../components/Input';
+import SetItem from '../../components/SetItem';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -50,6 +51,8 @@ const Login = ({navigation}) => {
           <Text style={styles.registerText}>회원가입하기</Text>
         </TouchableWithoutFeedback>
       </View>
+      <SetItem isKey={true}></SetItem>
+      <SetItem isKey={false}></SetItem>
     </View>
   );
 };
