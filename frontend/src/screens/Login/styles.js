@@ -36,9 +36,13 @@ const styles = StyleSheet.create({
     color: '#242424',
   },
 
+  divider: {
+    height: 20,
+  },
+
   toRegister: {
     flexDirection: 'row',
-    marginVertical: 16,
+    marginVertical: 200,
   },
   questionText: {
     marginHorizontal: 4,

@@ -1,12 +1,50 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
 import SetItem from '../../components/SetItem';
+import CustomButton_B from '../../components/CustomButton_B';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
+  const [isEmail, setIsEmail] = useState(false);
   const [password, setPassword] = useState('');
+  const [isPassword, setIsPassword] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  useEffect =
+    (() => {
+      handleDisabled();
+    },
+    [isEmail, isPassword]);
+
+  const handleEmailChange = e => {
+    setEmail(e.target.value);
+    if (e.target.value !== '') {
+      setIsEmail(true);
+    } else {
+      setIsEmail(false);
+    }
+  };
+
+  const handlePasswordChange = e => {
+    setPassword(e.target.value);
+    if (e.target.value !== '') {
+      setIsPassword(true);
+    } else {
+      setIsPassword(false);
+    }
+  };
+
+  const handleDisabled = () => {
+    if (isEmail && isPassword) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  };
+
+  const handleLoginPress = () => {};
 
   const handleFindIdPress = () => {};
 
@@ -24,21 +62,31 @@ const Login = ({navigation}) => {
       <View>
         <Input
           label="이메일"
+          onChangeText={handleEmailChange}
           placeholder="이메일 입력"
           inputMode="email"
           keyboardType="email-address"></Input>
         <Input
           label="비밀번호"
+          onChangeText={handlePasswordChange}
           placeholder="비밀번호 입력"
           inputMode="text"
           secureTextEntry={true}></Input>
       </View>
+      <CustomButton_B
+        width={356}
+        onPress={handleLoginPress}
+        disabled={isDisabled}
+        content="로그인하기"></CustomButton_B>
       <View style={styles.findContainer}>
         <View style={styles.findBox}>
           <TouchableOpacity onPress={handleFindIdPress}>
             <Text style={styles.findText}>아이디 찾기</Text>
           </TouchableOpacity>
         </View>
+        <Image
+          style={styles.divider}
+          source={require('../../assets/images/divider.png')}></Image>
         <View style={styles.findBox}>
           <TouchableOpacity onPress={handleFindPasswordPress}>
             <Text style={styles.findText}>비밀번호 찾기</Text>
@@ -51,8 +99,8 @@ const Login = ({navigation}) => {
           <Text style={styles.registerText}>회원가입하기</Text>
         </TouchableOpacity>
       </View>
-      <SetItem isKey={true}></SetItem>
-      <SetItem isKey={false}></SetItem>
+      {/* <SetItem isKey={true}></SetItem>
+      <SetItem isKey={false}></SetItem> */}
     </View>
   );
 };
