@@ -20,9 +20,7 @@ const App = () => {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{
-            headerShown: false,
-          }}
+          options={{headerShown: true, title: '', headerShadowVisible: false}}
         />
         <Stack.Screen
           name="Register"

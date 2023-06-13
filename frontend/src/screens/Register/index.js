@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.js';
 import Input from '../../components/Input/index.js';
 
@@ -34,9 +34,9 @@ const Register = ({navigation}) => {
         secureTextEntry={true}></Input>
       <View style={styles.toLogin}>
         <Text style={styles.questionText}>이미 회원이신가요?</Text>
-        <TouchableWithoutFeedback onPress={handleToLoginPress}>
+        <TouchableOpacity onPress={handleToLoginPress}>
           <Text style={styles.loginText}>로그인하기</Text>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </View>
     </View>
   );

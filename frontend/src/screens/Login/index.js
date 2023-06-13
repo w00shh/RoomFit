@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './styles';
-import {Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
 import SetItem from '../../components/SetItem';
 
@@ -35,21 +35,21 @@ const Login = ({navigation}) => {
       </View>
       <View style={styles.findContainer}>
         <View style={styles.findBox}>
-          <TouchableWithoutFeedback onPress={handleFindIdPress}>
+          <TouchableOpacity onPress={handleFindIdPress}>
             <Text style={styles.findText}>아이디 찾기</Text>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
         <View style={styles.findBox}>
-          <TouchableWithoutFeedback onPress={handleFindPasswordPress}>
+          <TouchableOpacity onPress={handleFindPasswordPress}>
             <Text style={styles.findText}>비밀번호 찾기</Text>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.toRegister}>
         <Text style={styles.questionText}>아직 회원이 아니신가요?</Text>
-        <TouchableWithoutFeedback onPress={handleToRegisterPress}>
+        <TouchableOpacity onPress={handleToRegisterPress}>
           <Text style={styles.registerText}>회원가입하기</Text>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </View>
       <SetItem isKey={true}></SetItem>
       <SetItem isKey={false}></SetItem>
