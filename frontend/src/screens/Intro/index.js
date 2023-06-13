@@ -38,12 +38,12 @@ const Intro = ({navigation}) => {
       </TouchableOpacity>
 
       <View style = {styles.selectionContainer}>
-        <TouchableOpacity>
-          <Text>  이메일로 로그인    </Text>
+        <TouchableOpacity style={{marginRight:20,}}>
+          <Text>이메일로 로그인</Text>
         </TouchableOpacity>
         <Image style={styles.devider} source ={require('../../assets/images/devider.png')}></Image>
-        <TouchableOpacity>
-          <Text>   이메일로 회원가입</Text>
+        <TouchableOpacity style={{marginLeft:20,}}>
+          <Text>이메일로 회원가입</Text>
         </TouchableOpacity>
       </View>
 

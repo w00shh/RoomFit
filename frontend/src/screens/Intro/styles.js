@@ -56,12 +56,14 @@ const styles = StyleSheet.create({
   Button_Text: {
     color: 'white',
     fontSize: 16,
-    fontWeight : 450,
+    fontWeight : '450',
   },
 
   selectionContainer: {
     marginTop: 45,
     flexDirection:'row',
+
+    flex :1,
   },
 
   devider :{
