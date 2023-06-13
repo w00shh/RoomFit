@@ -23,19 +23,26 @@ const Register = ({navigation}) => {
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>이메일로 회원가입</Text>
       </View>
-      <Input label="닉네임" placeholder="닉네임 입력" inputMode="text"></Input>
+      <Input
+        label="닉네임"
+        onChangeText={text => setNickname(text)}
+        placeholder="닉네임 입력"
+        inputMode="text"></Input>
       <Input
         label="이메일"
+        onChangeText={text => setEmail(text)}
         placeholder="이메일 입력"
         inputMode="email"
         keyboardType="email-address"></Input>
       <Input
         label="비밀번호"
+        onChangeText={text => setPassword(text)}
         placeholder="비밀번호 입력"
         inputMode="text"
         secureTextEntry={true}></Input>
       <Input
         label="비밀번호 확인"
+        onChangeText={text => setPasswordConfirm(text)}
         placeholder="비밀번호 확인"
         inputMode="text"
         secureTextEntry={true}></Input>

@@ -12,23 +12,9 @@ const Login = ({navigation}) => {
   const [isPassword, setIsPassword] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const handleEmailChange = e => {
-    setEmail(e.target.value);
-    if (e.target.value !== '') {
-      setIsEmail(true);
-    } else {
-      setIsEmail(false);
-    }
-  };
+  const handleEmailChange = e => {};
 
-  const handlePasswordChange = e => {
-    setPassword(e.target.value);
-    if (e.target.value !== '') {
-      setIsPassword(true);
-    } else {
-      setIsPassword(false);
-    }
-  };
+  const handlePasswordChange = e => {};
 
   const handleDisabled = () => {
     if (isEmail && isPassword) {
@@ -56,13 +42,13 @@ const Login = ({navigation}) => {
       <View>
         <Input
           label="이메일"
-          onChangeText={handleEmailChange}
+          onChangeText={text => setEmail(text)}
           placeholder="이메일 입력"
           inputMode="email"
           keyboardType="email-address"></Input>
         <Input
           label="비밀번호"
-          onChangeText={handlePasswordChange}
+          onChangeText={text => setPassword(text)}
           placeholder="비밀번호 입력"
           inputMode="text"
           secureTextEntry={true}></Input>
@@ -93,6 +79,7 @@ const Login = ({navigation}) => {
           <Text style={styles.registerText}>회원가입하기</Text>
         </TouchableOpacity>
       </View>
+
       {/* <SetItem isKey={true}></SetItem>
       <SetItem isKey={false}></SetItem> */}
     </View>
