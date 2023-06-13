@@ -12,12 +12,6 @@ const Login = ({navigation}) => {
   const [isPassword, setIsPassword] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  useEffect =
-    (() => {
-      handleDisabled();
-    },
-    [isEmail, isPassword]);
-
   const handleEmailChange = e => {
     setEmail(e.target.value);
     if (e.target.value !== '') {

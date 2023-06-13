@@ -2,10 +2,17 @@ import React, {useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.js';
 import Input from '../../components/Input/index.js';
+import CustomButton_B from '../../components/CustomButton_B/index.js';
 
 const Register = ({navigation}) => {
   const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const handleRegisterPress = () => {};
 
   const handleToLoginPress = () => {
     navigation.navigate('Login');
@@ -32,6 +39,11 @@ const Register = ({navigation}) => {
         placeholder="비밀번호 확인"
         inputMode="text"
         secureTextEntry={true}></Input>
+      <CustomButton_B
+        width={356}
+        onPress={handleRegisterPress}
+        disabled={isDisabled}
+        content="회원가입"></CustomButton_B>
       <View style={styles.toLogin}>
         <Text style={styles.questionText}>이미 회원이신가요?</Text>
         <TouchableOpacity onPress={handleToLoginPress}>
