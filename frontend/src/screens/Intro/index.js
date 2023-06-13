@@ -38,7 +38,7 @@ const Intro = ({navigation}) => {
       </TouchableOpacity>
 
       <View style = {styles.selectionContainer}>
-        <TouchableOpacity style={{marginRight:20,}}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={{marginRight:20,}}>
           <Text>이메일로 로그인</Text>
         </TouchableOpacity>
         <Image style={styles.devider} source ={require('../../assets/images/devider.png')}></Image>
