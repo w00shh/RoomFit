@@ -18,9 +18,6 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options = {{title: '운동'},{headerShown:false}}
           name="Login"
           component={Login}
           options={{
