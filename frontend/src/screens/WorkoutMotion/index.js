@@ -17,7 +17,10 @@ const WorkoutMotion = ({navigation}) => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity sty>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('WorkoutReady');
+          }}>
           <Text>+ 커스텀 동작</Text>
         </TouchableOpacity>
       ),

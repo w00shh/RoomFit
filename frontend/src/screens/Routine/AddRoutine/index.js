@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Modal,
+  ScrollView,
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -86,6 +87,7 @@ const AddRoutine = ({navigation}) => {
           동작을 추가해 나만의 루틴을 만들어보세요.
         </Text>
       </View>
+      <ScrollView></ScrollView>
       <View style={styles.addWorkoutMotionContainer}>
         <TouchableOpacity onPress={handleAddWorkoutMotionPress}>
           <Text style={styles.addWorkoutMotionText}>+ 동작 추가</Text>

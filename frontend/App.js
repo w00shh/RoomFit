@@ -8,6 +8,7 @@ import Login from './src/screens/Login/index.js';
 import MyRoutine from './src/screens/Routine/MyRoutine/index.js';
 import AddRoutine from './src/screens/Routine/AddRoutine/index.js';
 import WorkoutMotion from './src/screens/WorkoutMotion/index.js';
+import WorkoutReady from './src/screens/WorkoutReady/index.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,17 @@ const App = () => {
           component={WorkoutMotion}
           options={{
             title: '동작 선택',
+            headerTitleStyle: {
+              fontWeight: '700',
+              fontSize: 16,
+            },
+            headerShadowVisible: false,
+          }}></Stack.Screen>
+        <Stack.Screen
+          name="WorkoutReady"
+          component={WorkoutReady}
+          options={{
+            title: '운동',
             headerTitleStyle: {
               fontWeight: '700',
               fontSize: 16,
