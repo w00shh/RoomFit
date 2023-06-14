@@ -9,9 +9,11 @@ import {
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
+import CustomButton_B from '../../components/CustomButton_B';
 const WorkoutMotion = ({navigation}) => {
   const [motion, setMotion] = useState('');
-  const [motionList, setMotionList] = useState();
+  const [motionList, setMotionList] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(true);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -37,7 +39,15 @@ const WorkoutMotion = ({navigation}) => {
       <ScrollView>
         <MotionItem></MotionItem>
         <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
       </ScrollView>
+      <CustomButton_B
+        width={358}
+        content={motionList.length + ' 개 동작 추가하기'}
+        disabled={isDisabled}></CustomButton_B>
     </View>
   );
 };
