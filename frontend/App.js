@@ -20,14 +20,24 @@ const App = () => {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{
-            headerShown: false,
-          }}
+          options={{headerShown: true, title: '', headerShadowVisible: false}}
         />
         <Stack.Screen
           name="Register"
           component={Register}
           options={{headerShown: true, title: ''}}
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            headerShown: true,
+            title: '운동',
+            headerShadowVisible: false,
+            headerLeft: () => {
+              return null;
+            },
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

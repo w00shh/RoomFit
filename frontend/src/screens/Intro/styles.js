@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   Google_Button: {
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection:'row',
+    flexDirection: 'row',
     backgroundColor: '#4285f4',
 
     width: 358,
@@ -56,20 +56,19 @@ const styles = StyleSheet.create({
   Button_Text: {
     color: 'white',
     fontSize: 16,
-    fontWeight : '450',
+    fontWeight: '450',
   },
 
   selectionContainer: {
     marginTop: 45,
-    flexDirection:'row',
+    flexDirection: 'row',
 
-    flex :1,
+    flex: 1,
   },
 
-  devider :{
-    height:20,
-  }
-
+  devider: {
+    height: 20,
+  },
 });
 
 export default styles;
