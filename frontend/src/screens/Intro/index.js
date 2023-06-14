@@ -44,11 +44,9 @@ const Intro = ({navigation}) => {
           <Text>이메일로 로그인</Text>
         </TouchableOpacity>
         <Image
-          style={styles.devider}
-          source={require('../../assets/images/devider.png')}></Image>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('HomeScreen')}
-          style={{marginLeft: 20}}>
+          style={styles.divider}
+          source={require('../../assets/images/divider.png')}></Image>
+        <TouchableOpacity style={{marginLeft: 20}}>
           <Text>이메일로 회원가입</Text>
         </TouchableOpacity>
       </View>

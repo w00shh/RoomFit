@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   Button_Text: {
     color: 'white',
     fontSize: 16,
-    fontWeight: '450',
+    fontWeight: '500',
   },
 
   selectionContainer: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  devider: {
+  divider: {
     height: 20,
   },
 });
