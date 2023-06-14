@@ -23,14 +23,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#808080',
   },
-  AddActionContainerß: {
+  addWorkoutMotionContainer: {
     width: 358,
     height: 56,
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 24,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#dfdfdf',
+    borderRadius: 8,
   },
-  addActionText: {
+  addWorkoutMotionText: {
     fontSize: 14,
     color: '#5252fa',
   },

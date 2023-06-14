@@ -7,7 +7,7 @@ import Register from './src/screens/Register/index.js';
 import Login from './src/screens/Login/index.js';
 import MyRoutine from './src/screens/Routine/MyRoutine/index.js';
 import AddRoutine from './src/screens/Routine/AddRoutine/index.js';
-import AddAction from './src/screens/Routine/AddRoutine/index.js';
+import WorkoutMotion from './src/screens/WorkoutMotion/index.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +39,7 @@ const App = () => {
               fontWeight: '700',
               fontSize: 16,
             },
+            headerShadowVisible: false,
           }}></Stack.Screen>
         <Stack.Screen
           name="AddRoutine"
@@ -49,6 +50,18 @@ const App = () => {
               fontWeight: '700',
               fontSize: 16,
             },
+            headerShadowVisible: false,
+          }}></Stack.Screen>
+        <Stack.Screen
+          name="WorkoutMotion"
+          component={WorkoutMotion}
+          options={{
+            title: '동작 선택',
+            headerTitleStyle: {
+              fontWeight: '700',
+              fontSize: 16,
+            },
+            headerShadowVisible: false,
           }}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

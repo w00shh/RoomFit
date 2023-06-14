@@ -5,12 +5,10 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  Alert,
   Modal,
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
-import SetItem from '../../../components/SetItem';
 
 const AddRoutine = ({navigation}) => {
   const [routineName, setRoutineName] = useState('새로운 루틴');
@@ -25,7 +23,7 @@ const AddRoutine = ({navigation}) => {
             style={{
               marginHorizontal: 6,
               color: 'black',
-              fontSize: 17,
+              fontSize: 16,
               fontWeight: '700',
             }}>
             {routineName}
@@ -34,7 +32,7 @@ const AddRoutine = ({navigation}) => {
             onPress={() => {
               setIsModalVisible(!isModalVisible);
             }}>
-            <Icon name="edit" type="entypo" size={15} color="black"></Icon>
+            <Icon name="edit" size={16} color="#808080"></Icon>
           </TouchableOpacity>
         </>
       ),
@@ -46,7 +44,9 @@ const AddRoutine = ({navigation}) => {
     });
   }, [isRoutineName]);
 
-  const handleAddActionPress = () => {};
+  const handleAddWorkoutMotionPress = () => {
+    navigation.navigate('WorkoutMotion');
+  };
   const handleConfirmPress = () => {
     setIsRoutineName(!isRoutineName);
     setIsModalVisible(!isModalVisible);
@@ -86,9 +86,9 @@ const AddRoutine = ({navigation}) => {
           동작을 추가해 나만의 루틴을 만들어보세요.
         </Text>
       </View>
-      <View style={styles.AddActionContainer}>
-        <TouchableOpacity onPress={handleAddActionPress}>
-          <Text style={styles.addActionText}>+ 동작 추가</Text>
+      <View style={styles.addWorkoutMotionContainer}>
+        <TouchableOpacity onPress={handleAddWorkoutMotionPress}>
+          <Text style={styles.addWorkoutMotionText}>+ 동작 추가</Text>
         </TouchableOpacity>
       </View>
     </View>

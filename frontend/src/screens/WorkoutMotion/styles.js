@@ -10,21 +10,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: 'white',
   },
-  makeRoutineContainer: {
+  searchContainer: {
     width: 358,
     height: 56,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#dfdfdf',
+    paddingHorizontal: 16,
     borderRadius: 8,
-
-    marginVertical: 24,
+    backgroundColor: '#f5f5f5',
   },
-  makeRoutineText: {
-    fontSize: 14,
-    color: '#5252fa',
+
+  recommendedText: {
+    alignSelf: 'flex-start',
+
+    color: '#808080',
+    marginVertical: 16,
   },
 });
 
