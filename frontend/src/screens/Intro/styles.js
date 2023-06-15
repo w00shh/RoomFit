@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  divider: {
+  devider: {
     height: 20,
   },
 });

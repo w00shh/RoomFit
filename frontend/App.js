@@ -34,8 +34,10 @@ const App = () => {
             headerShown: true,
             title: '운동',
             headerShadowVisible: false,
-            headerLeft: () => {
-              return null;
+            headerBackVisible: false,
+            headerTitleStyle: {
+              fontWeight: '700',
+              fontSize: 28,
             },
           }}
         />

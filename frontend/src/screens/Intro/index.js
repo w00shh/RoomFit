@@ -28,7 +28,9 @@ const Intro = ({navigation}) => {
       <Image
         style={styles.mainLogo}
         source={require('../../assets/images/img_logo_roomfit.png')}></Image>
-      <TouchableOpacity style={styles.Apple_Button}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('HomeScreen')}
+        style={styles.Apple_Button}>
         <Icon name="apple" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
@@ -46,7 +48,9 @@ const Intro = ({navigation}) => {
         <Image
           style={styles.divider}
           source={require('../../assets/images/divider.png')}></Image>
-        <TouchableOpacity style={{marginLeft: 20}}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Register')}
+          style={{marginLeft: 20}}>
           <Text>이메일로 회원가입</Text>
         </TouchableOpacity>
       </View>
