@@ -5,34 +5,61 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'space-between',
   },
-  keyBox: {
-    flex: 5,
+
+  titleKey: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 0,
-    background: '#f5f5f5',
+    margin: 4,
+    paddingVertical: 0,
+    paddingHorizontal: 8,
   },
-  itemBox: {
-    flex: 7,
+
+  titleText: {
+    fontSize: 12,
+  },
+
+  titleItem: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 0,
-    background: '#f5f5f5',
-    boxSizing: 'border-box',
+    margin: 4,
+    paddingVertical: 0,
+    paddingHorizontal: 8,
+  },
+
+  keyBox: {
+    flex: 2,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 4,
+    paddingVertical: 0,
+    paddingHorizontal: 8,
+    backgroundColor: '#f5f5f5',
+  },
+  itemBox: {
+    flex: 2,
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    margin: 4,
+    paddingVertical: 0,
+    paddingHorizontal: 8,
+    backgroundColor: '#f5f5f5',
   },
 
   valueText: {
     fontSize: 16,
     color: '#242424',
-    margin: 10,
   },
 
   unitText: {
     fontSize: 12,
     color: '#acacac',
+    margin: 4,
   },
 });
 

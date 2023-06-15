@@ -10,17 +10,14 @@ import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
-const WorkoutMotion = ({navigation}) => {
+const AddMotion = ({navigation}) => {
   const [motion, setMotion] = useState('');
   const [motionList, setMotionList] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('WorkoutReady');
-          }}>
+        <TouchableOpacity>
           <Text>+ 커스텀 동작</Text>
         </TouchableOpacity>
       ),
@@ -40,20 +37,23 @@ const WorkoutMotion = ({navigation}) => {
 
       <Text style={styles.recommendedText}>추천 운동</Text>
       <ScrollView>
-        <MotionItem isRange={false}></MotionItem>
-        <MotionItem isRange={false}></MotionItem>
-        <MotionItem isRange={false}></MotionItem>
-        <MotionItem isRange={false}></MotionItem>
-        <MotionItem isRange={false}></MotionItem>
-        <MotionItem isRange={false}></MotionItem>
-        <MotionItem isRange={false}></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
+        <MotionItem></MotionItem>
       </ScrollView>
       <CustomButton_B
         width={358}
         content={motionList.length + ' 개 동작 추가하기'}
-        disabled={isDisabled}></CustomButton_B>
+        disabled={false}
+        onPress={() => {
+          navigation.navigate('WorkoutReady');
+        }}></CustomButton_B>
     </View>
   );
 };
 
-export default WorkoutMotion;
+export default AddMotion;

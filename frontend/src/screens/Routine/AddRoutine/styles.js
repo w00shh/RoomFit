@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#808080',
   },
-  addWorkoutMotionContainer: {
+  addMotionContainer: {
     width: 358,
     height: 56,
     alignItems: 'center',
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     borderColor: '#dfdfdf',
     borderRadius: 8,
   },
-  addWorkoutMotionText: {
+  addMotionText: {
     fontSize: 14,
     color: '#5252fa',
   },

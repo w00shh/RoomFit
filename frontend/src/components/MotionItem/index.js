@@ -11,11 +11,7 @@ const MotionItem = props => {
       <View style={styles.imageContainer}></View>
       <View style={styles.nameContainer}>
         <Text style={styles.koreanText}>로우 케이블 크로스오버</Text>
-        {props.isRange ? (
-          <Text>가동범위: 50cm ~ 90cm</Text>
-        ) : (
-          <Text style={styles.englishText}>Low cable crossover</Text>
-        )}
+        <Text style={styles.englishText}>Low cable crossover</Text>
       </View>
     </View>
   );

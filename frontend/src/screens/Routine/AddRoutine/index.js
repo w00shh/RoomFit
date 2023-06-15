@@ -46,7 +46,7 @@ const AddRoutine = ({navigation}) => {
   }, [isRoutineName]);
 
   const handleAddWorkoutMotionPress = () => {
-    navigation.navigate('WorkoutMotion');
+    navigation.navigate('AddMotion');
   };
   const handleConfirmPress = () => {
     setIsRoutineName(!isRoutineName);
@@ -55,11 +55,7 @@ const AddRoutine = ({navigation}) => {
 
   return (
     <View style={styles.pageContainer}>
-      <Modal
-        style={styles.modalContainer}
-        visible={isModalVisible}
-        transparent={true}
-        animationType="fade">
+      <Modal visible={isModalVisible} transparent={true} animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.routineNameContainer}>
             <View style={styles.titleContainer}>
