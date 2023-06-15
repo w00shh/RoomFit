@@ -40,12 +40,13 @@ const WorkoutMotion = ({navigation}) => {
 
       <Text style={styles.recommendedText}>추천 운동</Text>
       <ScrollView>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
+        <MotionItem isRange={false}></MotionItem>
+        <MotionItem isRange={false}></MotionItem>
+        <MotionItem isRange={false}></MotionItem>
+        <MotionItem isRange={false}></MotionItem>
+        <MotionItem isRange={false}></MotionItem>
+        <MotionItem isRange={false}></MotionItem>
+        <MotionItem isRange={false}></MotionItem>
       </ScrollView>
       <CustomButton_B
         width={358}
