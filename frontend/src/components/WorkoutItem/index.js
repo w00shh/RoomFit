@@ -36,7 +36,7 @@ const WorkoutItem = props => {
   };
   return (
     <View style={styles.workoutItemContainer}>
-      <WorkoutTitle motion_id={props.motion.motion_id}></WorkoutTitle>
+      <WorkoutTitle motion={props.motion}></WorkoutTitle>
       <SetItem
         isKey={true}
         isExercising={props.isExercising}
@@ -57,11 +57,6 @@ const WorkoutItem = props => {
             setIsModalVisible={props.setIsModalVisible}
             motion={props.motion}></SetItem>
         ))}
-      {/* <SetItem
-        isKey={false}
-        isExercising={props.isExercising}
-        setIsModalVisible={props.setIsModalVisible}
-        motion={props.motion}></SetItem> */}
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity

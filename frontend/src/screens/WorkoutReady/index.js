@@ -15,6 +15,7 @@ const WorkoutReady = ({navigation, route}) => {
         ...currentWorkoutList,
         {
           motion_id: route.params.selectedMotionKeys[i],
+          motionName: '',
           set: [],
         },
       ]);
@@ -34,7 +35,7 @@ const WorkoutReady = ({navigation, route}) => {
   };
 
   const handleStartWorkoutPress = () => {
-    console.log(workoutList[0]);
+    console.log(workoutList[0].set);
   };
   return (
     <View style={styles.pageContainer}>
