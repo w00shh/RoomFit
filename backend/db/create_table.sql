@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS motion (
 CREATE TABLE IF NOT EXISTS workout (
     workout_id INTEGER PRIMARY KEY,
     user_id TEXT REFERENCES user(user_id) NOT NULL,
-    start_time TEXT NOT NULL,
+    start_time TEXT DEFAULT (datetime('now','localtime')),
     end_time TEXT,
     tut TEXT,
     title TEXT DEFAULT "새로운 운동기록",
