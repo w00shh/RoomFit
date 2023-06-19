@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS user (
     user_id TEXT PRIMARY KEY,
     user_name VARCHAR(30) NOT NULL,
-    isAPI INTEGER NOT NULL,
+    is_api INTEGER NOT NULL,
     email VARCHAR(30) NOT NULL,
     password VARCHAR(30),
     birthday TEXT,
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS record (
 );
 
 CREATE TABLE IF NOT EXISTS routine (
-    rountine_id INTEGER PRIMARY KEY,
+    routine_id INTEGER PRIMARY KEY,
     user_id TEXT NOT NULL,
     routine_name VARCHAR(30) DEFAULT "새로운 루틴",
 
