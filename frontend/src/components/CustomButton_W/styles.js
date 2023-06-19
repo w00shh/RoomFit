@@ -15,8 +15,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#dfdfdf',
     borderStyle: 'solid',
-
-    marginVertical: 24,
   },
 
   CText: {

@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.7)',
   },
+
   pageContainer: {
     flex: 1,
     flexDirection: 'column',

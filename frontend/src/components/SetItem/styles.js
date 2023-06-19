@@ -61,6 +61,10 @@ const styles = StyleSheet.create({
     color: '#acacac',
     margin: 4,
   },
+  modeText: {
+    fontSize: 12,
+    color: '#242424',
+  },
 });
 
 export default styles;

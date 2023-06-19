@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -10,8 +10,20 @@ const MotionItem = props => {
       <Icon name="star" size={20} color="#fbcb22"></Icon>
       <View style={styles.imageContainer}></View>
       <View style={styles.nameContainer}>
-        <Text style={styles.koreanText}>로우 케이블 크로스오버</Text>
-        <Text style={styles.englishText}>Low cable crossover</Text>
+        <Text
+          style={{
+            fontSize: 14,
+            color: props.selected ? '#5252fa' : '#242424',
+          }}>
+          {props.motion.motionName}
+        </Text>
+        <Text
+          style={{
+            fontSize: 14,
+            color: props.selected ? '#5252fa' : '#808080',
+          }}>
+          {props.motion.motionName}
+        </Text>
       </View>
     </View>
   );

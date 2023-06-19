@@ -84,9 +84,9 @@ const AddRoutine = ({navigation}) => {
         </Text>
       </View>
       <ScrollView></ScrollView>
-      <View style={styles.addWorkoutMotionContainer}>
+      <View style={styles.addMotionContainer}>
         <TouchableOpacity onPress={handleAddWorkoutMotionPress}>
-          <Text style={styles.addWorkoutMotionText}>+ 동작 추가</Text>
+          <Text style={styles.addMotionText}>+ 동작 추가</Text>
         </TouchableOpacity>
       </View>
     </View>

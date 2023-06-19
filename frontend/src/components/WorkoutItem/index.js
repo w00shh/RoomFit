@@ -12,10 +12,15 @@ const WorkoutItem = props => {
   return (
     <View style={styles.workoutItemContainer}>
       <WorkoutTitle></WorkoutTitle>
-      <SetItem isKey={true} isExercising={props.isExercising}></SetItem>
-      <SetItem isKey={false} isExercising={props.isExercising}></SetItem>
-      <SetItem isKey={false} isExercising={props.isExercising}></SetItem>
-      <SetItem isKey={false} isExercising={props.isExercising}></SetItem>
+      <SetItem
+        isKey={true}
+        isExercising={props.isExercising}
+        setIsModalVisible={props.setIsModalVisible}></SetItem>
+      <SetItem
+        isKey={false}
+        isExercising={props.isExercising}
+        setIsModalVisible={props.setIsModalVisible}></SetItem>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
           <Icon

@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
+  FlatList,
   ScrollView,
   Text,
   TextInput,
@@ -10,10 +11,31 @@ import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
+
 const AddMotion = ({navigation}) => {
   const [motion, setMotion] = useState('');
   const [motionList, setMotionList] = useState([]);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [motionListMap, setMotionListMap] = useState(new Map());
+  let selectedMotionKeys = [];
+  const [selected, setSelected] = useState(new Map());
+
+  const onSelect = useCallback(
+    motion => {
+      const newSelected = new Map(selected);
+      newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
+      setSelected(newSelected);
+    },
+    [selected],
+  );
+
+  function Item({motion, selected, onSelect}) {
+    return (
+      <TouchableOpacity onPress={() => onSelect(motion)}>
+        <MotionItem motion={motion} selected={selected}></MotionItem>
+      </TouchableOpacity>
+    );
+  }
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -22,7 +44,33 @@ const AddMotion = ({navigation}) => {
         </TouchableOpacity>
       ),
     });
+    setMotionList([
+      {
+        motion_id: 1,
+        motionName: 'Low cable crossover',
+      },
+      {
+        motion_id: 2,
+        motionName: 'Low cable crossover',
+      },
+      {
+        motion_id: 3,
+        motionName: 'Low cable crossover',
+      },
+      {
+        motion_id: 4,
+        motionName: 'Low cable crossover',
+      },
+      {
+        motion_id: 5,
+        motionName: 'Low cable crossover',
+      },
+    ]);
+    motionList.forEach(motion => {
+      setMotionListMap(motionListMap.set(motion.motion_id, motion));
+    });
   }, []);
+
   return (
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
@@ -36,22 +84,30 @@ const AddMotion = ({navigation}) => {
       <View></View>
 
       <Text style={styles.recommendedText}>추천 운동</Text>
-      <ScrollView>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-        <MotionItem></MotionItem>
-      </ScrollView>
+
+      <FlatList
+        data={motionList}
+        renderItem={({item}) => (
+          <Item
+            motion={item}
+            selected={!!selected.get(item.motion_id)}
+            onSelect={onSelect}></Item>
+        )}
+        keyExtractor={item => item.motion_id}
+        extraData={selected}></FlatList>
+
       <CustomButton_B
         width={358}
-        content={motionList.length + ' 개 동작 추가하기'}
+        content={selected.size + ' 개 동작 추가하기'}
         disabled={false}
         onPress={() => {
-          navigation.navigate('WorkoutReady');
+          selectedMotionKeys = Array.from(selected.keys());
+          console.log(selectedMotionKeys);
+          navigation.navigate('WorkoutReady', {
+            selectedMotionKeys: selectedMotionKeys,
+          });
         }}></CustomButton_B>
+      <TouchableOpacity></TouchableOpacity>
     </View>
   );
 };
