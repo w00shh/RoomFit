@@ -19,7 +19,6 @@ const WorkoutReady = ({navigation, route}) => {
         },
       ]);
     }
-    console.log(workoutList);
   }, []);
 
   const handleCancelPress = () => {
@@ -35,7 +34,7 @@ const WorkoutReady = ({navigation, route}) => {
   };
 
   const handleStartWorkoutPress = () => {
-    console.log(workoutList);
+    console.log(workoutList[0]);
   };
   return (
     <View style={styles.pageContainer}>

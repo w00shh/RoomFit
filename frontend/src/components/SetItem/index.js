@@ -1,16 +1,30 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 const SetItem = props => {
   const modes = ['기본모드', '고무밴드', '모드1', '모드2', '모드3'];
-  const [weight, setWeight] = useState();
-  const [reps, setReps] = useState();
+  const [weight, setWeight] = useState(parseInt('0'));
+  const [reps, setReps] = useState(parseInt('0'));
   const [mode, setMode] = useState('기본');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleModeSelectPress = () => {
     props.setIsModalVisible(true);
   };
+
+  useEffect(() => {
+    if (props.workoutList) {
+      const updatedWorkoutList = [...props.workoutList];
+      updatedWorkoutList[
+        updatedWorkoutList.findIndex(item => item.motion_id === props.motion_id)
+      ].set[props.set_id] = {
+        weight: weight,
+        reps: reps,
+        mode: 'normal',
+      };
+      console.log(updatedWorkoutList);
+    }
+  }, [weight, reps, mode]);
 
   return props.isKey ? (
     <View style={styles.setContainer}>
@@ -36,14 +50,15 @@ const SetItem = props => {
   ) : (
     <View style={styles.setContainer}>
       <View style={styles.keyBox}>
-        <Text style={styles.valueText}>1</Text>
+        <Text style={styles.valueText}>{props.set_id + 1}</Text>
       </View>
       <View style={styles.itemBox}>
         <TextInput
           style={styles.valueText}
           inutMode="numeric"
           keyboardType="number-pad"
-          placeholder="0"></TextInput>
+          placeholder="0"
+          onChangeText={text => setWeight(parseInt(text))}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
       <View style={styles.itemBox}>
@@ -51,7 +66,8 @@ const SetItem = props => {
           style={styles.valueText}
           inputMode="numeric"
           keyboardType="numeric"
-          placeholder="0"></TextInput>
+          placeholder="0"
+          onChangeText={text => setReps(parseInt(text))}></TextInput>
         <Text style={styles.unitText}>회</Text>
       </View>
       <View style={styles.itemBox}>
