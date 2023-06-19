@@ -102,12 +102,11 @@ const AddMotion = ({navigation}) => {
         disabled={false}
         onPress={() => {
           selectedMotionKeys = Array.from(selected.keys());
-          console.log(selectedMotionKeys);
+          //console.log(selectedMotionKeys);
           navigation.navigate('WorkoutReady', {
             selectedMotionKeys: selectedMotionKeys,
           });
         }}></CustomButton_B>
-      <TouchableOpacity></TouchableOpacity>
     </View>
   );
 };

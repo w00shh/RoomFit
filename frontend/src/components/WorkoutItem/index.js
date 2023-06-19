@@ -4,14 +4,19 @@ import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import SetItem from '../SetItem';
 const WorkoutItem = props => {
-  const handleWorkoutDelete = () => {};
+  const handleMotionDeletePress = id => {
+    props.setWorkoutList(
+      props.workoutList.filter(item => item.motion_id !== id),
+    );
+    //props.setWorkoutList([{motion_id: 3, set: []}]);
+  };
 
-  const handleSetDelete = () => {};
+  const handleSetDeletePress = () => {};
 
-  const handleSetAdd = () => {};
+  const handleSetAddPress = () => {};
   return (
     <View style={styles.workoutItemContainer}>
-      <WorkoutTitle></WorkoutTitle>
+      <WorkoutTitle motion_id={props.motion.motion_id}></WorkoutTitle>
       <SetItem
         isKey={true}
         isExercising={props.isExercising}
@@ -19,10 +24,15 @@ const WorkoutItem = props => {
       <SetItem
         isKey={false}
         isExercising={props.isExercising}
-        setIsModalVisible={props.setIsModalVisible}></SetItem>
+        setIsModalVisible={props.setIsModalVisible}
+        motion={props.motion}></SetItem>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            handleMotionDeletePress(props.id);
+          }}>
           <Icon
             style={styles.icon}
             name="trash"

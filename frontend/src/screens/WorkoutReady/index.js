@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import WorkoutItem from '../../components/WorkoutItem/';
@@ -7,7 +7,20 @@ import CustomButton_B from '../../components/CustomButton_B';
 
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [workOutList, setWorkoutList] = useState([]);
+  const [workoutList, setWorkoutList] = useState([]);
+
+  useEffect(() => {
+    for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
+      setWorkoutList(currentWorkoutList => [
+        ...currentWorkoutList,
+        {
+          motion_id: route.params.selectedMotionKeys[i],
+          set: [],
+        },
+      ]);
+    }
+    console.log(workoutList);
+  }, []);
 
   const handleCancelPress = () => {
     setIsModalVisible(false);
@@ -19,6 +32,10 @@ const WorkoutReady = ({navigation, route}) => {
 
   const handleAddMotionPress = () => {
     navigation.navigate('AddMotion');
+  };
+
+  const handleStartWorkoutPress = () => {
+    console.log(workoutList);
   };
   return (
     <View style={styles.pageContainer}>
@@ -70,15 +87,17 @@ const WorkoutReady = ({navigation, route}) => {
         </View>
       </Modal>
       <ScrollView>
-        <WorkoutItem
-          isExercising={false}
-          setIsModalVisible={setIsModalVisible}></WorkoutItem>
-        <WorkoutItem
-          isExercising={false}
-          setIsModalVisible={setIsModalVisible}></WorkoutItem>
-        <WorkoutItem
-          isExercising={false}
-          setIsModalVisible={setIsModalVisible}></WorkoutItem>
+        {workoutList &&
+          workoutList.map((value, key) => (
+            <WorkoutItem
+              key={key}
+              id={value.motion_id}
+              motion={value}
+              isExercising={false}
+              setIsModalVisible={setIsModalVisible}
+              workoutList={workoutList}
+              setWorkoutList={setWorkoutList}></WorkoutItem>
+          ))}
       </ScrollView>
 
       <View style={styles.buttonContainer}>
@@ -93,6 +112,7 @@ const WorkoutReady = ({navigation, route}) => {
           <CustomButton_B
             width={171}
             content="운동 시작"
+            onPress={handleStartWorkoutPress}
             disabled={false}></CustomButton_B>
         </View>
       </View>
