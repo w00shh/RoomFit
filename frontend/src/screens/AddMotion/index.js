@@ -1,12 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {
-  FlatList,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
@@ -18,15 +11,29 @@ const AddMotion = ({navigation}) => {
   const [motionListMap, setMotionListMap] = useState(new Map());
   let selectedMotionKeys = [];
   const [selected, setSelected] = useState(new Map());
+  const [selectedLength, setSelectedLength] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(true);
+  let length = 0;
 
   const onSelect = useCallback(
     motion => {
+      let length = 0;
       const newSelected = new Map(selected);
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
       setSelected(newSelected);
     },
     [selected],
   );
+
+  useEffect(() => {
+    length = 0;
+    selected.forEach(value => {
+      if (value === true) {
+        length += 1;
+      }
+    });
+    setSelectedLength(length);
+  }, [selected]);
 
   function Item({motion, selected, onSelect}) {
     return (
@@ -51,25 +58,33 @@ const AddMotion = ({navigation}) => {
       },
       {
         motion_id: 2,
-        motionName: 'Low cable crossover',
+        motionName: 'Sit up',
       },
       {
         motion_id: 3,
-        motionName: 'Low cable crossover',
+        motionName: 'Side Bend',
       },
       {
         motion_id: 4,
-        motionName: 'Low cable crossover',
+        motionName: '45 degrees Back Extension',
       },
       {
         motion_id: 5,
-        motionName: 'Low cable crossover',
+        motionName: 'Air bike',
       },
     ]);
     motionList.forEach(motion => {
       setMotionListMap(motionListMap.set(motion.motion_id, motion));
     });
   }, []);
+
+  useEffect(() => {
+    if (selectedLength > 0) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [selectedLength]);
 
   return (
     <View style={styles.pageContainer}>
@@ -98,12 +113,13 @@ const AddMotion = ({navigation}) => {
 
       <CustomButton_B
         width={358}
-        content={selected.size + ' 개 동작 추가하기'}
-        disabled={false}
+        content={selectedLength + ' 개 동작 추가하기'}
+        disabled={isDisabled}
         onPress={() => {
           selectedMotionKeys = Array.from(selected.keys());
           //console.log(selectedMotionKeys);
           navigation.navigate('WorkoutReady', {
+            isRoutine: true,
             selectedMotionKeys: selectedMotionKeys,
           });
         }}></CustomButton_B>

@@ -48,6 +48,7 @@ const WorkoutItem = props => {
           props.workoutList.findIndex(item => item.motion_id === props.id)
         ].set.map((value, key) => (
           <SetItem
+            key={key}
             motion_id={props.id}
             set_id={key}
             workoutList={props.workoutList}
