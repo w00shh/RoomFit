@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS record (
     record_id INTEGER PRIMARY KEY,
     workout_id INTEGER NOT NULL,
     motion_id INTEGER NOT NULL,
-    time TEXT NOT NULL,
 
     FOREIGN KEY(workout_id) REFERENCES workout(workout_id)
     FOREIGN KEY(motion_id) REFERENCES motion(motion_id)
