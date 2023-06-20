@@ -1,0 +1,26 @@
+const Set = require('../models/set_model');
+
+const create_set = (req, res) => {
+  if (!req.body)
+    res.status(400).send({
+      message: 'Content can not be empty!',
+    });
+
+  const set = new Set({
+    record_id: req.body.record_id,
+    set_no: req.body.set_no,
+    weight: req.body.weight,
+    rep: req.body.rep,
+    mode: req.body.mode,
+  });
+
+  Set.create(set, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred while creating Record.',
+      });
+    else res.json(data);
+  });
+};
+
+module.exports = {create_set};
