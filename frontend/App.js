@@ -8,7 +8,7 @@ import Register from './src/screens/Register/index.js';
 import Login from './src/screens/Login/index.js';
 import MyRoutine from './src/screens/Routine/MyRoutine/index.js';
 import AddRoutine from './src/screens/Routine/AddRoutine/index.js';
-import WorkoutMotion from './src/screens/WorkoutMotion/index.js';
+import AddMotion from './src/screens/AddMotion/index.js';
 import WorkoutReady from './src/screens/WorkoutReady/index.js';
 import ConnectDevice from './src/screens/ConnectDevice/index.js';
 import {
@@ -89,8 +89,8 @@ const App = () => {
             headerShadowVisible: false,
           }}></Stack.Screen>
         <Stack.Screen
-          name="WorkoutMotion"
-          component={WorkoutMotion}
+          name="AddMotion"
+          component={AddMotion}
           options={{
             title: '동작 선택',
             headerTitleStyle: {

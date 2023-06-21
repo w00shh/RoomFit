@@ -46,7 +46,7 @@ const AddRoutine = ({navigation}) => {
   }, [isRoutineName]);
 
   const handleAddWorkoutMotionPress = () => {
-    navigation.navigate('WorkoutMotion');
+    navigation.navigate('AddMotion');
   };
   const handleConfirmPress = () => {
     setIsRoutineName(!isRoutineName);
@@ -55,11 +55,7 @@ const AddRoutine = ({navigation}) => {
 
   return (
     <View style={styles.pageContainer}>
-      <Modal
-        style={styles.modalContainer}
-        visible={isModalVisible}
-        transparent={true}
-        animationType="fade">
+      <Modal visible={isModalVisible} transparent={true} animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.routineNameContainer}>
             <View style={styles.titleContainer}>
@@ -88,9 +84,9 @@ const AddRoutine = ({navigation}) => {
         </Text>
       </View>
       <ScrollView></ScrollView>
-      <View style={styles.addWorkoutMotionContainer}>
+      <View style={styles.addMotionContainer}>
         <TouchableOpacity onPress={handleAddWorkoutMotionPress}>
-          <Text style={styles.addWorkoutMotionText}>+ 동작 추가</Text>
+          <Text style={styles.addMotionText}>+ 동작 추가</Text>
         </TouchableOpacity>
       </View>
     </View>

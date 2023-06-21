@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.7)',
   },
+
   pageContainer: {
     flex: 1,
     flexDirection: 'column',
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#808080',
   },
-  addWorkoutMotionContainer: {
+  addMotionContainer: {
     width: 358,
     height: 56,
     alignItems: 'center',
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     borderColor: '#dfdfdf',
     borderRadius: 8,
   },
-  addWorkoutMotionText: {
+  addMotionText: {
     fontSize: 14,
     color: '#5252fa',
   },
