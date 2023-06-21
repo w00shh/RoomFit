@@ -55,22 +55,27 @@ const AddMotion = ({navigation}) => {
       {
         motion_id: 1,
         motionName: 'Low cable crossover',
+        imageUrl: '',
       },
       {
         motion_id: 2,
         motionName: 'Sit up',
+        imageUrl: '',
       },
       {
         motion_id: 3,
         motionName: 'Side Bend',
+        imageUrl: '',
       },
       {
         motion_id: 4,
         motionName: '45 degrees Back Extension',
+        imageUrl: '',
       },
       {
         motion_id: 5,
         motionName: 'Air bike',
+        imageUrl: '',
       },
     ]);
     motionList.forEach(motion => {
