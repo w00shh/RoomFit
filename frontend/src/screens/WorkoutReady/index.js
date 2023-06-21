@@ -98,7 +98,9 @@ const WorkoutReady = ({navigation, route}) => {
     navigation.navigate('AddMotion');
   };
 
-  const handleStartWorkoutPress = () => {};
+  const handleStartWorkoutPress = () => {
+    navigation.navigate('WorkoutStart');
+  };
   return (
     <View style={styles.pageContainer}>
       <Modal visible={isModalVisible} transparent={true} animationType="fade">
