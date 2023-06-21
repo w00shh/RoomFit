@@ -124,7 +124,6 @@ const AddMotion = ({navigation}) => {
           selectedMotionKeys = Array.from(selected.keys());
           //console.log(selectedMotionKeys);
           navigation.navigate('WorkoutReady', {
-            isRoutine: true,
             selectedMotionKeys: selectedMotionKeys,
           });
         }}></CustomButton_B>
