@@ -20,14 +20,14 @@ const create_workout = (req, res) => {
         message: err.message || 'Some error occurred while creating Workout.',
       });
     else {
-      res.json({workout_id: id});
+      res.json({ workout_id: id });
     }
   });
 };
 
 const update_workout = (req, res) => {
   if (!req.body.workout_id)
-    res.status(400).send({message: 'ID can not be empty'});
+    res.status(400).send({ message: 'ID can not be empty' });
 
   const new_workout = {
     workout_id: req.body.workout_id,
@@ -47,13 +47,21 @@ const update_workout = (req, res) => {
 };
 
 const recent_workouts = (req, res) => {
-  Workout.recent(result => {
+  Workout.recent((result) => {
     res.json(result);
   });
 };
 
 const get_workouts = (req, res) => {
-  Workout.all(result => {
+  Workout.all((result) => {
+    res.json(result);
+  });
+};
+
+const get_specific_date_workouts = (req, res) => {
+  const targetDate = req.params.date;
+
+  Workout.calander(targetDate, (result) => {
     res.json(result);
   });
 };
@@ -63,4 +71,5 @@ module.exports = {
   get_workouts,
   recent_workouts,
   update_workout,
+  get_specific_date_workouts,
 };

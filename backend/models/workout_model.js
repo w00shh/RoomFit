@@ -9,14 +9,14 @@ const Workout = function (workout) {
 };
 //Create New Workout
 Workout.create = (new_workout, callback) => {
-  const {user_id, end_time, tut, title, content} = new_workout;
+  const { user_id, end_time, tut, title, content } = new_workout;
   db.run(
     `INSERT INTO workout (user_id, end_time, tut, title, content) VALUES (?,?,?,?,?)`,
     [user_id, end_time, tut, title, content],
     function (err) {
       if (err) console.error(err);
       callback(null, this.lastID);
-    },
+    }
   );
 };
 //Update Workouts
@@ -32,26 +32,41 @@ Workout.update = (new_workout, callback) => {
     (err, res) => {
       if (err) console.error(err);
       callback(null, res);
-    },
+    }
   );
 };
 //Get Past 10 Days Workout
-Workout.recent = callback => {
+Workout.recent = (callback) => {
   db.all(
     `SELECT * FROM workout WHERE julianday(date('now', 'localtime')) - julianday(date(start_time)) <= 10`,
     [],
     (err, rows) => {
       if (err) console.error(err);
       callback(rows);
-    },
+    }
   );
 };
 //Get All Workouts
-Workout.all = callback => {
+Workout.all = (callback) => {
   db.all('SELECT * FROM workout', [], (err, rows) => {
     if (err) console.error(err);
     callback(rows);
   });
+};
+
+//Get Workout of speicific date
+Workout.calander = (date, callback) => {
+  const startDate = `${date} 00:00:00`;
+  const endDate = `${date} 23:59:59`;
+
+  db.all(
+    `SELECT * FROM workout WHERE start_time >= ? AND start_time < ?;`,
+    [startDate, endDate],
+    (err, rows) => {
+      if (err) console.error(err);
+      callback(rows);
+    }
+  );
 };
 
 module.exports = Workout;
