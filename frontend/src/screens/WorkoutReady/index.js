@@ -165,7 +165,7 @@ const WorkoutReady = ({navigation, route}) => {
         <View style={styles.buttonSection}>
           <CustomButton_B
             width={171}
-            content={route.params.isRoutine ? '루틴 운동 시작' : '운동 시작'}
+            content="운동 시작"
             onPress={handleStartWorkoutPress}
             disabled={false}></CustomButton_B>
         </View>
