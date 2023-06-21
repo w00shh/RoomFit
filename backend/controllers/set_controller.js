@@ -8,6 +8,7 @@ const create_set = (req, res) => {
 
   const set = new Set({
     record_id: req.body.record_id,
+    routine_motion_id: req.body.routine_motion_id,
     set_no: req.body.set_no,
     weight: req.body.weight,
     rep: req.body.rep,
@@ -17,7 +18,7 @@ const create_set = (req, res) => {
   Set.create(set, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || 'Some error occurred while creating Record.',
+        message: err.message || 'Some error occurred while creating Set.',
       });
     else res.json(data);
   });
