@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS motion (
 
 CREATE TABLE IF NOT EXISTS workout (
     workout_id INTEGER PRIMARY KEY,
-    user_id TEXT REFERENCES user(user_id) NOT NULL,
+    user_id TEXT REFERENCES user(user_id) ON DELETE CASCADE NOT NULL,
     start_time TEXT DEFAULT (datetime('now','localtime')),
     end_time TEXT,
     tut TEXT,
@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS record (
     workout_id INTEGER NOT NULL,
     motion_id INTEGER NOT NULL,
 
-    FOREIGN KEY(workout_id) REFERENCES workout(workout_id)
-    FOREIGN KEY(motion_id) REFERENCES motion(motion_id)
+    FOREIGN KEY(workout_id) REFERENCES workout(workout_id) ON DELETE CASCADE
+    FOREIGN KEY(motion_id) REFERENCES motion(motion_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS routine (
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS routine (
     user_id TEXT NOT NULL,
     routine_name VARCHAR(30) DEFAULT "새로운 루틴",
 
-    FOREIGN KEY(user_id) REFERENCES user(user_id)
+    FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS routine_motion (
@@ -56,24 +56,27 @@ CREATE TABLE IF NOT EXISTS routine_motion (
     motion_id INTEGER NOT NULL,
     set_order INTEGER NOT NULL,
 
-    FOREIGN KEY(routine_id) REFERENCES routine(routine_id)  
-    FOREIGN KEY(motion_id) REFERENCES motion(motion_id)
+    FOREIGN KEY(routine_id) REFERENCES routine(routine_id) ON DELETE CASCADE
+    FOREIGN KEY(motion_id) REFERENCES motion(motion_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS set_info (
     set_id INTEGER PRIMARY KEY,
-    routine_motion_id INTEGER REFERENCES routine_motion(routine_motion_id) NULL,
-    record_id INTEGER REFERENCES record(record_id) NULL,
+    routine_motion_id INTEGER NULL,
+    record_id INTEGER NULL,
     set_no INTEGER NOT NULL,
     weight INTEGER NOT NULL,
     rep INTEGER NOT NULL,
-    mode INTEGER DEFAULT "기본모드"
+    mode INTEGER DEFAULT "기본모드",
+
+    FOREIGN KEY(routine_motion_id) REFERENCES routine_motion(routine_motion_id) ON DELETE CASCADE
+    FOREIGN KEY(record_id) REFERENCES record(record_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS favorite (
     user_id TEXT NOT NULL,
     motion_id INTEGER NOT NULL,
 
-    FOREIGN KEY(user_id) REFERENCES user(user_id)
-    FOREIGN KEY(motion_id) REFERENCES motion(motion_id)
+    FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE
+    FOREIGN KEY(motion_id) REFERENCES motion(motion_id) ON DELETE CASCADE
 );
