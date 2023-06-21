@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
 
-const AddMotion = ({navigation}) => {
+const AddMotion = ({navigation, route}) => {
   const [motion, setMotion] = useState('');
   const [motionList, setMotionList] = useState([]);
   const [motionListMap, setMotionListMap] = useState(new Map());
@@ -120,13 +120,19 @@ const AddMotion = ({navigation}) => {
         width={358}
         content={selectedLength + ' 개 동작 추가하기'}
         disabled={isDisabled}
-        onPress={() => {
-          selectedMotionKeys = Array.from(selected.keys());
-          //console.log(selectedMotionKeys);
-          navigation.navigate('WorkoutReady', {
-            selectedMotionKeys: selectedMotionKeys,
-          });
-        }}></CustomButton_B>
+        onPress={
+          route.params.isRoutine
+            ? () => {
+                navigation.navigate('AddRoutine');
+              }
+            : () => {
+                selectedMotionKeys = Array.from(selected.keys());
+                //console.log(selectedMotionKeys);
+                navigation.navigate('WorkoutReady', {
+                  selectedMotionKeys: selectedMotionKeys,
+                });
+              }
+        }></CustomButton_B>
     </View>
   );
 };

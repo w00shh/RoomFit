@@ -87,7 +87,9 @@ const HomeScreen = ({navigation}) => {
               content="빠른 운동 시작"
               disabled={false}
               width={326}
-              onPress={() => navigation.navigate('AddMotion')}></CustomButton_B>
+              onPress={() =>
+                navigation.navigate('AddMotion', {isRoutine: false})
+              }></CustomButton_B>
           </View>
         )}
 

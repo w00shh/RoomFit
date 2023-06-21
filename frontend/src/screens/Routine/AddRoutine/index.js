@@ -46,7 +46,7 @@ const AddRoutine = ({navigation}) => {
   }, [isRoutineName]);
 
   const handleAddWorkoutMotionPress = () => {
-    navigation.navigate('AddMotion');
+    navigation.navigate('AddMotion', {isRoutine: true});
   };
   const handleConfirmPress = () => {
     setIsRoutineName(!isRoutineName);
