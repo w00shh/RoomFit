@@ -20,7 +20,7 @@ import RoutineBox from '../../components/Routine';
 import styles from './styles';
 
 const HomeScreen = ({navigation}) => {
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(true);
   const [existRoutine, setExistRoutine] = useState(true);
   const [isExercised, setIsExercised] = useState(true);
 
@@ -81,12 +81,13 @@ const HomeScreen = ({navigation}) => {
           </View>
         )}
         {isConnected && (
-          <View>
+          <View style={{alignItems: 'center'}}>
             <CustomButton_B
               style={styles.connectButton}
               content="빠른 운동 시작"
               disabled={false}
-              width={326}></CustomButton_B>
+              width={326}
+              onPress={() => navigation.navigate('AddMotion')}></CustomButton_B>
           </View>
         )}
 
@@ -154,7 +155,7 @@ const HomeScreen = ({navigation}) => {
             size={20}
             color={isExercise ? '#fff' : '#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('WorkoutStart')}>
+        <TouchableOpacity>
           <Board
             name="clipboard-check"
             size={20}

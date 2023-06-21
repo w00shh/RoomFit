@@ -49,7 +49,7 @@ const WorkoutReady = ({navigation, route}) => {
         ...currentMotionList,
         {
           motion_id: route.params.selectedMotionKeys[i],
-          motionName: '',
+          motionName: 'first motion',
           imageUrl: '',
           set: [],
         },

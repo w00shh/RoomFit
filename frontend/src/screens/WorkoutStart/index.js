@@ -33,7 +33,7 @@ import Swiper from 'react-native-swiper';
 import styles from './styles';
 import OnOff from '../../components/Switch';
 
-export const WorkoutStart = ({navigation}) => {
+export const WorkoutStart = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -66,7 +66,7 @@ export const WorkoutStart = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log(isPaused);
+    console.log(route.params.motionList[0].set);
     let intervalId;
     let intervalId2;
 
@@ -124,7 +124,9 @@ export const WorkoutStart = ({navigation}) => {
             style={styles.devider}></Image>
 
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.motionName}>로우 케이블 크로스오버</Text>
+            <Text style={styles.motionName}>
+              {route.params.motionList[0].motionName}
+            </Text>
             <View style={{flexDirection: 'row'}}>
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                 <Text style={styles.statusText}>1</Text>

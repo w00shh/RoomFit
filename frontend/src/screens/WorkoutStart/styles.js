@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
   },
 
   motionName: {
-    marginTop: 32,
+    marginTop: 25,
     color: '#242424',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '400',
   },
 
