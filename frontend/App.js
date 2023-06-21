@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
 import Register from './src/screens/Register/index.js';
@@ -9,14 +10,21 @@ import MyRoutine from './src/screens/Routine/MyRoutine/index.js';
 import AddRoutine from './src/screens/Routine/AddRoutine/index.js';
 import WorkoutMotion from './src/screens/WorkoutMotion/index.js';
 import WorkoutReady from './src/screens/WorkoutReady/index.js';
+import ConnectDevice from './src/screens/ConnectDevice/index.js';
+import {
+  WorkoutStart,
+  WorkoutModify,
+  WorkoutSettings,
+} from './src/screens/WorkoutStart/index.js';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Intro"
           component={Intro}
           options={{headerShown: false}}
@@ -45,7 +53,19 @@ const App = () => {
             },
           }}
         />
-        /> */}
+        <Stack.Screen
+          name="ConnectDevice"
+          component={ConnectDevice}
+          options={{
+            headerShown: true,
+            title: '기기 연결',
+            headerShadowVisible: false,
+            headerTitleStyle: {
+              fontWeight: '700',
+              fontSize: 16,
+            },
+          }}
+        />
         <Stack.Screen
           name="MyRoutine"
           component={MyRoutine}
@@ -89,6 +109,13 @@ const App = () => {
               fontSize: 16,
             },
             headerShadowVisible: false,
+          }}></Stack.Screen>
+
+        <Stack.Screen
+          name="WorkoutStart"
+          component={WorkoutStart}
+          options={{
+            headerShown: false,
           }}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

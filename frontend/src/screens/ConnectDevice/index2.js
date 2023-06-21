@@ -1,0 +1,32 @@
+[
+  {
+    advertising: {
+      isConnectable: true,
+      localName: 'Mi Silent Mouse',
+      manufacturerData: [Object],
+      serviceData: [Object],
+      serviceUUIDs: [Array],
+      txPowerLevel: -2147483648,
+    },
+    characteristics: [
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+      [Object],
+    ],
+    id: 'D1:31:38:B4:2B:BF',
+    name: 'Mi Silent Mouse',
+    rssi: -36,
+    services: [[Object], [Object], [Object], [Object], [Object], [Object]],
+  },
+];

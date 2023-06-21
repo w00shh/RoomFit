@@ -16,7 +16,7 @@ const Login = ({navigation}) => {
 
   const handlePasswordChange = e => {};
 
-  const handleLoginDiabled = () => {
+  const handleLoginDisabled = () => {
     if (isEmail && isPassword) {
       setIsDisabled(false);
     } else {

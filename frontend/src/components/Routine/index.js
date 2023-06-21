@@ -10,7 +10,9 @@ const RoutineBox = props => {
         <Text style={styles.titleText}>{props.title}</Text>
         <View style={{flexDirection: 'row', marginLeft: 16}}>
           {props.targets.map((value, key) => (
-            <Text style={styles.targetText}>{value} </Text>
+            <Text style={styles.targetText} key={key}>
+              {value}{' '}
+            </Text>
           ))}
           <Image
             style={{marginLeft: 4, marginRight: 8}}

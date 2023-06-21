@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useId} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -10,6 +10,10 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import Reload from 'react-native-vector-icons/AntDesign';
+import Setting from 'react-native-vector-icons/Ionicons';
+import Board from 'react-native-vector-icons/MaterialCommunityIcons';
+import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import CustomButton_B from '../../components/CustomButton_B';
 import RecentExercise from '../../components/RecentExercise';
 import RoutineBox from '../../components/Routine';
@@ -19,6 +23,10 @@ const HomeScreen = ({navigation}) => {
   const [isConnected, setIsConnected] = useState(false);
   const [existRoutine, setExistRoutine] = useState(true);
   const [isExercised, setIsExercised] = useState(true);
+
+  const [isExercise, setIsExercise] = useState(true);
+  const [isRecord, setIsRecord] = useState(false);
+  const [isSetting, setIsSetting] = useState(false);
 
   const ROUNTINE = [
     {
@@ -66,21 +74,12 @@ const HomeScreen = ({navigation}) => {
               style={styles.connectButton}
               content="기기 연결"
               disabled={false}
-              width={326}></CustomButton_B>
+              width={326}
+              onPress={() =>
+                navigation.navigate('ConnectDevice')
+              }></CustomButton_B>
           </View>
         )}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={styles.subtitleText}>내 루틴</Text>
-          <TouchableOpacity style={styles.allRoutine}>
-            <Text>전체보기</Text>
-          </TouchableOpacity>
-        </View>
-
         {isConnected && (
           <View>
             <CustomButton_B
@@ -90,6 +89,21 @@ const HomeScreen = ({navigation}) => {
               width={326}></CustomButton_B>
           </View>
         )}
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text style={styles.subtitleText}>내 루틴</Text>
+          <TouchableOpacity
+            style={styles.allRoutine}
+            onPress={() => navigation.navigate('MyRoutine')}>
+            <Text>전체보기</Text>
+          </TouchableOpacity>
+        </View>
+
         {!existRoutine && (
           <View style={styles.routineContainer}>
             <Text style={styles.noRoutineText}>생성된 루틴이 없습니다.</Text>
@@ -133,6 +147,26 @@ const HomeScreen = ({navigation}) => {
           </View>
         )}
       </ScrollView>
+      <View style={styles.navigator}>
+        <TouchableOpacity style={{marginLeft: 45}}>
+          <Dumbbell
+            name="dumbbell"
+            size={20}
+            color={isExercise ? '#fff' : '#dfdfdf'}></Dumbbell>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('WorkoutStart')}>
+          <Board
+            name="clipboard-check"
+            size={20}
+            color={isRecord ? '#fff' : '#dfdfdf'}></Board>
+        </TouchableOpacity>
+        <TouchableOpacity style={{marginRight: 45}}>
+          <Setting
+            name="settings"
+            size={20}
+            color={isSetting ? '#fff' : '#dfdfdf'}></Setting>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };

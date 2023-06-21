@@ -99,6 +99,17 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginRight: 16,
   },
+  navigator: {
+    position: 'absolute',
+    backgroundColor: '#000000',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderRadius: 100,
+    width: 358,
+    height: 64,
+    marginTop: 615,
+  },
 });
 
 export default styles;

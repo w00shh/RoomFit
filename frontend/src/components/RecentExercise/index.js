@@ -9,7 +9,7 @@ const RecentExercise = props => {
   return (
     <View>
       {props.data.map((value, key) => (
-        <View style={styles.performedContainer}>
+        <View style={styles.performedContainer} key={key}>
           <Text style={styles.titleText}>{value.title}</Text>
           <View style={styles.targetContainer}>
             <Text style={styles.timeText}>
@@ -19,7 +19,9 @@ const RecentExercise = props => {
               style={{marginLeft: 5, marginRight: 5}}
               source={require('../../assets/images/divider.png')}></Image>
             {value.target.map((values, keys) => (
-              <Text style={styles.targetText}>{values} </Text>
+              <Text style={styles.targetText} key={keys}>
+                {values}{' '}
+              </Text>
             ))}
           </View>
           <View style={{flexDirection: 'row', marginTop: 17.5}}>

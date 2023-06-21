@@ -4,8 +4,31 @@ import styles, {CText, CButton} from './styles';
 
 const CustomButton_W = props => {
   return (
-    <TouchableOpacity style={styles.CButton}>
-      <Text style={styles.CText} color={props.colors}>
+    <TouchableOpacity
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        backgroundColor: '#ffffff',
+
+        borderColor: '#dfdfdf',
+        borderStyle: 'solid',
+
+        width: props.width,
+        height: 56,
+
+        borderRadius: 8,
+        padding: 0,
+
+        marginVertical: 24,
+      }}>
+      <Text
+        style={{
+          fontWeight: '400',
+          fontSize: 14,
+          textAlign: 'center',
+        }}
+        color={props.colors}>
         {props.content}
       </Text>
     </TouchableOpacity>
