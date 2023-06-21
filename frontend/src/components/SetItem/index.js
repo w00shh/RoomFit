@@ -8,21 +8,22 @@ const SetItem = props => {
   const [reps, setReps] = useState(parseInt('0'));
   const [mode, setMode] = useState('기본');
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   const handleModeSelectPress = () => {
     props.setIsModalVisible(true);
   };
 
   useEffect(() => {
-    if (props.workoutList) {
-      const updatedWorkoutList = [...props.workoutList];
-      updatedWorkoutList[
-        updatedWorkoutList.findIndex(item => item.motion_id === props.motion_id)
+    if (props.motionList) {
+      const updatedMotionList = [...props.motionList];
+      updatedMotionList[
+        updatedMotionList.findIndex(item => item.motion_id === props.motion_id)
       ].set[props.set_id] = {
         weight: weight,
         reps: reps,
-        mode: 'normal',
+        mode: mode,
       };
-      console.log(updatedWorkoutList);
+      console.log(updatedMotionList);
     }
   }, [weight, reps, mode]);
 
@@ -39,7 +40,6 @@ const SetItem = props => {
       </View>
       <View style={styles.titleItem}>
         <Text style={{fontSize: props.isExercising ? 12 : 14}}>하중모드</Text>
-        <Text></Text>
       </View>
       {props.isExercising && (
         <View style={styles.titleKey}>

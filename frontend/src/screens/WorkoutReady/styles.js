@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     height: 72,
     padding: 12,
     margin: 4,
-    backgroundColor: 'green',
     alignItems: 'flex-start',
     justifyContent: 'center',
     backgroundColor: '#f5f5f5',
@@ -77,6 +76,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-evenly',
+    margin: 0,
+    padding: 0,
   },
   buttonSection: {
     flex: 1,

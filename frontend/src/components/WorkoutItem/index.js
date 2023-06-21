@@ -10,29 +10,27 @@ const WorkoutItem = props => {
 
   useEffect(() => {});
   const handleMotionDeletePress = id => {
-    props.setWorkoutList(
-      props.workoutList.filter(item => item.motion_id !== id),
-    );
+    props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
   };
 
   const handleSetDeletePress = id => {
-    const updatedWorkoutList = [...props.workoutList];
-    updatedWorkoutList[
-      updatedWorkoutList.findIndex(item => item.motion_id === id)
+    const updatedMotionList = [...props.motionList];
+    updatedMotionList[
+      updatedMotionList.findIndex(item => item.motion_id === id)
     ].set.pop();
-    props.setWorkoutList(updatedWorkoutList);
+    props.setMotionList(updatedMotionList);
   };
 
   const handleSetAddPress = id => {
-    const updatedWorkoutList = [...props.workoutList];
-    updatedWorkoutList[
-      updatedWorkoutList.findIndex(item => item.motion_id === id)
+    const updatedMotionList = [...props.motionList];
+    updatedMotionList[
+      updatedMotionList.findIndex(item => item.motion_id === id)
     ].set.push({
       weight: 0,
       reps: 0,
       mode: 'normal',
     });
-    props.setWorkoutList(updatedWorkoutList);
+    props.setMotionList(updatedMotionList);
   };
   return (
     <View style={styles.workoutItemContainer}>
@@ -41,22 +39,23 @@ const WorkoutItem = props => {
         isKey={true}
         isExercising={props.isExercising}
         setIsModalVisible={props.setIsModalVisible}></SetItem>
-      {props.workoutList[
-        props.workoutList.findIndex(item => item.motion_id === props.id)
+      {props.motionList[
+        props.motionList.findIndex(item => item.motion_id === props.id)
       ].set &&
-        props.workoutList[
-          props.workoutList.findIndex(item => item.motion_id === props.id)
+        props.motionList[
+          props.motionList.findIndex(item => item.motion_id === props.id)
         ].set.map((value, key) => (
           <SetItem
             key={key}
             motion_id={props.id}
             set_id={key}
-            workoutList={props.workoutList}
-            setWorkoutList={props.setWorkoutList}
+            motionList={props.motionList}
+            setMotionList={props.setMotionList}
             isKey={false}
             isExercising={props.isExercising}
             setIsModalVisible={props.setIsModalVisible}
-            motion={props.motion}></SetItem>
+            motion={props.motion}
+            mode={props.selectedMode}></SetItem>
         ))}
 
       <View style={styles.buttonContainer}>

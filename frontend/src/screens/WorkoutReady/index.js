@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Modal,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styles from './styles';
 import WorkoutItem from '../../components/WorkoutItem/';
 import CustomButton_W from '../../components/CustomButton_W';
@@ -7,20 +14,77 @@ import CustomButton_B from '../../components/CustomButton_B';
 
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [workoutList, setWorkoutList] = useState([]);
+  const [motionList, setMotionList] = useState([]);
+  const [selectedMode, setSelectedMode] = useState({
+    modeName: '기본모드',
+    modeDescription: '설명',
+  });
+
+  const modeList = [
+    {
+      modeName: '기본모드',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '고무밴드',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드1',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드2',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드3',
+      modeDescription: '설명',
+    },
+  ];
 
   useEffect(() => {
     for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
-      setWorkoutList(currentWorkoutList => [
-        ...currentWorkoutList,
+      setMotionList(currentMotionList => [
+        ...currentMotionList,
         {
           motion_id: route.params.selectedMotionKeys[i],
           motionName: '',
+          imageUrl: '',
           set: [],
         },
       ]);
     }
   }, []);
+
+  function Item({mode}) {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          handleModeItemPress(mode);
+        }}>
+        <View
+          style={{
+            flexDirection: 'column',
+            height: 72,
+            padding: 12,
+            margin: 4,
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            backgroundColor:
+              mode.modeName === selectedMode.modeName ? '#f5f5f5' : 'white',
+          }}>
+          <Text style={styles.modeText}>{mode.modeName}</Text>
+          <Text style={styles.descriptionText}>{mode.modeDescription}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  const handleModeItemPress = mode => {
+    setSelectedMode(mode);
+    console.log(selectedMode.modeName);
+  };
 
   const handleCancelPress = () => {
     setIsModalVisible(false);
@@ -42,29 +106,15 @@ const WorkoutReady = ({navigation, route}) => {
           <View style={styles.modeContainer}>
             <View style={styles.modeTitleContainer}>
               <Text style={styles.titleText}>하중모드</Text>
+              <Text>{selectedMode.modeName}</Text>
             </View>
             <View>
-              <View style={styles.modeItemContainer}>
-                <Text style={styles.modeText}>기본모드</Text>
-                <Text style={styles.descriptionText}>설명</Text>
-              </View>
-              <View style={styles.modeItemContainer}>
-                <Text style={styles.modeText}>고무밴드</Text>
-                <Text style={styles.descriptionText}>설명</Text>
-              </View>
-              <View style={styles.modeItemContainer}>
-                <Text style={styles.modeText}>모드1</Text>
-                <Text style={styles.descriptionText}>설명</Text>
-              </View>
-              <View style={styles.modeItemContainer}>
-                <Text style={styles.modeText}>모드2</Text>
-                <Text style={styles.descriptionText}>설명</Text>
-              </View>
-              <View style={styles.modeItemContainer}>
-                <Text style={styles.modeText}>모드3</Text>
-                <Text style={styles.descriptionText}>설명</Text>
-              </View>
+              <FlatList
+                data={modeList}
+                renderItem={({item}) => <Item mode={item}></Item>}
+                keyExtractor={item => item.modeName}></FlatList>
             </View>
+
             <View style={styles.modeButtonContainer}>
               <View>
                 <CustomButton_W
@@ -84,17 +134,19 @@ const WorkoutReady = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-      <ScrollView>
-        {workoutList &&
-          workoutList.map((value, key) => (
+
+      <ScrollView style={{height: 450}}>
+        {motionList &&
+          motionList.map((value, key) => (
             <WorkoutItem
               key={key}
               id={value.motion_id}
               motion={value}
               isExercising={false}
               setIsModalVisible={setIsModalVisible}
-              workoutList={workoutList}
-              setWorkoutList={setWorkoutList}></WorkoutItem>
+              motionList={motionList}
+              setMotionList={setMotionList}
+              selectedMode={selectedMode}></WorkoutItem>
           ))}
       </ScrollView>
 
@@ -103,7 +155,9 @@ const WorkoutReady = ({navigation, route}) => {
           <CustomButton_W
             width={171}
             content="+ 동작 추가"
-            onPress={handleAddMotionPress}
+            onPress={() => {
+              handleAddMotionPress();
+            }}
             disabled={false}></CustomButton_W>
         </View>
         <View style={styles.buttonSection}>
