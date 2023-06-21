@@ -73,7 +73,7 @@ const ConnectDevice = ({navigation}) => {
       console.log('BLE Manager initialized');
     });
 
-    //startScan();
+    startScan();
 
     let discoverListener = BleManagerEmitter.addListener(
       'BleManagerDiscoverPeripheral',

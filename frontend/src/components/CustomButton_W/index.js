@@ -8,31 +8,6 @@ const CustomButton_W = props => {
       style={{
         alignItems: 'center',
         justifyContent: 'center',
-<<<<<<< HEAD
-
-        backgroundColor: '#ffffff',
-
-        borderColor: '#dfdfdf',
-        borderStyle: 'solid',
-
-        width: props.width,
-        height: 56,
-
-        borderRadius: 8,
-        padding: 0,
-
-        marginVertical: 24,
-      }}>
-      <Text
-        style={{
-          fontWeight: '400',
-          fontSize: 14,
-          textAlign: 'center',
-        }}
-        color={props.colors}>
-        {props.content}
-      </Text>
-=======
         backgroundColor: 'white',
         width: props.width,
         height: 56,
@@ -46,7 +21,6 @@ const CustomButton_W = props => {
       onPress={props.onPress}
       disabled={props.disabled}>
       <Text style={styles.CText}>{props.content}</Text>
->>>>>>> a86a795593dd00a5f678f881d780a952cffdf035
     </TouchableOpacity>
   );
 };
