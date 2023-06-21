@@ -73,10 +73,19 @@ const workout_detail = (req, res) => {
   });
 };
 
+const get_specific_date_workouts = (req, res) => {
+  const targetDate = req.params.date;
+
+  Workout.calander(targetDate, result => {
+    res.json(result);
+  });
+};
+
 module.exports = {
   create_workout,
   update_workout,
   get_workout,
   recent_workouts,
   workout_detail,
+  get_specific_date_workouts,
 };

@@ -81,4 +81,19 @@ Workout.detail = (workout_id, callback) => {
   );
 };
 
+//Get Workout of speicific date
+Workout.calander = (date, callback) => {
+  const startDate = `${date} 00:00:00`;
+  const endDate = `${date} 23:59:59`;
+
+  db.all(
+    `SELECT * FROM workout WHERE start_time >= ? AND start_time < ?;`,
+    [startDate, endDate],
+    (err, rows) => {
+      if (err) console.error(err);
+      callback(rows);
+    },
+  );
+};
+
 module.exports = Workout;

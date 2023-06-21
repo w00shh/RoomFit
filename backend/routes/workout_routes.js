@@ -7,5 +7,6 @@ router.get('/detail/:workout_id', workout_controller.workout_detail);
 router.get('/recent', workout_controller.recent_workouts);
 router.post('/', workout_controller.create_workout);
 router.put('/done', workout_controller.update_workout);
+router.get('/calander/:date', workout_controller.get_specific_date_workouts);
 
 module.exports = router;
