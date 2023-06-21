@@ -42,16 +42,43 @@ Workout.recent = callback => {
     [],
     (err, rows) => {
       if (err) console.error(err);
-      callback(rows);
+      else callback(null, rows);
     },
   );
 };
-//Get All Workouts
-Workout.all = callback => {
-  db.all('SELECT * FROM workout', [], (err, rows) => {
-    if (err) console.error(err);
-    callback(rows);
-  });
+
+//Get Workout
+Workout.get = (workout_id, callback) => {
+  db.all(
+    'SELECT * FROM workout WHERE workout_id = ?',
+    [workout_id],
+    (err, rows) => {
+      if (err) console.error(err);
+      else callback(null, rows);
+    },
+  );
+};
+//Get all records & sets in workout
+Workout.detail = (workout_id, callback) => {
+  db.all(
+    `SELECT record.*, (
+      SELECT json_group_array(json_object('set_no', set_info.set_no, 'weight', set_info.weight, 'rep', set_info.rep, 'mode', set_info.mode))
+      FROM set_info
+      WHERE set_info.record_id = record.record_id
+    ) AS sets
+    FROM record
+    WHERE workout_id = ?`,
+    [workout_id],
+    (err, rows) => {
+      if (err) console.error(err);
+      else if (rows.length > 0) {
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].sets = JSON.parse(rows[i].sets);
+        }
+        callback(null, rows);
+      } else callback(null, []);
+    },
+  );
 };
 
 module.exports = Workout;

@@ -47,20 +47,36 @@ const update_workout = (req, res) => {
 };
 
 const recent_workouts = (req, res) => {
-  Workout.recent(result => {
-    res.json(result);
+  Workout.recent((err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
   });
 };
 
-const get_workouts = (req, res) => {
-  Workout.all(result => {
-    res.json(result);
+const get_workout = (req, res) => {
+  if (!req.params.workout_id)
+    res.status(400).send({message: 'Workout ID can not be empty'});
+
+  Workout.get(req.params.workout_id, (err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
+  });
+};
+
+const workout_detail = (req, res) => {
+  if (!req.params.workout_id)
+    res.status(400).send({message: 'Workout ID can not be empty'});
+
+  Workout.detail(req.params.workout_id, (err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
   });
 };
 
 module.exports = {
   create_workout,
-  get_workouts,
-  recent_workouts,
   update_workout,
+  get_workout,
+  recent_workouts,
+  workout_detail,
 };
