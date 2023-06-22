@@ -35,4 +35,19 @@ const record_grouped = (req, res) => {
   });
 };
 
-module.exports = {create_record, record_grouped};
+const delete_record = (req, res) => {
+  if (!req.params.record_id)
+    res.status(400).send({
+      message: 'Content can not be empty!',
+    });
+
+  Record.delete(req.params.record_id, (err, result) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred while deleting Record.',
+      });
+    else res.send(result);
+  });
+};
+
+module.exports = {create_record, record_grouped, delete_record};

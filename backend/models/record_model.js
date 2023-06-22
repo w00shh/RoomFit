@@ -26,5 +26,12 @@ Record.group_by_workout = (workout_id, callback) => {
     },
   );
 };
+//Delete Record
+Record.delete = (record_id, callback) => {
+  db.run(`DELETE FROM record WHERE record_id = ?`, [record_id], (err, res) => {
+    if (err) console.error(err);
+    else callback(null, res);
+  });
+};
 
 module.exports = Record;
