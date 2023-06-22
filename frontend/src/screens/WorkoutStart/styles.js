@@ -239,6 +239,112 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     color: '#242424',
   },
+
+  modalContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    padding: 0,
+  },
+
+  modeContainer: {
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    alignItems: 'stretch',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    height: 500,
+    flex: 1,
+  },
+
+  modeTitleContainer: {
+    alignItems: 'center',
+    paddingVertical: 24,
+  },
+
+  titleText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+  },
+
+  modeItemContainer: {
+    flexDirection: 'column',
+
+    padding: 12,
+    margin: 4,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+
+  modeText: {
+    fontSize: 16,
+    color: '#242424',
+  },
+  descriptionText: {
+    fontSize: 13,
+    color: '#acacac',
+  },
+  modeButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
+    padding: 0,
+    backgroundColor: '#ffffff',
+  },
+  restContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 16,
+  },
+  restChecker: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  rests: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    height: 56,
+  },
+
+  modalContainer2: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    padding: 0,
+  },
+
+  restingContainer: {
+    width: 296,
+    height: 296,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    borderRadius: 12,
+  },
+
+  restingTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+    marginTop: 32,
+  },
+
+  restingTimer: {
+    fontSize: 48,
+    color: '#242424',
+    marginTop: 16,
+  },
 });
 
 export default styles;
