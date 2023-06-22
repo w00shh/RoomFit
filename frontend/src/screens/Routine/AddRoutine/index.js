@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
+import WorkoutReady from '../../WorkoutReady';
 
-const AddRoutine = ({navigation}) => {
-  const [routineName, setRoutineName] = useState('새로운 루틴');
+const AddRoutine = ({navigation, route}) => {
+  const [routineName, setRoutineName] = useState(route.params.routineName);
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -38,15 +39,25 @@ const AddRoutine = ({navigation}) => {
         </>
       ),
       headerRight: () => (
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('MyRoutine');
+          }}>
           <Text>저장</Text>
         </TouchableOpacity>
       ),
     });
   }, [isRoutineName]);
 
+  useEffect(() => {
+    console.log(route.params);
+  }, []);
+
   const handleAddWorkoutMotionPress = () => {
-    navigation.navigate('AddMotion', {isRoutine: true});
+    navigation.navigate('AddMotion', {
+      isRoutine: true,
+      routineName: routineName,
+    });
   };
   const handleConfirmPress = () => {
     setIsRoutineName(!isRoutineName);

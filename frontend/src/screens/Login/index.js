@@ -7,9 +7,7 @@ import CustomButton_B from '../../components/CustomButton_B';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
-  const [isEmail, setIsEmail] = useState(false);
   const [password, setPassword] = useState('');
-  const [isPassword, setIsPassword] = useState(false);
   const [loginDisabled, setLoginDisabled] = useState(true);
 
   const handleEmailChange = e => {};
@@ -17,12 +15,16 @@ const Login = ({navigation}) => {
   const handlePasswordChange = e => {};
 
   const handleLoginDisabled = () => {
-    if (isEmail && isPassword) {
-      setIsDisabled(false);
+    if (email.length > 0 && password.length > 0) {
+      setLoginDisabled(false);
     } else {
-      setIsDisabled(true);
+      setLoginDisabled(true);
     }
   };
+
+  useEffect(() => {
+    handleLoginDisabled();
+  }, [email, password]);
 
   const handleLoginPress = () => {};
 
