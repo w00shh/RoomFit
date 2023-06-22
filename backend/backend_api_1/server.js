@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json());
@@ -50,7 +49,7 @@ app.get("/routine/home", function (req, res) {
                             routine_id : routine_id,
                             routine_name : routine_name,
                             major_targets: [major_target],
-                            count: 1
+                            motion_count: 1
                         };
                     } else {
                         let k = 0;
@@ -62,10 +61,9 @@ app.get("/routine/home", function (req, res) {
                         if(k==0){
                             groupedResults[routine_id].major_targets.push(major_target);
                         }
-                        groupedResults[routine_id].count++;
+                        groupedResults[routine_id].motion_count++;
                     }
                     });
-                    console.log(groupedResults);
                     const finalResults = Object.values(groupedResults).map(result => ({
                         ...result,
                         major_targets: [...new Set(result.major_targets)].join(', ')
@@ -99,7 +97,7 @@ app.get('/routine/load', function(req,res){
                             routine_id : routine_id,
                             routine_name : routine_name,
                             major_targets: [major_target],
-                            count: 1
+                            motion_count: 1
                         };
                     } else {
                         let k = 0;
@@ -111,7 +109,7 @@ app.get('/routine/load', function(req,res){
                         if(k==0){
                             groupedResults[routine_id].major_targets.push(major_target);
                         }
-                        groupedResults[routine_id].count++;
+                        groupedResults[routine_id].motion_count++;
                     }
                     });
                     console.log(groupedResults);
@@ -126,6 +124,103 @@ app.get('/routine/load', function(req,res){
         }
     });
 });
+
+app.get('/routine/modify/:routine_id', function(req,res){
+    const modify_id = req.params.routine_id.slice(11);
+    const sql = "SELECT routine.routine_id, routine.routine_name, routine_motion.motion_id, routine_motion.routine_motion_id, set_info.set_id, set_info.set_no, set_info.weight, set_info.rep, set_info.mode FROM routine_motion INNER JOIN routine ON routine.routine_id = routine_motion.routine_id INNER JOIN set_info ON set_info.routine_motion_id = routine_motion.routine_motion_id WHERE routine_motion.routine_id = ?";
+    db.all(sql, modify_id, (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            const datas = {
+                routine_id : rows[0].routine_id,
+                routine_name : rows[0].routine_name,
+                motionList : []
+            };
+            let rowCount = 0;
+            rows.forEach(row => {
+                const motionSql = "SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id = ?";
+                const { routine_motion_id, set_id, set_no, weight, rep, mode } = row;
+                db.all(motionSql, row.motion_id, (err, motionRows)=>{
+                   if(err) {
+                    console.error(err);
+                   } else{
+                        if (!datas.motionList.find(motion => motion.routine_motion_id === routine_motion_id)) {
+                            datas.motionList.push({
+                                routine_motion_id: routine_motion_id,
+                                motion_id: motionRows[0].motion_id,
+                                motion_name: motionRows[0].motion_name,
+                                imageUrl: motionRows[0].imageUrl,
+                                sets: []
+                            });
+                        }
+                        
+                        datas.motionList.find(motion => motion.routine_motion_id === routine_motion_id).sets.push({
+                            set_id: set_id,
+                            set_no: set_no,
+                            weight: weight,
+                            rep: rep,
+                            mode: mode
+                        });
+                   }
+                    rowCount++;
+                    if (rowCount === rows.length){
+                        console.log(datas);
+                        console.log(datas.motionList[1].sets);
+                        res.send(datas);
+                    }
+                });
+                
+            });
+            
+        }
+    });
+});
+
+app.put('/routine/delete', function(req, res){
+    const routineIds = req.body.routineIds;
+    const placeholders = Array(routineIds.length).fill('?').join(',');
+    const sql = `DELETE FROM routine where routine_id IN (${placeholders})`;
+    db.run(sql,routineIds,err=>{
+        if(err){
+            console.error(err.message);
+        }
+    });
+})
+
+app.post('/routine/save', function(req, res){
+    const routineMotions = req.body.motionList;
+    const routineId = req.body.routine_id;
+    const sql = 'DELETE FROM routine_motion where routine_id = ?';
+    db.run(sql, routineId, err => {
+        if(err){
+            console.error(err.message);
+        }
+        else{
+            for(let i = 0; i<routineMotions.length; i++){
+                
+                const insertRoutineMotion = 'INSERT INTO routine_motion (routine_id, motion_id, set_order) VALUES (?,?,?)';
+                db.run(insertRoutineMotion,[routineId, routineMotions[i].motion_id, i+1], function(err) {
+                    if(err){
+                        console.error(err.message);
+                    } else{
+                        const routineMotionId = this.lastID;
+                        for(let j = 0; j<routineMotions[i].sets.length; j++){
+                            const insertSet = 'INSERT INTO set_info (routine_motion_id, set_no, weight, rep, mode) VALUES (?,?,?,?,?)';
+                            db.run(insertSet,[routineMotionId,j+1,routineMotions[i].sets[j].weight,routineMotions[i].sets[j].rep,routineMotions[i].sets[j].mode], err=>{
+                                if(err){
+                                    console.error(err.message);
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+        }
+    });
+    
+})
 
 app.put('/routine/nameChange', function (req, res) {
     const routineName = req.body.routine_name;
@@ -184,7 +279,7 @@ app.get("/routine/loadMotion", function (req, res) {
 
 
 
-app.get("/favMotion/insert/:motion_id", function (req, res) {
+app.get("/motion/favInsert/:motion_id", function (req, res) {
     const motion_id = req.params.motion_id.slice(10);
     const sql = "INSERT INTO favorite (user_id, motion_id) values (?,?)";
     db.run(sql, [1, motion_id], function (err) {
@@ -196,7 +291,7 @@ app.get("/favMotion/insert/:motion_id", function (req, res) {
     });
 });
 
-app.delete("/favMotion/delete/:motion_id", function (req, res) {
+app.delete("/motion/favDelete/:motion_id", function (req, res) {
     const motion_id = req.params.motion_id.slice(10);
     const sql = "DELETE FROM favorite where motion_id =?";
     db.run(sql, motion_id, function (err) {
@@ -221,6 +316,20 @@ app.get("/motion/search/:motion_name", function (req, res) {
             console.log(rows);
         }
     })
+});
+
+app.put('/motion/add', function (req, res) {
+    const motionIds = req.body.motion_ids;
+    const placeholders = Array(motionIds.length).fill('?').join(',');
+    const sql = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id IN (${placeholders})`;
+    db.all(sql, motionIds,(err, rows) => {
+        if (err) {
+            console.error(err);
+        } else {
+            res.json(rows);
+            console.log(rows);
+        }
+    });
 });
 
 app.listen(4000, () => console.log("4000"));
