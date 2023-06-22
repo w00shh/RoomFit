@@ -75,8 +75,70 @@ const account_login = (req, res) => {
   });
 };
 
+const axios = require('axios');
+const GOOGLE_TOKEN_URL = process.env.GOOGLE_TOKEN_URL;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const GOOGLE_SIGNUP_REDIRECT_URI = process.env.GOOGLE_SIGNUP_REDIRECT_URI;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_USERINFO_URL = process.env.GOOGLE_USERINFO_URL;
+
+const google_auth = (req, res) => {
+  let url = 'https://accounts.google.com/o/oauth2/v2/auth';
+  url += `?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}`;
+  url += `&redirect_uri=${encodeURIComponent(GOOGLE_SIGNUP_REDIRECT_URI)}`;
+  url += '&response_type=code';
+  url += '&scope=email%20profile';
+
+  res.redirect(url);
+};
+
+const google_auth_redirect = async (req, res) => {
+  const { code } = req.query;
+  // access_token, refresh_token 등의 구글 토큰 정보 가져오기
+  const resp = await axios.post(GOOGLE_TOKEN_URL, {
+    // x-www-form-urlencoded(body)
+    code,
+    client_id: GOOGLE_CLIENT_ID,
+    client_secret: GOOGLE_CLIENT_SECRET,
+    redirect_uri: GOOGLE_SIGNUP_REDIRECT_URI,
+    grant_type: 'authorization_code',
+  });
+  // email, google id 등의 사용자 구글 계정 정보 가져오기
+  const resp2 = await axios.get(GOOGLE_USERINFO_URL, {
+    // Request Header에 Authorization 추가
+    headers: {
+      Authorization: `Bearer ${resp.data.access_token}`,
+    },
+  });
+
+  // 구글 인증 서버에서 json 형태로 반환 받은 body 클라이언트에 반환
+  const account = new Account({
+    user_id: resp2.data.id,
+    user_name: resp2.data.name,
+    email: resp2.data.email,
+    is_api: '1',
+  });
+
+  Account.google_auth(account, (err, id, isRegister) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred while creating Account.',
+        success: 0,
+      });
+    else {
+      res.json({
+        account_id: account.user_id,
+        success: 1,
+        isRegister: isRegister,
+      });
+    }
+  });
+};
+
 module.exports = {
   email_register,
   account_update,
   account_login,
+  google_auth,
+  google_auth_redirect,
 };
