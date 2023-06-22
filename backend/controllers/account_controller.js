@@ -21,7 +21,7 @@ const email_register = (req, res) => {
         success: 0,
       });
     else {
-      res.json({ account_id: account.user_id, success: 1 });
+      res.json({ user_id: account.user_id, success: 1 });
     }
   });
 };
@@ -47,7 +47,8 @@ const account_update = (req, res) => {
       res.status(500).send({
         message: err.message || 'Some error occured while updating Workout.',
       });
-    else res.send(data);
+    else res.json({ success: 1 });
+    // else res.send(data);
   });
 };
 
@@ -70,7 +71,7 @@ const account_login = (req, res) => {
         success: 0,
       });
     else {
-      res.json({ account_id: account.user_id, success: 1 });
+      res.json({ user_id: account.user_id, success: 1 });
     }
   });
 };
@@ -127,10 +128,24 @@ const google_auth_redirect = async (req, res) => {
       });
     else {
       res.json({
-        account_id: account.user_id,
+        user_id: account.user_id,
         success: 1,
         isRegister: isRegister,
       });
+    }
+  });
+};
+
+const email_verification = (req, res) => {
+  const email = req.body.email;
+  Account.email_verification(email, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred while creating Account.',
+        success: 0,
+      });
+    else {
+      res.json({ success: 1, verification_code: data });
     }
   });
 };
@@ -141,4 +156,5 @@ module.exports = {
   account_login,
   google_auth,
   google_auth_redirect,
+  email_verification,
 };

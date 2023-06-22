@@ -1,4 +1,5 @@
 const db = require('../db/connect');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const Account = function (user) {
@@ -202,5 +203,73 @@ Account.google_auth = (user, callback) => {
       );
     }
   );
+};
+
+Account.email_verification = (email, callback) => {
+  const verification_code =
+    Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.google.com',
+    port: 587,
+    secure: true,
+    auth: {
+      type: 'OAuth2',
+      user: process.env.GMAIL_USER,
+      clientId: process.env.GMAIL_CLIENT_ID,
+      clientSecret: process.env.GMAIL_CLIENT_SECRET,
+      refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.GMAIL_USER,
+    to: email,
+    subject: 'wispion verification number',
+    text: 'verification code : ' + verification_code,
+  };
+
+  transporter.sendMail(mailOptions, function (error, res) {
+    if (error) {
+      console.log(error);
+      callback(error);
+    } else {
+      console.log('Email sent: ' + res.response);
+      callback(null, verification_code);
+    }
+    transporter.close();
+  });
+
+  // const transporter = nodemailer.createTransport({
+  //   service: 'naver',
+  //   host: 'smtp.naver.com',
+  //   port: 465,
+  //   secure: true,
+  //   auth: {
+  //     type: "OAuth2",
+  //     user: process.env.SMTP_USER,
+  //     pass: process.env.SMTP_PASSWORD,
+  //   },
+  // });
+
+  // console.log(email);
+  // const mailOptions = {
+  //   from: process.env.SMTP_USER,
+  //   to: email,
+  //   subject: 'wispion verification number',
+  //   text: 'verification code : ' + verification_code,
+  // };
+
+  // transporter.sendMail(mailOptions, function (error, res) {
+  //   if (error) {
+  //     console.log(error);
+  //     callback(error);
+  //   } else {
+  //     console.log('Email sent: ' + res.response);
+  //     callback(null, verification_code);
+  //   }
+  //   transporter.close();
+  // });
 };
 module.exports = Account;
