@@ -64,10 +64,12 @@ export const WorkoutStart = ({navigation, route}) => {
   );
   const [m_index, setMIndex] = useState(0);
   const [s_index, setSIndex] = useState(0);
+  const [isMotionDone, setIsMotionDone] = useState(false);
 
   //모든 운동 끝나면 -> true
   const [workoutDone, setWorkoutDone] = useState(false);
   const [workoutDoneModal, setWorkoutDoneModal] = useState(false);
+  const [workoutDoneModal2, setWorkoutDoneModal2] = useState(false);
   const [workoutMemoModal, setWorkoutMemoModal] = useState(false);
   const [workoutTitle, setWorkoutTitle] = useState('');
   const [workoutMemo, setWorkoutMemo] = useState('');
@@ -133,7 +135,9 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const writeMemo = () => {
-    setWorkoutDoneModal(false);
+    if (workoutDone) setWorkoutDoneModal(false);
+    else setWorkoutDoneModal2(false);
+
     setWorkoutMemoModal(true);
   };
 
@@ -142,13 +146,13 @@ export const WorkoutStart = ({navigation, route}) => {
     let intervalId2;
     let intervalId3;
 
-    if (!isPaused) {
+    if (!isPaused && !workoutDone) {
       intervalId = setInterval(() => {
         setElapsedTime(prevElapsedTime => prevElapsedTime + 1);
       }, 1000); // 1초마다 증가
     }
 
-    if (isTut) {
+    if (isTut && !workoutDone) {
       intervalId2 = setInterval(() => {
         setTUT(prevTuttime => prevTuttime + 1);
       }, 1000);
@@ -170,7 +174,7 @@ export const WorkoutStart = ({navigation, route}) => {
       clearInterval(intervalId2);
       clearInterval(intervalId3);
     };
-  }, [isPaused, isTut, isResting, restTimer, isStopResting]);
+  }, [isPaused, isTut, isResting, restTimer, isStopResting, workoutDone]);
 
   const formatTime = time => {
     if (time < 0) {
@@ -185,20 +189,24 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const SetComplete = () => {
-    setIsResting(true);
+    setIsMotionDone(false);
     if (s_index + 1 < route.params.motionList[m_index].set.length) {
+      setIsResting(true);
       setSIndex(s_index + 1);
       setWeight(route.params.motionList[m_index].set[s_index + 1].weight);
     } else if (
       s_index + 1 === route.params.motionList[m_index].set.length &&
       route.params.motionList[m_index + 1]
     ) {
+      setIsResting(true);
+      setIsMotionDone(true);
       setMIndex(m_index + 1);
       setSIndex(0);
       setWeight(route.params.motionList[m_index].set[s_index].weight);
       setRestTimer(restMotion);
     } else {
       setWorkoutDone(true);
+      setWorkoutDoneModal(true);
     }
   };
 
@@ -213,7 +221,9 @@ export const WorkoutStart = ({navigation, route}) => {
           <Modal visible={isResting} transparent={true} animationType="fade">
             <View style={styles.modalContainer2}>
               <View style={styles.restingContainer}>
-                <Text style={styles.restingTitle}>세트간 휴식</Text>
+                <Text style={styles.restingTitle}>
+                  {isMotionDone ? '동작간 휴식' : '세트간 휴식'}
+                </Text>
                 <Text style={styles.restingTimer}>{formatTime(restTimer)}</Text>
                 <View style={{flexDirection: 'row', marginTop: 16}}>
                   <TouchableOpacity
@@ -252,6 +262,62 @@ export const WorkoutStart = ({navigation, route}) => {
                       onPress={() => endResting(false)}
                       content="바로 시작"></CustomButton_B>
                   </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            visible={workoutDoneModal}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer2}>
+              <View style={styles.endingContainer}>
+                <Text style={styles.restingTitle}>루틴 수행 완료</Text>
+                <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
+                  다른 동작을 추가 하시겠습니까?
+                </Text>
+                <View style={{flexDirection: 'row', marginTop: 5}}>
+                  <View style={{marginRight: 5}}>
+                    <CustomButton_W
+                      width={126}
+                      onPress={() => setWorkoutDoneModal(false)}
+                      content="동작 추가"></CustomButton_W>
+                  </View>
+                  <View style={{marginLeft: 5}}>
+                    <CustomButton_B
+                      width={126}
+                      onPress={() => writeMemo()}
+                      content="여기서 종료"></CustomButton_B>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            visible={workoutMemoModal}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer2}>
+              <View style={styles.memoContainer}>
+                <Text style={styles.restingTitle}>
+                  운동 기록의 이름을 입력해주세요
+                </Text>
+                <TextInput
+                  style={styles.titleInput}
+                  onChangeText={text => setWorkoutTitle(text)}
+                  value={workoutTitle}
+                  placeholder="운동 기록 이름"></TextInput>
+                <TextInput
+                  style={styles.memoInput}
+                  onChangeText={text => setWorkoutMemo(text)}
+                  value={workoutMemo}
+                  placeholder="추가 메모 남기기 (선택)"></TextInput>
+                <View style={{flexDirection: 'row', marginTop: 5}}>
+                  <CustomButton_B
+                    width={264}
+                    onPress={() => navigation.navigate('HomeScreen')}
+                    content="확인"
+                    marginVertical={12}></CustomButton_B>
                 </View>
               </View>
             </View>
@@ -346,7 +412,7 @@ export const WorkoutStart = ({navigation, route}) => {
       {isPaused && (
         <View>
           <Modal
-            visible={workoutDoneModal}
+            visible={workoutDoneModal2}
             transparent={true}
             animationType="fade">
             <View style={styles.modalContainer2}>
@@ -359,7 +425,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   <View style={{marginRight: 5}}>
                     <CustomButton_W
                       width={126}
-                      onPress={() => setWorkoutDoneModal(false)}
+                      onPress={() => setWorkoutDoneModal2(false)}
                       content="취소"></CustomButton_W>
                   </View>
                   <View style={{marginLeft: 5}}>
