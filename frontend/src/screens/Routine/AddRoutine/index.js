@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
-import WorkoutReady from '../../WorkoutReady';
+
 import WorkoutItem from '../../../components/WorkoutItem';
 
 const AddRoutine = ({navigation, route}) => {
@@ -20,7 +20,9 @@ const AddRoutine = ({navigation, route}) => {
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
     useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+  const [isSaveDisabled, setIsSaveDisabled] = useState(
+    motionList.length === 0 ? true : false,
+  );
 
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
@@ -63,8 +65,6 @@ const AddRoutine = ({navigation, route}) => {
   useEffect(() => {
     if (route.params.isMotionAdded) {
       setMotionList(route.params.motionList);
-      console.log(route.params.selectedMotionKeys);
-      console.log('route.params.isMotionAdded');
       for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
         setMotionList(currentMotionList => [
           ...currentMotionList,
@@ -80,11 +80,17 @@ const AddRoutine = ({navigation, route}) => {
   }, []);
 
   useEffect(() => {
-    if (motionList.length > 0) {
-      setIsSaveDisabled(false);
-    } else {
+    if (motionList.length === 0) {
       setIsSaveDisabled(true);
+    } else {
+      setIsSaveDisabled(false);
     }
+    console.log(
+      'motionList.length: ' +
+        motionList.length +
+        ', isSaveDisabled: ' +
+        isSaveDisabled,
+    );
   }, [motionList]);
 
   const handleAddWorkoutMotionPress = () => {
