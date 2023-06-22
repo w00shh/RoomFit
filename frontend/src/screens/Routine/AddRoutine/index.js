@@ -80,16 +80,12 @@ const AddRoutine = ({navigation, route}) => {
   }, []);
 
   useEffect(() => {
-    console.log(route.params.motionList);
-  }, []);
-
-  useEffect(() => {
     if (motionList.length > 0) {
       setIsSaveDisabled(false);
     } else {
       setIsSaveDisabled(true);
     }
-  }, [motionList.length]);
+  }, [motionList]);
 
   const handleAddWorkoutMotionPress = () => {
     navigation.push('AddMotion', {
