@@ -17,7 +17,7 @@ const CustomButton_B = props => {
         borderRadius: 8,
         padding: 0,
 
-        marginVertical: 24,
+        marginVertical: props.marginVertical ? props.marginVertical : 24,
       }}
       onPress={props.onPress}
       disabled={props.disabled}>

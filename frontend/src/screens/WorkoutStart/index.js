@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   TurboModuleRegistry,
   FlatList,
+  TextInput,
 } from 'react-native';
 import CustomButton_W from '../../components/CustomButton_W';
 import Check from 'react-native-vector-icons/AntDesign';
@@ -35,6 +36,7 @@ import Swiper from 'react-native-swiper';
 import styles from './styles';
 import OnOff from '../../components/Switch';
 import CustomButton_B from '../../components/CustomButton_B';
+import WorkoutTitle from '../../components/WorkoutTitle';
 
 export const WorkoutStart = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,6 +54,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [restTimer, setRestTimer] = useState(restSet);
   const [isResting, setIsResting] = useState(false);
+  const [isStopResting, setIsStopResting] = useState(false);
   const toggleSwitch = () => setIsAssist(previousState => !previousState);
   const toggleSwitch2 = () => setIsLock(previousState => !previousState);
   const [modalVisible2, setModalVisible2] = useState(false);
@@ -64,6 +67,10 @@ export const WorkoutStart = ({navigation, route}) => {
 
   //모든 운동 끝나면 -> true
   const [workoutDone, setWorkoutDone] = useState(false);
+  const [workoutDoneModal, setWorkoutDoneModal] = useState(false);
+  const [workoutMemoModal, setWorkoutMemoModal] = useState(false);
+  const [workoutTitle, setWorkoutTitle] = useState('');
+  const [workoutMemo, setWorkoutMemo] = useState('');
 
   const restTime = [
     {time: 10, selsected: false},
@@ -119,8 +126,18 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   };
 
+  const endResting = () => {
+    setIsResting(false);
+    setRestTimer(restSet);
+    setIsStopResting(false);
+  };
+
+  const writeMemo = () => {
+    setWorkoutDoneModal(false);
+    setWorkoutMemoModal(true);
+  };
+
   useEffect(() => {
-    console.log(route.params.motionList[0].set);
     let intervalId;
     let intervalId2;
     let intervalId3;
@@ -137,7 +154,7 @@ export const WorkoutStart = ({navigation, route}) => {
       }, 1000);
     }
 
-    if (isResting) {
+    if (isResting && !isStopResting) {
       intervalId3 = setInterval(() => {
         setRestTimer(prevrestTime => prevrestTime - 1);
         //console.log(restTimer);
@@ -153,9 +170,12 @@ export const WorkoutStart = ({navigation, route}) => {
       clearInterval(intervalId2);
       clearInterval(intervalId3);
     };
-  }, [isPaused, isTut, isResting, restTimer]);
+  }, [isPaused, isTut, isResting, restTimer, isStopResting]);
 
   const formatTime = time => {
+    if (time < 0) {
+      return `00:00`;
+    }
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
 
@@ -176,29 +196,62 @@ export const WorkoutStart = ({navigation, route}) => {
       setMIndex(m_index + 1);
       setSIndex(0);
       setWeight(route.params.motionList[m_index].set[s_index].weight);
+      setRestTimer(restMotion);
     } else {
       setWorkoutDone(true);
     }
   };
 
+  const endSetting = () => {
+    setPressSetting(false);
+    setRestTimer(restSet);
+  };
   return (
     <SafeAreaView style={styles.pageContainer}>
       {!isPaused && !pressSetting && (
         <View>
-          <Modal visible={isResting} transparent={true} animationType="slide">
+          <Modal visible={isResting} transparent={true} animationType="fade">
             <View style={styles.modalContainer2}>
               <View style={styles.restingContainer}>
                 <Text style={styles.restingTitle}>세트간 휴식</Text>
                 <Text style={styles.restingTimer}>{formatTime(restTimer)}</Text>
                 <View style={{flexDirection: 'row', marginTop: 16}}>
                   <TouchableOpacity
-                    style={{marginRight: 10}}
-                    onPress={() => setIsResting(false)}>
-                    <Text>10초</Text>
+                    onPress={() => setRestTimer(restTimer - 10)}
+                    style={{
+                      marginRight: 25,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Minus name="minus" size={18} color="#808080"></Minus>
+                    <Text style={styles.plusminus}> 10초</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{marginLeft: 10}}>
-                    <Text>10초</Text>
+                  <TouchableOpacity
+                    onPress={() => setRestTimer(restTimer + 10)}
+                    style={{
+                      marginLeft: 25,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Plus name="plus" size={18} color="#808080"></Plus>
+                    <Text style={styles.plusminus}> 10초</Text>
                   </TouchableOpacity>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={{marginRight: 5}}>
+                    <CustomButton_W
+                      width={126}
+                      onPress={() => setIsStopResting(!isStopResting)}
+                      content={
+                        isStopResting ? '휴식 재개' : '일시정지'
+                      }></CustomButton_W>
+                  </View>
+                  <View style={{marginLeft: 5}}>
+                    <CustomButton_B
+                      width={126}
+                      onPress={() => endResting(false)}
+                      content="바로 시작"></CustomButton_B>
+                  </View>
                 </View>
               </View>
             </View>
@@ -276,12 +329,10 @@ export const WorkoutStart = ({navigation, route}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.navigator}>
-            <TouchableOpacity
-              onPress={() => pausedModal}
-              style={{marginLeft: 45}}>
+            <TouchableOpacity onPress={pausedModal} style={{marginLeft: 45}}>
               <Dumbbell name="dumbbell" size={20} color={'#fff'}></Dumbbell>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => pausedModal}>
+            <TouchableOpacity onPress={pausedModal}>
               <Pause name="pausecircle" size={20} color={'#fff'}></Pause>
             </TouchableOpacity>
             <TouchableOpacity
@@ -294,6 +345,62 @@ export const WorkoutStart = ({navigation, route}) => {
       )}
       {isPaused && (
         <View>
+          <Modal
+            visible={workoutDoneModal}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer2}>
+              <View style={styles.endingContainer}>
+                <Text style={styles.restingTitle}>운동 종료</Text>
+                <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
+                  운동을 종료하시겠습니까?
+                </Text>
+                <View style={{flexDirection: 'row', marginTop: 5}}>
+                  <View style={{marginRight: 5}}>
+                    <CustomButton_W
+                      width={126}
+                      onPress={() => setWorkoutDoneModal(false)}
+                      content="취소"></CustomButton_W>
+                  </View>
+                  <View style={{marginLeft: 5}}>
+                    <CustomButton_B
+                      width={126}
+                      onPress={() => writeMemo()}
+                      content="종료"></CustomButton_B>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            visible={workoutMemoModal}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer2}>
+              <View style={styles.memoContainer}>
+                <Text style={styles.restingTitle}>
+                  운동 기록의 이름을 입력해주세요
+                </Text>
+                <TextInput
+                  style={styles.titleInput}
+                  onChangeText={text => setWorkoutTitle(text)}
+                  value={workoutTitle}
+                  placeholder="운동 기록 이름"></TextInput>
+                <TextInput
+                  style={styles.memoInput}
+                  onChangeText={text => setWorkoutMemo(text)}
+                  value={workoutMemo}
+                  placeholder="추가 메모 남기기 (선택)"></TextInput>
+                <View style={{flexDirection: 'row', marginTop: 5}}>
+                  <CustomButton_B
+                    width={264}
+                    onPress={() => navigation.navigate('HomeScreen')}
+                    content="확인"
+                    marginVertical={12}></CustomButton_B>
+                </View>
+              </View>
+            </View>
+          </Modal>
           <View>
             <Text style={styles.pauseTitle}>일시정지</Text>
           </View>
@@ -399,7 +506,9 @@ export const WorkoutStart = ({navigation, route}) => {
 
           <ScrollView style={{height: 320}}></ScrollView>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <TouchableOpacity style={styles.endButton}>
+            <TouchableOpacity
+              onPress={() => setWorkoutDoneModal(true)}
+              style={styles.endButton}>
               <Square
                 name="square"
                 color={'#fff'}
@@ -434,6 +543,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <ScrollView style={{height: 500}}>
                   {restTime.map((value, key) => (
                     <TouchableOpacity
+                      key={key}
                       onPress={() => setTempRestTime(value.time)}>
                       <View
                         style={{
@@ -490,6 +600,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <ScrollView style={{height: 500}}>
                   {restTime.map((value, key) => (
                     <TouchableOpacity
+                      key={key}
                       onPress={() => MotionTempRestTime(value.time)}>
                       <View
                         style={{
@@ -626,7 +737,7 @@ export const WorkoutStart = ({navigation, route}) => {
             }}>
             <TouchableOpacity
               style={styles.CButton3}
-              onPress={() => setPressSetting(false)}>
+              onPress={() => endSetting()}>
               <Left
                 name="chevron-left"
                 size={15}

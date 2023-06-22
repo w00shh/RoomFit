@@ -337,13 +337,54 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#242424',
-    marginTop: 32,
+    marginTop: 30,
   },
 
   restingTimer: {
     fontSize: 48,
     color: '#242424',
     marginTop: 16,
+  },
+
+  plusminus: {
+    fontSize: 16,
+    color: '#242424',
+  },
+
+  endingContainer: {
+    width: 296,
+    height: 189,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    borderRadius: 12,
+  },
+
+  memoContainer: {
+    width: 296,
+    height: 350,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    borderRadius: 12,
+  },
+
+  titleInput: {
+    backgroundColor: '#f5f5f5',
+    width: 264,
+    height: 56,
+    marginTop: 20,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+
+  memoInput: {
+    backgroundColor: '#f5f5f5',
+    width: 264,
+    height: 110,
+    marginTop: 18,
+    paddingHorizontal: 12,
+    borderRadius: 8,
   },
 });
 
