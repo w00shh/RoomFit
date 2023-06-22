@@ -16,13 +16,13 @@ const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [motionList, setMotionList] = useState([]);
   const [selectedMode, setSelectedMode] = useState({
-    modeName: '기본모드',
+    modeName: '기본',
     modeDescription: '설명',
   });
 
   const modeList = [
     {
-      modeName: '기본모드',
+      modeName: '기본',
       modeDescription: '설명',
     },
     {
@@ -51,7 +51,7 @@ const WorkoutReady = ({navigation, route}) => {
           motion_id: route.params.selectedMotionKeys[i],
           motionName: 'first motion',
           imageUrl: '',
-          set: [],
+          set: [{weight: 0, reps: 0, mode: '기본'}],
         },
       ]);
     }

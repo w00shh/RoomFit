@@ -123,7 +123,11 @@ const AddMotion = ({navigation, route}) => {
         onPress={
           route.params.isRoutine
             ? () => {
-                navigation.navigate('AddRoutine');
+                navigation.push('AddRoutine', {
+                  isMotionAdded: true,
+                  routineName: route.params.routineName,
+                  selectedMotionKeys: selectedMotionKeys,
+                });
               }
             : () => {
                 selectedMotionKeys = Array.from(selected.keys());

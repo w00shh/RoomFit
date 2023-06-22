@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import Dropdown from 'react-native-input-select';
 import Icon from 'react-native-vector-icons/Feather';
+
 const SetItem = props => {
-  const modes = ['기본모드', '고무밴드', '모드1', '모드2', '모드3'];
+  const modes = ['기본', '고무밴드', '모드1', '모드2', '모드3'];
   const [weight, setWeight] = useState(parseInt('0'));
   const [reps, setReps] = useState(parseInt('0'));
   const [mode, setMode] = useState('기본');
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleModeSelectPress = () => {
     props.setIsModalVisible(true);
@@ -75,6 +76,59 @@ const SetItem = props => {
         <TouchableOpacity onPress={handleModeSelectPress}>
           <Icon name="chevron-down" size={16} color="#808080"></Icon>
         </TouchableOpacity>
+        {/* <Dropdown
+          dropdownStyle={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: 0,
+            borderWidth: 0,
+            borderRadius: 0,
+            overflow: 'hidden',
+          }}
+          dropdownIcon={
+            <Icon name="chevron-down" size={16} color="#808080"></Icon>
+          }
+          checkboxStyle={{
+            backgroundColor: '#5252fa',
+            borderWidth: 0,
+          }}
+          checkboxLabelStyle={{fontSize: 12, color: '#242424', padding: 16}}
+          modalBackgroundStyle={{
+            backgroundColor: 'rgba(0,0,0,0.7)',
+          }}
+          listHeaderComponent={
+            <View style={styles.modeTitleContainer}>
+              <Text style={styles.titleText}>하중모드</Text>
+            </View>
+          }
+          selectedItemStyle={{fontSize: 12}}
+          options={[
+            {
+              modeName: '기본',
+              modeDescription: '설명',
+            },
+            {
+              modeName: '고무밴드',
+              modeDescription: '설명',
+            },
+            {
+              modeName: '모드1',
+              modeDescription: '설명',
+            },
+            {
+              modeName: '모드2',
+              modeDescription: '설명',
+            },
+            {
+              modeName: '모드3',
+              modeDescription: '설명',
+            },
+          ]}
+          optionLabel="modeName"
+          optionValue="modeName"
+          selectedValue={mode}
+          onValueChange={value => setMode(mode)}
+          primaryColor={'green'}></Dropdown> */}
       </View>
       {props.isExercising && <View style={styles.keyBox}></View>}
     </View>

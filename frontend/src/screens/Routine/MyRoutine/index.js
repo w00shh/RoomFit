@@ -5,7 +5,10 @@ import {Text} from 'react-native';
 
 const AddRoutine = ({navigation}) => {
   const handleMakeRoutinePress = () => {
-    navigation.navigate('AddRoutine');
+    navigation.navigate('AddRoutine', {
+      isMotionAdded: false,
+      routineName: '새로운 루틴',
+    });
   };
   return (
     <View style={styles.pageContainer}>

@@ -65,6 +65,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#242424',
   },
+  modeTitleContainer: {
+    alignItems: 'center',
+    paddingVertical: 24,
+  },
+
+  titleText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+  },
 });
 
 export default styles;
