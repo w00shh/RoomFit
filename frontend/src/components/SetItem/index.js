@@ -24,7 +24,7 @@ const SetItem = props => {
         reps: reps,
         mode: mode,
       };
-      console.log(updatedMotionList);
+      //console.log(updatedMotionList);
     }
   }, [weight, reps, mode]);
 

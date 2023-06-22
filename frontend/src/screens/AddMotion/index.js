@@ -134,8 +134,9 @@ const AddMotion = ({navigation, route}) => {
             : () => {
                 selectedMotionKeys = Array.from(selected.keys());
                 //console.log(selectedMotionKeys);
-                navigation.navigate('WorkoutReady', {
+                navigation.push('WorkoutReady', {
                   selectedMotionKeys: selectedMotionKeys,
+                  motionList: route.params.motionList,
                 });
               }
         }></CustomButton_B>

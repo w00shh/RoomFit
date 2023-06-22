@@ -44,6 +44,9 @@ const WorkoutReady = ({navigation, route}) => {
   ];
 
   useEffect(() => {
+    if (route.params.motionList) {
+      setMotionList(route.params.motionList);
+    }
     for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
       setMotionList(currentMotionList => [
         ...currentMotionList,
@@ -95,7 +98,7 @@ const WorkoutReady = ({navigation, route}) => {
   };
 
   const handleAddMotionPress = () => {
-    navigation.navigate('AddMotion');
+    navigation.push('AddMotion', {motionList: motionList});
   };
 
   const handleStartWorkoutPress = () => {
