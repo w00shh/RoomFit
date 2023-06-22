@@ -81,6 +81,16 @@ const get_specific_date_workouts = (req, res) => {
   });
 };
 
+const delete_workout = (req, res) => {
+  if (!req.params.workout_id)
+    res.status(400).send({message: 'Workout ID can not be empty'});
+
+  Workout.delete(req.params.workout_id, (err, result) => {
+    if (err) console.error();
+    else res.send(result);
+  });
+};
+
 module.exports = {
   create_workout,
   update_workout,
@@ -88,4 +98,5 @@ module.exports = {
   recent_workouts,
   workout_detail,
   get_specific_date_workouts,
+  delete_workout,
 };

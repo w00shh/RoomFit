@@ -96,4 +96,16 @@ Workout.calander = (date, callback) => {
   );
 };
 
+//Delete Workout
+Workout.delete = (workout_id, callback) => {
+  db.run(
+    `DELETE FROM workout WHERE workout_id = ?`,
+    [workout_id],
+    (err, res) => {
+      if (err) console.error(err);
+      else callback(null, res);
+    },
+  );
+};
+
 module.exports = Workout;

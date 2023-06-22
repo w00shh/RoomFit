@@ -10,11 +10,11 @@ axios
     console.error(err);
   });
 
+//운동 종료 테스트
 setTimeout(() => {
-  //운동 종료
   axios
     .put('http://localhost:4000/workout/done', {
-      workout_id: 2,
+      workout_id: 5,
       tut: '00:45:00',
       title: '3일차 운동',
       content: '좌우 파워 밸런스가 잘 안맞는다.',
@@ -25,5 +25,14 @@ setTimeout(() => {
     .catch(err => {
       console.error(err);
     });
+  console.log('운동 종료');
 }, 7000);
-console.log('운동 종료');
+
+axios
+  .delete('http://localhost:4000/workout/delete/2')
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.error(err);
+  });
