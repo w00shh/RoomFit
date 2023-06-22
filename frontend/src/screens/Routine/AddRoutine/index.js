@@ -62,6 +62,7 @@ const AddRoutine = ({navigation, route}) => {
 
   useEffect(() => {
     if (route.params.isMotionAdded) {
+      setMotionList(route.params.motionList);
       console.log(route.params.selectedMotionKeys);
       console.log('route.params.isMotionAdded');
       for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
@@ -79,6 +80,10 @@ const AddRoutine = ({navigation, route}) => {
   }, []);
 
   useEffect(() => {
+    console.log(route.params.motionList);
+  }, []);
+
+  useEffect(() => {
     if (motionList.length > 0) {
       setIsSaveDisabled(false);
     } else {
@@ -87,9 +92,10 @@ const AddRoutine = ({navigation, route}) => {
   }, [motionList.length]);
 
   const handleAddWorkoutMotionPress = () => {
-    navigation.navigate('AddMotion', {
+    navigation.push('AddMotion', {
       isRoutine: true,
       routineName: routineName,
+      motionList: motionList,
     });
   };
   const handleConfirmPress = () => {

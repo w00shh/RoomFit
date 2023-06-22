@@ -128,6 +128,7 @@ const AddMotion = ({navigation, route}) => {
                   isMotionAdded: true,
                   routineName: route.params.routineName,
                   selectedMotionKeys: selectedMotionKeys,
+                  motionList: route.params.motionList,
                 });
               }
             : () => {
