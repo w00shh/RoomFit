@@ -386,6 +386,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 8,
   },
+  motionTitle: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#242424',
+  },
 });
 
 export default styles;

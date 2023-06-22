@@ -37,6 +37,7 @@ import styles from './styles';
 import OnOff from '../../components/Switch';
 import CustomButton_B from '../../components/CustomButton_B';
 import WorkoutTitle from '../../components/WorkoutTitle';
+import AddMotion from '../AddMotion';
 
 export const WorkoutStart = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -73,6 +74,20 @@ export const WorkoutStart = ({navigation, route}) => {
   const [workoutMemoModal, setWorkoutMemoModal] = useState(false);
   const [workoutTitle, setWorkoutTitle] = useState('');
   const [workoutMemo, setWorkoutMemo] = useState('');
+
+  const [isModifyMotion, setIsModifyMotion] = useState(false);
+  const [isPausedPage, setIsPausedPage] = useState(false);
+
+  const modifyingMotion = () => {
+    setIsPaused(true);
+    setIsPausedPage(false);
+    setIsModifyMotion(true);
+  };
+
+  const saveModifying = () => {
+    setIsPaused(false);
+    setIsModifyMotion(false);
+  };
 
   const restTime = [
     {time: 10, selsected: false},
@@ -112,6 +127,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const pausedModal = () => {
     setIsPaused(!isPaused);
+    setIsPausedPage(!isPausedPage);
     setTime(formatTime(elapsedTime));
     console.log(time);
   };
@@ -216,7 +232,7 @@ export const WorkoutStart = ({navigation, route}) => {
   };
   return (
     <SafeAreaView style={styles.pageContainer}>
-      {!isPaused && !pressSetting && (
+      {!isPausedPage && !pressSetting && !isModifyMotion && (
         <View>
           <Modal visible={isResting} transparent={true} animationType="fade">
             <View style={styles.modalContainer2}>
@@ -395,7 +411,9 @@ export const WorkoutStart = ({navigation, route}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.navigator}>
-            <TouchableOpacity onPress={pausedModal} style={{marginLeft: 45}}>
+            <TouchableOpacity
+              onPress={modifyingMotion}
+              style={{marginLeft: 45}}>
               <Dumbbell name="dumbbell" size={20} color={'#fff'}></Dumbbell>
             </TouchableOpacity>
             <TouchableOpacity onPress={pausedModal}>
@@ -409,7 +427,7 @@ export const WorkoutStart = ({navigation, route}) => {
           </View>
         </View>
       )}
-      {isPaused && (
+      {isPausedPage && (
         <View>
           <Modal
             visible={workoutDoneModal2}
@@ -595,7 +613,7 @@ export const WorkoutStart = ({navigation, route}) => {
           </View>
         </View>
       )}
-      {!isPaused && pressSetting && (
+      {!isPausedPage && pressSetting && (
         <View style={{alignSelf: 'flex-start'}}>
           <Modal
             visible={modalVisible2}
@@ -813,6 +831,25 @@ export const WorkoutStart = ({navigation, route}) => {
                 휴식중 {formatTime(elapsedTime)}
               </Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      )}
+      {!isPausedPage && isModifyMotion && (
+        <View>
+          <View style={{alignSelf: 'flex-start'}}>
+            <Text style={styles.motionTitle}>동작</Text>
+          </View>
+          <ScrollView></ScrollView>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View style={{marginRight: 8}}>
+              <CustomButton_W width={171} content="취소"></CustomButton_W>
+            </View>
+            <View style={{marginLeft: 8}}>
+              <CustomButton_B
+                width={171}
+                content={`운동중  ${formatTime(elapsedTime)}`}
+                onPress={saveModifying}></CustomButton_B>
+            </View>
           </View>
         </View>
       )}
