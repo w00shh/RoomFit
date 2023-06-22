@@ -150,6 +150,34 @@ const email_verification = (req, res) => {
   });
 };
 
+const find_id = (req, res) => {
+  const email = req.query.email;
+  Account.find_id(email, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred finding ID.',
+        success: 0,
+      });
+    else {
+      res.json({ success: 1, user_id: data.user_id, is_api: data.is_api });
+    }
+  });
+};
+
+const find_password = (req, res) => {
+  const email = req.query.email;
+  Account.find_password(email, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred finding Password.',
+        success: 0,
+      });
+    else {
+      res.json({ success: 1, email: email, password: data });
+    }
+  });
+};
+
 module.exports = {
   email_register,
   account_update,
@@ -157,4 +185,6 @@ module.exports = {
   google_auth,
   google_auth_redirect,
   email_verification,
+  find_id,
+  find_password,
 };

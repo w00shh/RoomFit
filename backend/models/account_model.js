@@ -205,6 +205,7 @@ Account.google_auth = (user, callback) => {
   );
 };
 
+//추후 ejs 연동해서 더 이쁘게 보내기
 Account.email_verification = (email, callback) => {
   const verification_code =
     Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
@@ -240,36 +241,101 @@ Account.email_verification = (email, callback) => {
     }
     transporter.close();
   });
-
-  // const transporter = nodemailer.createTransport({
-  //   service: 'naver',
-  //   host: 'smtp.naver.com',
-  //   port: 465,
-  //   secure: true,
-  //   auth: {
-  //     type: "OAuth2",
-  //     user: process.env.SMTP_USER,
-  //     pass: process.env.SMTP_PASSWORD,
-  //   },
-  // });
-
-  // console.log(email);
-  // const mailOptions = {
-  //   from: process.env.SMTP_USER,
-  //   to: email,
-  //   subject: 'wispion verification number',
-  //   text: 'verification code : ' + verification_code,
-  // };
-
-  // transporter.sendMail(mailOptions, function (error, res) {
-  //   if (error) {
-  //     console.log(error);
-  //     callback(error);
-  //   } else {
-  //     console.log('Email sent: ' + res.response);
-  //     callback(null, verification_code);
-  //   }
-  //   transporter.close();
-  // });
 };
+
+Account.find_id = (email, callback) => {
+  db.get(
+    `SELECT user_id,is_api FROM User WHERE email = ?`,
+    [email],
+    function (err, row) {
+      if (err) {
+        console.error(err);
+        callback(err);
+        return;
+      }
+
+      if (!row) {
+        let error = new Error();
+        error.message = '존재하지 않는 이메일입니다.';
+        callback(error);
+        return;
+      }
+      callback(null, { user_id: row.user_id, is_api: row.is_api });
+    }
+  );
+};
+
+Account.find_password = (email, callback) => {
+  db.get(
+    `SELECT user_id,is_api FROM User WHERE email = ?`,
+    [email],
+    function (err, row) {
+      if (err) {
+        console.error(err);
+        callback(err);
+        return;
+      }
+      if (!row) {
+        let error = new Error();
+        error.message = '존재하지 않는 이메일입니다.';
+        callback(error);
+        return;
+      } else {
+        if (row.is_api != 0) {
+          let error = new Error();
+          error.message = '간편로그인 회원은 비밀번호를 변경할 수 없습니다.';
+          callback(error);
+          return;
+        } else {
+          const tmpPassword = Math.random().toString(36).substr(2, 10);
+          const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: 'smtp.google.com',
+            port: 587,
+            secure: true,
+            auth: {
+              type: 'OAuth2',
+              user: process.env.GMAIL_USER,
+              clientId: process.env.GMAIL_CLIENT_ID,
+              clientSecret: process.env.GMAIL_CLIENT_SECRET,
+              refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+            },
+          });
+
+          const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: email,
+            subject: '비밀번호 변경 링크 전송',
+            text: '임시 비밀번호 : ' + tmpPassword,
+          };
+
+          transporter.sendMail(mailOptions, function (error, res) {
+            if (error) {
+              console.log(error);
+              callback(error);
+            } else {
+              console.log('Email sent: ' + res.response);
+
+              db.run(
+                `UPDATE User SET password = ? WHERE email = ?`,
+                [tmpPassword, email],
+                function (err, res) {
+                  if (err) {
+                    console.error(err);
+                    callback(err);
+                    return;
+                  }
+                }
+              );
+
+              callback(null, tmpPassword);
+            }
+            transporter.close();
+          });
+        }
+      }
+    }
+  );
+};
+
 module.exports = Account;
