@@ -14,10 +14,10 @@ axios
 setTimeout(() => {
   axios
     .put('http://localhost:4000/workout/done', {
-      workout_id: 5,
-      tut: '00:45:00',
-      title: '3일차 운동',
-      content: '좌우 파워 밸런스가 잘 안맞는다.',
+      workout_id: 2,
+      tut: '00:30:00',
+      title: '4일차 운동',
+      memo: '오늘 컨디션이 조금 좋았다.',
     })
     .then(res => {
       console.log(res);
@@ -28,11 +28,11 @@ setTimeout(() => {
   console.log('운동 종료');
 }, 7000);
 
-axios
-  .delete('http://localhost:4000/workout/delete/2')
-  .then(res => {
-    console.log(res);
-  })
-  .catch(err => {
-    console.error(err);
-  });
+// axios
+//   .delete('http://localhost:4000/workout/delete/2')
+//   .then(res => {
+//     console.log(res);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
