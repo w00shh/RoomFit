@@ -189,10 +189,16 @@ const AddMotion = ({navigation, route}) => {
             : () => {
                 selectedMotionKeys = Array.from(selected.keys());
                 //console.log(selectedMotionKeys);
-                navigation.push('WorkoutReady', {
-                  selectedMotionKeys: selectedMotionKeys,
-                  motionList: route.params.motionList,
-                });
+                route.params.isExercising
+                  ? navigation.push('WorkoutStart', {
+                      isAddMotion: true,
+                      motionList: route.params.motionList,
+                      selectedMotionKeys: selectedMotionKeys,
+                    })
+                  : navigation.push('WorkoutReady', {
+                      selectedMotionKeys: selectedMotionKeys,
+                      motionList: route.params.motionList,
+                    });
               }
         }></CustomButton_B>
     </View>
