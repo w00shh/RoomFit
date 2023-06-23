@@ -60,11 +60,12 @@ const AddRoutine = ({navigation, route}) => {
         </TouchableOpacity>
       ),
     });
-  }, [isRoutineName]);
+  }, [isRoutineName, isSaveDisabled]);
 
   useEffect(() => {
     if (route.params.isMotionAdded) {
       setMotionList(route.params.motionList);
+      setIsSaveDisabled(false);
       for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
         setMotionList(currentMotionList => [
           ...currentMotionList,
@@ -80,7 +81,9 @@ const AddRoutine = ({navigation, route}) => {
   }, []);
 
   useEffect(() => {
+    console.log(motionList.length);
     if (motionList.length === 0) {
+      console.log('ss');
       setIsSaveDisabled(true);
     } else {
       setIsSaveDisabled(false);
