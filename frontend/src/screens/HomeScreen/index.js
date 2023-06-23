@@ -143,10 +143,13 @@ const HomeScreen = ({navigation}) => {
         )}
         {isExercised && (
           <View>
-            <Text style={{marginLeft: 16, marginTop: 12}}>
-              {PERFORMED[0].date}
-            </Text>
-            <RecentExercise data={PERFORMED[0].data}></RecentExercise>
+            <View>
+              <Text style={{marginLeft: 16, marginTop: 12}}>
+                {PERFORMED[0].date}
+              </Text>
+              <RecentExercise data={PERFORMED[0].data}></RecentExercise>
+            </View>
+            <View style={{height: 90}}></View>
           </View>
         )}
       </ScrollView>

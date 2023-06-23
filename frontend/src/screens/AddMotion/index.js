@@ -1,9 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
+import XX from 'react-native-vector-icons/Feather';
 
 const AddMotion = ({navigation, route}) => {
   const [motion, setMotion] = useState('');
@@ -11,15 +19,33 @@ const AddMotion = ({navigation, route}) => {
   const [motionListMap, setMotionListMap] = useState(new Map());
   let selectedMotionKeys = [];
   const [selected, setSelected] = useState(new Map());
+  const [displaySelected, setDisplaySelected] = useState(new Map());
   const [selectedLength, setSelectedLength] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
+  const {width} = Dimensions.get('window');
   let length = 0;
+
+  const getTextWidth = text => {
+    let charCount = text.length;
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === ' ') charCount--;
+    }
+    const defaultFontSize = 13; // 기본 폰트 크기를 설정합니다.
+    const averageCharWidth = 1; // 평균 글자 너비를 설정합니다.
+
+    let textWidth = charCount * 11;
+    if (textWidth > 70 && textWidth <= 110) textWidth += 20;
+    return textWidth;
+  };
 
   const onSelect = useCallback(
     motion => {
       let length = 0;
       const newSelected = new Map(selected);
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
+      if (displaySelected.get(motion.motion_id))
+        displaySelected.delete(motion.motion_id);
+      else displaySelected.set(motion.motion_id, motion.motionName);
       setSelected(newSelected);
     },
     [selected],
@@ -59,7 +85,7 @@ const AddMotion = ({navigation, route}) => {
       },
       {
         motion_id: 2,
-        motionName: 'Sit up',
+        motionName: 'Sit up sss ss',
         imageUrl: '',
       },
       {
@@ -102,10 +128,38 @@ const AddMotion = ({navigation, route}) => {
           inputMode="text"></TextInput>
       </View>
       <View></View>
-
-      <Text style={styles.recommendedText}>추천 운동</Text>
-      {selectedMotionKeys && <Text>{selectedMotionKeys[0]}</Text>}
-
+      {displaySelected.size === 0 && (
+        <Text style={styles.recommendedText}>추천 운동</Text>
+      )}
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignSelf: 'flex-start',
+          marginTop: 16,
+          marginLeft: 4,
+          marginBottom: 5,
+        }}>
+        {displaySelected &&
+          Array.from(displaySelected.values()).map((value, key) => (
+            <View
+              key={key}
+              style={{
+                width: getTextWidth(value) > 84 ? getTextWidth(value) : 84,
+                height: 32,
+                backgroundColor: '#242424',
+                borderRadius: 8,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+                marginLeft: 8,
+                marginTop: 7,
+              }}>
+              <Text style={styles.selectMotionText}>{value}</Text>
+              <XX name="x" color={'white'} size={15}></XX>
+            </View>
+          ))}
+      </View>
       <FlatList
         data={motionList}
         renderItem={({item}) => (

@@ -26,6 +26,23 @@ const styles = StyleSheet.create({
     color: '#808080',
     marginVertical: 16,
   },
+
+  selectMotionView: {
+    width: 150,
+    height: 32,
+    backgroundColor: '#242424',
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    marginLeft: 10,
+    marginTop: 5,
+  },
+
+  selectMotionText: {
+    fontSize: 13,
+    color: '#ffffff',
+  },
 });
 
 export default styles;
