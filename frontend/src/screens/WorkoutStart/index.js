@@ -62,9 +62,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const toggleSwitch2 = () => setIsLock(previousState => !previousState);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
-  const [weight, setWeight] = useState(
-    route.params.motionList[0].set[0].weight,
-  );
+  const [weight, setWeight] = useState(motionList[0].set[0].weight);
   const [m_index, setMIndex] = useState(0);
   const [s_index, setSIndex] = useState(0);
   const [isMotionDone, setIsMotionDone] = useState(false);
@@ -207,21 +205,21 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const SetComplete = () => {
-    console.log(route.params.motionList[0].set);
+    console.log(motionList[0].set);
     setIsMotionDone(false);
-    if (s_index + 1 < route.params.motionList[m_index].set.length) {
+    if (s_index + 1 < motionList[m_index].set.length) {
       setIsResting(true);
       setSIndex(s_index + 1);
-      setWeight(route.params.motionList[m_index].set[s_index + 1].weight);
+      setWeight(motionList[m_index].set[s_index + 1].weight);
     } else if (
-      s_index + 1 === route.params.motionList[m_index].set.length &&
-      route.params.motionList[m_index + 1]
+      s_index + 1 === motionList[m_index].set.length &&
+      motionList[m_index + 1]
     ) {
       setIsResting(true);
       setIsMotionDone(true);
       setMIndex(m_index + 1);
       setSIndex(0);
-      setWeight(route.params.motionList[m_index].set[0].weight);
+      setWeight(motionList[m_index].set[0].weight);
       setRestTimer(restMotion);
     } else {
       setWorkoutDone(true);
@@ -365,13 +363,13 @@ export const WorkoutStart = ({navigation, route}) => {
 
           <View style={{alignItems: 'center'}}>
             <Text style={styles.motionName}>
-              {route.params.motionList[m_index].motion_id}
+              {motionList[m_index].motion_id}
             </Text>
             <View style={{flexDirection: 'row'}}>
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                 <Text style={styles.statusText}>{s_index + 1}</Text>
                 <Text style={styles.targetText}>
-                  /{route.params.motionList[m_index].set.length}set
+                  /{motionList[m_index].set.length}set
                 </Text>
               </View>
               <View
@@ -386,7 +384,7 @@ export const WorkoutStart = ({navigation, route}) => {
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                 <Text style={styles.statusText}>1</Text>
                 <Text style={styles.targetText}>
-                  /{route.params.motionList[m_index].set[s_index].reps}회
+                  /{motionList[m_index].set[s_index].reps}회
                 </Text>
               </View>
             </View>
@@ -862,7 +860,11 @@ export const WorkoutStart = ({navigation, route}) => {
                 width={171}
                 content="+ 동작 추가"
                 onPress={() => {
-                  //navigation.push('AddMotion', {isRoutine: false});
+                  navigation.push('AddMotion', {
+                    isRoutine: false,
+                    isExercising: true,
+                    motionList: motionList,
+                  });
                 }}></CustomButton_W>
             </View>
             <View style={{marginLeft: 8}}>

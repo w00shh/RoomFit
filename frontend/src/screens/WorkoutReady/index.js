@@ -102,7 +102,10 @@ const WorkoutReady = ({navigation, route}) => {
   };
 
   const handleStartWorkoutPress = () => {
-    navigation.navigate('WorkoutStart', {motionList: motionList});
+    navigation.navigate('WorkoutStart', {
+      isAddMotion: false,
+      motionList: motionList,
+    });
   };
   return (
     <View style={styles.pageContainer}>
