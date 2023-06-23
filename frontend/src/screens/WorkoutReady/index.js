@@ -54,7 +54,7 @@ const WorkoutReady = ({navigation, route}) => {
           motion_id: route.params.selectedMotionKeys[i],
           motionName: 'first motion',
           imageUrl: '',
-          set: [{weight: 0, reps: 0, mode: '기본'}],
+          set: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
         },
       ]);
     }

@@ -38,8 +38,10 @@ import OnOff from '../../components/Switch';
 import CustomButton_B from '../../components/CustomButton_B';
 import WorkoutTitle from '../../components/WorkoutTitle';
 import AddMotion from '../AddMotion';
+import WorkoutItem from '../../components/WorkoutItem';
 
 export const WorkoutStart = ({navigation, route}) => {
+  const [motionList, setMotionList] = useState(route.params.motionList);
   const [modalVisible, setModalVisible] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [TUT, setTUT] = useState(0);
@@ -839,7 +841,20 @@ export const WorkoutStart = ({navigation, route}) => {
           <View style={{alignSelf: 'flex-start'}}>
             <Text style={styles.motionTitle}>동작</Text>
           </View>
-          <ScrollView></ScrollView>
+          <ScrollView>
+            {motionList.map((value, key) => (
+              <WorkoutItem
+                key={key}
+                id={value.motion_id}
+                motion={value}
+                isExercising={true}
+                //setIsModalVisible={setIsModalVisible}
+                motionList={motionList}
+                setMotionList={setMotionList}
+                //selectedMode={selectedMode}
+              ></WorkoutItem>
+            ))}
+          </ScrollView>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <View style={{marginRight: 8}}>
               <CustomButton_W width={171} content="취소"></CustomButton_W>
