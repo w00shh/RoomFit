@@ -37,17 +37,17 @@
 // })
 
 // 루틴 간략히 보기(제한 O)
-// fetch('http://127.0.0.1:4000/routine/load/true',{
-//     method:"POST",
-//     headers:{
-//         'Content-type' : 'application/json'
-//     },
-//     body: JSON.stringify({
-//         user_id: 1
-//     })
-// }).then(res=>res.json()).then(res=>{
-//     console.log(res);
-// });
+fetch('http://127.0.0.1:4000/routine/load/true',{
+    method:"POST",
+    headers:{
+        'Content-type' : 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: 1
+    })
+}).then(res=>res.json()).then(res=>{
+    console.log(res);
+});
 
 // 전체 루틴 간략히 보기
 // fetch('http://127.0.0.1:4000/routine/load/false',{

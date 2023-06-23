@@ -38,7 +38,13 @@ fetch('http://127.0.0.1:4000/motion/favInsert/1',{
 
 // 즐겨찾기 삭제
 fetch('http://127.0.0.1:4000/motion/favDelete/1',{
-    method: "DELETE",
+    method: "POST",
+    headers:{
+        'Content-type' : 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: 1
+    })
 });
 
 // 동작 검색
