@@ -40,7 +40,6 @@ const SetItem = props => {
         mode: mode,
         isDone: false,
       };
-      //console.log(updatedMotionList);
     }
   }, [weight, reps, mode]);
 

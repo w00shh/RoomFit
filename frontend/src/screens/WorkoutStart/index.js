@@ -205,7 +205,6 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const SetComplete = () => {
-    console.log(motionList[0].set);
     setIsMotionDone(false);
     if (s_index + 1 < motionList[m_index].set.length) {
       setIsResting(true);
