@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require('cors');
+const Hangul = require('hangul-js');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json());
 app.use(cors());
@@ -170,10 +171,8 @@ app.get('/routine/modify/:routine_id', function(req,res){
                         console.log(datas.motionList[1].sets);
                         res.send(datas);
                     }
-                });
-                
+                }); 
             });
-            
         }
     });
 });
@@ -257,26 +256,23 @@ app.get("/routine/loadMotion", function (req, res) {
                     favRows.forEach(row => {
                         motionList.push({ ...row });
                     });
+                    const sqlNotFav = `SELECT * FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
+                    db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
+                        if (err) {
+                            console.error(err);
+                        } else {
+                            notFavRows.forEach(row => {
+                                motionList.push({ ...row });
+                            })
+                            res.json(motionList);
+                            console.log(motionList);
+                        }
+                    });
                 }
             });
-            const sqlNotFav = `SELECT * FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
-            db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
-                if (err) {
-                    console.error(err);
-                } else {
-                    notFavRows.forEach(row => {
-                        motionList.push({ ...row });
-                    })
-                    res.json(motionList);
-                    console.log(motionList);
-                }
-            });
-
         }
     });
 });
-
-
 
 
 app.get("/motion/favInsert/:motion_id", function (req, res) {
@@ -304,18 +300,79 @@ app.delete("/motion/favDelete/:motion_id", function (req, res) {
 });
 
 app.get("/motion/search/:motion_name", function (req, res) {
-    const motion_name = req.params.motion_name.slice(12);
-    const splitName = motion_name.split(' ');
-
-    const sql = "SELECT * FROM motion WHERE motion_name LIKE ?";
-    db.all(sql, `%${motion_name}%`, function (err, rows) {
+    db.all('SELECT * FROM favorite', (err, rows) => {
         if (err) {
-            console.error(err.message);
+            console.error(err);
         } else {
-            res.send(rows)
-            console.log(rows);
+            const favoriteMotionIds = rows.map(row => row.motion_id);
+            const placeholders = favoriteMotionIds.map(() => "?").join(",");
+            const motionList = [];
+            const motion_name = req.params.motion_name.slice(12);
+            const replaceName = motion_name.replace(/ /g,"");
+            const sqlFav = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
+            db.all(sqlFav, favoriteMotionIds, (err, favRows) => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    if (Hangul.isConsonantAll(replaceName)){
+                        favRows.forEach(row => {
+                            const dbMotionName = Hangul.disassemble(row.motion_name.replace(/ /g,""));
+                            let dbCho = [];
+                            for(let i=1; i<dbMotionName.length; i++){
+                                if(Hangul.isVowel(dbMotionName[i])){
+                                    if(Hangul.isCho(dbMotionName[i-1])){
+                                        dbCho += dbMotionName[i-1];
+                                    }
+                                }
+                            }
+                            if(Hangul.rangeSearch(dbCho, replaceName).length!=0){
+                                motionList.push({ ...row });
+                            }
+                        });
+                    }
+                    else{
+                        favRows.forEach(row => {
+                            if(Hangul.rangeSearch(row.motion_name.replace(/ /g,""), replaceName).length!=0){
+                                motionList.push({ ...row });
+                            }
+                        });
+                    }
+                    const sqlNotFav = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
+                    db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
+                        if (err) {
+                            console.error(err);
+                        } else {
+                            if (Hangul.isConsonantAll(replaceName)){
+                                notFavRows.forEach(row => {
+                                    const dbMotionName = Hangul.disassemble(row.motion_name.replace(/ /g,""));
+                                    let dbCho = [];
+                                    for(let i=1; i<dbMotionName.length; i++){
+                                        if(Hangul.isVowel(dbMotionName[i])){
+                                            if(Hangul.isCho(dbMotionName[i-1])){
+                                                dbCho += dbMotionName[i-1];
+                                            }
+                                        }
+                                    }
+                                    if(Hangul.rangeSearch(dbCho, replaceName).length!=0){
+                                        motionList.push({ ...row });
+                                    }
+                                });
+                            }
+                            else{
+                                notFavRows.forEach(row => {
+                                    if(Hangul.rangeSearch(row.motion_name.replace(/ /g,""), replaceName).length!=0){
+                                        motionList.push({ ...row });
+                                    }
+                                })
+                            } 
+                            res.json(motionList);
+                            console.log(motionList);
+                        }
+                    });
+                }
+            });
         }
-    })
+    });   
 });
 
 app.put('/motion/add', function (req, res) {
