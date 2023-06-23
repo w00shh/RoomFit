@@ -43,8 +43,8 @@ import WorkoutItem from '../../components/WorkoutItem';
 export const WorkoutStart = ({navigation, route}) => {
   const [motionList, setMotionList] = useState(route.params.motionList);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [TUT, setTUT] = useState(0);
+  const [isPaused, setIsPaused] = useState(route.params.isPaused);
+  const [TUT, setTUT] = useState(route.params.TUT);
   const [isTut, setIsTus] = useState(true);
   const [time, setTime] = useState('');
   const [pressSetting, setPressSetting] = useState(false);
@@ -54,7 +54,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const [temprestSet, setTempRestSet] = useState('');
   const [restMotion, setRestMotion] = useState(60);
   const [temprestMotion, setTempRestMotion] = useState('');
-  const [elapsedTime, setElapsedTime] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(route.params.elapsedTime);
   const [restTimer, setRestTimer] = useState(restSet);
   const [isResting, setIsResting] = useState(false);
   const [isStopResting, setIsStopResting] = useState(false);
@@ -75,8 +75,10 @@ export const WorkoutStart = ({navigation, route}) => {
   const [workoutTitle, setWorkoutTitle] = useState('');
   const [workoutMemo, setWorkoutMemo] = useState('');
 
-  const [isModifyMotion, setIsModifyMotion] = useState(false);
-  const [isPausedPage, setIsPausedPage] = useState(false);
+  const [isModifyMotion, setIsModifyMotion] = useState(
+    route.params.isModifyMotion,
+  );
+  const [isPausedPage, setIsPausedPage] = useState(route.params.isPausedPage);
 
   const modifyingMotion = () => {
     setIsPaused(true);
@@ -128,8 +130,6 @@ export const WorkoutStart = ({navigation, route}) => {
   const pausedModal = () => {
     setIsPaused(!isPaused);
     setIsPausedPage(!isPausedPage);
-    setTime(formatTime(elapsedTime));
-    console.log(time);
   };
 
   const calTime = time => {
@@ -592,7 +592,7 @@ export const WorkoutStart = ({navigation, route}) => {
           <ScrollView style={{height: 320}}></ScrollView>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableOpacity
-              onPress={() => setWorkoutDoneModal(true)}
+              onPress={() => setWorkoutDoneModal2(true)}
               style={styles.endButton}>
               <Square
                 name="square"
@@ -603,7 +603,7 @@ export const WorkoutStart = ({navigation, route}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.restartButton}
-              onPress={() => setIsPaused(!isPaused)}>
+              onPress={pausedModal}>
               <Start
                 name="caretright"
                 color={'white'}
@@ -837,8 +837,6 @@ export const WorkoutStart = ({navigation, route}) => {
       )}
       {!isPausedPage && isModifyMotion && (
         <View>
-          <Modal></Modal>
-
           <View style={{alignSelf: 'flex-start'}}>
             <Text style={styles.motionTitle}>동작</Text>
           </View>
