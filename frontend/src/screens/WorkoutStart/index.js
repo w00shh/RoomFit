@@ -158,6 +158,25 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   useEffect(() => {
+    if (route.params.motionList) {
+      setMotionList(route.params.motionList);
+    }
+    if (route.params.selectedMotionKeys) {
+      for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_id: route.params.selectedMotionKeys[i],
+            motionName: 'first motion',
+            imageUrl: '',
+            set: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
+          },
+        ]);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     let intervalId;
     let intervalId2;
     let intervalId3;
