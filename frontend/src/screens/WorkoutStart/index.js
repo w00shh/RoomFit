@@ -866,6 +866,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     isRoutine: false,
                     isExercising: true,
                     motionList: motionList,
+                    elapsedTime: elapsedTime,
+                    TUT: TUT,
                   });
                 }}></CustomButton_W>
             </View>

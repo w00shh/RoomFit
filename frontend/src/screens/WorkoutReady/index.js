@@ -105,6 +105,11 @@ const WorkoutReady = ({navigation, route}) => {
     navigation.navigate('WorkoutStart', {
       isAddMotion: false,
       motionList: motionList,
+      elapsedTime: 0,
+      TUT: 0,
+      isPaused: false,
+      isPausedPage: false,
+      isModifyMotion: false,
     });
   };
   return (
