@@ -11,7 +11,7 @@ const create_workout = (req, res) => {
     end_time: '',
     tut: '',
     title: '새로운 운동기록',
-    content: '',
+    memo: '',
   });
 
   Workout.create(workout, (err, id) => {
@@ -20,21 +20,21 @@ const create_workout = (req, res) => {
         message: err.message || 'Some error occurred while creating Workout.',
       });
     else {
-      res.json({ workout_id: id });
+      res.json({workout_id: id});
     }
   });
 };
 
 const update_workout = (req, res) => {
   if (!req.body.workout_id)
-    res.status(400).send({ message: 'ID can not be empty' });
+    res.status(400).send({message: 'ID can not be empty'});
 
   const new_workout = {
     workout_id: req.body.workout_id,
     end_time: new Date().toLocaleString(),
     tut: req.body.tut,
     title: req.body.title,
-    content: req.body.content,
+    memo: req.body.memo,
   };
 
   Workout.update(new_workout, (err, data) => {
@@ -47,29 +47,67 @@ const update_workout = (req, res) => {
 };
 
 const recent_workouts = (req, res) => {
-  Workout.recent((result) => {
-    res.json(result);
+  Workout.recent((err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
   });
 };
 
-const get_workouts = (req, res) => {
-  Workout.all((result) => {
-    res.json(result);
+const get_workout = (req, res) => {
+  if (!req.params.workout_id)
+    res.status(400).send({message: 'Workout ID can not be empty'});
+
+  Workout.get(req.params.workout_id, (err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
+  });
+};
+
+const workout_detail = (req, res) => {
+  if (!req.params.workout_id)
+    res.status(400).send({message: 'Workout ID can not be empty'});
+
+  Workout.detail(req.params.workout_id, (err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
   });
 };
 
 const get_specific_date_workouts = (req, res) => {
   const targetDate = req.params.date;
 
-  Workout.calander(targetDate, (result) => {
+  Workout.calander(targetDate, result => {
     res.json(result);
+  });
+};
+
+const delete_workout = (req, res) => {
+  if (!req.params.workout_id)
+    res.status(400).send({message: 'Workout ID can not be empty'});
+
+  Workout.delete(req.params.workout_id, (err, result) => {
+    if (err) console.error();
+    else res.send(result);
+  });
+};
+
+const get_stat = (req, res) => {
+  if (!req.params.period || !req.body.user_id)
+    res.status(400).send({message: 'Content can not be empty'});
+
+  Workout.stat(req.body.user_id, parseInt(req.params.period), (err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
   });
 };
 
 module.exports = {
   create_workout,
-  get_workouts,
-  recent_workouts,
   update_workout,
+  get_workout,
+  recent_workouts,
+  workout_detail,
   get_specific_date_workouts,
+  delete_workout,
+  get_stat,
 };
