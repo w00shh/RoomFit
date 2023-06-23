@@ -221,7 +221,7 @@ export const WorkoutStart = ({navigation, route}) => {
       setIsMotionDone(true);
       setMIndex(m_index + 1);
       setSIndex(0);
-      setWeight(route.params.motionList[m_index].set[s_index].weight);
+      setWeight(route.params.motionList[m_index].set[0].weight);
       setRestTimer(restMotion);
     } else {
       setWorkoutDone(true);
@@ -858,7 +858,12 @@ export const WorkoutStart = ({navigation, route}) => {
           </ScrollView>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <View style={{marginRight: 8}}>
-              <CustomButton_W width={171} content="취소"></CustomButton_W>
+              <CustomButton_W
+                width={171}
+                content="+ 동작 추가"
+                onPress={() => {
+                  //navigation.push('AddMotion', {isRoutine: false});
+                }}></CustomButton_W>
             </View>
             <View style={{marginLeft: 8}}>
               <CustomButton_B

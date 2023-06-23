@@ -8,7 +8,9 @@ import {useEffect, useState} from 'react';
 const WorkoutItem = props => {
   const [set, setSet] = useState([]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    console.log(props.motion);
+  });
   const handleMotionDeletePress = id => {
     props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
   };
@@ -56,6 +58,10 @@ const WorkoutItem = props => {
             isExercising={props.isExercising}
             setIsModalVisible={props.setIsModalVisible}
             motion={props.motion}
+            defaultWeight={value.weight}
+            defaultReps={value.reps}
+            defualtMode={value.mode}
+            defaultIsDone={value.isDone}
             mode={props.selectedMode}></SetItem>
         ))}
 
