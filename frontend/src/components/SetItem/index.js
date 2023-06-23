@@ -74,7 +74,6 @@ const SetItem = props => {
           style={styles.valueText}
           keyboardType="number-pad"
           //placeholder={String(props.defaultWeight)}
-          value={weight}
           defaultValue={String(props.defaultWeight)}
           onChangeText={handleWeightChange}></TextInput>
         <Text style={styles.unitText}>kg</Text>
