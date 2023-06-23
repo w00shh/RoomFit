@@ -6,8 +6,8 @@ const sqlite3 = require("sqlite3").verbose();
 const dbPath = "./database.db";
 
 const GOOGLE_CLIENT_ID =
-  "775969158909-j4717g9in863vpceald0tesd04l1sbkt.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
+  "#######";
+const GOOGLE_CLIENT_SECRET = "#########";
 const GOOGLE_REDIRECT_URI = "http://localhost:3000/login/redirect";
 const GOOGLE_SIGNUP_REDIRECT_URI =
   "http://localhost:3000/google-login/redirect";
