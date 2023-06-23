@@ -195,7 +195,7 @@ const AddMotion = ({navigation, route}) => {
                       motionList: route.params.motionList,
                       selectedMotionKeys: selectedMotionKeys,
                       elapsedTime: route.params.elapsedTime,
-                      TUT: oute.params.TUT,
+                      TUT: route.params.TUT,
                       isPaused: true,
                       isPausedPage: false,
                       isModifyMotion: true,
