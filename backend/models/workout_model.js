@@ -36,10 +36,10 @@ Workout.update = (new_workout, callback) => {
   );
 };
 //Get Past 10 Days Workout
-Workout.recent = callback => {
+Workout.recent = (user_id, callback) => {
   db.all(
-    `SELECT * FROM workout WHERE julianday(date('now', 'localtime')) - julianday(date(start_time)) <= 10`,
-    [],
+    `SELECT * FROM workout WHERE user_id = ? AND julianday(date('now', 'localtime')) - julianday(date(start_time)) <= 10`,
+    [user_id],
     (err, rows) => {
       if (err) console.error(err);
       else callback(null, rows);
@@ -82,13 +82,13 @@ Workout.detail = (workout_id, callback) => {
 };
 
 //Get Workout of speicific date
-Workout.calander = (date, callback) => {
+Workout.calander = (user_id, date, callback) => {
   const startDate = `${date} 00:00:00`;
   const endDate = `${date} 23:59:59`;
 
   db.all(
-    `SELECT * FROM workout WHERE start_time >= ? AND start_time < ?;`,
-    [startDate, endDate],
+    `SELECT * FROM workout WHERE user_id = ? AND start_time >= ? AND start_time < ?;`,
+    [user_id, startDate, endDate],
     (err, rows) => {
       if (err) console.error(err);
       callback(rows);

@@ -47,7 +47,8 @@ const update_workout = (req, res) => {
 };
 
 const recent_workouts = (req, res) => {
-  Workout.recent((err, result) => {
+  if (!req.body) res.status(400).send({message: 'User ID can not be empty'});
+  Workout.recent(req.body.user_id, (err, result) => {
     if (err) console.error(err);
     else res.json(result);
   });
@@ -74,9 +75,11 @@ const workout_detail = (req, res) => {
 };
 
 const get_specific_date_workouts = (req, res) => {
+  if (!req.body || !req.params)
+    res.status(400).send({message: 'Content can not be empty'});
   const targetDate = req.params.date;
 
-  Workout.calander(targetDate, result => {
+  Workout.calander(req.body.user_id, targetDate, result => {
     res.json(result);
   });
 };
