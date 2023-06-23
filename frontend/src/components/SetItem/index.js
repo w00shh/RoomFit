@@ -23,6 +23,7 @@ const SetItem = props => {
         weight: weight,
         reps: reps,
         mode: mode,
+        isDone: false,
       };
       //console.log(updatedMotionList);
     }
@@ -130,7 +131,11 @@ const SetItem = props => {
           onValueChange={value => setMode(mode)}
           primaryColor={'green'}></Dropdown> */}
       </View>
-      {props.isExercising && <View style={styles.keyBox}></View>}
+      {props.isExercising && (
+        <View style={styles.keyBox}>
+          <Text></Text>
+        </View>
+      )}
     </View>
   );
 };
