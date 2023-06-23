@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS workout (
     end_time TEXT,
     tut TEXT,
     title TEXT DEFAULT "새로운 운동기록",
-    content TEXT DEFAULT ""
+    memo TEXT DEFAULT ""
 );
 
 CREATE TABLE IF NOT EXISTS record (
