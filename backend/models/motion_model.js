@@ -11,8 +11,9 @@ const Motion = function (motion) {
   this.count = motion.count;
 };
 
-Motion.load = function (callback) {
-  db.all('SELECT * FROM favorite', (err, rows) => {
+Motion.load = function (user_id ,callback) {
+  const sql = 'SELECT * FROM favorite WHERE user_id = ?'
+  db.all(sql, user_id, (err, rows) => {
     if (err) {
       console.error(err);
     } else {
@@ -29,7 +30,7 @@ Motion.load = function (callback) {
           });
         }
       });
-      const sqlNotFav = `SELECT * FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
+      const sqlNotFav = `SELECT * FROM motion motion_id NOT IN (${placeholders}) ORDER BY count desc`;
       db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
         if (err) {
           console.error(err);
@@ -69,8 +70,9 @@ Motion.add_motion = function (motion_ids, callback) {
   });
 };
 
-Motion.search_motion = function (motion_name, callback) {
-  db.all('SELECT * FROM favorite', (err, rows) => {
+Motion.search_motion = function (user_id ,motion_name, callback) {
+  const sql = 'SELECT * FROM favorite WHERE user_id = ?';
+  db.all(sql, user_id,(err, rows) => {
     if (err) {
         console.error(err);
     } else {

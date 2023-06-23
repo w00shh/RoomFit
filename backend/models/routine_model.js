@@ -81,7 +81,6 @@ Routine.detail = function (routine_id, callback) {
     if (err) {
       console.error(err.message);
       callback(err, null);
-      //   res.status(500).json({error: 'Internal Server Error'});
     } else {
       const datas = {
         routine_id: rows[0].routine_id,

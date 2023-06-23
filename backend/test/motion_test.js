@@ -1,13 +1,19 @@
 // 모션 불러오기 테스트
 
 fetch('http://127.0.0.1:4000/motion',{
-    method: "GET",
+    method: "POST",
+    headers:{
+        'Content-type' : 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: 1
+    })
 }).then(res=>res.json()).then(res=>{
     console.log(res);
 });
 
 // 모션 추가하기 테스트
-fetch('http://127.0.0.1:4000/motion',{
+fetch('http://127.0.0.1:4000/motion/add',{
     method: "POST",
     headers:{
     'Content-type' : 'application/json'
@@ -36,6 +42,13 @@ fetch('http://127.0.0.1:4000/motion/favDelete/1',{
 });
 
 // 동작 검색
-fetch('http://127.0.0.1:4000/motion/search/벤칲',{
-    method: "GET",
+fetch('http://127.0.0.1:4000/motion/search',{
+    method: "POST",
+    headers:{
+        'Content-type' : 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: 1,
+        motion_name: "벤칲"
+    })
 });
