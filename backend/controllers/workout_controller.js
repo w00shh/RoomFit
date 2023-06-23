@@ -11,7 +11,7 @@ const create_workout = (req, res) => {
     end_time: '',
     tut: '',
     title: '새로운 운동기록',
-    content: '',
+    memo: '',
   });
 
   Workout.create(workout, (err, id) => {
@@ -34,7 +34,7 @@ const update_workout = (req, res) => {
     end_time: new Date().toLocaleString(),
     tut: req.body.tut,
     title: req.body.title,
-    content: req.body.content,
+    memo: req.body.memo,
   };
 
   Workout.update(new_workout, (err, data) => {
@@ -91,6 +91,16 @@ const delete_workout = (req, res) => {
   });
 };
 
+const get_stat = (req, res) => {
+  if (!req.params.period || !req.body.user_id)
+    res.status(400).send({message: 'Content can not be empty'});
+
+  Workout.stat(req.body.user_id, parseInt(req.params.period), (err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
+  });
+};
+
 module.exports = {
   create_workout,
   update_workout,
@@ -99,4 +109,5 @@ module.exports = {
   workout_detail,
   get_specific_date_workouts,
   delete_workout,
+  get_stat,
 };
