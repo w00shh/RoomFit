@@ -3,15 +3,30 @@ import styles from './styles';
 import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Dropdown from 'react-native-input-select';
 import Icon from 'react-native-vector-icons/Feather';
+import Check from 'react-native-vector-icons/Entypo';
 
 const SetItem = props => {
   const modes = ['기본', '고무밴드', '모드1', '모드2', '모드3'];
-  const [weight, setWeight] = useState(parseInt('0'));
-  const [reps, setReps] = useState(parseInt('0'));
+  const [weight, setWeight] = useState(props.defaultWeight);
+  const [reps, setReps] = useState(props.defaultReps);
   const [mode, setMode] = useState('기본');
 
   const handleModeSelectPress = () => {
     props.setIsModalVisible(true);
+  };
+
+  const handleWeightChange = text => {
+    const parsedWeight = parseInt(text);
+    if (!isNaN(parsedWeight)) {
+      setWeight(parsedWeight);
+    }
+  };
+
+  const handleRepsChange = text => {
+    const parsedReps = parseInt(text);
+    if (!isNaN(parsedReps)) {
+      setReps(parsedReps);
+    }
   };
 
   useEffect(() => {
@@ -57,19 +72,20 @@ const SetItem = props => {
       <View style={styles.itemBox}>
         <TextInput
           style={styles.valueText}
-          inutMode="numeric"
           keyboardType="number-pad"
-          placeholder="0"
-          onChangeText={text => setWeight(parseInt(text))}></TextInput>
+          //placeholder={String(props.defaultWeight)}
+          value={weight}
+          defaultValue={String(props.defaultWeight)}
+          onChangeText={handleWeightChange}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
       <View style={styles.itemBox}>
         <TextInput
           style={styles.valueText}
-          inputMode="numeric"
-          keyboardType="numeric"
-          placeholder="0"
-          onChangeText={text => setReps(parseInt(text))}></TextInput>
+          keyboardType="number-pad"
+          //placeholder={String(props.defaultReps)}
+          defaultValue={String(props.defaultReps)}
+          onChangeText={handleRepsChange}></TextInput>
         <Text style={styles.unitText}>회</Text>
       </View>
       <View style={styles.itemBox}>
@@ -133,7 +149,11 @@ const SetItem = props => {
       </View>
       {props.isExercising && (
         <View style={styles.keyBox}>
-          <Text></Text>
+          {props.defaultIsDone ? (
+            <Check name="check" size={16} color="#5252fa"></Check>
+          ) : (
+            <Check name="check" size={16} color="#dfdfdf"></Check>
+          )}
         </View>
       )}
     </View>
