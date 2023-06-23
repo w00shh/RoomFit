@@ -104,6 +104,7 @@ const AddMotion = ({navigation, route}) => {
       <View></View>
 
       <Text style={styles.recommendedText}>추천 운동</Text>
+      {selectedMotionKeys && <Text>{selectedMotionKeys[0]}</Text>}
 
       <FlatList
         data={motionList}
