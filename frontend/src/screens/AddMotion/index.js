@@ -178,7 +178,7 @@ const AddMotion = ({navigation, route}) => {
         onPress={
           route.params.isRoutine
             ? () => {
-                selectedMotionKeys = Array.from(selected.keys());
+                selectedMotionKeys = Array.from(displaySelected.keys());
                 navigation.push('AddRoutine', {
                   isMotionAdded: true,
                   routineName: route.params.routineName,
@@ -187,7 +187,7 @@ const AddMotion = ({navigation, route}) => {
                 });
               }
             : () => {
-                selectedMotionKeys = Array.from(selected.keys());
+                selectedMotionKeys = Array.from(displaySelected.keys());
                 //console.log(selectedMotionKeys);
                 route.params.isExercising
                   ? navigation.push('WorkoutStart', {
