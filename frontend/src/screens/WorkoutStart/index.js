@@ -837,6 +837,8 @@ export const WorkoutStart = ({navigation, route}) => {
       )}
       {!isPausedPage && isModifyMotion && (
         <View>
+          <Modal></Modal>
+
           <View style={{alignSelf: 'flex-start'}}>
             <Text style={styles.motionTitle}>동작</Text>
           </View>
