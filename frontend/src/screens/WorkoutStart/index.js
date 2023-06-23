@@ -237,7 +237,7 @@ export const WorkoutStart = ({navigation, route}) => {
       setIsMotionDone(true);
       setMIndex(m_index + 1);
       setSIndex(0);
-      setWeight(motionList[m_index].set[0].weight);
+      setWeight(motionList[m_index + 1].set[0].weight);
       setRestTimer(restMotion);
     } else {
       setWorkoutDone(true);
@@ -396,7 +396,9 @@ export const WorkoutStart = ({navigation, route}) => {
                   alignItems: 'flex-end',
                   marginHorizontal: 16,
                 }}>
-                <Text style={styles.statusText}>{weight}</Text>
+                <Text style={styles.statusText}>
+                  {motionList[m_index].set[s_index].weight}
+                </Text>
                 <Text style={styles.targetText}> kg</Text>
               </View>
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
