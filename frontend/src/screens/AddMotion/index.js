@@ -51,7 +51,7 @@ const AddMotion = ({navigation, route}) => {
           motion_id: motion.motion_id,
           motionName: motion.motionName,
           imageUrl: motion.imageUrl,
-          isFavortie: motion.isFavortie,
+          isFavorite: motion.isFavorite,
         });
       setSelected(newSelected);
     },
