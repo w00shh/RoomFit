@@ -10,9 +10,10 @@ const SetItem = props => {
   const [weight, setWeight] = useState(props.defaultWeight);
   const [reps, setReps] = useState(props.defaultReps);
   const [mode, setMode] = useState('기본');
+  const [isDone, setIsDone] = useState(props.defaultIsDone);
 
   const handleModeSelectPress = () => {
-    props.setIsModalVisible(true);
+    //props.setIsModalVisible(true);
   };
 
   const handleWeightChange = text => {
@@ -38,7 +39,7 @@ const SetItem = props => {
         weight: weight,
         reps: reps,
         mode: mode,
-        isDone: false,
+        isDone: isDone,
       };
     }
   }, [weight, reps, mode]);

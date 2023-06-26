@@ -8,7 +8,10 @@ import {useEffect, useState} from 'react';
 const WorkoutItem = props => {
   const [set, setSet] = useState([]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    console.log('ss');
+    console.log(props.motion);
+  }, []);
   const handleMotionDeletePress = id => {
     props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
   };
