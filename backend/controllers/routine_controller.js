@@ -35,8 +35,7 @@ const routine_detail = (req, res) => {
   Routine.detail(req.params.routine_id, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || 'Some error occurred while loading routine details',
+        message: err.message || 'Some error occurred while loading routine details',
       });
     res.json(data);
   });
