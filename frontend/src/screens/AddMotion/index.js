@@ -74,7 +74,16 @@ const AddMotion = ({navigation, route}) => {
     await serverAxios
       .post('/motion')
       .then(res => {
-        setMotionList(res.data);
+        res.data.map((value, key) => {
+          setMotionList(currentMotionList => [
+            ...currentMotionList,
+            {
+              motion_id: value.motion_id,
+              motionName: value.motion_name,
+              imageUrl: value.imageUrl,
+            },
+          ]);
+        });
       })
       .catch(e => {
         console.log(e);
@@ -90,39 +99,8 @@ const AddMotion = ({navigation, route}) => {
       ),
     });
 
-    const body = {
-      user_id: 'user1',
-    };
-
     getMotionList();
 
-    setMotionList([
-      {
-        motion_id: 1,
-        motionName: 'Low cable crossover',
-        imageUrl: '',
-      },
-      {
-        motion_id: 2,
-        motionName: 'Sit up sss ss',
-        imageUrl: '',
-      },
-      {
-        motion_id: 3,
-        motionName: 'Side Bend',
-        imageUrl: '',
-      },
-      {
-        motion_id: 4,
-        motionName: '45 degrees Back Extension',
-        imageUrl: '',
-      },
-      {
-        motion_id: 5,
-        motionName: 'Air bike',
-        imageUrl: '',
-      },
-    ]);
     motionList.forEach(motion => {
       setMotionListMap(motionListMap.set(motion.motion_id, motion));
     });
