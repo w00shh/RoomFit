@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import {Text} from 'react-native';
@@ -7,21 +7,22 @@ import {serverAxios} from '../../../utils/commonAxios';
 const AddRoutine = ({navigation}) => {
   const [routineId, setRoutineId] = useState('');
 
-  const handleMakeRoutinePress = async () => {
+  useEffect(() => {
     navigation.navigate('AddRoutine', {
       isMotionAdded: false,
       routineName: '새로운 루틴',
       routine_id: routineId,
     });
+  }, [routineId]);
 
+  const handleMakeRoutinePress = () => {
     const body = {
       user_id: 'user1',
     };
-    await serverAxios
+    serverAxios
       .post('/routine', body)
       .then(res => {
-        console.log(res.data.routine_id);
-        setRoutineId(res.data);
+        setRoutineId(prevState => res.data.routine_id);
       })
       .catch(e => {
         console.log(e);

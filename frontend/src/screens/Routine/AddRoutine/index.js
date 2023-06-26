@@ -12,6 +12,7 @@ import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import WorkoutItem from '../../../components/WorkoutItem';
+import {serverAxios} from '../../../utils/commonAxios';
 
 const AddRoutine = ({navigation, route}) => {
   const [motionList, setMotionList] = useState([]);
@@ -23,6 +24,7 @@ const AddRoutine = ({navigation, route}) => {
   const [isSaveDisabled, setIsSaveDisabled] = useState(
     motionList.length === 0 ? true : false,
   );
+  const [routine_id, setRoutine_id] = useState(route.params.routine_id);
 
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
@@ -66,22 +68,14 @@ const AddRoutine = ({navigation, route}) => {
     if (route.params.isMotionAdded) {
       setMotionList(route.params.motionList);
       setIsSaveDisabled(false);
-      for (let i = 0; i < route.params.displaySelected.length; i++) {
+      for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
-            isFavorite: route.params.displaySelected[i].isFavorite,
-            motion_id: route.params.displaySelected[i].motion_id,
-            motionName: route.params.displaySelected[i].motionName,
-            imageUrl: route.params.displaySelected[i].imageUrl,
-            set: [
-              {
-                weight: 0,
-                reps: 0,
-                mode: '기본',
-                isDone: false,
-              },
-            ],
+            motion_id: route.params.selectedMotionKeys[i],
+            motionName: 'first motion',
+            imageUrl: '',
+            set: [{weight: 0, reps: 0, mode: '기본'}],
           },
         ]);
       }
@@ -103,9 +97,20 @@ const AddRoutine = ({navigation, route}) => {
       motionList: motionList,
     });
   };
-  const handleConfirmPress = () => {
+  const handleConfirmPress = async () => {
     setIsRoutineName(!isRoutineName);
     setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
+
+    const body = {
+      routine_id: 3,
+      routine_name: routineName,
+    };
+    await serverAxios
+      .put('/routine/nameChange', body)
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   return (
