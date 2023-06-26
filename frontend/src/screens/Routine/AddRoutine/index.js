@@ -73,7 +73,6 @@ const AddRoutine = ({navigation, route}) => {
           ...currentMotionList,
           {
             isFavorite: route.params.displaySelected[i].isFavorite,
-            isFavorite: route.params.displaySelected[i].isFavorite,
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,
             imageUrl: route.params.displaySelected[i].imageUrl,
