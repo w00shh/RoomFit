@@ -1,10 +1,7 @@
 const express = require('express');
-const cors = require('cors');
 const app = express();
 app.use(express.json());
 
-
-app.use(cors());
 //import routers
 const workout = require('./routes/workout_routes');
 const record = require('./routes/record_routes');

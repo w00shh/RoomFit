@@ -32,9 +32,9 @@ const AddRoutine = ({navigation, route}) => {
   });
 
   const handleSaveRoutine = async () => {
-    console.log(motionList[0].sets);
+    console.log('routine id: ' + routine_id);
     const body = {
-      routine_id: routine_id,
+      routine_id: parseInt(routine_id),
       motion_list: motionList,
     };
     await serverAxios
@@ -196,7 +196,9 @@ const AddRoutine = ({navigation, route}) => {
       <TouchableOpacity
         onPress={handleAddWorkoutMotionPress}
         style={styles.addMotionContainer}>
-        <Text style={styles.addMotionText}>+ 동작 추가</Text>
+        <Text style={styles.addMotionText}>
+          + 동작 추가{String(routine_id)}
+        </Text>
       </TouchableOpacity>
     </View>
   );

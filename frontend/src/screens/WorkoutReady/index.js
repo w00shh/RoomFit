@@ -59,7 +59,7 @@ const WorkoutReady = ({navigation, route}) => {
           motion_id: route.params.displaySelected[i].motion_id,
           motionName: route.params.displaySelected[i].motionName,
           imageUrl: route.params.displaySelected[i].imageUrl,
-          set: [
+          sets: [
             {
               weight: 0,
               reps: 0,

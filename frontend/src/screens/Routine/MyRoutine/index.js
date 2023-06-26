@@ -24,7 +24,7 @@ const AddRoutine = ({navigation}) => {
     await serverAxios
       .post('/routine', body)
       .then(res => {
-        setRoutineId(prevState => res.data.routine_id);
+        setRoutineId(res.data.routine_id);
       })
       .catch(e => {
         console.log(e);
