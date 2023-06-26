@@ -62,9 +62,9 @@ export const WorkoutStart = ({navigation, route}) => {
   const toggleSwitch2 = () => setIsLock(previousState => !previousState);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
-  const [weight, setWeight] = useState(motionList[0].set[0].weight);
-  const [m_index, setMIndex] = useState(0);
-  const [s_index, setSIndex] = useState(0);
+  const [weight, setWeight] = useState(0);
+  const [m_index, setMIndex] = useState(route.params.m_index);
+  const [s_index, setSIndex] = useState(route.params.s_index);
   const [isMotionDone, setIsMotionDone] = useState(false);
 
   //모든 운동 끝나면 -> true
@@ -226,10 +226,10 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const SetComplete = () => {
     setIsMotionDone(false);
+    setWeight(0);
     if (s_index + 1 < motionList[m_index].set.length) {
       setIsResting(true);
       setSIndex(s_index + 1);
-      setWeight(motionList[m_index].set[s_index + 1].weight);
     } else if (
       s_index + 1 === motionList[m_index].set.length &&
       motionList[m_index + 1]
@@ -238,7 +238,6 @@ export const WorkoutStart = ({navigation, route}) => {
       setIsMotionDone(true);
       setMIndex(m_index + 1);
       setSIndex(0);
-      setWeight(motionList[m_index + 1].set[0].weight);
       setRestTimer(restMotion);
     } else {
       setWorkoutDone(true);
@@ -398,7 +397,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   marginHorizontal: 16,
                 }}>
                 <Text style={styles.statusText}>
-                  {motionList[m_index].set[s_index].weight}
+                  {motionList[m_index].set[s_index].weight + weight}
                 </Text>
                 <Text style={styles.targetText}> kg</Text>
               </View>
@@ -414,14 +413,16 @@ export const WorkoutStart = ({navigation, route}) => {
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={() => {
-                if (weight > 0) setWeight(weight - 1);
+                if (motionList[m_index].set[s_index].weight + weight > 0)
+                  setWeight(weight - 1);
               }}
               style={styles.CButton}>
               <Minus name="minus" size={16} color="#808080"></Minus>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                if (weight < 200) setWeight(weight + 1);
+                if (motionList[m_index].set[s_index].weight + weight < 200)
+                  setWeight(weight + 1);
               }}
               style={styles.CButton}>
               <Plus name="plus" size={16} color="#808080"></Plus>
@@ -887,6 +888,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     motionList: motionList,
                     elapsedTime: elapsedTime,
                     TUT: TUT,
+                    m_index: m_index,
+                    s_index: s_index,
                   });
                 }}></CustomButton_W>
             </View>

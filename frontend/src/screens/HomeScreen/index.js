@@ -18,8 +18,12 @@ import CustomButton_B from '../../components/CustomButton_B';
 import RecentExercise from '../../components/RecentExercise';
 import RoutineBox from '../../components/Routine';
 import styles from './styles';
+import {useSelector, useDispatch} from 'react-redux';
+import {setEmail, setPassword} from '../../redux/actions';
 
 const HomeScreen = ({navigation}) => {
+  const {email, password} = useSelector(state => state.userReducer);
+  const dispatch = useDispatch();
   const [isConnected, setIsConnected] = useState(true);
   const [existRoutine, setExistRoutine] = useState(true);
   const [isExercised, setIsExercised] = useState(true);
@@ -99,7 +103,7 @@ const HomeScreen = ({navigation}) => {
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={styles.subtitleText}>내 루틴</Text>
+          <Text style={styles.subtitleText}>내 루틴{}</Text>
           <TouchableOpacity
             style={styles.allRoutine}
             onPress={() => navigation.navigate('MyRoutine')}>

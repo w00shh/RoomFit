@@ -4,10 +4,12 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
 import SetItem from '../../components/SetItem';
 import CustomButton_B from '../../components/CustomButton_B';
+import {useSelector, useDispatch} from 'react-redux';
+import {setEmail, setPassword} from '../../redux/actions';
 
 const Login = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {email, password} = useSelector(state => state.userReducer);
+  const dispatch = useDispatch();
   const [loginDisabled, setLoginDisabled] = useState(true);
 
   const handleEmailChange = e => {};
@@ -26,7 +28,21 @@ const Login = ({navigation}) => {
     handleLoginDisabled();
   }, [email, password]);
 
-  const handleLoginPress = () => {};
+  const handleLoginPress = () => {
+    try {
+      dispatch(setEmail(email));
+      dispatch(setPassword(password));
+      // var user = {
+      //     Name: name,
+      //     Age: age
+      // }
+      // await AsyncStorage.setItem('UserData', JSON.stringify(user));
+      console.log(email);
+      navigation.navigate('HomeScreen');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleselectionIdPress = () => {};
 
@@ -44,13 +60,13 @@ const Login = ({navigation}) => {
       <View>
         <Input
           label="이메일"
-          onChangeText={text => setEmail(text)}
+          onChangeText={text => dispatch(setEmail(text))}
           placeholder="이메일 입력"
           inputMode="email"
           keyboardType="email-address"></Input>
         <Input
           label="비밀번호"
-          onChangeText={text => setPassword(text)}
+          onChangeText={text => dispatch(setPassword(text))}
           placeholder="비밀번호 입력"
           inputMode="text"
           secureTextEntry={true}></Input>

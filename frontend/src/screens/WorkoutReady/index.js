@@ -107,6 +107,8 @@ const WorkoutReady = ({navigation, route}) => {
       motionList: motionList,
       elapsedTime: 0,
       TUT: 0,
+      m_index: 0,
+      s_index: 0,
       isPaused: false,
       isPausedPage: false,
       isModifyMotion: false,
