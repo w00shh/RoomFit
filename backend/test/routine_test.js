@@ -1,4 +1,4 @@
-// 루틴 생성
+// //루틴 생성
 // fetch('http://127.0.0.1:4000/routine',{
 //     method : "POST",
 //     headers:{
@@ -37,30 +37,32 @@
 // })
 
 // // 루틴 간략히 보기(제한 O)
-// fetch('http://127.0.0.1:4000/routine/load/true',{
+// fetch('http://127.0.0.1:4000/routine/load',{
 //     method:"POST",
 //     headers:{
 //         'Content-type' : 'application/json'
 //     },
-//     body: JSON.stringify({
-//         user_id: "user1"
-//     })
+//    body: JSON.stringify({
+//        user_id: "user1",
+//        isHome: true,     
+//    })
 // }).then(res=>res.json()).then(res=>{
 //     console.log(res);
 // });
 
 // 전체 루틴 간략히 보기
-// fetch('http://127.0.0.1:4000/routine/load/false',{
-//     method:"POST",
-//     headers:{
-//         'Content-type' : 'application/json'
-//     },
-//     body: JSON.stringify({
-//         user_id: 1
-//     })
-// }).then(res=>res.json()).then(res=>{
-//     console.log(res);
-// });
+fetch('http://127.0.0.1:4000/routine/load',{
+    method:"POST",
+    headers:{
+        'Content-type' : 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: "user1",
+        isHome: false,
+    })
+}).then(res=>res.json()).then(res=>{
+    console.log(res);
+});
 
 // 루틴 상세 보기
 // fetch('http://127.0.0.1:4000/routine/detail/1',{

@@ -1,19 +1,17 @@
 const axios = require('axios');
-
 // 모션 불러오기 테스트
 
-// fetch('http://127.0.0.1:4000/motion',{
-//     method: "POST",
-//     headers:{
-//         'Content-type' : 'application/json'
-//     },
-//     body: JSON.stringify({
-//         user_id: 1
-//     })
-// }).then(res=>res.json()).then(res=>{
-//     console.log(".");
-//     console.log(res);
-// });
+fetch('http://127.0.0.1:4000/motion',{
+    method: "POST",
+    headers:{
+        'Content-type' : 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: 1
+    })
+}).then(res=>res.json()).then(res=>{
+    console.log(res);
+});
 
 // // 모션 추가하기 테스트
 // fetch('http://127.0.0.1:4000/motion/add',{

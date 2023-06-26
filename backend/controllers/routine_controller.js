@@ -14,10 +14,10 @@ const create_routine = (req, res) => {
 
 const load_routine = (req, res) => {
   if (!req.body) res.status(400).send({message: 'Content can not be empty'});
-
+  
   Routine.load(
     req.body.user_id,
-    req.params.limit == 'true' ? true : false,
+    req.body.isHome,
     (err, data) => {
       if (err)
         res.status(500).send({
