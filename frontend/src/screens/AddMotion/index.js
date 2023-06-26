@@ -91,7 +91,7 @@ const AddMotion = ({navigation, route}) => {
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
-              isFavorite: false,
+              isFavorite: value.isFav,
               motion_id: value.motion_id,
               motionName: value.motion_name,
               imageUrl: value.imageUrl,
