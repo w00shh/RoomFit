@@ -39,6 +39,10 @@ const AddMotion = ({navigation, route}) => {
     return textWidth;
   };
 
+  const handleMotionSearchChange = text => {
+    setMotion(text);
+  };
+
   const onSelect = useCallback(
     motion => {
       let length = 0;
@@ -135,7 +139,7 @@ const AddMotion = ({navigation, route}) => {
         <Icon name="search" size={16} color="#808080"></Icon>
         <TextInput
           style={{marginLeft: 12}}
-          onChangeText={text => setMotion(text)}
+          onChangeText={handleMotionSearchChange}
           placeholder="동작을 검색해보세요"
           inputMode="text"></TextInput>
       </View>
