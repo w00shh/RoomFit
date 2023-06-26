@@ -46,7 +46,11 @@ const AddMotion = ({navigation, route}) => {
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
       if (displaySelected.get(motion.motion_id))
         displaySelected.delete(motion.motion_id);
-      else displaySelected.set(motion.motion_id, motion.motionName);
+      else
+        displaySelected.set(motion.motion_id, {
+          motionName: motion.motionName,
+          imageUrl: motion.imageUrl,
+        });
       setSelected(newSelected);
     },
     [selected],
@@ -145,7 +149,10 @@ const AddMotion = ({navigation, route}) => {
             <View
               key={key}
               style={{
-                width: getTextWidth(value) > 84 ? getTextWidth(value) : 84,
+                width:
+                  getTextWidth(value.motionName) > 84
+                    ? getTextWidth(value.motionName)
+                    : 84,
                 height: 32,
                 backgroundColor: '#242424',
                 borderRadius: 8,
@@ -155,7 +162,7 @@ const AddMotion = ({navigation, route}) => {
                 marginLeft: 8,
                 marginTop: 7,
               }}>
-              <Text style={styles.selectMotionText}>{value}</Text>
+              <Text style={styles.selectMotionText}>{value.motionName}</Text>
               <XX name="x" color={'white'} size={15}></XX>
             </View>
           ))}
