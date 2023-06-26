@@ -34,7 +34,7 @@ const AddMotion = ({navigation, route}) => {
     const defaultFontSize = 13; // 기본 폰트 크기를 설정합니다.
     const averageCharWidth = 1; // 평균 글자 너비를 설정합니다.
 
-    let textWidth = charCount * 11;
+    let textWidth = charCount * 17;
     if (textWidth > 70 && textWidth <= 110) textWidth += 20;
     return textWidth;
   };

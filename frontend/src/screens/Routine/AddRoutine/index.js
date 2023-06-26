@@ -154,11 +154,11 @@ const AddRoutine = ({navigation, route}) => {
         </>
       )}
 
-      <View style={styles.addMotionContainer}>
-        <TouchableOpacity onPress={handleAddWorkoutMotionPress}>
-          <Text style={styles.addMotionText}>+ 동작 추가</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        onPress={handleAddWorkoutMotionPress}
+        style={styles.addMotionContainer}>
+        <Text style={styles.addMotionText}>+ 동작 추가</Text>
+      </TouchableOpacity>
     </View>
   );
 };

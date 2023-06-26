@@ -131,7 +131,14 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.noConnectionText2}>
               루틴을 정해서 나만의 운동 패턴을 만들어보세요!
             </Text>
-            <TouchableOpacity style={styles.makeRoutineButton}>
+            <TouchableOpacity
+              style={styles.makeRoutineButton}
+              onPress={() => {
+                navigation.navigate('AddRoutine', {
+                  isMotionAdded: false,
+                  routineName: '새로운 루틴',
+                });
+              }}>
               <Text>루틴 만들기</Text>
             </TouchableOpacity>
           </View>
