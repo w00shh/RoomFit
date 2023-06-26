@@ -102,7 +102,7 @@ const AddRoutine = ({navigation, route}) => {
     setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
 
     const body = {
-      routine_id: 3,
+      routine_id: routine_id,
       routine_name: routineName,
     };
     await serverAxios
