@@ -172,14 +172,14 @@ export const WorkoutStart = ({navigation, route}) => {
     if (route.params.motionList) {
       setMotionList(route.params.motionList);
     }
-    if (route.params.selectedMotionKeys) {
-      for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
+    if (route.params.displaySelected) {
+      for (let i = 0; i < route.params.displaySelected.length; i++) {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
-            motion_id: route.params.selectedMotionKeys[i],
-            motionName: 'first motion',
-            imageUrl: '',
+            motion_id: route.params.displaySelected[i].motion_id,
+            motionName: route.params.displaySelected[i].motionName,
+            imageUrl: route.params.displaySelected[i].imageUrl,
             set: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
           },
         ]);
@@ -394,7 +394,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
           <View style={{alignItems: 'center'}}>
             <Text style={styles.motionName}>
-              {motionList[m_index].motion_id}
+              {motionList[m_index].motionName}
             </Text>
             <View style={{flexDirection: 'row'}}>
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>

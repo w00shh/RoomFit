@@ -9,7 +9,7 @@ const WorkoutTitle = props => {
       <View style={styles.descriptionContainer}>
         <View style={styles.imageContainer}></View>
         <View style={styles.nameContainer}>
-          <Text style={styles.koreanText}>{props.motion.motion_id}</Text>
+          <Text style={styles.koreanText}>{props.motion.motionName}</Text>
           <Text style={styles.englishText}>가동 범위: 50cm~90cm</Text>
         </View>
       </View>

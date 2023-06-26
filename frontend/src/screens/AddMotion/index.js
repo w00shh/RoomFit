@@ -48,8 +48,10 @@ const AddMotion = ({navigation, route}) => {
         displaySelected.delete(motion.motion_id);
       else
         displaySelected.set(motion.motion_id, {
+          motion_id: motion.motion_id,
           motionName: motion.motionName,
           imageUrl: motion.imageUrl,
+          isFavortie: motion.isFavortie,
         });
       setSelected(newSelected);
     },
@@ -69,7 +71,11 @@ const AddMotion = ({navigation, route}) => {
   function Item({motion, selected, onSelect}) {
     return (
       <TouchableOpacity onPress={() => onSelect(motion)}>
-        <MotionItem motion={motion} selected={selected}></MotionItem>
+        <MotionItem
+          motion={motion}
+          selected={selected}
+          motionList={motionList}
+          setMotionList={setMotionList}></MotionItem>
       </TouchableOpacity>
     );
   }
@@ -85,6 +91,7 @@ const AddMotion = ({navigation, route}) => {
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
+              isFavorite: false,
               motion_id: value.motion_id,
               motionName: value.motion_name,
               imageUrl: value.imageUrl,
@@ -191,6 +198,7 @@ const AddMotion = ({navigation, route}) => {
                   routineName: route.params.routineName,
                   selectedMotionKeys: selectedMotionKeys,
                   motionList: route.params.motionList,
+                  displaySelected: Array.from(displaySelected.values()),
                 });
               }
             : () => {
@@ -201,6 +209,7 @@ const AddMotion = ({navigation, route}) => {
                       isAddMotion: true,
                       motionList: route.params.motionList,
                       selectedMotionKeys: selectedMotionKeys,
+                      displaySelected: Array.from(displaySelected.values()),
                       elapsedTime: route.params.elapsedTime,
                       TUT: route.params.TUT,
                       m_index: route.params.m_index,
@@ -212,6 +221,7 @@ const AddMotion = ({navigation, route}) => {
                   : navigation.push('WorkoutReady', {
                       selectedMotionKeys: selectedMotionKeys,
                       motionList: route.params.motionList,
+                      displaySelected: Array.from(displaySelected.values()),
                     });
               }
         }></CustomButton_B>

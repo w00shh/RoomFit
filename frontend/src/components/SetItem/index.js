@@ -7,10 +7,11 @@ import Check from 'react-native-vector-icons/Entypo';
 
 const SetItem = props => {
   const modes = ['기본', '고무밴드', '모드1', '모드2', '모드3'];
-  const [weight, setWeight] = useState(props.defaultWeight);
-  const [reps, setReps] = useState(props.defaultReps);
+
+  const [weight, setWeight] = useState(props.weight);
+  const [reps, setReps] = useState(props.reps);
   const [mode, setMode] = useState('기본');
-  const [isDone, setIsDone] = useState(props.defaultIsDone);
+  const [isDone, setIsDone] = useState(props.isDone);
 
   const handleModeSelectPress = () => {
     //props.setIsModalVisible(true);
@@ -73,10 +74,8 @@ const SetItem = props => {
         <TextInput
           style={styles.valueText}
           keyboardType="number-pad"
-          placeholder={String(props.defaultWeight)}
-          defaultValue={
-            props.defaultWeight !== 0 ? String(props.defaultWeight) : null
-          }
+          placeholder={String(props.weight)}
+          defaultValue={props.weight !== 0 ? String(props.weight) : null}
           onChangeText={handleWeightChange}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
@@ -84,10 +83,8 @@ const SetItem = props => {
         <TextInput
           style={styles.valueText}
           keyboardType="number-pad"
-          placeholder={String(props.defaultReps)}
-          defaultValue={
-            props.defaultReps !== 0 ? String(props.defaultReps) : null
-          }
+          placeholder={String(props.reps)}
+          defaultValue={props.reps !== 0 ? String(props.reps) : null}
           onChangeText={handleRepsChange}></TextInput>
         <Text style={styles.unitText}>회</Text>
       </View>
@@ -152,7 +149,7 @@ const SetItem = props => {
       </View>
       {props.isExercising && (
         <View style={styles.keyBox}>
-          {props.defaultIsDone ? (
+          {props.isDone ? (
             <Check name="check" size={16} color="#5252fa"></Check>
           ) : (
             <Check name="check" size={16} color="#dfdfdf"></Check>

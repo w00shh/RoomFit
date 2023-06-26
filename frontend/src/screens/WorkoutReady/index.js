@@ -20,6 +20,10 @@ const WorkoutReady = ({navigation, route}) => {
     modeDescription: '설명',
   });
 
+  useEffect(() => {
+    //console.log(route.params.displaySelected);
+  }, []);
+
   const modeList = [
     {
       modeName: '기본',
@@ -47,14 +51,21 @@ const WorkoutReady = ({navigation, route}) => {
     if (route.params.motionList) {
       setMotionList(route.params.motionList);
     }
-    for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
+    for (let i = 0; i < route.params.displaySelected.length; i++) {
       setMotionList(currentMotionList => [
         ...currentMotionList,
         {
-          motion_id: route.params.selectedMotionKeys[i],
-          motionName: 'first motion',
-          imageUrl: '',
-          set: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
+          motion_id: route.params.displaySelected[i].motion_id,
+          motionName: route.params.displaySelected[i].motionName,
+          imageUrl: route.params.displaySelected[i].imageUrl,
+          set: [
+            {
+              weight: 0,
+              reps: 0,
+              mode: '기본',
+              isDone: false,
+            },
+          ],
         },
       ]);
     }
@@ -86,7 +97,7 @@ const WorkoutReady = ({navigation, route}) => {
 
   const handleModeItemPress = mode => {
     setSelectedMode(mode);
-    console.log(selectedMode.modeName);
+    //console.log(selectedMode.modeName);
   };
 
   const handleCancelPress = () => {
