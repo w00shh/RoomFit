@@ -14,7 +14,7 @@ const MotionItem = props => {
     <View style={styles.motionContainer}>
       {props.motion.isFavorite ? (
         <TouchableWithoutFeedback
-          onPress={() => {
+          onPress={async () => {
             updatedMotionList = [...props.motionList];
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
@@ -30,8 +30,24 @@ const MotionItem = props => {
               ].isFavorite
             ) {
               /* 즐겨찾기 추가 API 호출 */
+              await serverAxios
+                .post('/motion/favInsert', body)
+                .then(res => {
+                  console.log(res.data);
+                })
+                .catch(e => {
+                  console.log(e);
+                });
             } else {
               /* 즐겨찾기 삭제 API 호출 */
+              await serverAxios
+                .post('/motion/favDelete', body)
+                .then(res => {
+                  console.log(res.data);
+                })
+                .catch(e => {
+                  console.log(e);
+                });
             }
             props.setMotionList(updatedMotionList);
           }}>
@@ -39,11 +55,41 @@ const MotionItem = props => {
         </TouchableWithoutFeedback>
       ) : (
         <TouchableWithoutFeedback
-          onPress={() => {
+          onPress={async () => {
             updatedMotionList = [...props.motionList];
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
             ].isFavorite = !props.motion.isFavorite;
+            console.log(props.motion.motion_id);
+            const body = {
+              user_id: 'user1',
+              motion_id: props.motion.motion_id,
+            };
+            if (
+              updatedMotionList[
+                updatedMotionList.findIndex(item => item === props.motion)
+              ].isFavorite
+            ) {
+              /* 즐겨찾기 추가 API 호출 */
+              await serverAxios
+                .post('/motion/favInsert', body)
+                .then(res => {
+                  console.log(res.data);
+                })
+                .catch(e => {
+                  console.log(e);
+                });
+            } else {
+              /* 즐겨찾기 삭제 API 호출 */
+              await serverAxios
+                .post('/motion/favDelete', body)
+                .then(res => {
+                  console.log(res.data);
+                })
+                .catch(e => {
+                  console.log(e);
+                });
+            }
             props.setMotionList(updatedMotionList);
           }}>
           <Icon name="staro" size={20}></Icon>
