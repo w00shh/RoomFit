@@ -27,7 +27,10 @@ Motion.load = function (user_id, callback) {
           console.error(err);
         } else {
           favRows.forEach(row => {
-            motionList.push({...row});
+            motionList.push({
+              ...row,
+              isFav: true
+            });
           });
           const sqlNotFav = `SELECT * FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
           db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
@@ -35,9 +38,12 @@ Motion.load = function (user_id, callback) {
               console.error(err);
             } else {
               notFavRows.forEach(row => {
-              motionList.push({...row});
+              motionList.push({
+                ...row,
+                isFav: false
+              });
             });
-              //console.log(motionList);
+              console.log(motionList);
               callback(null, motionList);
             }
           });

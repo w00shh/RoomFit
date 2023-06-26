@@ -7,7 +7,7 @@ fetch('http://127.0.0.1:4000/motion',{
         'Content-type' : 'application/json'
     },
     body: JSON.stringify({
-        user_id: 1
+        user_id: "user1"
     })
 }).then(res=>res.json()).then(res=>{
     console.log(res);
@@ -27,36 +27,36 @@ fetch('http://127.0.0.1:4000/motion',{
 //     console.log(res);
 // });
 
-// 즐겨찾기 추가
-fetch('http://127.0.0.1:4000/motion/favInsert/1',{
-    method: "POST",
-    headers:{
-        'Content-type' : 'application/json'
-    },
-    body: JSON.stringify({
-        user_id: "user1"
-    })
-});
+// // 즐겨찾기 추가
+// fetch('http://127.0.0.1:4000/motion/favInsert/1',{
+//     method: "POST",
+//     headers:{
+//         'Content-type' : 'application/json'
+//     },
+//     body: JSON.stringify({
+//         user_id: "user1"
+//     })
+// });
 
 // 즐겨찾기 삭제
-fetch('http://127.0.0.1:4000/motion/favDelete/1',{
-    method: "POST",
-    headers:{
-        'Content-type' : 'application/json'
-    },
-    body: JSON.stringify({
-        user_id: "user1"
-    })
-});
+// fetch('http://127.0.0.1:4000/motion/favDelete/1',{
+//     method: "POST",
+//     headers:{
+//         'Content-type' : 'application/json'
+//     },
+//     body: JSON.stringify({
+//         user_id: "user1"
+//     })
+// });
 
 // 동작 검색
-fetch('http://127.0.0.1:4000/motion/search',{
-    method: "POST",
-    headers:{
-        'Content-type' : 'application/json'
-    },
-    body: JSON.stringify({
-        user_id: "user1",
-        motion_name: "벤칲"
-    })
-});
+// fetch('http://127.0.0.1:4000/motion/search',{
+//     method: "POST",
+//     headers:{
+//         'Content-type' : 'application/json'
+//     },
+//     body: JSON.stringify({
+//         user_id: "user1",
+//         motion_name: "벤칲"
+//     })
+// });
