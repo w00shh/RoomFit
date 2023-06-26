@@ -20,30 +20,44 @@ import RoutineBox from '../../components/Routine';
 import styles from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {setEmail, setPassword} from '../../redux/actions';
+import {serverAxios} from '../../utils/commonAxios';
 
 const HomeScreen = ({navigation}) => {
   const {email, password} = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
   const [isConnected, setIsConnected] = useState(true);
-  const [existRoutine, setExistRoutine] = useState(true);
+  const [existRoutine, setExistRoutine] = useState(false);
   const [isExercised, setIsExercised] = useState(true);
+  const [routine, setRoutine] = useState([]);
 
   const [isExercise, setIsExercise] = useState(true);
   const [isRecord, setIsRecord] = useState(false);
   const [isSetting, setIsSetting] = useState(false);
 
-  const ROUNTINE = [
-    {
-      title: '상체 뽀개기',
-      target: ['가슴', '어깨', '이두', '삼두'],
-      numEx: '4개의 운동',
-    },
-    {
-      title: '하체 위주',
-      target: ['하체'],
-      numEx: '1개의 운동',
-    },
-  ];
+  const getMyRoutine = async () => {
+    const body = {
+      user_id: 'user1',
+      isHome: true,
+    };
+    await serverAxios.post('/routine/load', body).then(res => {
+      res.data.map((value, key) => {
+        setExistRoutine(true);
+        setRoutine(currentRoutine => [
+          ...currentRoutine,
+          {
+            routine_id: value.routine_id,
+            routine_name: value.routine_name,
+            major_targets: value.major_targets,
+            motion_count: value.motion_count,
+          },
+        ]);
+      });
+    });
+  };
+
+  useEffect(() => {
+    getMyRoutine();
+  });
 
   const PERFORMED = [
     {
@@ -125,14 +139,14 @@ const HomeScreen = ({navigation}) => {
         {existRoutine && (
           <View>
             <RoutineBox
-              title={ROUNTINE[0].title}
-              targets={ROUNTINE[0].target}
-              numEx={ROUNTINE[0].numEx}></RoutineBox>
-            {ROUNTINE[1] && (
+              title={routine[0].routine_name}
+              targets={routine[0].major_targets}
+              numEx={routine[0].motion_count}></RoutineBox>
+            {routine[1] && (
               <RoutineBox
-                title={ROUNTINE[1].title}
-                targets={ROUNTINE[1].target}
-                numEx={ROUNTINE[1].numEx}></RoutineBox>
+                title={routine[1].routine_name}
+                targets={routine[1].major_targets}
+                numEx={routine[1].motion_count}></RoutineBox>
             )}
           </View>
         )}
