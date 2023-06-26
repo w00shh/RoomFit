@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import XX from 'react-native-vector-icons/Feather';
+import {serverAxios} from '../../utils/commonAxios';
 
 const AddMotion = ({navigation, route}) => {
   const [motion, setMotion] = useState('');
@@ -69,6 +70,17 @@ const AddMotion = ({navigation, route}) => {
     );
   }
 
+  const getMotionList = async () => {
+    await serverAxios
+      .post('/motion')
+      .then(res => {
+        setMotionList(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -77,6 +89,13 @@ const AddMotion = ({navigation, route}) => {
         </TouchableOpacity>
       ),
     });
+
+    const body = {
+      user_id: 'user1',
+    };
+
+    getMotionList();
+
     setMotionList([
       {
         motion_id: 1,
