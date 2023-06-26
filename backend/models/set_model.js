@@ -5,7 +5,7 @@ const Set = function (set) {
   this.routine_motion_id = set.routine_motion_id;
   this.set_no = set.set_no;
   this.weight = set.weight;
-  this.rep = set.rep;
+  this.reps = set.reps;
   this.mode = set.mode;
 };
 
@@ -18,7 +18,7 @@ Set.create = (set, callback) => {
       set.routine_motion_id,
       set.set_no,
       set.weight,
-      set.rep,
+      set.reps,
       set.mode,
     ],
     (err, res) => {

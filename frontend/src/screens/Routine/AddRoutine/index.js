@@ -31,6 +31,24 @@ const AddRoutine = ({navigation, route}) => {
     modeDescription: '설명',
   });
 
+  const handleSaveRoutine = async () => {
+    console.log(motionList[0].sets);
+    const body = {
+      routine_id: routine_id,
+      motion_list: motionList,
+    };
+    await serverAxios
+      .post('/routine/save', body)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
+    navigation.navigate('MyRoutine');
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -56,7 +74,7 @@ const AddRoutine = ({navigation, route}) => {
         <TouchableOpacity
           disabled={isSaveDisabled}
           onPress={() => {
-            navigation.navigate('MyRoutine');
+            handleSaveRoutine();
           }}>
           <Text>저장</Text>
         </TouchableOpacity>
@@ -76,7 +94,7 @@ const AddRoutine = ({navigation, route}) => {
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,
             imageUrl: route.params.displaySelected[i].imageUrl,
-            set: [
+            sets: [
               {
                 weight: 0,
                 reps: 0,

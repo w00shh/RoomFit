@@ -185,7 +185,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,
             imageUrl: route.params.displaySelected[i].imageUrl,
-            set: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
+            sets: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
           },
         ]);
       }
@@ -243,13 +243,13 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsMotionDone(false);
     setWeight(0);
     let updatedMotionList = [...motionList];
-    updatedMotionList[m_index].set[s_index].isDone = true;
+    updatedMotionList[m_index].sets[s_index].isDone = true;
     setMotionList(updatedMotionList);
-    if (s_index + 1 < motionList[m_index].set.length) {
+    if (s_index + 1 < motionList[m_index].sets.length) {
       setIsResting(true);
       setSIndex(s_index + 1);
     } else if (
-      s_index + 1 === motionList[m_index].set.length &&
+      s_index + 1 === motionList[m_index].sets.length &&
       motionList[m_index + 1]
     ) {
       setIsResting(true);
@@ -405,7 +405,7 @@ export const WorkoutStart = ({navigation, route}) => {
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                 <Text style={styles.statusText}>{s_index + 1}</Text>
                 <Text style={styles.targetText}>
-                  /{motionList[m_index].set.length}set
+                  /{motionList[m_index].sets.length}set
                 </Text>
               </View>
               <View
@@ -415,14 +415,14 @@ export const WorkoutStart = ({navigation, route}) => {
                   marginHorizontal: 16,
                 }}>
                 <Text style={styles.statusText}>
-                  {motionList[m_index].set[s_index].weight + weight}
+                  {motionList[m_index].sets[s_index].weight + weight}
                 </Text>
                 <Text style={styles.targetText}> kg</Text>
               </View>
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                 <Text style={styles.statusText}>1</Text>
                 <Text style={styles.targetText}>
-                  /{motionList[m_index].set[s_index].reps}회
+                  /{motionList[m_index].sets[s_index].reps}회
                 </Text>
               </View>
             </View>
@@ -431,7 +431,7 @@ export const WorkoutStart = ({navigation, route}) => {
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={() => {
-                if (motionList[m_index].set[s_index].weight + weight > 0)
+                if (motionList[m_index].sets[s_index].weight + weight > 0)
                   setWeight(weight - 1);
               }}
               style={styles.CButton}>
@@ -439,7 +439,7 @@ export const WorkoutStart = ({navigation, route}) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                if (motionList[m_index].set[s_index].weight + weight < 200)
+                if (motionList[m_index].sets[s_index].weight + weight < 200)
                   setWeight(weight + 1);
               }}
               style={styles.CButton}>

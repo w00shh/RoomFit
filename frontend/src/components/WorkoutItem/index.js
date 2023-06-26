@@ -6,8 +6,6 @@ import SetItem from '../SetItem';
 import {useEffect, useState} from 'react';
 
 const WorkoutItem = props => {
-  const [set, setSet] = useState([]);
-
   useEffect(() => {}, []);
   const handleMotionDeletePress = id => {
     props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
@@ -17,11 +15,11 @@ const WorkoutItem = props => {
     const updatedMotionList = [...props.motionList];
     updatedMotionList[
       updatedMotionList.findIndex(item => item.motion_id === id)
-    ].set.pop();
+    ].sets.pop();
     if (
       updatedMotionList[
         updatedMotionList.findIndex(item => item.motion_id === id)
-      ].set.length === 0
+      ].sets.length === 0
     ) {
       handleMotionDeletePress(id);
     } else {
@@ -33,7 +31,7 @@ const WorkoutItem = props => {
     const updatedMotionList = [...props.motionList];
     updatedMotionList[
       updatedMotionList.findIndex(item => item.motion_id === id)
-    ].set.push({
+    ].sets.push({
       weight: 0,
       reps: 0,
       mode: '기본',
@@ -50,10 +48,10 @@ const WorkoutItem = props => {
         setIsModalVisible={props.setIsModalVisible}></SetItem>
       {props.motionList[
         props.motionList.findIndex(item => item.motion_id === props.id)
-      ].set &&
+      ].sets &&
         props.motionList[
           props.motionList.findIndex(item => item.motion_id === props.id)
-        ].set.map((value, key) => (
+        ].sets.map((value, key) => (
           <SetItem
             key={key}
             motion_id={props.id}

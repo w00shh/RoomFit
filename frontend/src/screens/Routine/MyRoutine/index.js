@@ -5,21 +5,23 @@ import {Text} from 'react-native';
 import {serverAxios} from '../../../utils/commonAxios';
 
 const AddRoutine = ({navigation}) => {
-  const [routineId, setRoutineId] = useState('');
+  const [routineId, setRoutineId] = useState();
 
   useEffect(() => {
-    navigation.navigate('AddRoutine', {
-      isMotionAdded: false,
-      routineName: '새로운 루틴',
-      routine_id: routineId,
-    });
+    if (routineId) {
+      navigation.navigate('AddRoutine', {
+        isMotionAdded: false,
+        routineName: '새로운 루틴',
+        routine_id: routineId,
+      });
+    }
   }, [routineId]);
 
-  const handleMakeRoutinePress = () => {
+  const handleMakeRoutinePress = async () => {
     const body = {
       user_id: 'user1',
     };
-    serverAxios
+    await serverAxios
       .post('/routine', body)
       .then(res => {
         setRoutineId(prevState => res.data.routine_id);

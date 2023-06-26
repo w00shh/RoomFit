@@ -36,7 +36,7 @@ const SetItem = props => {
       const updatedMotionList = [...props.motionList];
       updatedMotionList[
         updatedMotionList.findIndex(item => item.motion_id === props.motion_id)
-      ].set[props.set_id] = {
+      ].sets[props.set_id] = {
         weight: weight,
         reps: reps,
         mode: mode,

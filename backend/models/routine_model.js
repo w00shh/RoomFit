@@ -53,20 +53,19 @@ Routine.load = function (user_id, limit = false, callback) {
           });
           const finalResults = Object.values(groupedResults).map(result => {
             const uniqueMajorTarget = new Set();
-            result.major_targets.forEach(targets=>{
+            result.major_targets.forEach(targets => {
               const target = targets.split(',').map(item => item.trim());
               target.forEach(tar => {
-                if(!uniqueMajorTarget.has(tar)){
+                if (!uniqueMajorTarget.has(tar)) {
                   uniqueMajorTarget.add(tar);
                 }
               });
             });
 
-
-            return{
+            return {
               ...result,
               major_targets: [...uniqueMajorTarget].join(', '),
-            }
+            };
           });
           //console.log(groupedResults);
           //console.log(finalResults);
@@ -86,7 +85,7 @@ Routine.detail = function (routine_id, callback) {
                 set_info.set_id,
                 set_info.set_no,
                 set_info.weight,
-                set_info.rep,
+                set_info.reps,
                 set_info.mode
                FROM routine_motion INNER JOIN routine ON routine.routine_id = routine_motion.routine_id
                INNER JOIN set_info ON set_info.routine_motion_id = routine_motion.routine_motion_id
@@ -130,7 +129,7 @@ Routine.detail = function (routine_id, callback) {
                 set_id: set_id,
                 set_no: set_no,
                 weight: weight,
-                rep: rep,
+                reps: rep,
                 mode: mode,
               });
           }
@@ -176,7 +175,7 @@ Routine.save = function (routine_id, motion_list, callback) {
                     routineMotionId,
                     j + 1,
                     motion_list[i].sets[j].weight,
-                    motion_list[i].sets[j].rep,
+                    motion_list[i].sets[j].reps,
                     motion_list[i].sets[j].mode,
                   ],
                   err => {
