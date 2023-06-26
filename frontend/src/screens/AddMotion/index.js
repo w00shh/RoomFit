@@ -71,8 +71,11 @@ const AddMotion = ({navigation, route}) => {
   }
 
   const getMotionList = async () => {
+    const body = {
+      user_id: 'user1',
+    };
     await serverAxios
-      .post('/motion')
+      .post('/motion', body)
       .then(res => {
         res.data.map((value, key) => {
           setMotionList(currentMotionList => [
