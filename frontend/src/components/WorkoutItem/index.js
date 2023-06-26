@@ -64,10 +64,10 @@ const WorkoutItem = props => {
             isExercising={props.isExercising}
             setIsModalVisible={props.setIsModalVisible}
             motion={props.motion}
-            defaultWeight={value.weight}
-            defaultReps={value.reps}
-            defualtMode={value.mode}
-            defaultIsDone={value.isDone}
+            weight={value.weight}
+            reps={value.reps}
+            mode={value.mode}
+            isDone={value.isDone}
             mode={props.selectedMode}></SetItem>
         ))}
 

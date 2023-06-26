@@ -1,13 +1,28 @@
-import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const MotionItem = props => {
   return (
     <View style={styles.motionContainer}>
+      {props.motion.isFavorite ? (
+        <TouchableWithoutFeedback>
+          <Icon name="star" size={20} color="#fbcb22"></Icon>
+        </TouchableWithoutFeedback>
+      ) : (
+        <TouchableWithoutFeedback>
+          <Icon name="staro" size={20}></Icon>
+        </TouchableWithoutFeedback>
+      )}
+
       {/* <Icon name="staro" size={20}></Icon> */}
-      <Icon name="star" size={20} color="#fbcb22"></Icon>
+
       <View style={styles.imageContainer}></View>
       <View style={styles.nameContainer}>
         <Text
