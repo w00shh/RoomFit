@@ -13,10 +13,10 @@ const load_motions = (req, res) => {
 };
 
 const add_fav_motion = (req, res) => {
-  if (!req.params || !req.body)
+  if (!req.body)
     res.status(400).send({message: 'Content can not be empty'});
 
-  Motion.add_fav(req.body.user_id, req.params.motion_id, (err, result) => {
+  Motion.add_fav(req.body.user_id, req.body.motion_id, (err, result) => {
     if (err)
       res
         .status(500)
@@ -26,10 +26,10 @@ const add_fav_motion = (req, res) => {
 };
 
 const del_fav_motion = (req, res) => {
-  if (!req.params || !req.body)
+  if (!req.body)
     res.status(400).send({message: 'Content can not be empty'});
 
-  Motion.del_fav(req.body.user_id, req.params.motion_id, (err, result) => {
+  Motion.del_fav(req.body.user_id, req.body.motion_id, (err, result) => {
     if (err)
       res
         .status(500)
