@@ -73,8 +73,10 @@ const SetItem = props => {
         <TextInput
           style={styles.valueText}
           keyboardType="number-pad"
-          //placeholder={String(props.defaultWeight)}
-          defaultValue={String(props.defaultWeight)}
+          placeholder={String(props.defaultWeight)}
+          defaultValue={
+            props.defaultWeight !== 0 ? String(props.defaultWeight) : null
+          }
           onChangeText={handleWeightChange}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
@@ -82,8 +84,10 @@ const SetItem = props => {
         <TextInput
           style={styles.valueText}
           keyboardType="number-pad"
-          //placeholder={String(props.defaultReps)}
-          defaultValue={String(props.defaultReps)}
+          placeholder={String(props.defaultReps)}
+          defaultValue={
+            props.defaultReps !== 0 ? String(props.defaultReps) : null
+          }
           onChangeText={handleRepsChange}></TextInput>
         <Text style={styles.unitText}>회</Text>
       </View>

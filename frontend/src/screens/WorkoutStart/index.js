@@ -80,6 +80,16 @@ export const WorkoutStart = ({navigation, route}) => {
   );
   const [isPausedPage, setIsPausedPage] = useState(route.params.isPausedPage);
 
+  const [isExercisingDisbled, setIsExercisingDisabled] = useState(false);
+
+  useEffect(() => {
+    if (motionList.length === 0) {
+      setIsExercisingDisabled(true);
+    } else {
+      setIsExercisingDisabled(false);
+    }
+  }, [motionList]);
+
   const modifyingMotion = () => {
     setIsPaused(true);
     setIsPausedPage(false);
@@ -898,6 +908,7 @@ export const WorkoutStart = ({navigation, route}) => {
             </View>
             <View style={{marginLeft: 8}}>
               <CustomButton_B
+                disabled={isExercisingDisbled}
                 width={171}
                 content={`운동중  ${formatTime(elapsedTime)}`}
                 onPress={saveModifying}></CustomButton_B>
