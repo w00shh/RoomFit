@@ -176,7 +176,7 @@ Routine.save = function (routine_id, motion_list, callback) {
                     routineMotionId,
                     j + 1,
                     motion_list[i].sets[j].weight,
-                    motion_list[i].sets[j].rep,
+                    motion_list[i].sets[j].reps,
                     motion_list[i].sets[j].mode,
                   ],
                   err => {

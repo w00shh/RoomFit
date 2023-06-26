@@ -88,7 +88,7 @@ Motion.search_motion = function (user_id, motion_name, callback) {
       const placeholders = favoriteMotionIds.map(() => '?').join(',');
       const motionList = [];
       const replaceName = motion_name.replace(/ /g, '');
-      const sqlFav = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
+      const sqlFav = `SELECT motion_id, motion_name, major_target, minor_target, equipment, imageUrl, description FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
       db.all(sqlFav, favoriteMotionIds, (err, favRows) => {
         if (err) {
           console.error(err);
@@ -107,7 +107,10 @@ Motion.search_motion = function (user_id, motion_name, callback) {
                 }
               }
               if (Hangul.rangeSearch(dbCho, replaceName).length != 0) {
-                motionList.push({...row});
+                motionList.push({
+                  ...row,
+                  isFav: true
+                });
               }
             });
           } else {
@@ -118,11 +121,14 @@ Motion.search_motion = function (user_id, motion_name, callback) {
                   replaceName,
                 ).length != 0
               ) {
-                motionList.push({...row});
+                motionList.push({
+                  ...row,
+                  isFav: true
+                });
               }
             });
           }
-          const sqlNotFav = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
+          const sqlNotFav = `SELECT motion_id, motion_name, major_target, minor_target, equipment, imageUrl, description FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
           db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
             if (err) {
               console.error(err);
@@ -141,7 +147,10 @@ Motion.search_motion = function (user_id, motion_name, callback) {
                     }
                   }
                   if (Hangul.rangeSearch(dbCho, replaceName).length != 0) {
-                    motionList.push({...row});
+                    motionList.push({
+                      ...row,
+                      isFav: false
+                    });
                   }
                 });
               } else {
@@ -152,7 +161,10 @@ Motion.search_motion = function (user_id, motion_name, callback) {
                       replaceName,
                     ).length != 0
                   ) {
-                    motionList.push({...row});
+                    motionList.push({
+                      ...row,
+                      isFav: false
+                    });
                   }
                 });
               }
