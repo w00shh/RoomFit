@@ -12,7 +12,7 @@ const SetItem = props => {
   const [mode, setMode] = useState('기본');
 
   const handleModeSelectPress = () => {
-    props.setIsModalVisible(true);
+    //props.setIsModalVisible(true);
   };
 
   const handleWeightChange = text => {
