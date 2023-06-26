@@ -21,7 +21,7 @@ const WorkoutReady = ({navigation, route}) => {
   });
 
   useEffect(() => {
-    //console.log(route.params.displaySelected);
+    console.log(route.params.displaySelected);
   }, []);
 
   const modeList = [

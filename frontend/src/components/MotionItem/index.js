@@ -14,21 +14,22 @@ const MotionItem = props => {
     <View style={styles.motionContainer}>
       {props.motion.isFavorite ? (
         <TouchableWithoutFeedback
-          onPress={async () => {
+          onPress={() => {
             updatedMotionList = [...props.motionList];
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
             ].isFavorite = !props.motion.isFavorite;
+            console.log(props.motion.motion_id);
+            const body = {
+              user_id: 'user1',
+              motion_id: props.motion.motion_id,
+            };
             if (
               updatedMotionList[
                 updatedMotionList.findIndex(item => item === props.motion)
               ].isFavorite
             ) {
               /* 즐겨찾기 추가 API 호출 */
-              const body = {
-                user_id: 'user1',
-                motion_id: props.motion.motionList,
-              };
             } else {
               /* 즐겨찾기 삭제 API 호출 */
             }
