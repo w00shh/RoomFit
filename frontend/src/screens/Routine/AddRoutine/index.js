@@ -66,14 +66,22 @@ const AddRoutine = ({navigation, route}) => {
     if (route.params.isMotionAdded) {
       setMotionList(route.params.motionList);
       setIsSaveDisabled(false);
-      for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
+      for (let i = 0; i < route.params.displaySelected.length; i++) {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
-            motion_id: route.params.selectedMotionKeys[i],
-            motionName: 'first motion',
-            imageUrl: '',
-            set: [{weight: 0, reps: 0, mode: '기본'}],
+            isFavorite: route.params.displaySelected[i].isFavorite,
+            motion_id: route.params.displaySelected[i].motion_id,
+            motionName: route.params.displaySelected[i].motionName,
+            imageUrl: route.params.displaySelected[i].imageUrl,
+            set: [
+              {
+                weight: 0,
+                reps: 0,
+                mode: '기본',
+                isDone: false,
+              },
+            ],
           },
         ]);
       }

@@ -12,11 +12,25 @@ const MotionItem = props => {
   return (
     <View style={styles.motionContainer}>
       {props.motion.isFavorite ? (
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            updatedMotionList = [...props.motionList];
+            updatedMotionList[
+              updatedMotionList.findIndex(item => item === props.motion)
+            ].isFavorite = !props.motion.isFavorite;
+            props.setMotionList(updatedMotionList);
+          }}>
           <Icon name="star" size={20} color="#fbcb22"></Icon>
         </TouchableWithoutFeedback>
       ) : (
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            updatedMotionList = [...props.motionList];
+            updatedMotionList[
+              updatedMotionList.findIndex(item => item === props.motion)
+            ].isFavorite = !props.motion.isFavorite;
+            props.setMotionList(updatedMotionList);
+          }}>
           <Icon name="staro" size={20}></Icon>
         </TouchableWithoutFeedback>
       )}
