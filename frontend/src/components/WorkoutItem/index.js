@@ -18,7 +18,15 @@ const WorkoutItem = props => {
     updatedMotionList[
       updatedMotionList.findIndex(item => item.motion_id === id)
     ].set.pop();
-    props.setMotionList(updatedMotionList);
+    if (
+      updatedMotionList[
+        updatedMotionList.findIndex(item => item.motion_id === id)
+      ].set.length === 0
+    ) {
+      handleMotionDeletePress(id);
+    } else {
+      props.setMotionList(updatedMotionList);
+    }
   };
 
   const handleSetAddPress = id => {
