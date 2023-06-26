@@ -51,10 +51,23 @@ Routine.load = function (user_id, limit = false, callback) {
               groupedResults[routine_id].motion_count++;
             }
           });
-          const finalResults = Object.values(groupedResults).map(result => ({
-            ...result,
-            major_targets: [...new Set(result.major_targets)].join(', '),
-          }));
+          const finalResults = Object.values(groupedResults).map(result => {
+            const uniqueMajorTarget = new Set();
+            result.major_targets.forEach(targets=>{
+              const target = targets.split(',').map(item => item.trim());
+              target.forEach(tar => {
+                if(!uniqueMajorTarget.has(tar)){
+                  uniqueMajorTarget.add(tar);
+                }
+              });
+            });
+
+
+            return{
+              ...result,
+              major_targets: [...uniqueMajorTarget].join(', '),
+            }
+          });
           //console.log(groupedResults);
           //console.log(finalResults);
           callback(null, finalResults);
