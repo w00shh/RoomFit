@@ -27,25 +27,27 @@ fetch('http://127.0.0.1:4000/motion',{
 //     console.log(res);
 // });
 
-// // 즐겨찾기 추가
-// fetch('http://127.0.0.1:4000/motion/favInsert/1',{
-//     method: "POST",
-//     headers:{
-//         'Content-type' : 'application/json'
-//     },
-//     body: JSON.stringify({
-//         user_id: "user1"
-//     })
-// });
+// 즐겨찾기 추가
+fetch('http://127.0.0.1:4000/motion/favInsert',{
+    method: "POST",
+    headers:{
+        'Content-type' : 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: "user1",
+        motion_id: 1
+    })
+});
 
-// 즐겨찾기 삭제
-// fetch('http://127.0.0.1:4000/motion/favDelete/1',{
+// // 즐겨찾기 삭제
+// fetch('http://127.0.0.1:4000/motion/favDelete',{
 //     method: "POST",
 //     headers:{
 //         'Content-type' : 'application/json'
 //     },
 //     body: JSON.stringify({
-//         user_id: "user1"
+//         user_id: "user1",
+//         motion_id: 1
 //     })
 // });
 
