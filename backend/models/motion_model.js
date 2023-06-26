@@ -28,17 +28,18 @@ Motion.load = function (user_id ,callback) {
           favRows.forEach(row => {
             motionList.push({...row});
           });
-        }
-      });
-      const sqlNotFav = `SELECT * FROM motion motion_id NOT IN (${placeholders}) ORDER BY count desc`;
-      db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
-        if (err) {
-          console.error(err);
-        } else {
-          notFavRows.forEach(row => {
-            motionList.push({...row});
+          const sqlNotFav = `SELECT * FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
+          db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
+            if (err) {
+              console.error(err);
+            } else {
+              notFavRows.forEach(row => {
+              motionList.push({...row});
+            });
+              //console.log(motionList);
+              callback(null, motionList);
+            }
           });
-          callback(null, motionList);
         }
       });
     }

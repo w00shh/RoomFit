@@ -3,10 +3,11 @@ const Motion = require('../models/motion_model');
 const load_motions = (req, res) => {
   if (!req.body) res.status(400).send({message: 'Content can not be empty'});
   Motion.load(req.body.user_id, (err, data) => {
-    if (err)
+    if (err){
       res
         .status(500)
         .send({message: 'Some error occurred while loading motions'});
+    }
     res.json(data);
   });
 };
@@ -40,11 +41,12 @@ const del_fav_motion = (req, res) => {
 const add_motions = (req, res) => {
   if (!req.body) res.status(400).send({message: 'Content can not be empty'});
 
-  Motion.add_motion(req.body.user_id, req.params.motion_id, (err, data) => {
-    if (err)
+  Motion.add_motion(req.body.motion_ids, (err, data) => {
+    if (err){
       res
         .status(500)
         .send({message: 'Some error occurred while adding motions'});
+    }
     res.json(data);
   });
 };
