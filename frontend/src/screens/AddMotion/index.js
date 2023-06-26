@@ -88,6 +88,7 @@ const AddMotion = ({navigation, route}) => {
       .post('/motion', body)
       .then(res => {
         res.data.map((value, key) => {
+          console.log(value);
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
