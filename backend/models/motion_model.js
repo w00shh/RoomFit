@@ -11,8 +11,8 @@ const Motion = function (motion) {
   this.count = motion.count;
 };
 
-Motion.load = function (user_id ,callback) {
-  const sql = 'SELECT * FROM favorite WHERE user_id = ?'
+Motion.load = function (user_id, callback) {
+  const sql = 'SELECT * FROM favorite WHERE user_id = ?';
   db.all(sql, user_id, (err, rows) => {
     if (err) {
       console.error(err);
@@ -71,79 +71,91 @@ Motion.add_motion = function (motion_ids, callback) {
   });
 };
 
-Motion.search_motion = function (user_id ,motion_name, callback) {
+Motion.search_motion = function (user_id, motion_name, callback) {
   const sql = 'SELECT * FROM favorite WHERE user_id = ?';
-  db.all(sql, user_id,(err, rows) => {
+  db.all(sql, user_id, (err, rows) => {
     if (err) {
-        console.error(err);
+      console.error(err);
     } else {
-        const favoriteMotionIds = rows.map(row => row.motion_id);
-        const placeholders = favoriteMotionIds.map(() => "?").join(",");
-        const motionList = [];
-        const replaceName = motion_name.replace(/ /g,"");
-        const sqlFav = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
-        db.all(sqlFav, favoriteMotionIds, (err, favRows) => {
+      const favoriteMotionIds = rows.map(row => row.motion_id);
+      const placeholders = favoriteMotionIds.map(() => '?').join(',');
+      const motionList = [];
+      const replaceName = motion_name.replace(/ /g, '');
+      const sqlFav = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
+      db.all(sqlFav, favoriteMotionIds, (err, favRows) => {
+        if (err) {
+          console.error(err);
+        } else {
+          if (Hangul.isConsonantAll(replaceName)) {
+            favRows.forEach(row => {
+              const dbMotionName = Hangul.disassemble(
+                row.motion_name.replace(/ /g, ''),
+              );
+              let dbCho = [];
+              for (let i = 1; i < dbMotionName.length; i++) {
+                if (Hangul.isVowel(dbMotionName[i])) {
+                  if (Hangul.isCho(dbMotionName[i - 1])) {
+                    dbCho += dbMotionName[i - 1];
+                  }
+                }
+              }
+              if (Hangul.rangeSearch(dbCho, replaceName).length != 0) {
+                motionList.push({...row});
+              }
+            });
+          } else {
+            favRows.forEach(row => {
+              if (
+                Hangul.rangeSearch(
+                  row.motion_name.replace(/ /g, ''),
+                  replaceName,
+                ).length != 0
+              ) {
+                motionList.push({...row});
+              }
+            });
+          }
+          const sqlNotFav = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
+          db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
             if (err) {
-                console.error(err);
+              console.error(err);
             } else {
-                if (Hangul.isConsonantAll(replaceName)){
-                    favRows.forEach(row => {
-                        const dbMotionName = Hangul.disassemble(row.motion_name.replace(/ /g,""));
-                        let dbCho = [];
-                        for(let i=1; i<dbMotionName.length; i++){
-                            if(Hangul.isVowel(dbMotionName[i])){
-                                if(Hangul.isCho(dbMotionName[i-1])){
-                                    dbCho += dbMotionName[i-1];
-                                }
-                            }
-                        }
-                        if(Hangul.rangeSearch(dbCho, replaceName).length!=0){
-                            motionList.push({ ...row });
-                        }
-                    });
-                }
-                else{
-                    favRows.forEach(row => {
-                        if(Hangul.rangeSearch(row.motion_name.replace(/ /g,""), replaceName).length!=0){
-                            motionList.push({ ...row });
-                        }
-                    });
-                }
-                const sqlNotFav = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
-                db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
-                    if (err) {
-                        console.error(err);
-                    } else {
-                        if (Hangul.isConsonantAll(replaceName)){
-                            notFavRows.forEach(row => {
-                                const dbMotionName = Hangul.disassemble(row.motion_name.replace(/ /g,""));
-                                let dbCho = [];
-                                for(let i=1; i<dbMotionName.length; i++){
-                                    if(Hangul.isVowel(dbMotionName[i])){
-                                        if(Hangul.isCho(dbMotionName[i-1])){
-                                            dbCho += dbMotionName[i-1];
-                                        }
-                                    }
-                                }
-                                if(Hangul.rangeSearch(dbCho, replaceName).length!=0){
-                                    motionList.push({ ...row });
-                                }
-                            });
-                        }
-                        else{
-                            notFavRows.forEach(row => {
-                                if(Hangul.rangeSearch(row.motion_name.replace(/ /g,""), replaceName).length!=0){
-                                    motionList.push({ ...row });
-                                }
-                            })
-                        } 
-                        callback(null, motionList);
+              if (Hangul.isConsonantAll(replaceName)) {
+                notFavRows.forEach(row => {
+                  const dbMotionName = Hangul.disassemble(
+                    row.motion_name.replace(/ /g, ''),
+                  );
+                  let dbCho = [];
+                  for (let i = 1; i < dbMotionName.length; i++) {
+                    if (Hangul.isVowel(dbMotionName[i])) {
+                      if (Hangul.isCho(dbMotionName[i - 1])) {
+                        dbCho += dbMotionName[i - 1];
+                      }
                     }
+                  }
+                  if (Hangul.rangeSearch(dbCho, replaceName).length != 0) {
+                    motionList.push({...row});
+                  }
                 });
+              } else {
+                notFavRows.forEach(row => {
+                  if (
+                    Hangul.rangeSearch(
+                      row.motion_name.replace(/ /g, ''),
+                      replaceName,
+                    ).length != 0
+                  ) {
+                    motionList.push({...row});
+                  }
+                });
+              }
+              callback(null, motionList);
             }
-        });
+          });
+        }
+      });
     }
-  });   
-}
+  });
+};
 
 module.exports = Motion;

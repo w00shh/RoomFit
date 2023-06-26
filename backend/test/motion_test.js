@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 // 모션 불러오기 테스트
 
 // fetch('http://127.0.0.1:4000/motion',{
