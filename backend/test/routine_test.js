@@ -5,49 +5,49 @@
 //         'Content-type' : 'application/json'
 //     },
 //     body: JSON.stringify({
-//         user_id: 1
+//         user_id: "user1"
 //     })
 // }).then(res=>res.json()).then(res=>{
 //     console.log(res);
 // });
 
-// 루틴 저장
+// // 루틴 저장
 // fetch('http://127.0.0.1:4000/routine/save',{
 //     method: "POST",
 //     headers:{
 //         'Content-type' : 'application/json'
 //     },
 //     body: JSON.stringify({
-//         routine_id: 3,
+//         routine_id: 1,
 //         motion_list: [
 //           {
 //             motion_id: 1,
 //             sets: [{ weight: 30, rep: 20, mode: 1 }, { weight: 20, rep: 10, mode: 1 }]
 //           },
 //           {
-//             motion_id: 4,
+//             motion_id: 2,
 //             sets: [{ weight: 25, rep: 15, mode: 1 }, { weight: 60, rep: 10, mode: 1 }]
 //           },
 //           {
-//             motion_id: 5,
+//             motion_id: 3,
 //             sets: [{ weight: 15, rep: 15, mode: 1 }, { weight: 10, rep: 20, mode: 1 }, { weight: 70, rep: 5, mode: 1 }]
 //           }
 //         ]
 //     })
 // })
 
-// 루틴 간략히 보기(제한 O)
-fetch('http://127.0.0.1:4000/routine/load/true',{
-    method:"POST",
-    headers:{
-        'Content-type' : 'application/json'
-    },
-    body: JSON.stringify({
-        user_id: 1
-    })
-}).then(res=>res.json()).then(res=>{
-    console.log(res);
-});
+// // 루틴 간략히 보기(제한 O)
+// fetch('http://127.0.0.1:4000/routine/load/true',{
+//     method:"POST",
+//     headers:{
+//         'Content-type' : 'application/json'
+//     },
+//     body: JSON.stringify({
+//         user_id: "user1"
+//     })
+// }).then(res=>res.json()).then(res=>{
+//     console.log(res);
+// });
 
 // 전체 루틴 간략히 보기
 // fetch('http://127.0.0.1:4000/routine/load/false',{

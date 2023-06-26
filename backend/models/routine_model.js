@@ -55,8 +55,8 @@ Routine.load = function (user_id, limit = false, callback) {
             ...result,
             major_targets: [...new Set(result.major_targets)].join(', '),
           }));
-          console.log(groupedResults);
-          console.log(finalResults);
+          //console.log(groupedResults);
+          //console.log(finalResults);
           callback(null, finalResults);
         }
       });

@@ -1,4 +1,5 @@
 const db = require('../db/connect');
+const Hangul = require('hangul-js');
 
 const Motion = function (motion) {
   this.motion_id = motion.motion_id;
@@ -56,7 +57,7 @@ Motion.add_fav = function (user_id, motion_id, callback) {
 
 Motion.del_fav = function (user_id, motion_id, callback) {
   const sql = 'DELETE FROM favorite where motion_id =? AND user_id=?';
-  db.run(sql, [motion_id, user_id], function (err) {
+  db.run(sql, [motion_id, user_id], function (err, result) {
     if (err) console.error(err.message);
     else callback(null, result);
   });

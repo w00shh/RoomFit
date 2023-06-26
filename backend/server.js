@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
-const Hangul = require('hangul-js');
+
 
 //import routers
 const workout = require('./routes/workout_routes');
