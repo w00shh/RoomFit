@@ -34,7 +34,7 @@ const AddRoutine = ({navigation, route}) => {
   const handleSaveRoutine = async () => {
     console.log('routine id: ' + routine_id);
     const body = {
-      routine_id: parseInt(routine_id),
+      routine_id: routine_id,
       motion_list: motionList,
     };
     await serverAxios
@@ -121,6 +121,7 @@ const AddRoutine = ({navigation, route}) => {
       isRoutine: true,
       routineName: routineName,
       motionList: motionList,
+      routine_id: routine_id,
     });
   };
   const handleConfirmPress = async () => {

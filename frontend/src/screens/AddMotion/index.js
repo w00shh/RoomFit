@@ -200,6 +200,7 @@ const AddMotion = ({navigation, route}) => {
                   selectedMotionKeys: selectedMotionKeys,
                   motionList: route.params.motionList,
                   displaySelected: Array.from(displaySelected.values()),
+                  routine_id: route.params.routine_id,
                 });
               }
             : () => {
