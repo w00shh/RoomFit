@@ -2,7 +2,7 @@ const axios = require('axios');
 
 //새로운 운동 기록 생성 테스트
 axios
-  .post('http://localhost:4000/workout', {user_id: 'sunoo'})
+  .post('http://localhost:4000/workout', {user_id: 'user1'})
   .then(res => {
     console.log(res);
   })
@@ -14,7 +14,7 @@ axios
 setTimeout(() => {
   axios
     .put('http://localhost:4000/workout/done', {
-      workout_id: 2,
+      workout_id: 1,
       tut: '00:30:00',
       title: '4일차 운동',
       memo: '오늘 컨디션이 조금 좋았다.',

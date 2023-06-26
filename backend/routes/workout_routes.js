@@ -15,7 +15,7 @@ router.put('/done', workout_controller.update_workout);
 
 //기록
 router.get('/get/:workout_id', workout_controller.get_workout);
-router.get('/recent', workout_controller.recent_workouts);
+router.post('/recent', workout_controller.recent_workouts);
 router.get('/calander/:date', workout_controller.get_specific_date_workouts);
 router.get('/detail/:workout_id', workout_controller.workout_detail);
 
