@@ -15,7 +15,6 @@ import XX from 'react-native-vector-icons/Feather';
 import {serverAxios} from '../../utils/commonAxios';
 
 const AddMotion = ({navigation, route}) => {
-  const [motion, setMotion] = useState('');
   const [motionList, setMotionList] = useState([]);
   const [motionListMap, setMotionListMap] = useState(new Map());
   let selectedMotionKeys = [];
@@ -40,17 +39,16 @@ const AddMotion = ({navigation, route}) => {
   };
 
   const handleMotionSearchChange = async text => {
-    setMotion(text);
-  };
-
-  useEffect(() => {
     const body = {
       user_id: 'user1',
-      motion_name: motion,
+      motion_name: text,
     };
     await serverAxios
       .post('/motion/search', body)
       .then(res => {
+        console.log(text);
+        console.log(res.data);
+        setMotionList([]);
         res.data.map((value, key) => {
           //console.log(value);
           setMotionList(currentMotionList => [
@@ -67,7 +65,7 @@ const AddMotion = ({navigation, route}) => {
       .catch(e => {
         console.log(e);
       });
-  }, [motion])
+  };
 
   const onSelect = useCallback(
     motion => {
