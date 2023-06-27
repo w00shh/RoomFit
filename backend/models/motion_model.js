@@ -93,7 +93,15 @@ Motion.search_motion = function (user_id, motion_name, callback) {
         if (err) {
           console.error(err);
         } else {
-          if (Hangul.isConsonantAll(replaceName)) {
+          if(replaceName.length===0){
+            favRows.forEach(row => {
+              motionList.push({
+                ...row,
+                isFav: true
+              });
+            });
+          }
+          else if (Hangul.isConsonantAll(replaceName)) {
             favRows.forEach(row => {
               const dbMotionName = Hangul.disassemble(
                 row.motion_name.replace(/ /g, ''),
@@ -133,7 +141,15 @@ Motion.search_motion = function (user_id, motion_name, callback) {
             if (err) {
               console.error(err);
             } else {
-              if (Hangul.isConsonantAll(replaceName)) {
+              if(replaceName.length===0){
+                notFavRows.forEach(row => {
+                  motionList.push({
+                    ...row,
+                    isFav: false
+                  });
+                });
+              }
+              else if (Hangul.isConsonantAll(replaceName)) {
                 notFavRows.forEach(row => {
                   const dbMotionName = Hangul.disassemble(
                     row.motion_name.replace(/ /g, ''),
