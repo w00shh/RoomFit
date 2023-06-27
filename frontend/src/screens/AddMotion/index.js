@@ -39,9 +39,35 @@ const AddMotion = ({navigation, route}) => {
     return textWidth;
   };
 
-  const handleMotionSearchChange = text => {
+  const handleMotionSearchChange = async text => {
     setMotion(text);
   };
+
+  useEffect(() => {
+    const body = {
+      user_id: 'user1',
+      motion_name: motion,
+    };
+    await serverAxios
+      .post('/motion/search', body)
+      .then(res => {
+        res.data.map((value, key) => {
+          //console.log(value);
+          setMotionList(currentMotionList => [
+            ...currentMotionList,
+            {
+              isFavorite: value.isFav,
+              motion_id: value.motion_id,
+              motionName: value.motion_name,
+              imageUrl: value.imageUrl,
+            },
+          ]);
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }, [motion])
 
   const onSelect = useCallback(
     motion => {
