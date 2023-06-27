@@ -14,7 +14,7 @@ const SetItem = props => {
   const [isDone, setIsDone] = useState(props.isDone);
 
   const handleModeSelectPress = () => {
-    //props.setIsModalVisible(true);
+    props.setIsModalVisible(true);
   };
 
   const handleWeightChange = text => {
