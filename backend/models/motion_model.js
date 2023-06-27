@@ -87,7 +87,7 @@ Motion.search_motion = function (user_id, motion_name, callback) {
       const favoriteMotionIds = rows.map(row => row.motion_id);
       const placeholders = favoriteMotionIds.map(() => '?').join(',');
       const motionList = [];
-      const replaceName = motion_name.replace(/ /g, '');
+      const replaceName = motion_name.replace(/[\\ ]/g, '');
       const sqlFav = `SELECT motion_id, motion_name, major_target, minor_target, equipment, imageUrl, description FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
       db.all(sqlFav, favoriteMotionIds, (err, favRows) => {
         if (err) {
