@@ -33,6 +33,51 @@ const HomeScreen = ({navigation}) => {
   const [isExercise, setIsExercise] = useState(true);
   const [isRecord, setIsRecord] = useState(false);
   const [isSetting, setIsSetting] = useState(false);
+  const [routineId, setRoutineId] = useState();
+
+  useEffect(() => {
+    if (routineId) {
+      navigation.navigate('AddRoutine', {
+        isMotionAdded: false,
+        routineName: '새로운 루틴',
+        routine_id: routineId,
+      });
+    }
+  }, [routineId]);
+
+  const handleMakeRoutinePress = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+    await serverAxios
+      .post('/routine', body)
+      .then(res => {
+        setRoutineId(res.data.routine_id);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <View>
+          <Text
+            style={{
+              fontSize: 28,
+              fontWeight: '700',
+              color: '#242424',
+              marginTop: 10,
+              marginLeft: 10,
+            }}>
+            운동
+          </Text>
+        </View>
+      ),
+    });
+    getMyRoutine();
+  }, []);
 
   const getMyRoutine = async () => {
     const body = {
@@ -54,10 +99,6 @@ const HomeScreen = ({navigation}) => {
       });
     });
   };
-
-  useEffect(() => {
-    getMyRoutine();
-  });
 
   const PERFORMED = [
     {
@@ -117,7 +158,7 @@ const HomeScreen = ({navigation}) => {
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={styles.subtitleText}>내 루틴{}</Text>
+          <Text style={styles.subtitleText}>내 루틴</Text>
           <TouchableOpacity
             style={styles.allRoutine}
             onPress={() => navigation.navigate('MyRoutine')}>
@@ -133,17 +174,12 @@ const HomeScreen = ({navigation}) => {
             </Text>
             <TouchableOpacity
               style={styles.makeRoutineButton}
-              onPress={() => {
-                navigation.navigate('AddRoutine', {
-                  isMotionAdded: false,
-                  routineName: '새로운 루틴',
-                });
-              }}>
+              onPress={handleMakeRoutinePress}>
               <Text>루틴 만들기</Text>
             </TouchableOpacity>
           </View>
         )}
-        {/* {existRoutine && (
+        {routine[0] && (
           <View>
             <RoutineBox
               title={routine[0].routine_name}
@@ -156,7 +192,7 @@ const HomeScreen = ({navigation}) => {
                 numEx={routine[1].motion_count}></RoutineBox>
             )}
           </View>
-        )} */}
+        )}
 
         <Text style={styles.subtitleText}>최근 수행한 운동</Text>
         {!isExercised && (

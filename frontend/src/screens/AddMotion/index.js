@@ -86,6 +86,13 @@ const AddMotion = ({navigation, route}) => {
     [selected],
   );
 
+  const deleteSelected = key => {
+    displaySelected.delete(key);
+    const newSelected = new Map(selected);
+    newSelected.set(key, false);
+    setSelected(newSelected);
+  };
+
   useEffect(() => {
     length = 0;
     selected.forEach(value => {
@@ -180,7 +187,7 @@ const AddMotion = ({navigation, route}) => {
           marginLeft: 4,
           marginBottom: 5,
         }}>
-        {displaySelected &&
+        {false &&
           Array.from(displaySelected.values()).map((value, key) => (
             <View
               key={key}
@@ -199,7 +206,9 @@ const AddMotion = ({navigation, route}) => {
                 marginTop: 7,
               }}>
               <Text style={styles.selectMotionText}>{value.motionName}</Text>
-              <XX name="x" color={'white'} size={15}></XX>
+              <TouchableOpacity onPress={() => deleteSelected(value.motion_id)}>
+                <XX name="x" color={'white'} size={15}></XX>
+              </TouchableOpacity>
             </View>
           ))}
       </View>

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 
     width: 358,
     height: 112,
-    borderRadius: 24,
+    borderRadius: 8,
   },
 
   targetContainer: {

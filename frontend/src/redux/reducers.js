@@ -19,9 +19,9 @@ function userReducer(state = initialState, action) {
     case SET_USER_PASSWORD:
       return {...state, password: action.payload};
     case SET_USER_NICKNAME:
-      return {...state, nickname: action.palyload};
+      return {...state, nickname: action.payload};
     case SET_USER_ID:
-      return {...state, id: action.palyload};
+      return {...state, id: action.payload};
     default:
       return state;
   }
