@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  Image,
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -98,7 +99,13 @@ const MotionItem = props => {
 
       {/* <Icon name="staro" size={20}></Icon> */}
 
-      <View style={styles.imageContainer}></View>
+      <View style={styles.imageContainer}>
+        <Image
+          source={{
+            uri: props.motion.imageUrl,
+          }}
+          style={{width: 48, height: 48}}></Image>
+      </View>
       <View style={styles.nameContainer}>
         <Text
           style={{
