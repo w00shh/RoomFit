@@ -143,7 +143,7 @@ const HomeScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
         )}
-        {existRoutine && (
+        {/* {existRoutine && (
           <View>
             <RoutineBox
               title={routine[0].routine_name}
@@ -156,7 +156,7 @@ const HomeScreen = ({navigation}) => {
                 numEx={routine[1].motion_count}></RoutineBox>
             )}
           </View>
-        )}
+        )} */}
 
         <Text style={styles.subtitleText}>최근 수행한 운동</Text>
         {!isExercised && (

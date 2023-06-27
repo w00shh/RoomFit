@@ -9,15 +9,12 @@ const RoutineBox = props => {
       <View style={{flexDirection: 'column'}}>
         <Text style={styles.titleText}>{props.title}</Text>
         <View style={{flexDirection: 'row', marginLeft: 16}}>
-          {props.targets.map((value, key) => (
-            <Text style={styles.targetText} key={key}>
-              {value}{' '}
-            </Text>
-          ))}
+          <Text style={styles.targetText}>{props.targets}</Text>
+
           <Image
             style={{marginLeft: 4, marginRight: 8}}
             source={require('../../assets/images/divider.png')}></Image>
-          <Text style={styles.targetText}>{props.numEx}</Text>
+          <Text style={styles.targetText}>{props.numEx}개의 운동</Text>
         </View>
       </View>
       <TouchableOpacity>
