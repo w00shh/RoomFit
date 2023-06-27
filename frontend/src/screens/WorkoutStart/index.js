@@ -39,6 +39,8 @@ import CustomButton_B from '../../components/CustomButton_B';
 import WorkoutTitle from '../../components/WorkoutTitle';
 import AddMotion from '../AddMotion';
 import WorkoutItem from '../../components/WorkoutItem';
+import {useSelector, useDispatch} from 'react-redux';
+import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 
 export const WorkoutStart = ({navigation, route}) => {
   const [motionList, setMotionList] = useState(route.params.motionList);
@@ -66,6 +68,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const [m_index, setMIndex] = useState(route.params.m_index);
   const [s_index, setSIndex] = useState(route.params.s_index);
   const [isMotionDone, setIsMotionDone] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   //모든 운동 끝나면 -> true
   const [workoutDone, setWorkoutDone] = useState(false);
@@ -74,6 +77,10 @@ export const WorkoutStart = ({navigation, route}) => {
   const [workoutMemoModal, setWorkoutMemoModal] = useState(false);
   const [workoutTitle, setWorkoutTitle] = useState('');
   const [workoutMemo, setWorkoutMemo] = useState('');
+  const [selectedMode, setSelectedMode] = useState({
+    modeName: '기본',
+    modeDescription: '설명',
+  });
 
   const [isModifyMotion, setIsModifyMotion] = useState(
     route.params.isModifyMotion,
@@ -81,6 +88,9 @@ export const WorkoutStart = ({navigation, route}) => {
   const [isPausedPage, setIsPausedPage] = useState(route.params.isPausedPage);
 
   const [isExercisingDisbled, setIsExercisingDisabled] = useState(false);
+  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (motionList.length === 0) {
@@ -119,6 +129,29 @@ export const WorkoutStart = ({navigation, route}) => {
     {time: 110, selsected: false},
     {time: 120, selsected: false},
     {time: 130, selsected: false},
+  ];
+
+  const modeList = [
+    {
+      modeName: '기본',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '고무밴드',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드1',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드2',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드3',
+      modeDescription: '설명',
+    },
   ];
 
   const setTempRestTime = time => {
@@ -192,6 +225,30 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   }, []);
 
+  function Item({mode}) {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          handleModeItemPress(mode);
+        }}>
+        <View
+          style={{
+            flexDirection: 'column',
+            height: 72,
+            padding: 12,
+            margin: 4,
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            backgroundColor:
+              mode.modeName === selectedMode.modeName ? '#f5f5f5' : 'white',
+          }}>
+          <Text style={styles.modeText}>{mode.modeName}</Text>
+          <Text style={styles.descriptionText}>{mode.modeDescription}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
   useEffect(() => {
     let intervalId;
     let intervalId2;
@@ -237,6 +294,24 @@ export const WorkoutStart = ({navigation, route}) => {
     return `${minutes < 10 ? `0${minutes}` : minutes}:${
       seconds < 10 ? `0${seconds}` : seconds
     }`;
+  };
+
+  const handleModeItemPress = mode => {
+    setSelectedMode(mode);
+    //console.log(selectedMode.modeName);
+  };
+
+  const handleCancelPress = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleSelectPress = () => {
+    updatedMotionList = [...motionList];
+    updatedMotionList[targetmotionid].sets[targetsetid].mode =
+      selectedMode.modeName;
+    setMotionList(updatedMotionList);
+
+    setIsModalVisible(false);
   };
 
   const SetComplete = () => {
@@ -877,6 +952,43 @@ export const WorkoutStart = ({navigation, route}) => {
       )}
       {!isPausedPage && isModifyMotion && (
         <View>
+          <Modal
+            visible={isModalVisible}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer5}>
+              <View style={styles.modeContainer5}>
+                <View style={styles.modeTitleContainer5}>
+                  <Text style={styles.titleText5}>하중모드</Text>
+                  <Text>{selectedMode.modeName}</Text>
+                </View>
+                <View>
+                  <FlatList
+                    data={modeList}
+                    renderItem={({item}) => <Item mode={item}></Item>}
+                    keyExtractor={item => item.modeName}></FlatList>
+                </View>
+
+                <View style={styles.modeButtonContainer5}>
+                  <View>
+                    <CustomButton_W
+                      width={171}
+                      content="취소"
+                      onPress={handleCancelPress}
+                      disabled={false}></CustomButton_W>
+                  </View>
+                  <View>
+                    <CustomButton_B
+                      width={171}
+                      content="선택 완료"
+                      onPress={handleSelectPress}
+                      disabled={false}></CustomButton_B>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
           <View style={{alignSelf: 'flex-start'}}>
             <Text style={styles.motionTitle}>동작</Text>
           </View>
@@ -888,7 +1000,6 @@ export const WorkoutStart = ({navigation, route}) => {
                 motion={value}
                 isExercising={true}
                 setIsModalVisible={setIsModalVisible}
-                motion={motion}
                 motionList={motionList}
                 setMotionList={setMotionList}></WorkoutItem>
             ))}

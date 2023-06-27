@@ -26,6 +26,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#5252fa',
   },
+  deleteRoutineContainer: {
+    width: 358,
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#5252fa',
+    borderRadius: 8,
+
+    marginVertical: 24,
+  },
+  deleteRoutineText: {
+    fontSize: 14,
+    color: 'white',
+  },
   routineContainer: {
     marginTop: 16,
     flexDirection: 'row',

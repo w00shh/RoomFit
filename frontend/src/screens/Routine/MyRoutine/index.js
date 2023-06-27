@@ -36,6 +36,8 @@ const AddRoutine = ({navigation}) => {
   }, [isEdit]);
 
   const handleGetAllRoutine = async () => {
+    setRoutine([]);
+    setIsEdit(false);
     const body = {
       user_id: 'user1',
       isHome: false,
@@ -74,6 +76,21 @@ const AddRoutine = ({navigation}) => {
       .post('/routine', body)
       .then(res => {
         setRoutineId(res.data.routine_id);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const handleDeleteRoutinePress = async () => {
+    console.log(Array.from(selected.keys()));
+    const body = {
+      routine_ids: Array.from(selected.keys()),
+    };
+    await serverAxios
+      .put('/routine/delete', body)
+      .then(res => {
+        handleGetAllRoutine();
       })
       .catch(e => {
         console.log(e);
@@ -181,12 +198,20 @@ const AddRoutine = ({navigation}) => {
             </View>
           </View>
         ))}
-
-      <TouchableOpacity
-        style={styles.makeRoutineContainer}
-        onPress={handleMakeRoutinePress}>
-        <Text style={styles.makeRoutineText}>+ 루틴 만들기</Text>
-      </TouchableOpacity>
+      {!isEdit && (
+        <TouchableOpacity
+          style={styles.makeRoutineContainer}
+          onPress={handleMakeRoutinePress}>
+          <Text style={styles.makeRoutineText}>+ 루틴 만들기</Text>
+        </TouchableOpacity>
+      )}
+      {isEdit && (
+        <TouchableOpacity
+          style={styles.deleteRoutineContainer}
+          onPress={handleDeleteRoutinePress}>
+          <Text style={styles.deleteRoutineText}>삭제</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
