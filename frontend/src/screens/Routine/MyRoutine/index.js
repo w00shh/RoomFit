@@ -6,6 +6,7 @@ import {serverAxios} from '../../../utils/commonAxios';
 import RoutineBox from '../../../components/Routine';
 import Check from 'react-native-vector-icons/AntDesign';
 import Right from 'react-native-vector-icons/AntDesign';
+import Back from 'react-native-vector-icons/Ionicons';
 
 const AddRoutine = ({navigation}) => {
   const [routineId, setRoutineId] = useState();
@@ -15,6 +16,18 @@ const AddRoutine = ({navigation}) => {
   const [selected, setSelected] = useState(new Map());
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{marginLeft: 10, marginRight: 10}}></Back>
+        </TouchableOpacity>
+      ),
+    });
     handleGetAllRoutine();
   }, []);
 
