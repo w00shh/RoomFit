@@ -46,7 +46,7 @@ const AddRoutine = ({navigation, route}) => {
         console.log(e);
       });
 
-    navigation.navigate('MyRoutine');
+    navigation.push('MyRoutine');
   };
 
   useEffect(() => {

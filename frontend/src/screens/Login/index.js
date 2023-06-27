@@ -32,6 +32,7 @@ const Login = ({navigation}) => {
     try {
       dispatch(setEmail(email));
       dispatch(setPassword(password));
+      console.group(email);
       // var user = {
       //     Name: name,
       //     Age: age
