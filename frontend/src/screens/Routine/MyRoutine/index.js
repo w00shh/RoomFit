@@ -97,6 +97,7 @@ const AddRoutine = ({navigation}) => {
 
   const onSelect = useCallback(
     key => {
+      console.log(selected);
       if (selected.get(key)) {
         if (selected.get(key).isSelec) {
           const newSelected = new Map(selected);
@@ -108,11 +109,9 @@ const AddRoutine = ({navigation}) => {
           setSelected(newSelected);
         }
       } else {
-        console.log('new!');
-        selected.set(key, {
-          rotuineId: key,
-          isSelec: true,
-        });
+        const newSelected = new Map(selected);
+        newSelected.set(key, {rotuineId: key, isSelec: true});
+        setSelected(newSelected);
       }
 
       //console.log(selected);
@@ -141,7 +140,6 @@ const AddRoutine = ({navigation}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              width: '95%',
             }}>
             <TouchableOpacity onPress={() => onSelect(value.routine_id)}>
               <View
@@ -158,6 +156,7 @@ const AddRoutine = ({navigation}) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginTop: 16,
+                  marginRight: 8,
                 }}>
                 <Check name="check" color="#fff"></Check>
               </View>
