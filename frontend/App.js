@@ -48,11 +48,11 @@ const App = () => {
             options={{
               headerShown: true,
               title: '운동',
-              headerShadowVisible: false,
+              headerShadowVisible: true,
               headerBackVisible: false,
               headerTitleStyle: {
                 fontWeight: '700',
-                fontSize: 28,
+                fontSize: 20,
               },
             }}
           />
@@ -109,9 +109,11 @@ const App = () => {
               title: '운동',
               headerTitleStyle: {
                 fontWeight: '700',
-                fontSize: 16,
+                fontSize: 20,
+                marginLeft: 20,
               },
-              headerShadowVisible: false,
+              headerBackVisible: false,
+              headerShadowVisible: true,
             }}></Stack.Screen>
 
           <Stack.Screen

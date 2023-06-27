@@ -123,7 +123,7 @@ const AddMotion = ({navigation, route}) => {
       .post('/motion', body)
       .then(res => {
         res.data.map((value, key) => {
-          //console.log(value);
+          console.log(value);
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
@@ -187,7 +187,7 @@ const AddMotion = ({navigation, route}) => {
           marginLeft: 4,
           marginBottom: 5,
         }}>
-        {false &&
+        {displaySelected &&
           Array.from(displaySelected.values()).map((value, key) => (
             <View
               key={key}

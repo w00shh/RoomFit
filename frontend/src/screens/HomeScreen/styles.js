@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
     color: '#242424',
 
-    marginTop: 32,
+    marginTop: 20,
     marginLeft: 16,
   },
 

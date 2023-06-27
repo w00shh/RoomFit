@@ -11,6 +11,7 @@ import styles from './styles';
 import WorkoutItem from '../../components/WorkoutItem/';
 import CustomButton_W from '../../components/CustomButton_W';
 import CustomButton_B from '../../components/CustomButton_B';
+import Back from 'react-native-vector-icons/Ionicons';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
@@ -51,6 +52,18 @@ const WorkoutReady = ({navigation, route}) => {
   ];
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{marginLeft: 10, marginRight: 10}}></Back>
+        </TouchableOpacity>
+      ),
+    });
     if (route.params.motionList) {
       setMotionList(route.params.motionList);
     }

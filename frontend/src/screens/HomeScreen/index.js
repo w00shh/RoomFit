@@ -69,7 +69,6 @@ const HomeScreen = ({navigation}) => {
               fontSize: 28,
               fontWeight: '700',
               color: '#242424',
-              marginTop: 10,
               marginLeft: 10,
             }}>
             운동
