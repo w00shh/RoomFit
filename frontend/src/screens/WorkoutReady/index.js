@@ -27,10 +27,6 @@ const WorkoutReady = ({navigation, route}) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    //console.log(route.params.displaySelected);
-  }, []);
-
   const modeList = [
     {
       modeName: '기본',
