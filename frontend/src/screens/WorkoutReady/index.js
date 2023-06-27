@@ -13,7 +13,6 @@ import CustomButton_W from '../../components/CustomButton_W';
 import CustomButton_B from '../../components/CustomButton_B';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);

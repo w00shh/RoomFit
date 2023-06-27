@@ -146,7 +146,12 @@ const AddRoutine = ({navigation}) => {
             <RoutineBox
               title={value.routine_name}
               targets={value.major_targets}
-              numEx={value.motion_count}></RoutineBox>
+              numEx={value.motion_count}
+              onPress={() => {
+                navigation.navigate('RoutineWorkoutReady', {
+                  routine_id: value.routine_id,
+                });
+              }}></RoutineBox>
           </View>
         ))}
       {routine[0] &&

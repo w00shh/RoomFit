@@ -18,6 +18,7 @@ import {
 } from './src/screens/WorkoutStart/index.js';
 import {Provider} from 'react-redux';
 import {Store} from './src/redux/store.js';
+import RoutineWorkoutReady from './src/screens/Routine/RoutineWorkoutReady/index.js';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -83,6 +84,17 @@ const App = () => {
           <Stack.Screen
             name="AddRoutine"
             component={AddRoutine}
+            options={{
+              title: '새로운 루틴',
+              headerTitleStyle: {
+                fontWeight: '700',
+                fontSize: 16,
+              },
+              headerShadowVisible: false,
+            }}></Stack.Screen>
+          <Stack.Screen
+            name="RoutineWorkoutReady"
+            component={RoutineWorkoutReady}
             options={{
               title: '새로운 루틴',
               headerTitleStyle: {

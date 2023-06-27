@@ -16,7 +16,6 @@ import WorkoutItem from '../../../components/WorkoutItem';
 import {serverAxios} from '../../../utils/commonAxios';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
 
