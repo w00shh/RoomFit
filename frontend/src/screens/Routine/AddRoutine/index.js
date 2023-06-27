@@ -178,9 +178,9 @@ const AddRoutine = ({navigation, route}) => {
                 motion={value}
                 isExercising={false}
                 setIsModalVisible={setIsModalVisible}
+                motion={value}
                 motionList={motionList}
-                setMotionList={setMotionList}
-                selectedMode={selectedMode}></WorkoutItem>
+                setMotionList={setMotionList}></WorkoutItem>
             ))}
         </ScrollView>
       ) : (

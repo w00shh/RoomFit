@@ -55,6 +55,10 @@ const WorkoutItem = props => {
           <SetItem
             key={key}
             motion_id={props.id}
+            target_motion_id={props.motionList.findIndex(
+              item => item.motion_id === props.id,
+            )}
+            set={value}
             set_id={key}
             motionList={props.motionList}
             setMotionList={props.setMotionList}
@@ -65,8 +69,7 @@ const WorkoutItem = props => {
             weight={value.weight}
             reps={value.reps}
             mode={value.mode}
-            isDone={value.isDone}
-            mode={props.selectedMode}></SetItem>
+            isDone={value.isDone}></SetItem>
         ))}
 
       <View style={styles.buttonContainer}>

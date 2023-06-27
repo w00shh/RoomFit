@@ -97,9 +97,6 @@ const Login = ({navigation}) => {
           <Text style={styles.registerText}>회원가입하기</Text>
         </TouchableOpacity>
       </View>
-
-      {/* <SetItem isKey={true}></SetItem>
-      <SetItem isKey={false}></SetItem> */}
     </View>
   );
 };

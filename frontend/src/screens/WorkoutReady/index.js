@@ -12,6 +12,9 @@ import WorkoutItem from '../../components/WorkoutItem/';
 import CustomButton_W from '../../components/CustomButton_W';
 import CustomButton_B from '../../components/CustomButton_B';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
+
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [motionList, setMotionList] = useState([]);
@@ -20,8 +23,12 @@ const WorkoutReady = ({navigation, route}) => {
     modeDescription: '설명',
   });
 
+  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    console.log(route.params.displaySelected);
+    //console.log(route.params.displaySelected);
   }, []);
 
   const modeList = [
@@ -106,8 +113,21 @@ const WorkoutReady = ({navigation, route}) => {
   };
 
   const handleSelectPress = () => {
+    updatedMotionList = [...motionList];
+    updatedMotionList[targetmotionid].sets[targetsetid].mode =
+      selectedMode.modeName;
+    setMotionList(updatedMotionList);
+
     setIsModalVisible(false);
   };
+
+  useEffect(() => {
+    if (motionList[1]) {
+      if (motionList[1] && motionList[1].sets[1]) {
+        console.log(motionList[1].sets[1].mode);
+      }
+    }
+  }, [motionList]);
 
   const handleAddMotionPress = () => {
     navigation.push('AddMotion', {motionList: motionList});
@@ -168,12 +188,11 @@ const WorkoutReady = ({navigation, route}) => {
             <WorkoutItem
               key={key}
               id={value.motion_id}
-              motion={value}
               isExercising={false}
               setIsModalVisible={setIsModalVisible}
+              motion={value}
               motionList={motionList}
-              setMotionList={setMotionList}
-              selectedMode={selectedMode}></WorkoutItem>
+              setMotionList={setMotionList}></WorkoutItem>
           ))}
       </ScrollView>
 

@@ -4,18 +4,35 @@ import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Dropdown from 'react-native-input-select';
 import Icon from 'react-native-vector-icons/Feather';
 import Check from 'react-native-vector-icons/Entypo';
+import {useSelector, useDispatch} from 'react-redux';
+import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 
 const SetItem = props => {
   const modes = ['기본', '고무밴드', '모드1', '모드2', '모드3'];
 
   const [weight, setWeight] = useState(props.weight);
   const [reps, setReps] = useState(props.reps);
-  const [mode, setMode] = useState('기본');
+  //const [mode, setMode] = useState(props.mode);
   const [isDone, setIsDone] = useState(props.isDone);
 
+  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
+
+  const dispatch = useDispatch();
+
   const handleModeSelectPress = () => {
+    console.log('target_motion_id: ' + props.target_motion_id);
+    dispatch(setTargetMotionId(props.target_motion_id));
+
+    console.log('props.set_id: ' + props.set_id);
+    dispatch(setTargetSetId(props.set_id));
+
     props.setIsModalVisible(true);
   };
+
+  // useEffect(() => {
+  //   console.log('targetmotionid' + targetmotionid);
+  //   console.log('targetsetid' + targetsetid);
+  // }, [targetmotionid, targetsetid]);
 
   const handleWeightChange = text => {
     const parsedWeight = parseInt(text);
@@ -39,11 +56,11 @@ const SetItem = props => {
       ].sets[props.set_id] = {
         weight: weight,
         reps: reps,
-        mode: mode,
+        mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
         isDone: isDone,
       };
     }
-  }, [weight, reps, mode]);
+  }, [weight, reps]);
 
   return props.isKey ? (
     <View style={styles.setContainer}>
@@ -89,7 +106,9 @@ const SetItem = props => {
         <Text style={styles.unitText}>회</Text>
       </View>
       <View style={styles.itemBox}>
-        <Text style={styles.modeText}>{mode}</Text>
+        <Text style={styles.modeText}>
+          {props.motionList[props.target_motion_id].sets[props.set_id].mode}
+        </Text>
         <TouchableOpacity onPress={handleModeSelectPress}>
           <Icon name="chevron-down" size={16} color="#808080"></Icon>
         </TouchableOpacity>
