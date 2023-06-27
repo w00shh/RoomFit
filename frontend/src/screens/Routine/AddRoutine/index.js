@@ -7,12 +7,18 @@ import {
   TextInput,
   Modal,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import WorkoutItem from '../../../components/WorkoutItem';
 import {serverAxios} from '../../../utils/commonAxios';
+
+import {useSelector, useDispatch} from 'react-redux';
+import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
+import CustomButton_W from '../../../components/CustomButton_W';
+import CustomButton_B from '../../../components/CustomButton_B';
 
 const AddRoutine = ({navigation, route}) => {
   const [motionList, setMotionList] = useState([]);
@@ -30,6 +36,75 @@ const AddRoutine = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+
+  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
+
+  const dispatch = useDispatch();
+
+  const modeList = [
+    {
+      modeName: '기본',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '고무밴드',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드1',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드2',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드3',
+      modeDescription: '설명',
+    },
+  ];
+
+  function Item({mode}) {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          handleModeItemPress(mode);
+        }}>
+        <View
+          style={{
+            flexDirection: 'column',
+            height: 72,
+            padding: 12,
+            margin: 4,
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            backgroundColor:
+              mode.modeName === selectedMode.modeName ? '#f5f5f5' : 'white',
+          }}>
+          <Text style={styles.modeText}>{mode.modeName}</Text>
+          <Text style={styles.descriptionText}>{mode.modeDescription}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  const handleModeItemPress = mode => {
+    setSelectedMode(mode);
+    //console.log(selectedMode.modeName);
+  };
+
+  const handleCancelPress = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleSelectPress = () => {
+    updatedMotionList = [...motionList];
+    updatedMotionList[targetmotionid].sets[targetsetid].mode =
+      selectedMode.modeName;
+    setMotionList(updatedMotionList);
+
+    setIsModalVisible(false);
+  };
 
   const handleSaveRoutine = async () => {
     console.log('routine id: ' + routine_id);
@@ -146,7 +221,7 @@ const AddRoutine = ({navigation, route}) => {
         visible={isRoutineNameModalVisible}
         transparent={true}
         animationType="fade">
-        <View style={styles.modalContainer}>
+        <View style={styles.modalNameContainer}>
           <View style={styles.routineNameContainer}>
             <View style={styles.titleContainer}>
               <Text style={styles.titleText}>루틴 이름</Text>
@@ -165,6 +240,39 @@ const AddRoutine = ({navigation, route}) => {
               onPress={handleConfirmPress}>
               <Text style={styles.confirmText}>확인</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal visible={isModalVisible} transparent={true} animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.modeContainer}>
+            <View style={styles.modeTitleContainer}>
+              <Text style={styles.titleText}>하중모드</Text>
+              <Text>{selectedMode.modeName}</Text>
+            </View>
+            <View>
+              <FlatList
+                data={modeList}
+                renderItem={({item}) => <Item mode={item}></Item>}
+                keyExtractor={item => item.modeName}></FlatList>
+            </View>
+
+            <View style={styles.modeButtonContainer}>
+              <View>
+                <CustomButton_W
+                  width={171}
+                  content="취소"
+                  onPress={handleCancelPress}
+                  disabled={false}></CustomButton_W>
+              </View>
+              <View>
+                <CustomButton_B
+                  width={171}
+                  content="선택 완료"
+                  onPress={handleSelectPress}
+                  disabled={false}></CustomButton_B>
+              </View>
+            </View>
           </View>
         </View>
       </Modal>
