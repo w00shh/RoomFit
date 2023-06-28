@@ -64,8 +64,9 @@
 //     console.log(res);
 // });
 
-// 루틴 상세 보기
-// fetch('http://127.0.0.1:4000/routine/detail/1',{
+// // 루틴 상세 보기
+// const id = 29
+// fetch('http://ec2-3-137-176-12.us-east-2.compute.amazonaws.com:4000/routine/detail/id',{
 //     method:"GET"
 // }).then(res=>res.json()).then(res=>{
 //     console.log(res);

@@ -67,8 +67,7 @@ Routine.load = function (user_id, limit = false, callback) {
               major_targets: [...uniqueMajorTarget].join(', '),
             };
           });
-          //console.log(groupedResults);
-          //console.log(finalResults);
+          finalResults.sort((a, b) => b.routine_id - a.routine_id);
           callback(null, finalResults);
         }
       });
@@ -85,7 +84,7 @@ Routine.detail = function (routine_id, callback) {
                 set_info.set_id,
                 set_info.set_no,
                 set_info.weight,
-                set_info.reps,
+                set_info.rep,
                 set_info.mode
                FROM routine_motion INNER JOIN routine ON routine.routine_id = routine_motion.routine_id
                INNER JOIN set_info ON set_info.routine_motion_id = routine_motion.routine_motion_id
@@ -94,7 +93,7 @@ Routine.detail = function (routine_id, callback) {
     if (err) {
       console.error(err.message);
       callback(err, null);
-    } else {
+    } else if(rows.length > 0){
       const datas = {
         routine_id: rows[0].routine_id,
         routine_name: rows[0].routine_name,
