@@ -996,6 +996,7 @@ export const WorkoutStart = ({navigation, route}) => {
             {motionList.map((value, key) => (
               <WorkoutItem
                 key={key}
+                motion_index={key}
                 id={value.motion_id}
                 motion={value}
                 isExercising={true}

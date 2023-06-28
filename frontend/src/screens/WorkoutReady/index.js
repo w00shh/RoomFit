@@ -195,6 +195,7 @@ const WorkoutReady = ({navigation, route}) => {
           motionList.map((value, key) => (
             <WorkoutItem
               key={key}
+              motion_index={key}
               id={value.motion_id}
               isExercising={false}
               setIsModalVisible={setIsModalVisible}

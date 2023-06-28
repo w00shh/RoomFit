@@ -105,7 +105,6 @@ const RoutineDetail = ({navigation, route}) => {
   };
 
   const handleSaveRoutine = async () => {
-    console.log('routine id: ' + routine_id);
     const body = {
       routine_id: routine_id,
       motion_list: motionList,
@@ -153,7 +152,7 @@ const RoutineDetail = ({navigation, route}) => {
         </TouchableOpacity>
       ),
     });
-  }, [isRoutineName, isSaveDisabled]);
+  }, [isRoutineName, isSaveDisabled, motionList]);
 
   const getRoutineDetailMotionList = async () => {
     const targeturl = '/routine/detail/' + route.params.routine_id;
@@ -323,6 +322,7 @@ const RoutineDetail = ({navigation, route}) => {
         {motionList[0] &&
           motionList.map((value, key) => (
             <WorkoutItem
+              motion_index={key}
               key={key}
               id={value.motion_id}
               motion={value}

@@ -51,9 +51,7 @@ const SetItem = props => {
   useEffect(() => {
     if (props.motionList) {
       const updatedMotionList = [...props.motionList];
-      updatedMotionList[
-        updatedMotionList.findIndex(item => item.motion_id === props.motion_id)
-      ].sets[props.set_id] = {
+      updatedMotionList[props.target_motion_id].sets[props.set_id] = {
         weight: weight,
         reps: reps,
         mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
