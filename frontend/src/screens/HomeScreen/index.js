@@ -22,6 +22,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {serverAxios} from '../../utils/commonAxios';
 
 const HomeScreen = ({navigation}) => {
+  const {isLogin} = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
   const [isConnected, setIsConnected] = useState(true);
   const [existRoutine, setExistRoutine] = useState(false);

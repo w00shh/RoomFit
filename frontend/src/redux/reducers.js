@@ -1,4 +1,5 @@
 import {
+  SET_IS_LOGIN,
   SET_USER_EMAIL,
   SET_USER_ID,
   SET_USER_NICKNAME,
@@ -8,6 +9,7 @@ import {
 } from './actions';
 
 const initialState = {
+  isLogin: false,
   useremail: '',
   userpassword: '',
   usernickname: '',
@@ -18,6 +20,8 @@ const initialState = {
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
+    case SET_IS_LOGIN:
+      return {...state, isLogin: action.payload};
     case SET_USER_EMAIL:
       return {...state, useremail: action.payload};
     case SET_USER_PASSWORD:

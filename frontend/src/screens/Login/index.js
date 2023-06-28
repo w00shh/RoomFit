@@ -4,7 +4,12 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
 import CustomButton_B from '../../components/CustomButton_B';
 import {useSelector, useDispatch} from 'react-redux';
-import {setUserEmail, setUserNickname, setUserId} from '../../redux/actions';
+import {
+  setIsLogin,
+  setUserEmail,
+  setUserNickname,
+  setUserId,
+} from '../../redux/actions';
 import {serverAxios} from '../../utils/commonAxios';
 
 const Login = ({navigation}) => {
@@ -43,6 +48,7 @@ const Login = ({navigation}) => {
       .then(res => {
         console.log(res.data);
 
+        dispatch(setIsLogin(res.data.success));
         dispatch(setUserNickname(res.data.user_name));
         dispatch(setUserId(res.data.user_id));
         navigation.navigate('HomeScreen');
