@@ -88,7 +88,6 @@ const AddRoutine = ({navigation}) => {
     await serverAxios
       .post('/routine', body)
       .then(res => {
-        console.log(res.data.rotuine_id);
         setRoutineId(res.data.routine_id);
       })
       .catch(e => {
@@ -97,7 +96,6 @@ const AddRoutine = ({navigation}) => {
   };
 
   const handleDeleteRoutinePress = async () => {
-    console.log(Array.from(selected.keys()));
     const body = {
       routine_ids: Array.from(selected.keys()),
     };
@@ -111,13 +109,8 @@ const AddRoutine = ({navigation}) => {
       });
   };
 
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
-
   const onSelect = useCallback(
     key => {
-      console.log(selected);
       if (selected.get(key)) {
         if (selected.get(key).isSelec) {
           const newSelected = new Map(selected);
@@ -133,8 +126,6 @@ const AddRoutine = ({navigation}) => {
         newSelected.set(key, {rotuineId: key, isSelec: true});
         setSelected(newSelected);
       }
-
-      //console.log(selected);
     },
     [selected],
   );
@@ -150,10 +141,10 @@ const AddRoutine = ({navigation}) => {
               targets={value.major_targets}
               numEx={value.motion_count}
               onPress={() => {
-                navigation.push('AddRoutine', {
+                navigation.push('RoutineDetail', {
                   isRoutineDetail: true,
-                  routineName: value.routine_name,
                   routine_id: value.routine_id,
+                  routineName: value.routine_name,
                 });
               }}></RoutineBox>
           </View>

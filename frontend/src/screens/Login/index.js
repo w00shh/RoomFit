@@ -38,10 +38,9 @@ const Login = ({navigation}) => {
       //     Age: age
       // }
       // await AsyncStorage.setItem('UserData', JSON.stringify(user));
-      console.log(email);
       navigation.navigate('HomeScreen');
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

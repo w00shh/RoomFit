@@ -11,11 +11,9 @@ import AddRoutine from './src/screens/Routine/AddRoutine/index.js';
 import AddMotion from './src/screens/AddMotion/index.js';
 import WorkoutReady from './src/screens/WorkoutReady/index.js';
 import ConnectDevice from './src/screens/ConnectDevice/index.js';
-import {
-  WorkoutStart,
-  WorkoutModify,
-  WorkoutSettings,
-} from './src/screens/WorkoutStart/index.js';
+import WorkoutStart from './src/screens/WorkoutStart/index.js';
+import RoutineDetail from './src/screens/Routine/RoutineDetail/index.js';
+
 import {Provider} from 'react-redux';
 import {Store} from './src/redux/store.js';
 
@@ -90,6 +88,17 @@ const App = () => {
                 fontSize: 16,
               },
               headerBackVisible: false,
+              headerShadowVisible: false,
+            }}></Stack.Screen>
+          <Stack.Screen
+            name="RoutineDetail"
+            component={RoutineDetail}
+            options={{
+              title: '루틴 상세',
+              headerTitleStyle: {
+                fontWeight: '700',
+                fontSize: 16,
+              },
               headerShadowVisible: false,
             }}></Stack.Screen>
 
