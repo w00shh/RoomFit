@@ -2,13 +2,20 @@ import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
-import SetItem from '../../components/SetItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import {useSelector, useDispatch} from 'react-redux';
-import {setEmail, setPassword} from '../../redux/actions';
+import {
+  setIsLogin,
+  setUserEmail,
+  setUserNickname,
+  setUserId,
+} from '../../redux/actions';
+import {serverAxios} from '../../utils/commonAxios';
 
 const Login = ({navigation}) => {
-  const {email, password} = useSelector(state => state.userReducer);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const dispatch = useDispatch();
   const [loginDisabled, setLoginDisabled] = useState(true);
 
@@ -28,20 +35,27 @@ const Login = ({navigation}) => {
     handleLoginDisabled();
   }, [email, password]);
 
-  const handleLoginPress = () => {
-    try {
-      dispatch(setEmail(email));
-      dispatch(setPassword(password));
-      console.group(email);
-      // var user = {
-      //     Name: name,
-      //     Age: age
-      // }
-      // await AsyncStorage.setItem('UserData', JSON.stringify(user));
-      navigation.navigate('HomeScreen');
-    } catch (e) {
-      console.log(e);
-    }
+  const handleLoginPress = async () => {
+    console.log(email);
+    console.log(password);
+    const body = {
+      email: email,
+      password: password,
+    };
+
+    await serverAxios
+      .put('/account/login', body)
+      .then(res => {
+        console.log(res.data);
+
+        dispatch(setIsLogin(res.data.success));
+        dispatch(setUserNickname(res.data.user_name));
+        dispatch(setUserId(res.data.user_id));
+        navigation.navigate('HomeScreen');
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   const handleselectionIdPress = () => {};
@@ -60,13 +74,13 @@ const Login = ({navigation}) => {
       <View>
         <Input
           label="이메일"
-          onChangeText={text => dispatch(setEmail(text))}
+          onChangeText={text => setEmail(text)}
           placeholder="이메일 입력"
           inputMode="email"
           keyboardType="email-address"></Input>
         <Input
           label="비밀번호"
-          onChangeText={text => dispatch(setPassword(text))}
+          onChangeText={text => setPassword(text)}
           placeholder="비밀번호 입력"
           inputMode="text"
           secureTextEntry={true}></Input>

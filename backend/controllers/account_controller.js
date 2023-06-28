@@ -21,7 +21,12 @@ const email_register = (req, res) => {
         success: 0,
       });
     else {
-      res.json({user_id: account.user_id, success: 1});
+      res.json({
+        user_id: account.user_id,
+        user_name: account.user_name,
+        email: account.email,
+        success: 1,
+      });
     }
   });
 };
@@ -72,7 +77,12 @@ const account_login = (req, res) => {
       });
     else {
       console.log(data);
-      res.json({user_id: data.user_id, user_name: data.user_name, success: 1});
+      res.json({
+        user_id: data.user_id,
+        user_name: data.user_name,
+        email: data.email,
+        success: 1,
+      });
     }
   });
 };
