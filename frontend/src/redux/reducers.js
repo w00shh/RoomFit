@@ -8,10 +8,10 @@ import {
 } from './actions';
 
 const initialState = {
-  email: '',
-  password: '',
-  nickname: '',
-  id: '',
+  useremail: '',
+  userpassword: '',
+  usernickname: '',
+  userid: '',
   targetmotionid: 1,
   targetsetid: 0,
 };
@@ -19,13 +19,13 @@ const initialState = {
 function userReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER_EMAIL:
-      return {...state, email: action.payload};
+      return {...state, useremail: action.payload};
     case SET_USER_PASSWORD:
-      return {...state, password: action.payload};
+      return {...state, userpassword: action.payload};
     case SET_USER_NICKNAME:
-      return {...state, nickname: action.payload};
+      return {...state, usernickname: action.payload};
     case SET_USER_ID:
-      return {...state, id: action.payload};
+      return {...state, userid: action.payload};
     case SET_TARGET_MOTION_ID:
       return {...state, targetmotionid: action.payload};
     case SET_TARGET_SET_ID:
