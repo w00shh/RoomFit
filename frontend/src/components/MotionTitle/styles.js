@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 48,
     height: 48,
-    backgroundColor: 'grey',
+
     marginHorizontal: 10,
   },
 

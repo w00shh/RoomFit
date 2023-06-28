@@ -21,7 +21,7 @@ const email_register = (req, res) => {
         success: 0,
       });
     else {
-      res.json({ user_id: account.user_id, success: 1 });
+      res.json({user_id: account.user_id, success: 1});
     }
   });
 };
@@ -47,7 +47,7 @@ const account_update = (req, res) => {
       res.status(500).send({
         message: err.message || 'Some error occured while updating Workout.',
       });
-    else res.json({ success: 1 });
+    else res.json({success: 1});
     // else res.send(data);
   });
 };
@@ -71,7 +71,8 @@ const account_login = (req, res) => {
         success: 0,
       });
     else {
-      res.json({ user_id: account.user_id, success: 1 });
+      console.log(data);
+      res.json({user_id: data.user_id, user_name: data.user_name, success: 1});
     }
   });
 };
@@ -94,7 +95,7 @@ const google_auth = (req, res) => {
 };
 
 const google_auth_redirect = async (req, res) => {
-  const { code } = req.query;
+  const {code} = req.query;
   // access_token, refresh_token 등의 구글 토큰 정보 가져오기
   const resp = await axios.post(GOOGLE_TOKEN_URL, {
     // x-www-form-urlencoded(body)
@@ -145,7 +146,7 @@ const email_verification = (req, res) => {
         success: 0,
       });
     else {
-      res.json({ success: 1, verification_code: data });
+      res.json({success: 1, verification_code: data});
     }
   });
 };
@@ -159,7 +160,7 @@ const find_id = (req, res) => {
         success: 0,
       });
     else {
-      res.json({ success: 1, user_id: data.user_id, is_api: data.is_api });
+      res.json({success: 1, user_id: data.user_id, is_api: data.is_api});
     }
   });
 };
@@ -173,7 +174,7 @@ const find_password = (req, res) => {
         success: 0,
       });
     else {
-      res.json({ success: 1, email: email, password: data });
+      res.json({success: 1, email: email, password: data});
     }
   });
 };

@@ -34,6 +34,7 @@ const HomeScreen = ({navigation}) => {
   const [isRecord, setIsRecord] = useState(false);
   const [isSetting, setIsSetting] = useState(false);
   const [routineId, setRoutineId] = useState();
+  const [routineReady, setRoutineReady] = useState(false);
 
   useEffect(() => {
     if (routineId) {
@@ -68,7 +69,6 @@ const HomeScreen = ({navigation}) => {
               fontSize: 28,
               fontWeight: '700',
               color: '#242424',
-              marginTop: 10,
               marginLeft: 10,
             }}>
             운동
@@ -79,14 +79,18 @@ const HomeScreen = ({navigation}) => {
     getMyRoutine();
   }, []);
 
+  useEffect(() => {}, [routine]);
+
   const getMyRoutine = async () => {
+    setRoutine([]);
     const body = {
       user_id: 'user1',
-      isHome: true,
+      isHome: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
       res.data.map((value, key) => {
-        setExistRoutine(true);
+        if (res.data.length === 0) setExistRoutine(false);
+        else setExistRoutine(true);
         setRoutine(currentRoutine => [
           ...currentRoutine,
           {
@@ -97,6 +101,7 @@ const HomeScreen = ({navigation}) => {
           },
         ]);
       });
+      setRoutineReady(true);
     });
   };
 
@@ -166,7 +171,7 @@ const HomeScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
-        {!existRoutine && (
+        {!existRoutine && routineReady && (
           <View style={styles.routineContainer}>
             <Text style={styles.noRoutineText}>생성된 루틴이 없습니다.</Text>
             <Text style={styles.noConnectionText2}>
@@ -179,17 +184,31 @@ const HomeScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
         )}
-        {routine[0] && (
+        {routine[0] && routineReady && (
           <View>
             <RoutineBox
               title={routine[0].routine_name}
               targets={routine[0].major_targets}
-              numEx={routine[0].motion_count}></RoutineBox>
+              numEx={routine[0].motion_count}
+              onPress={() => {
+                navigation.push('RoutineDetail', {
+                  isRoutineDetail: true,
+                  routine_id: routine[0].routine_id,
+                  routineName: routine[0].routine_name,
+                });
+              }}></RoutineBox>
             {routine[1] && (
               <RoutineBox
                 title={routine[1].routine_name}
                 targets={routine[1].major_targets}
-                numEx={routine[1].motion_count}></RoutineBox>
+                numEx={routine[1].motion_count}
+                onPress={() => {
+                  navigation.push('RoutineDetail', {
+                    isRoutineDetail: true,
+                    routine_id: routine[1].routine_id,
+                    routineName: routine[1].routine_name,
+                  });
+                }}></RoutineBox>
             )}
           </View>
         )}

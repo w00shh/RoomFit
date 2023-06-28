@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  Image,
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -19,7 +20,7 @@ const MotionItem = props => {
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
             ].isFavorite = !props.motion.isFavorite;
-            console.log(props.motion.motion_id);
+
             const body = {
               user_id: 'user1',
               motion_id: props.motion.motion_id,
@@ -32,9 +33,7 @@ const MotionItem = props => {
               /* 즐겨찾기 추가 API 호출 */
               await serverAxios
                 .post('/motion/favInsert', body)
-                .then(res => {
-                  console.log(res.data);
-                })
+                .then(res => {})
                 .catch(e => {
                   console.log(e);
                 });
@@ -42,9 +41,7 @@ const MotionItem = props => {
               /* 즐겨찾기 삭제 API 호출 */
               await serverAxios
                 .post('/motion/favDelete', body)
-                .then(res => {
-                  console.log(res.data);
-                })
+                .then(res => {})
                 .catch(e => {
                   console.log(e);
                 });
@@ -60,7 +57,6 @@ const MotionItem = props => {
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
             ].isFavorite = !props.motion.isFavorite;
-            console.log(props.motion.motion_id);
             const body = {
               user_id: 'user1',
               motion_id: props.motion.motion_id,
@@ -73,9 +69,7 @@ const MotionItem = props => {
               /* 즐겨찾기 추가 API 호출 */
               await serverAxios
                 .post('/motion/favInsert', body)
-                .then(res => {
-                  console.log(res.data);
-                })
+                .then(res => {})
                 .catch(e => {
                   console.log(e);
                 });
@@ -83,9 +77,7 @@ const MotionItem = props => {
               /* 즐겨찾기 삭제 API 호출 */
               await serverAxios
                 .post('/motion/favDelete', body)
-                .then(res => {
-                  console.log(res.data);
-                })
+                .then(res => {})
                 .catch(e => {
                   console.log(e);
                 });
@@ -98,7 +90,13 @@ const MotionItem = props => {
 
       {/* <Icon name="staro" size={20}></Icon> */}
 
-      <View style={styles.imageContainer}></View>
+      <View style={styles.imageContainer}>
+        <Image
+          source={{
+            uri: props.motion.imageUrl,
+          }}
+          style={{width: 48, height: 48}}></Image>
+      </View>
       <View style={styles.nameContainer}>
         <Text
           style={{

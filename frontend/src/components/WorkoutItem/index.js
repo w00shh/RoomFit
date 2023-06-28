@@ -6,22 +6,18 @@ import SetItem from '../SetItem';
 import {useEffect, useState} from 'react';
 
 const WorkoutItem = props => {
-  useEffect(() => {}, []);
-  const handleMotionDeletePress = id => {
-    props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
+  const handleMotionDeletePress = motion_index => {
+    //props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
+    const updatedMotionList = [...props.motionList];
+    updatedMotionList.splice(motion_index, 1);
+    props.setMotionList(updatedMotionList);
   };
 
-  const handleSetDeletePress = id => {
+  const handleSetDeletePress = motion_index => {
     const updatedMotionList = [...props.motionList];
-    updatedMotionList[
-      updatedMotionList.findIndex(item => item.motion_id === id)
-    ].sets.pop();
-    if (
-      updatedMotionList[
-        updatedMotionList.findIndex(item => item.motion_id === id)
-      ].sets.length === 0
-    ) {
-      handleMotionDeletePress(id);
+    updatedMotionList[props.motion_index].sets.pop();
+    if (updatedMotionList[props.motion_index].sets.length === 0) {
+      handleMotionDeletePress(motion_index);
     } else {
       props.setMotionList(updatedMotionList);
     }
@@ -29,9 +25,7 @@ const WorkoutItem = props => {
 
   const handleSetAddPress = id => {
     const updatedMotionList = [...props.motionList];
-    updatedMotionList[
-      updatedMotionList.findIndex(item => item.motion_id === id)
-    ].sets.push({
+    updatedMotionList[props.motion_index].sets.push({
       weight: 0,
       reps: 0,
       mode: '기본',
@@ -46,18 +40,12 @@ const WorkoutItem = props => {
         isKey={true}
         isExercising={props.isExercising}
         setIsModalVisible={props.setIsModalVisible}></SetItem>
-      {props.motionList[
-        props.motionList.findIndex(item => item.motion_id === props.id)
-      ].sets &&
-        props.motionList[
-          props.motionList.findIndex(item => item.motion_id === props.id)
-        ].sets.map((value, key) => (
+      {props.motionList[props.motion_index].sets &&
+        props.motionList[props.motion_index].sets.map((value, key) => (
           <SetItem
             key={key}
-            motion_id={props.id}
-            target_motion_id={props.motionList.findIndex(
-              item => item.motion_id === props.id,
-            )}
+            motion_id={props.motion_index}
+            target_motion_id={props.motion_index}
             set={value}
             set_id={key}
             motionList={props.motionList}
@@ -76,7 +64,7 @@ const WorkoutItem = props => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            handleMotionDeletePress(props.id);
+            handleMotionDeletePress(props.motion_index);
           }}>
           <Icon
             style={styles.icon}
@@ -88,7 +76,7 @@ const WorkoutItem = props => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            handleSetDeletePress(props.id);
+            handleSetDeletePress(props.motion_index);
           }}>
           <Icon
             style={styles.icon}
@@ -100,7 +88,7 @@ const WorkoutItem = props => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            handleSetAddPress(props.id);
+            handleSetAddPress(props.motion_index);
           }}>
           <Icon
             style={styles.icon}

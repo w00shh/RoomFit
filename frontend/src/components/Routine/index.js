@@ -17,7 +17,7 @@ const RoutineBox = props => {
           <Text style={styles.targetText}>{props.numEx}개의 운동</Text>
         </View>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={props.onPress}>
         <Right name="right" size={20} style={styles.rightIcon}></Right>
       </TouchableOpacity>
     </View>

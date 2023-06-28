@@ -6,6 +6,7 @@ import {serverAxios} from '../../../utils/commonAxios';
 import RoutineBox from '../../../components/Routine';
 import Check from 'react-native-vector-icons/AntDesign';
 import Right from 'react-native-vector-icons/AntDesign';
+import Back from 'react-native-vector-icons/Ionicons';
 
 const AddRoutine = ({navigation}) => {
   const [routineId, setRoutineId] = useState();
@@ -15,6 +16,18 @@ const AddRoutine = ({navigation}) => {
   const [selected, setSelected] = useState(new Map());
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{marginLeft: 10, marginRight: 10}}></Back>
+        </TouchableOpacity>
+      ),
+    });
     handleGetAllRoutine();
   }, []);
 
@@ -75,7 +88,6 @@ const AddRoutine = ({navigation}) => {
     await serverAxios
       .post('/routine', body)
       .then(res => {
-        console.log(res.data.rotuine_id);
         setRoutineId(res.data.routine_id);
       })
       .catch(e => {
@@ -84,7 +96,6 @@ const AddRoutine = ({navigation}) => {
   };
 
   const handleDeleteRoutinePress = async () => {
-    console.log(Array.from(selected.keys()));
     const body = {
       routine_ids: Array.from(selected.keys()),
     };
@@ -98,24 +109,8 @@ const AddRoutine = ({navigation}) => {
       });
   };
 
-  const handleSelectedRoutine = key => {
-    if (selected.get(key)) {
-      const newSelected = new Map(selected);
-      newSelected.set(key, {rotuineId: key, isSelec: false});
-      setSelected(newSelected);
-    }
-    selected.set(key, {
-      rotuineId: key,
-      isSelec: true,
-    });
-  };
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
-
   const onSelect = useCallback(
     key => {
-      console.log(selected);
       if (selected.get(key)) {
         if (selected.get(key).isSelec) {
           const newSelected = new Map(selected);
@@ -131,8 +126,6 @@ const AddRoutine = ({navigation}) => {
         newSelected.set(key, {rotuineId: key, isSelec: true});
         setSelected(newSelected);
       }
-
-      //console.log(selected);
     },
     [selected],
   );
@@ -146,7 +139,14 @@ const AddRoutine = ({navigation}) => {
             <RoutineBox
               title={value.routine_name}
               targets={value.major_targets}
-              numEx={value.motion_count}></RoutineBox>
+              numEx={value.motion_count}
+              onPress={() => {
+                navigation.push('RoutineDetail', {
+                  isRoutineDetail: true,
+                  routine_id: value.routine_id,
+                  routineName: value.routine_name,
+                });
+              }}></RoutineBox>
           </View>
         ))}
       {routine[0] &&

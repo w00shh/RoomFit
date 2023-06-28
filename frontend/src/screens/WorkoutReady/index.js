@@ -11,9 +11,9 @@ import styles from './styles';
 import WorkoutItem from '../../components/WorkoutItem/';
 import CustomButton_W from '../../components/CustomButton_W';
 import CustomButton_B from '../../components/CustomButton_B';
+import Back from 'react-native-vector-icons/Ionicons';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -51,6 +51,18 @@ const WorkoutReady = ({navigation, route}) => {
   ];
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{marginLeft: 10, marginRight: 10}}></Back>
+        </TouchableOpacity>
+      ),
+    });
     if (route.params.motionList) {
       setMotionList(route.params.motionList);
     }
@@ -101,7 +113,6 @@ const WorkoutReady = ({navigation, route}) => {
 
   const handleModeItemPress = mode => {
     setSelectedMode(mode);
-    //console.log(selectedMode.modeName);
   };
 
   const handleCancelPress = () => {
@@ -116,14 +127,6 @@ const WorkoutReady = ({navigation, route}) => {
 
     setIsModalVisible(false);
   };
-
-  useEffect(() => {
-    if (motionList[1]) {
-      if (motionList[1] && motionList[1].sets[1]) {
-        console.log(motionList[1].sets[1].mode);
-      }
-    }
-  }, [motionList]);
 
   const handleAddMotionPress = () => {
     navigation.push('AddMotion', {motionList: motionList});
@@ -183,6 +186,7 @@ const WorkoutReady = ({navigation, route}) => {
           motionList.map((value, key) => (
             <WorkoutItem
               key={key}
+              motion_index={key}
               id={value.motion_id}
               isExercising={false}
               setIsModalVisible={setIsModalVisible}
