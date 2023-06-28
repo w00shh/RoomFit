@@ -391,6 +391,84 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#242424',
   },
+  modalContainer5: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    padding: 0,
+  },
+
+  modeContainer5: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    alignItems: 'stretch',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+  },
+
+  modeTitleContainer5: {
+    alignItems: 'center',
+    paddingVertical: 24,
+  },
+
+  titleText5: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+  },
+
+  modeItemContainer: {
+    flexDirection: 'column',
+    height: 72,
+    padding: 12,
+    margin: 4,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+
+  modeText: {
+    fontSize: 16,
+    color: '#242424',
+  },
+  descriptionText: {
+    fontSize: 13,
+    color: '#acacac',
+  },
+  modeButtonContainer5: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
+    padding: 0,
+    backgroundColor: '#ffffff',
+  },
+
+  modeButton: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  pageContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-evenly',
+    margin: 0,
+    padding: 0,
+  },
 });
 
 export default styles;

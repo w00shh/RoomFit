@@ -11,6 +11,9 @@ import styles from './styles';
 import WorkoutItem from '../../components/WorkoutItem/';
 import CustomButton_W from '../../components/CustomButton_W';
 import CustomButton_B from '../../components/CustomButton_B';
+import Back from 'react-native-vector-icons/Ionicons';
+
+import {useSelector, useDispatch} from 'react-redux';
 
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -19,6 +22,10 @@ const WorkoutReady = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+
+  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
+
+  const dispatch = useDispatch();
 
   const modeList = [
     {
@@ -44,17 +51,37 @@ const WorkoutReady = ({navigation, route}) => {
   ];
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{marginLeft: 10, marginRight: 10}}></Back>
+        </TouchableOpacity>
+      ),
+    });
     if (route.params.motionList) {
       setMotionList(route.params.motionList);
     }
-    for (let i = 0; i < route.params.selectedMotionKeys.length; i++) {
+    for (let i = 0; i < route.params.displaySelected.length; i++) {
       setMotionList(currentMotionList => [
         ...currentMotionList,
         {
-          motion_id: route.params.selectedMotionKeys[i],
-          motionName: 'first motion',
-          imageUrl: '',
-          set: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
+          isFavorite: route.params.displaySelected[i].isFavorite,
+          motion_id: route.params.displaySelected[i].motion_id,
+          motionName: route.params.displaySelected[i].motionName,
+          imageUrl: route.params.displaySelected[i].imageUrl,
+          sets: [
+            {
+              weight: 0,
+              reps: 0,
+              mode: '기본',
+              isDone: false,
+            },
+          ],
         },
       ]);
     }
@@ -86,7 +113,6 @@ const WorkoutReady = ({navigation, route}) => {
 
   const handleModeItemPress = mode => {
     setSelectedMode(mode);
-    console.log(selectedMode.modeName);
   };
 
   const handleCancelPress = () => {
@@ -94,6 +120,11 @@ const WorkoutReady = ({navigation, route}) => {
   };
 
   const handleSelectPress = () => {
+    updatedMotionList = [...motionList];
+    updatedMotionList[targetmotionid].sets[targetsetid].mode =
+      selectedMode.modeName;
+    setMotionList(updatedMotionList);
+
     setIsModalVisible(false);
   };
 
@@ -107,6 +138,8 @@ const WorkoutReady = ({navigation, route}) => {
       motionList: motionList,
       elapsedTime: 0,
       TUT: 0,
+      m_index: 0,
+      s_index: 0,
       isPaused: false,
       isPausedPage: false,
       isModifyMotion: false,
@@ -153,13 +186,13 @@ const WorkoutReady = ({navigation, route}) => {
           motionList.map((value, key) => (
             <WorkoutItem
               key={key}
+              motion_index={key}
               id={value.motion_id}
-              motion={value}
               isExercising={false}
               setIsModalVisible={setIsModalVisible}
+              motion={value}
               motionList={motionList}
-              setMotionList={setMotionList}
-              selectedMode={selectedMode}></WorkoutItem>
+              setMotionList={setMotionList}></WorkoutItem>
           ))}
       </ScrollView>
 

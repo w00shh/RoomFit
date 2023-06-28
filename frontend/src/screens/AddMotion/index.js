@@ -12,9 +12,9 @@ import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import XX from 'react-native-vector-icons/Feather';
+import {serverAxios} from '../../utils/commonAxios';
 
 const AddMotion = ({navigation, route}) => {
-  const [motion, setMotion] = useState('');
   const [motionList, setMotionList] = useState([]);
   const [motionListMap, setMotionListMap] = useState(new Map());
   let selectedMotionKeys = [];
@@ -33,9 +33,35 @@ const AddMotion = ({navigation, route}) => {
     const defaultFontSize = 13; // 기본 폰트 크기를 설정합니다.
     const averageCharWidth = 1; // 평균 글자 너비를 설정합니다.
 
-    let textWidth = charCount * 11;
+    let textWidth = charCount * 17;
     if (textWidth > 70 && textWidth <= 110) textWidth += 20;
     return textWidth;
+  };
+
+  const handleMotionSearchChange = async text => {
+    const body = {
+      user_id: 'user1',
+      motion_name: text,
+    };
+    await serverAxios
+      .post('/motion/search', body)
+      .then(res => {
+        setMotionList([]);
+        res.data.map((value, key) => {
+          setMotionList(currentMotionList => [
+            ...currentMotionList,
+            {
+              isFavorite: value.isFav,
+              motion_id: value.motion_id,
+              motionName: value.motion_name,
+              imageUrl: value.imageUrl,
+            },
+          ]);
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   const onSelect = useCallback(
@@ -45,11 +71,24 @@ const AddMotion = ({navigation, route}) => {
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
       if (displaySelected.get(motion.motion_id))
         displaySelected.delete(motion.motion_id);
-      else displaySelected.set(motion.motion_id, motion.motionName);
+      else
+        displaySelected.set(motion.motion_id, {
+          motion_id: motion.motion_id,
+          motionName: motion.motionName,
+          imageUrl: motion.imageUrl,
+          isFavorite: motion.isFavorite,
+        });
       setSelected(newSelected);
     },
     [selected],
   );
+
+  const deleteSelected = key => {
+    displaySelected.delete(key);
+    const newSelected = new Map(selected);
+    newSelected.set(key, false);
+    setSelected(newSelected);
+  };
 
   useEffect(() => {
     length = 0;
@@ -64,10 +103,38 @@ const AddMotion = ({navigation, route}) => {
   function Item({motion, selected, onSelect}) {
     return (
       <TouchableOpacity onPress={() => onSelect(motion)}>
-        <MotionItem motion={motion} selected={selected}></MotionItem>
+        <MotionItem
+          motion={motion}
+          selected={selected}
+          motionList={motionList}
+          setMotionList={setMotionList}></MotionItem>
       </TouchableOpacity>
     );
   }
+
+  const getMotionList = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+    await serverAxios
+      .post('/motion', body)
+      .then(res => {
+        res.data.map((value, key) => {
+          setMotionList(currentMotionList => [
+            ...currentMotionList,
+            {
+              isFavorite: value.isFav,
+              motion_id: value.motion_id,
+              motionName: value.motion_name,
+              imageUrl: value.imageUrl,
+            },
+          ]);
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -77,33 +144,9 @@ const AddMotion = ({navigation, route}) => {
         </TouchableOpacity>
       ),
     });
-    setMotionList([
-      {
-        motion_id: 1,
-        motionName: 'Low cable crossover',
-        imageUrl: '',
-      },
-      {
-        motion_id: 2,
-        motionName: 'Sit up sss ss',
-        imageUrl: '',
-      },
-      {
-        motion_id: 3,
-        motionName: 'Side Bend',
-        imageUrl: '',
-      },
-      {
-        motion_id: 4,
-        motionName: '45 degrees Back Extension',
-        imageUrl: '',
-      },
-      {
-        motion_id: 5,
-        motionName: 'Air bike',
-        imageUrl: '',
-      },
-    ]);
+
+    getMotionList();
+
     motionList.forEach(motion => {
       setMotionListMap(motionListMap.set(motion.motion_id, motion));
     });
@@ -123,7 +166,7 @@ const AddMotion = ({navigation, route}) => {
         <Icon name="search" size={16} color="#808080"></Icon>
         <TextInput
           style={{marginLeft: 12}}
-          onChangeText={text => setMotion(text)}
+          onChangeText={handleMotionSearchChange}
           placeholder="동작을 검색해보세요"
           inputMode="text"></TextInput>
       </View>
@@ -145,7 +188,10 @@ const AddMotion = ({navigation, route}) => {
             <View
               key={key}
               style={{
-                width: getTextWidth(value) > 84 ? getTextWidth(value) : 84,
+                width:
+                  getTextWidth(value.motionName) > 84
+                    ? getTextWidth(value.motionName)
+                    : 84,
                 height: 32,
                 backgroundColor: '#242424',
                 borderRadius: 8,
@@ -155,8 +201,10 @@ const AddMotion = ({navigation, route}) => {
                 marginLeft: 8,
                 marginTop: 7,
               }}>
-              <Text style={styles.selectMotionText}>{value}</Text>
-              <XX name="x" color={'white'} size={15}></XX>
+              <Text style={styles.selectMotionText}>{value.motionName}</Text>
+              <TouchableOpacity onPress={() => deleteSelected(value.motion_id)}>
+                <XX name="x" color={'white'} size={15}></XX>
+              </TouchableOpacity>
             </View>
           ))}
       </View>
@@ -179,23 +227,37 @@ const AddMotion = ({navigation, route}) => {
           route.params.isRoutine
             ? () => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
-                navigation.push('AddRoutine', {
-                  isMotionAdded: true,
-                  routineName: route.params.routineName,
-                  selectedMotionKeys: selectedMotionKeys,
-                  motionList: route.params.motionList,
-                });
+                route.params.isRoutineDetail
+                  ? navigation.push('RoutineDetail', {
+                      isMotionAdded: true,
+                      routineName: route.params.routineName,
+                      selectedMotionKeys: selectedMotionKeys,
+                      motionList: route.params.motionList,
+                      displaySelected: Array.from(displaySelected.values()),
+                      routine_id: route.params.routine_id,
+                    })
+                  : navigation.push('AddRoutine', {
+                      isMotionAdded: true,
+                      routineName: route.params.routineName,
+                      selectedMotionKeys: selectedMotionKeys,
+                      motionList: route.params.motionList,
+                      displaySelected: Array.from(displaySelected.values()),
+                      routine_id: route.params.routine_id,
+                    });
               }
             : () => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
-                //console.log(selectedMotionKeys);
+
                 route.params.isExercising
                   ? navigation.push('WorkoutStart', {
                       isAddMotion: true,
                       motionList: route.params.motionList,
                       selectedMotionKeys: selectedMotionKeys,
+                      displaySelected: Array.from(displaySelected.values()),
                       elapsedTime: route.params.elapsedTime,
                       TUT: route.params.TUT,
+                      m_index: route.params.m_index,
+                      s_index: route.params.s_index,
                       isPaused: true,
                       isPausedPage: false,
                       isModifyMotion: true,
@@ -203,6 +265,7 @@ const AddMotion = ({navigation, route}) => {
                   : navigation.push('WorkoutReady', {
                       selectedMotionKeys: selectedMotionKeys,
                       motionList: route.params.motionList,
+                      displaySelected: Array.from(displaySelected.values()),
                     });
               }
         }></CustomButton_B>

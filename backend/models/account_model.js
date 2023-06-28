@@ -18,7 +18,7 @@ const Account = function (user) {
 
 //Create User in email create mode
 Account.create = (new_user, callback) => {
-  const { user_id, password, user_name, email } = new_user;
+  const {user_id, password, user_name, email} = new_user;
 
   // 중복 체크를 위해 user_id와 email을 검색
   db.get(
@@ -54,9 +54,9 @@ Account.create = (new_user, callback) => {
             return;
           }
           callback(null, this.lastID);
-        }
+        },
       );
-    }
+    },
   );
 };
 
@@ -125,14 +125,14 @@ Account.update = (new_account, callback) => {
         // Successful update
         callback(null, res);
       });
-    }
+    },
   );
 };
 
 Account.login = (user, callback) => {
-  const { email, password } = user;
+  const {email, password} = user;
   db.get(
-    `SELECT email, password FROM User WHERE email = ?`,
+    `SELECT email, password, user_id, user_name FROM User WHERE email = ?`,
     [email],
     function (err, row) {
       if (err) {
@@ -154,14 +154,19 @@ Account.login = (user, callback) => {
         callback(error);
         return;
       } else {
-        callback(null, this.lastID);
+        console.log(row);
+        callback(null, {
+          user_id: row.user_id,
+          user_name: row.user_name,
+          email: row.email,
+        });
       }
-    }
+    },
   );
 };
 
 Account.google_auth = (user, callback) => {
-  const { user_id, user_name, email, is_api } = user;
+  const {user_id, user_name, email, is_api} = user;
 
   // 중복 체크를 위해 user_id와 email을 검색
   db.get(
@@ -199,9 +204,9 @@ Account.google_auth = (user, callback) => {
             return;
           }
           callback(null, this.lastID, 1);
-        }
+        },
       );
-    }
+    },
   );
 };
 
@@ -260,8 +265,8 @@ Account.find_id = (email, callback) => {
         callback(error);
         return;
       }
-      callback(null, { user_id: row.user_id, is_api: row.is_api });
-    }
+      callback(null, {user_id: row.user_id, is_api: row.is_api});
+    },
   );
 };
 
@@ -325,7 +330,7 @@ Account.find_password = (email, callback) => {
                     callback(err);
                     return;
                   }
-                }
+                },
               );
 
               callback(null, tmpPassword);
@@ -334,7 +339,7 @@ Account.find_password = (email, callback) => {
           });
         }
       }
-    }
+    },
   );
 };
 

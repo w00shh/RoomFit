@@ -3,6 +3,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles.js';
 import Input from '../../components/Input/index.js';
 import CustomButton_B from '../../components/CustomButton_B/index.js';
+import {serverAxios} from '../../utils/commonAxios.js';
 
 const Register = ({navigation}) => {
   const [nickname, setNickname] = useState('');

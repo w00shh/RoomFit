@@ -6,26 +6,26 @@ import SetItem from '../SetItem';
 import {useEffect, useState} from 'react';
 
 const WorkoutItem = props => {
-  const [set, setSet] = useState([]);
-
-  useEffect(() => {});
-  const handleMotionDeletePress = id => {
-    props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
+  const handleMotionDeletePress = motion_index => {
+    //props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
+    const updatedMotionList = [...props.motionList];
+    updatedMotionList.splice(motion_index, 1);
+    props.setMotionList(updatedMotionList);
   };
 
-  const handleSetDeletePress = id => {
+  const handleSetDeletePress = motion_index => {
     const updatedMotionList = [...props.motionList];
-    updatedMotionList[
-      updatedMotionList.findIndex(item => item.motion_id === id)
-    ].set.pop();
-    props.setMotionList(updatedMotionList);
+    updatedMotionList[props.motion_index].sets.pop();
+    if (updatedMotionList[props.motion_index].sets.length === 0) {
+      handleMotionDeletePress(motion_index);
+    } else {
+      props.setMotionList(updatedMotionList);
+    }
   };
 
   const handleSetAddPress = id => {
     const updatedMotionList = [...props.motionList];
-    updatedMotionList[
-      updatedMotionList.findIndex(item => item.motion_id === id)
-    ].set.push({
+    updatedMotionList[props.motion_index].sets.push({
       weight: 0,
       reps: 0,
       mode: '기본',
@@ -40,15 +40,13 @@ const WorkoutItem = props => {
         isKey={true}
         isExercising={props.isExercising}
         setIsModalVisible={props.setIsModalVisible}></SetItem>
-      {props.motionList[
-        props.motionList.findIndex(item => item.motion_id === props.id)
-      ].set &&
-        props.motionList[
-          props.motionList.findIndex(item => item.motion_id === props.id)
-        ].set.map((value, key) => (
+      {props.motionList[props.motion_index].sets &&
+        props.motionList[props.motion_index].sets.map((value, key) => (
           <SetItem
             key={key}
-            motion_id={props.id}
+            motion_id={props.motion_index}
+            target_motion_id={props.motion_index}
+            set={value}
             set_id={key}
             motionList={props.motionList}
             setMotionList={props.setMotionList}
@@ -56,18 +54,17 @@ const WorkoutItem = props => {
             isExercising={props.isExercising}
             setIsModalVisible={props.setIsModalVisible}
             motion={props.motion}
-            defaultWeight={value.weight}
-            defaultReps={value.reps}
-            defualtMode={value.mode}
-            defaultIsDone={value.isDone}
-            mode={props.selectedMode}></SetItem>
+            weight={value.weight}
+            reps={value.reps}
+            mode={value.mode}
+            isDone={value.isDone}></SetItem>
         ))}
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            handleMotionDeletePress(props.id);
+            handleMotionDeletePress(props.motion_index);
           }}>
           <Icon
             style={styles.icon}
@@ -79,7 +76,7 @@ const WorkoutItem = props => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            handleSetDeletePress(props.id);
+            handleSetDeletePress(props.motion_index);
           }}>
           <Icon
             style={styles.icon}
@@ -91,7 +88,7 @@ const WorkoutItem = props => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            handleSetAddPress(props.id);
+            handleSetAddPress(props.motion_index);
           }}>
           <Icon
             style={styles.icon}

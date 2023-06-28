@@ -11,15 +11,13 @@ const styles = StyleSheet.create({
   },
 
   intro: {
-    position: 'absolute',
-    marginTop: '11%',
+    marginTop: 20,
     marginLeft: '8%',
     marginRight: '8%',
   },
 
   mainLogo: {
-    position: 'absolute',
-    marginTop: '109%',
+    marginTop: 25,
     marginLeft: '20%',
     marginRight: '20%',
   },
@@ -36,7 +34,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 0,
 
-    marginTop: '135%',
+    marginTop: 45,
   },
   Google_Button: {
     alignItems: 'center',

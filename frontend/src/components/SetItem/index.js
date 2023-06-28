@@ -4,14 +4,26 @@ import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Dropdown from 'react-native-input-select';
 import Icon from 'react-native-vector-icons/Feather';
 import Check from 'react-native-vector-icons/Entypo';
+import {useSelector, useDispatch} from 'react-redux';
+import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 
 const SetItem = props => {
   const modes = ['기본', '고무밴드', '모드1', '모드2', '모드3'];
-  const [weight, setWeight] = useState(props.defaultWeight);
-  const [reps, setReps] = useState(props.defaultReps);
-  const [mode, setMode] = useState('기본');
+
+  const [weight, setWeight] = useState(props.weight);
+  const [reps, setReps] = useState(props.reps);
+  //const [mode, setMode] = useState(props.mode);
+  const [isDone, setIsDone] = useState(props.isDone);
+
+  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
+
+  const dispatch = useDispatch();
 
   const handleModeSelectPress = () => {
+    dispatch(setTargetMotionId(props.target_motion_id));
+
+    dispatch(setTargetSetId(props.set_id));
+
     props.setIsModalVisible(true);
   };
 
@@ -32,16 +44,14 @@ const SetItem = props => {
   useEffect(() => {
     if (props.motionList) {
       const updatedMotionList = [...props.motionList];
-      updatedMotionList[
-        updatedMotionList.findIndex(item => item.motion_id === props.motion_id)
-      ].set[props.set_id] = {
+      updatedMotionList[props.target_motion_id].sets[props.set_id] = {
         weight: weight,
         reps: reps,
-        mode: mode,
-        isDone: false,
+        mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
+        isDone: isDone,
       };
     }
-  }, [weight, reps, mode]);
+  }, [weight, reps]);
 
   return props.isKey ? (
     <View style={styles.setContainer}>
@@ -72,8 +82,8 @@ const SetItem = props => {
         <TextInput
           style={styles.valueText}
           keyboardType="number-pad"
-          //placeholder={String(props.defaultWeight)}
-          defaultValue={String(props.defaultWeight)}
+          placeholder={String(props.weight)}
+          defaultValue={props.weight !== 0 ? String(props.weight) : null}
           onChangeText={handleWeightChange}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
@@ -81,13 +91,15 @@ const SetItem = props => {
         <TextInput
           style={styles.valueText}
           keyboardType="number-pad"
-          //placeholder={String(props.defaultReps)}
-          defaultValue={String(props.defaultReps)}
+          placeholder={String(props.reps)}
+          defaultValue={props.reps !== 0 ? String(props.reps) : null}
           onChangeText={handleRepsChange}></TextInput>
         <Text style={styles.unitText}>회</Text>
       </View>
       <View style={styles.itemBox}>
-        <Text style={styles.modeText}>{mode}</Text>
+        <Text style={styles.modeText}>
+          {props.motionList[props.target_motion_id].sets[props.set_id].mode}
+        </Text>
         <TouchableOpacity onPress={handleModeSelectPress}>
           <Icon name="chevron-down" size={16} color="#808080"></Icon>
         </TouchableOpacity>
@@ -147,7 +159,7 @@ const SetItem = props => {
       </View>
       {props.isExercising && (
         <View style={styles.keyBox}>
-          {props.defaultIsDone ? (
+          {props.isDone ? (
             <Check name="check" size={16} color="#5252fa"></Check>
           ) : (
             <Check name="check" size={16} color="#dfdfdf"></Check>

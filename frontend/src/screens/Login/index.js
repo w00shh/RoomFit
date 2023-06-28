@@ -2,12 +2,21 @@ import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
-import SetItem from '../../components/SetItem';
 import CustomButton_B from '../../components/CustomButton_B';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  setIsLogin,
+  setUserEmail,
+  setUserNickname,
+  setUserId,
+} from '../../redux/actions';
+import {serverAxios} from '../../utils/commonAxios';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
   const [loginDisabled, setLoginDisabled] = useState(true);
 
   const handleEmailChange = e => {};
@@ -26,7 +35,28 @@ const Login = ({navigation}) => {
     handleLoginDisabled();
   }, [email, password]);
 
-  const handleLoginPress = () => {};
+  const handleLoginPress = async () => {
+    console.log(email);
+    console.log(password);
+    const body = {
+      email: email,
+      password: password,
+    };
+
+    await serverAxios
+      .put('/account/login', body)
+      .then(res => {
+        console.log(res.data);
+
+        dispatch(setIsLogin(res.data.success));
+        dispatch(setUserNickname(res.data.user_name));
+        dispatch(setUserId(res.data.user_id));
+        navigation.navigate('HomeScreen');
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   const handleselectionIdPress = () => {};
 
@@ -81,9 +111,6 @@ const Login = ({navigation}) => {
           <Text style={styles.registerText}>회원가입하기</Text>
         </TouchableOpacity>
       </View>
-
-      {/* <SetItem isKey={true}></SetItem>
-      <SetItem isKey={false}></SetItem> */}
     </View>
   );
 };

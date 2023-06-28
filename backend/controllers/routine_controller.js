@@ -15,17 +15,13 @@ const create_routine = (req, res) => {
 const load_routine = (req, res) => {
   if (!req.body) res.status(400).send({message: 'Content can not be empty'});
 
-  Routine.load(
-    req.body.user_id,
-    req.params.limit == 'true' ? true : false,
-    (err, data) => {
-      if (err)
-        res.status(500).send({
-          message: err.message || 'Some error occurred while loading routines',
-        });
-      res.json(data);
-    },
-  );
+  Routine.load(req.body.user_id, req.body.isHome, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred while loading routines',
+      });
+    res.json(data);
+  });
 };
 
 const routine_detail = (req, res) => {

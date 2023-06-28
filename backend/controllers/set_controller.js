@@ -11,7 +11,7 @@ const create_set = (req, res) => {
     routine_motion_id: req.body.routine_motion_id,
     set_no: req.body.set_no,
     weight: req.body.weight,
-    rep: req.body.rep,
+    reps: req.body.reps,
     mode: req.body.mode,
   });
 
