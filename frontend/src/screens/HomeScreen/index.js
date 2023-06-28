@@ -190,12 +190,26 @@ const HomeScreen = ({navigation}) => {
             <RoutineBox
               title={routine[0].routine_name}
               targets={routine[0].major_targets}
-              numEx={routine[0].motion_count}></RoutineBox>
+              numEx={routine[0].motion_count}
+              onPress={() => {
+                navigation.push('RoutineDetail', {
+                  isRoutineDetail: true,
+                  routine_id: routine[0].routine_id,
+                  routineName: routine[0].routine_name,
+                });
+              }}></RoutineBox>
             {routine[1] && (
               <RoutineBox
                 title={routine[1].routine_name}
                 targets={routine[1].major_targets}
-                numEx={routine[1].motion_count}></RoutineBox>
+                numEx={routine[1].motion_count}
+                onPress={() => {
+                  navigation.push('RoutineDetail', {
+                    isRoutineDetail: true,
+                    routine_id: routine[1].routine_id,
+                    routineName: routine[1].routine_name,
+                  });
+                }}></RoutineBox>
             )}
           </View>
         )}

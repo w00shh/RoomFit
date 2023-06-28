@@ -18,8 +18,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
 
-const AddRoutine = ({navigation, route}) => {
+const RoutineDetail = ({navigation, route}) => {
   const [motionList, setMotionList] = useState([]);
+  const [routine_id, setRoutine_id] = useState(route.params.routine_id);
   const [routineName, setRoutineName] = useState(route.params.routineName);
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
@@ -28,7 +29,6 @@ const AddRoutine = ({navigation, route}) => {
   const [isSaveDisabled, setIsSaveDisabled] = useState(
     motionList.length === 0 ? true : false,
   );
-  const [routine_id, setRoutine_id] = useState(route.params.routine_id);
 
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
@@ -181,15 +181,9 @@ const AddRoutine = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    console.log(motionList);
-  }, [motionList]);
-
-  useEffect(() => {
     if (route.params.isRoutineDetail) {
       getRoutineDetailMotionList();
-    }
-
-    if (route.params.isMotionAdded) {
+    } else {
       setMotionList(route.params.motionList);
       setIsSaveDisabled(false);
       for (let i = 0; i < route.params.displaySelected.length; i++) {
@@ -222,14 +216,6 @@ const AddRoutine = ({navigation, route}) => {
     }
   }, [motionList]);
 
-  const handleAddWorkoutMotionPress = () => {
-    navigation.push('AddMotion', {
-      isRoutine: true,
-      routineName: routineName,
-      motionList: motionList,
-      routine_id: routine_id,
-    });
-  };
   const handleConfirmPress = async () => {
     setIsRoutineName(!isRoutineName);
     setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
@@ -244,6 +230,16 @@ const AddRoutine = ({navigation, route}) => {
       .catch(e => {
         console.log(e);
       });
+  };
+
+  const handleAddMotionPress = () => {
+    navigation.push('AddMotion', {
+      isRoutine: true,
+      isRoutineDetail: true,
+      routine_id: routine_id,
+      routineName: routineName,
+      motionList: motionList,
+    });
   };
 
   const handleStartWorkoutPress = () => {
@@ -277,6 +273,7 @@ const AddRoutine = ({navigation, route}) => {
                 onChangeText={text => {
                   setRoutineName(text);
                 }}
+                defaultValue={routineName}
                 placeholder="루틴 이름"
                 inputMode="text"></TextInput>
             </View>
@@ -321,60 +318,40 @@ const AddRoutine = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-      {route.params.isMotionAdded || route.params.isRoutineDetail ? (
-        <ScrollView style={{height: 450}}>
-          {motionList[0] &&
-            motionList.map((value, key) => (
-              <WorkoutItem
-                key={key}
-                id={value.motion_id}
-                motion={value}
-                isExercising={false}
-                setIsModalVisible={setIsModalVisible}
-                motion={value}
-                motionList={motionList}
-                setMotionList={setMotionList}></WorkoutItem>
-            ))}
-        </ScrollView>
-      ) : (
-        <>
-          <View style={styles.newRoutineContainer}>
-            <Text style={styles.newRoutineText}>
-              동작을 추가해 나만의 루틴을 만들어보세요.
-            </Text>
-          </View>
-          <ScrollView></ScrollView>
-        </>
-      )}
 
-      {!route.params.isRoutineDetail ? (
-        <TouchableOpacity
-          onPress={handleAddWorkoutMotionPress}
-          style={styles.addMotionContainer}>
-          <Text style={styles.addMotionText}>+ 동작 추가</Text>
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.buttonContainer}>
-          <View style={styles.buttonSection}>
-            <CustomButton_W
-              width={171}
-              content="+ 동작 추가"
-              onPress={() => {
-                //handleAddMotionPress();
-              }}
-              disabled={false}></CustomButton_W>
-          </View>
-          <View style={styles.buttonSection}>
-            <CustomButton_B
-              width={171}
-              content="루틴 운동 시작"
-              onPress={handleStartWorkoutPress}
-              disabled={false}></CustomButton_B>
-          </View>
+      <ScrollView style={{height: 450}}>
+        {motionList[0] &&
+          motionList.map((value, key) => (
+            <WorkoutItem
+              key={key}
+              id={value.motion_id}
+              motion={value}
+              isExercising={false}
+              setIsModalVisible={setIsModalVisible}
+              motion={value}
+              motionList={motionList}
+              setMotionList={setMotionList}></WorkoutItem>
+          ))}
+      </ScrollView>
+
+      <View style={styles.buttonContainer}>
+        <View style={styles.buttonSection}>
+          <CustomButton_W
+            width={171}
+            content="+ 동작 추가"
+            onPress={handleAddMotionPress}
+            disabled={false}></CustomButton_W>
         </View>
-      )}
+        <View style={styles.buttonSection}>
+          <CustomButton_B
+            width={171}
+            content="루틴 운동 시작"
+            onPress={handleStartWorkoutPress}
+            disabled={false}></CustomButton_B>
+        </View>
+      </View>
     </View>
   );
 };
 
-export default AddRoutine;
+export default RoutineDetail;

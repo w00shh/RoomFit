@@ -150,10 +150,10 @@ const AddRoutine = ({navigation}) => {
               targets={value.major_targets}
               numEx={value.motion_count}
               onPress={() => {
-                navigation.push('AddRoutine', {
+                navigation.push('RoutineDetail', {
                   isRoutineDetail: true,
-                  routineName: value.routine_name,
                   routine_id: value.routine_id,
+                  routineName: value.routine_name,
                 });
               }}></RoutineBox>
           </View>

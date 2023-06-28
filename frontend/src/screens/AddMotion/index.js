@@ -231,14 +231,23 @@ const AddMotion = ({navigation, route}) => {
           route.params.isRoutine
             ? () => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
-                navigation.push('AddRoutine', {
-                  isMotionAdded: true,
-                  routineName: route.params.routineName,
-                  selectedMotionKeys: selectedMotionKeys,
-                  motionList: route.params.motionList,
-                  displaySelected: Array.from(displaySelected.values()),
-                  routine_id: route.params.routine_id,
-                });
+                route.params.isRoutineDetail
+                  ? navigation.push('RoutineDetail', {
+                      isMotionAdded: true,
+                      routineName: route.params.routineName,
+                      selectedMotionKeys: selectedMotionKeys,
+                      motionList: route.params.motionList,
+                      displaySelected: Array.from(displaySelected.values()),
+                      routine_id: route.params.routine_id,
+                    })
+                  : navigation.push('AddRoutine', {
+                      isMotionAdded: true,
+                      routineName: route.params.routineName,
+                      selectedMotionKeys: selectedMotionKeys,
+                      motionList: route.params.motionList,
+                      displaySelected: Array.from(displaySelected.values()),
+                      routine_id: route.params.routine_id,
+                    });
               }
             : () => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
