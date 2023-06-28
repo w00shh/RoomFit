@@ -13,6 +13,7 @@ const Input = props => {
           style={styles.input}
           onChangeText={props.onChangeText}
           placeholder={props.placeholder}
+          defaultValue={props.defaultValue}
           inputMode={props.inputMode}
           keyboardType={props.keyboardType}
           secureTextEntry={props.secureTextEntry}></TextInput>

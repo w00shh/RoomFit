@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   },
   toLogin: {
     flexDirection: 'row',
+    justifyContent: 'center',
     marginVertical: 16,
   },
   questionText: {
