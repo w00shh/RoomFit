@@ -20,7 +20,7 @@ const MotionItem = props => {
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
             ].isFavorite = !props.motion.isFavorite;
-            console.log(props.motion.motion_id);
+
             const body = {
               user_id: 'user1',
               motion_id: props.motion.motion_id,
@@ -33,9 +33,7 @@ const MotionItem = props => {
               /* 즐겨찾기 추가 API 호출 */
               await serverAxios
                 .post('/motion/favInsert', body)
-                .then(res => {
-                  console.log(res.data);
-                })
+                .then(res => {})
                 .catch(e => {
                   console.log(e);
                 });
@@ -43,9 +41,7 @@ const MotionItem = props => {
               /* 즐겨찾기 삭제 API 호출 */
               await serverAxios
                 .post('/motion/favDelete', body)
-                .then(res => {
-                  console.log(res.data);
-                })
+                .then(res => {})
                 .catch(e => {
                   console.log(e);
                 });
@@ -61,7 +57,6 @@ const MotionItem = props => {
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
             ].isFavorite = !props.motion.isFavorite;
-            console.log(props.motion.motion_id);
             const body = {
               user_id: 'user1',
               motion_id: props.motion.motion_id,
@@ -74,9 +69,7 @@ const MotionItem = props => {
               /* 즐겨찾기 추가 API 호출 */
               await serverAxios
                 .post('/motion/favInsert', body)
-                .then(res => {
-                  console.log(res.data);
-                })
+                .then(res => {})
                 .catch(e => {
                   console.log(e);
                 });
@@ -84,9 +77,7 @@ const MotionItem = props => {
               /* 즐겨찾기 삭제 API 호출 */
               await serverAxios
                 .post('/motion/favDelete', body)
-                .then(res => {
-                  console.log(res.data);
-                })
+                .then(res => {})
                 .catch(e => {
                   console.log(e);
                 });

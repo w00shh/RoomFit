@@ -88,7 +88,6 @@ const AddRoutine = ({navigation, route}) => {
 
   const handleModeItemPress = mode => {
     setSelectedMode(mode);
-    //console.log(selectedMode.modeName);
   };
 
   const handleCancelPress = () => {
@@ -105,17 +104,13 @@ const AddRoutine = ({navigation, route}) => {
   };
 
   const handleSaveRoutine = async () => {
-    console.log('routine id: ' + routine_id);
-    console.log('motionList.length: ' + motionList.length);
     const body = {
       routine_id: routine_id,
       motion_list: motionList,
     };
     await serverAxios
       .post('/routine/save', body)
-      .then(res => {
-        console.log(res.data);
-      })
+      .then(res => {})
       .catch(e => {
         console.log(e);
       });
@@ -158,12 +153,11 @@ const AddRoutine = ({navigation, route}) => {
 
   const getRoutineDetailMotionList = async () => {
     const targeturl = '/routine/detail/' + route.params.routine_id;
-    console.log(targeturl);
+
     await serverAxios
       .get(targeturl)
       .then(res => {
         res.data.motionList.map((value, key) => {
-          console.log(value);
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
@@ -180,10 +174,6 @@ const AddRoutine = ({navigation, route}) => {
         console.log(e);
       });
   };
-
-  useEffect(() => {
-    console.log(motionList);
-  }, [motionList]);
 
   useEffect(() => {
     if (route.params.isRoutineDetail) {

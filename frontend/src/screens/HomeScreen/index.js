@@ -91,7 +91,6 @@ const HomeScreen = ({navigation}) => {
       res.data.map((value, key) => {
         if (res.data.length === 0) setExistRoutine(false);
         else setExistRoutine(true);
-        console.log(res.data);
         setRoutine(currentRoutine => [
           ...currentRoutine,
           {

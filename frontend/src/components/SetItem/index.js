@@ -20,19 +20,12 @@ const SetItem = props => {
   const dispatch = useDispatch();
 
   const handleModeSelectPress = () => {
-    console.log('target_motion_id: ' + props.target_motion_id);
     dispatch(setTargetMotionId(props.target_motion_id));
 
-    console.log('props.set_id: ' + props.set_id);
     dispatch(setTargetSetId(props.set_id));
 
     props.setIsModalVisible(true);
   };
-
-  // useEffect(() => {
-  //   console.log('targetmotionid' + targetmotionid);
-  //   console.log('targetsetid' + targetsetid);
-  // }, [targetmotionid, targetsetid]);
 
   const handleWeightChange = text => {
     const parsedWeight = parseInt(text);

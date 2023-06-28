@@ -113,7 +113,6 @@ const WorkoutReady = ({navigation, route}) => {
 
   const handleModeItemPress = mode => {
     setSelectedMode(mode);
-    //console.log(selectedMode.modeName);
   };
 
   const handleCancelPress = () => {
@@ -128,14 +127,6 @@ const WorkoutReady = ({navigation, route}) => {
 
     setIsModalVisible(false);
   };
-
-  useEffect(() => {
-    if (motionList[1]) {
-      if (motionList[1] && motionList[1].sets[1]) {
-        console.log(motionList[1].sets[1].mode);
-      }
-    }
-  }, [motionList]);
 
   const handleAddMotionPress = () => {
     navigation.push('AddMotion', {motionList: motionList});

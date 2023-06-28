@@ -46,11 +46,8 @@ const AddMotion = ({navigation, route}) => {
     await serverAxios
       .post('/motion/search', body)
       .then(res => {
-        console.log(text);
-        console.log(res.data);
         setMotionList([]);
         res.data.map((value, key) => {
-          //console.log(value);
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
@@ -123,7 +120,6 @@ const AddMotion = ({navigation, route}) => {
       .post('/motion', body)
       .then(res => {
         res.data.map((value, key) => {
-          console.log(value);
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
@@ -251,7 +247,7 @@ const AddMotion = ({navigation, route}) => {
               }
             : () => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
-                //console.log(selectedMotionKeys);
+
                 route.params.isExercising
                   ? navigation.push('WorkoutStart', {
                       isAddMotion: true,

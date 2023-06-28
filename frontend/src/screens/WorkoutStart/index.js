@@ -111,10 +111,6 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsModifyMotion(false);
   };
 
-  useEffect(() => {
-    console.log(motionList);
-  }, []);
-
   const restTime = [
     {time: 10, selsected: false},
     {time: 20, selsected: false},
@@ -269,7 +265,6 @@ export const WorkoutStart = ({navigation, route}) => {
     if (isResting && !isStopResting) {
       intervalId3 = setInterval(() => {
         setRestTimer(prevrestTime => prevrestTime - 1);
-        //console.log(restTimer);
         if (restTimer <= 0) {
           setIsResting(false);
           setRestTimer(restSet);
@@ -298,7 +293,6 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const handleModeItemPress = mode => {
     setSelectedMode(mode);
-    //console.log(selectedMode.modeName);
   };
 
   const handleCancelPress = () => {
