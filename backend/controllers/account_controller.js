@@ -137,6 +137,30 @@ const google_auth_redirect = async (req, res) => {
   });
 };
 
+const google_auth_passport = async (req, res) => {
+  const account = new Account({
+    user_id: req.user.sub,
+    user_name: req.user.name,
+    email: req.user.email,
+    is_api: '1',
+  });
+
+  Account.google_auth(account, (err, id, isRegister) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred while creating Account.',
+        success: 0,
+      });
+    else {
+      res.json({
+        user_id: account.user_id,
+        success: 1,
+        isRegister: isRegister,
+      });
+    }
+  });
+};
+
 const email_verification = (req, res) => {
   const email = req.body.email;
   Account.email_verification(email, (err, data) => {
@@ -185,6 +209,7 @@ module.exports = {
   account_login,
   google_auth,
   google_auth_redirect,
+  google_auth_passport,
   email_verification,
   find_id,
   find_password,
