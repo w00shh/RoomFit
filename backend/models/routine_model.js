@@ -25,6 +25,7 @@ Routine.load = function (user_id, limit = false, callback) {
       const placeholders = routineIds.map(() => '?').join(',');
       const sqlRoutine = `SELECT routine_name, routine.routine_id, motion.major_target FROM routine_motion INNER JOIN routine ON routine.routine_id = routine_motion.routine_id INNER JOIN motion ON motion.motion_id = routine_motion.motion_id WHERE routine_motion.routine_id IN (${placeholders})`;
       db.all(sqlRoutine, routineIds, (err, routineRows) => {
+        //console.log(routineRows);
         if (err) {
           console.error(err);
         } else {
