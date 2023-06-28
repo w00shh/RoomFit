@@ -156,17 +156,29 @@ const google_auth_passport = async (req, res) => {
   });
 
   Account.google_auth(account, (err, id, isRegister) => {
-    if (err)
-      res.status(500).send({
-        message: err.message || 'Some error occurred while creating Account.',
-        success: 0,
-      });
-    else {
-      res.json({
-        user_id: account.user_id,
-        success: 1,
-        isRegister: isRegister,
-      });
+    if (err) {
+      // res.status(500).send({
+      //   message: err.message || 'Some error occurred while creating Account.',
+      //   success: 0,
+      // });
+      const message =
+        err.message || 'Some error occurred while creating Account.';
+      const success = 0;
+      res.redirect(
+        `memcaps://account/google_auth?message=${message}/success=${success}`,
+      );
+    } else {
+      const user_id = account.user_id;
+      const success = 1;
+      res.redirect(
+        `memcaps://account/google_auth?user_id=${user_id}/success=${success}/isRegister=${isRegister}`,
+      );
+
+      // res.json({
+      //   user_id: account.user_id,
+      //   success: 1,
+      //   isRegister: isRegister,
+      // });
     }
   });
 };
