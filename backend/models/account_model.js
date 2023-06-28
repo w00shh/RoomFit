@@ -155,7 +155,11 @@ Account.login = (user, callback) => {
         return;
       } else {
         console.log(row);
-        callback(null, {user_id: row.user_id, user_name: row.user_name});
+        callback(null, {
+          user_id: row.user_id,
+          user_name: row.user_name,
+          email: row.email,
+        });
       }
     },
   );
