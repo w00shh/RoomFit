@@ -146,6 +146,33 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white',
   },
+
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-evenly',
+    margin: 0,
+    padding: 0,
+  },
+  buttonSection: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addButton: {
+    backgroundColor: '#5252fa',
+  },
+  addText: {
+    color: 'white',
+  },
+  startButton: {
+    width: 171,
+    backgroundColor: 'white',
+  },
+  startText: {
+    color: '#52525fa',
+  },
 });
 
 export default styles;

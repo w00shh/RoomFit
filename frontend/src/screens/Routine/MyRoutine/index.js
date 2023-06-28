@@ -111,17 +111,6 @@ const AddRoutine = ({navigation}) => {
       });
   };
 
-  const handleSelectedRoutine = key => {
-    if (selected.get(key)) {
-      const newSelected = new Map(selected);
-      newSelected.set(key, {rotuineId: key, isSelec: false});
-      setSelected(newSelected);
-    }
-    selected.set(key, {
-      rotuineId: key,
-      isSelec: true,
-    });
-  };
   useEffect(() => {
     console.log(selected);
   }, [selected]);
@@ -159,7 +148,14 @@ const AddRoutine = ({navigation}) => {
             <RoutineBox
               title={value.routine_name}
               targets={value.major_targets}
-              numEx={value.motion_count}></RoutineBox>
+              numEx={value.motion_count}
+              onPress={() => {
+                navigation.push('AddRoutine', {
+                  isRoutineDetail: true,
+                  routineName: value.routine_name,
+                  routine_id: value.routine_id,
+                });
+              }}></RoutineBox>
           </View>
         ))}
       {routine[0] &&

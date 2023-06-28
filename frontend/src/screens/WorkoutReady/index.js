@@ -14,7 +14,6 @@ import CustomButton_B from '../../components/CustomButton_B';
 import Back from 'react-native-vector-icons/Ionicons';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -133,7 +132,7 @@ const WorkoutReady = ({navigation, route}) => {
   useEffect(() => {
     if (motionList[1]) {
       if (motionList[1] && motionList[1].sets[1]) {
-        console.log(motionList[1].sets[1].mode);
+        //console.log(motionList[1].sets[1].mode);
       }
     }
   }, [motionList]);

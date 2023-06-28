@@ -89,8 +89,10 @@ const App = () => {
                 fontWeight: '700',
                 fontSize: 16,
               },
+              headerBackVisible: false,
               headerShadowVisible: false,
             }}></Stack.Screen>
+
           <Stack.Screen
             name="AddMotion"
             component={AddMotion}

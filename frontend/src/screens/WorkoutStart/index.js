@@ -112,7 +112,7 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    console.log(motionList);
+    //console.log(motionList);
   }, []);
 
   const restTime = [

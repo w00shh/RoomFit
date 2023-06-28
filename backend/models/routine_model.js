@@ -85,7 +85,7 @@ Routine.detail = function (routine_id, callback) {
                 set_info.set_id,
                 set_info.set_no,
                 set_info.weight,
-                set_info.reps,
+                set_info.rep,
                 set_info.mode
                FROM routine_motion INNER JOIN routine ON routine.routine_id = routine_motion.routine_id
                INNER JOIN set_info ON set_info.routine_motion_id = routine_motion.routine_motion_id
