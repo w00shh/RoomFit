@@ -47,16 +47,64 @@ Workout.recent = (user_id, callback) => {
   );
 };
 
-//Get Workout
-Workout.get = (workout_id, callback) => {
-  db.all(
-    'SELECT * FROM workout WHERE workout_id = ?',
-    [workout_id],
-    (err, rows) => {
-      if (err) console.error(err);
-      else callback(null, rows);
-    },
-  );
+//Get Brief Workout Information
+Workout.brief = (user_id, limit = false, callback) => {
+  const query = `
+    SELECT 
+      t.workout_id,
+      t.title,
+      t.start_time,
+      t.end_time,
+      time(strftime('%s', datetime(t.end_time)) - strftime('%s', datetime(t.start_time)), 'unixepoch') AS total_time,
+      (
+        SELECT SUM(set_info.weight * set_info.rep)
+        FROM set_info
+        WHERE set_info.record_id IN (
+          SELECT record_id
+          FROM record
+          WHERE workout_id = t.workout_id
+        )
+      ) AS total_weight,
+      (
+        SELECT json_group_array(DISTINCT motion.major_target)
+        FROM motion
+        WHERE motion.motion_id IN (
+          SELECT motion_id
+          FROM record
+          WHERE workout_id = t.workout_id
+        )
+      ) AS targets
+    FROM (
+      SELECT
+        w.user_id, w.title, w.start_time, w.end_time, w.workout_id,
+        s.weight, s.rep, s.record_id,
+        m.major_target, m.motion_id,
+        r.record_id
+      FROM
+        workout AS w
+        JOIN record AS r
+        ON r.workout_id = w.workout_id
+        JOIN set_info AS s
+        ON r.record_id = s.record_id
+        JOIN motion AS m
+        ON r.motion_id = m.motion_id
+      WHERE w.user_id = ?
+      GROUP BY w.workout_id
+    ) AS t
+  `;
+
+  db.all(query, [user_id], (err, rows) => {
+    if (err) console.error(err);
+    else {
+      console.log(rows);
+      for (var i = 0; i < rows.length; i++) {
+        const target_arr = JSON.parse(rows[i].targets).join(', ').split(', ');
+        rows[i].targets = [...new Set(target_arr)];
+        console.log(rows[i].targets);
+      }
+      callback(null, rows);
+    }
+  });
 };
 //Get all records & sets in workout
 Workout.detail = (workout_id, callback) => {
