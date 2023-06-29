@@ -103,7 +103,11 @@ const HomeScreen = ({navigation}) => {
     });
   };
 
-  const getRecentWorkout = async () => {};
+  const getRecentWorkout = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+  };
 
   const PERFORMED = [
     {
