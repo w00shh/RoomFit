@@ -2,6 +2,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Linking} from 'react-native';
 import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
 import Register from './src/screens/Register/index.js';
@@ -14,7 +15,6 @@ import ConnectDevice from './src/screens/ConnectDevice/index.js';
 import WorkoutStart from './src/screens/WorkoutStart/index.js';
 import RoutineDetail from './src/screens/Routine/RoutineDetail/index.js';
 import Splash from './src/screens/Intro/splash.js';
-
 import {Provider} from 'react-redux';
 import {Store} from './src/redux/store.js';
 
@@ -34,6 +34,37 @@ const config = {
 };
 
 const App = () => {
+  React.useEffect(() => {
+    const handleDeepLink = async () => {
+      // 앱이 최초로 실행되었을 때 딥 링크 처리
+      const initialUrl = await Linking.getInitialURL();
+      if (initialUrl) {
+        handleUrl(initialUrl);
+      }
+
+      // 딥 링크 이벤트 리스너 등록
+      Linking.addEventListener('url', handleUrl);
+    };
+
+    const handleUrl = url => {
+      const sep_url = url.url.split('google_auth?')[1];
+      const params = {};
+      sep_url.split('/').forEach(pair => {
+        const [key, value] = pair.split('=');
+        params[key] = value;
+      });
+      const json = JSON.stringify(params);
+      console.log(json);
+    };
+
+    handleDeepLink();
+
+    // 딥 링크 이벤트 리스너 해제
+    return () => {
+      Linking.removeEventListener('url', handleUrl);
+    };
+  }, []);
+
   return (
     <Provider store={Store}>
       <NavigationContainer>

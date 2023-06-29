@@ -401,16 +401,16 @@ export const WorkoutStart = ({navigation, route}) => {
                       width={126}
                       onPress={() => {
                         setWorkoutDoneModal(false);
-                        // navigation.push('AddMotion', {
-                        //   workout_id: route.params.workout_id,
-                        //   isRoutine: false,
-                        //   isExercising: true,
-                        //   motionList: motionList,
-                        //   elapsedTime: elapsedTime,
-                        //   TUT: TUT,
-                        //   m_index: m_index,
-                        //   s_index: s_index,
-                        // });
+                        navigation.push('AddMotion', {
+                          workout_id: route.params.workout_id,
+                          isRoutine: false,
+                          isExercising: true,
+                          motionList: motionList,
+                          elapsedTime: elapsedTime,
+                          TUT: TUT,
+                          m_index: m_index + 1,
+                          s_index: 0,
+                        });
                       }}
                       content="동작 추가"></CustomButton_W>
                   </View>
