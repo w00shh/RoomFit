@@ -30,7 +30,6 @@ const AddRoutine = ({navigation, route}) => {
     motionList.length === 0 ? true : false,
   );
   const [routineId, setRoutineId] = useState(route.params.routine_id);
-  const [workoutId, setWorkoutId] = useState();
 
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',

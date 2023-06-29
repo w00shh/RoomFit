@@ -20,7 +20,8 @@ import CustomButton_B from '../../../components/CustomButton_B';
 
 const RoutineDetail = ({navigation, route}) => {
   const [motionList, setMotionList] = useState([]);
-  const [routine_id, setRoutine_id] = useState(route.params.routine_id);
+  const [routineId, setRoutineId] = useState(route.params.routine_id);
+  const [workoutId, setWorkoutId] = useState();
   const [routineName, setRoutineName] = useState(route.params.routineName);
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
@@ -105,7 +106,7 @@ const RoutineDetail = ({navigation, route}) => {
 
   const handleSaveRoutine = async () => {
     const body = {
-      routine_id: routine_id,
+      routine_id: routineId,
       motion_list: motionList,
     };
     await serverAxios
@@ -216,7 +217,7 @@ const RoutineDetail = ({navigation, route}) => {
     setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
 
     const body = {
-      routine_id: routine_id,
+      routine_id: routineId,
       routine_name: routineName,
     };
     await serverAxios
@@ -231,11 +232,28 @@ const RoutineDetail = ({navigation, route}) => {
     navigation.push('AddMotion', {
       isRoutine: true,
       isRoutineDetail: true,
-      routine_id: routine_id,
+      routine_id: routineId,
       routineName: routineName,
       motionList: motionList,
     });
   };
+
+  useEffect(() => {
+    if (workoutId) {
+      navigation.navigate('WorkoutStart', {
+        workout_id: workoutId,
+        isAddMotion: false,
+        motionList: motionList,
+        elapsedTime: 0,
+        TUT: 0,
+        m_index: 0,
+        s_index: 0,
+        isPaused: false,
+        isPausedPage: false,
+        isModifyMotion: false,
+      });
+    }
+  }, [workoutId]);
 
   const handleStartWorkoutPress = async () => {
     const body = {
@@ -244,22 +262,11 @@ const RoutineDetail = ({navigation, route}) => {
     await serverAxios
       .post('/workout', body)
       .then(res => {
-        console.log(res.data);
+        setWorkoutId(res.data.workout_id);
       })
       .catch(e => {
         console.log(e);
       });
-    navigation.navigate('WorkoutStart', {
-      isAddMotion: false,
-      motionList: motionList,
-      elapsedTime: 0,
-      TUT: 0,
-      m_index: 0,
-      s_index: 0,
-      isPaused: false,
-      isPausedPage: false,
-      isModifyMotion: false,
-    });
   };
 
   return (
