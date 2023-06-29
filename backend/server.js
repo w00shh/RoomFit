@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+const initPassport = require('./config/initPassport');
+initPassport(app);
+
 //import routers
 const workout = require('./routes/workout_routes');
 const record = require('./routes/record_routes');
@@ -17,8 +20,6 @@ app.use('/set', set);
 app.use('/account', account);
 app.use('/motion', motion);
 app.use('/routine', routine);
-
-
 
 const port = 4000;
 app.listen(port, () => {
