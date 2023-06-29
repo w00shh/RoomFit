@@ -20,6 +20,7 @@ import RoutineBox from '../../components/Routine';
 import styles from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {serverAxios} from '../../utils/commonAxios';
+import {PrivateValueStore} from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
   const {isLogin} = useSelector(state => state.userReducer);
@@ -28,7 +29,8 @@ const HomeScreen = ({navigation}) => {
   const [existRoutine, setExistRoutine] = useState(false);
   const [isExercised, setIsExercised] = useState(true);
   const [routine, setRoutine] = useState([]);
-
+  const [recentRoutine, setRecentRoutine] = useState([]);
+  const [recentDay, setRecentDay] = useState('');
   const [isExercise, setIsExercise] = useState(true);
   const [isRecord, setIsRecord] = useState(false);
   const [isSetting, setIsSetting] = useState(false);
@@ -103,7 +105,47 @@ const HomeScreen = ({navigation}) => {
     });
   };
 
-  const getRecentWorkout = async () => {};
+  const getRecentWorkout = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+    await serverAxios
+      .post('/workout/brief/recent', body)
+      .then(res => {
+        console.log(res.data);
+        res.data.map((value, key) => {
+          setRecentRoutine(currentRecentRoutine => [
+            ...currentRecentRoutine,
+            {
+              recentInedx: key,
+              workout_id: value.workout_id,
+              title: value.title,
+              date: value.start_time.split(' ')[0],
+              start_time:
+                value.start_time.split(' ')[1].split(':')[0] +
+                ':' +
+                value.start_time.split(' ')[1].split(':')[1],
+              end_time:
+                value.end_time.split(' ')[1].split(':')[0] +
+                ':' +
+                value.end_time.split(' ')[1].split(':')[1],
+              total_time: value.total_time,
+              total_weight: value.total_weight,
+              targets: value.targets,
+            },
+          ]);
+        });
+      })
+      .catch(e => console.log(e));
+  };
+
+  useEffect(() => {
+    if (recentRoutine.length > 0) {
+      const start_arr = recentRoutine[0].start_time.split(' ');
+      setRecentDay(start_arr[0]);
+    }
+    console.log(recentRoutine);
+  }, [recentRoutine]);
 
   const PERFORMED = [
     {
@@ -214,20 +256,20 @@ const HomeScreen = ({navigation}) => {
         )}
 
         <Text style={styles.subtitleText}>최근 수행한 운동</Text>
-        {!isExercised && (
+        {recentRoutine.length === 0 && (
           <View style={styles.routineContainer}>
             <Text style={styles.noRoutineText}>
               최근 운동한 기록이 없습니다.
             </Text>
           </View>
         )}
-        {isExercised && (
+        {recentRoutine.length > 0 && (
           <View>
             <View>
               <Text style={{marginLeft: 16, marginTop: 12}}>
-                {PERFORMED[0].date}
+                {recentRoutine[0].date}
               </Text>
-              <RecentExercise data={PERFORMED[0].data}></RecentExercise>
+              <RecentExercise data={recentRoutine}></RecentExercise>
             </View>
             <View style={{height: 90}}></View>
           </View>
