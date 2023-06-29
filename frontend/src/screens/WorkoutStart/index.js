@@ -42,6 +42,7 @@ import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 export const WorkoutStart = ({navigation, route}) => {
   const [motionList, setMotionList] = useState(route.params.motionList);
   const [workoutId, setWorkoutId] = useState(route.params.workout_id);
+  const [recordId, setRecordId] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [isPaused, setIsPaused] = useState(route.params.isPaused);
   const [TUT, setTUT] = useState(route.params.TUT);
@@ -398,7 +399,19 @@ export const WorkoutStart = ({navigation, route}) => {
                   <View style={{marginRight: 5}}>
                     <CustomButton_W
                       width={126}
-                      onPress={() => setWorkoutDoneModal(false)}
+                      onPress={() => {
+                        setWorkoutDoneModal(false);
+                        navigation.push('AddMotion', {
+                          workout_id: route.params.workout_id,
+                          isRoutine: false,
+                          isExercising: true,
+                          motionList: motionList,
+                          elapsedTime: elapsedTime,
+                          TUT: TUT,
+                          m_index: m_index,
+                          s_index: s_index,
+                        });
+                      }}
                       content="동작 추가"></CustomButton_W>
                   </View>
                   <View style={{marginLeft: 5}}>
