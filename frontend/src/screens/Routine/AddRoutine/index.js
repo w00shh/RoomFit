@@ -29,7 +29,8 @@ const AddRoutine = ({navigation, route}) => {
   const [isSaveDisabled, setIsSaveDisabled] = useState(
     motionList.length === 0 ? true : false,
   );
-  const [routine_id, setRoutine_id] = useState(route.params.routine_id);
+  const [routineId, setRoutineId] = useState(route.params.routine_id);
+  const [workoutId, setWorkoutId] = useState();
 
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
@@ -106,7 +107,7 @@ const AddRoutine = ({navigation, route}) => {
 
   const handleSaveRoutine = async () => {
     const body = {
-      routine_id: routine_id,
+      routine_id: routineId,
       motion_list: motionList,
     };
     await serverAxios
@@ -229,7 +230,7 @@ const AddRoutine = ({navigation, route}) => {
       isRoutine: true,
       routineName: routineName,
       motionList: motionList,
-      routine_id: routine_id,
+      routine_id: routineId,
     });
   };
   const handleConfirmPress = async () => {
@@ -237,7 +238,7 @@ const AddRoutine = ({navigation, route}) => {
     setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
 
     const body = {
-      routine_id: routine_id,
+      routine_id: routineId,
       routine_name: routineName,
     };
     await serverAxios
@@ -246,20 +247,6 @@ const AddRoutine = ({navigation, route}) => {
       .catch(e => {
         console.log(e);
       });
-  };
-
-  const handleStartWorkoutPress = () => {
-    navigation.navigate('WorkoutStart', {
-      isAddMotion: false,
-      motionList: motionList,
-      elapsedTime: 0,
-      TUT: 0,
-      m_index: 0,
-      s_index: 0,
-      isPaused: false,
-      isPausedPage: false,
-      isModifyMotion: false,
-    });
   };
 
   return (
@@ -350,32 +337,11 @@ const AddRoutine = ({navigation, route}) => {
         </>
       )}
 
-      {!route.params.isRoutineDetail ? (
-        <TouchableOpacity
-          onPress={handleAddWorkoutMotionPress}
-          style={styles.addMotionContainer}>
-          <Text style={styles.addMotionText}>+ 동작 추가</Text>
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.buttonContainer}>
-          <View style={styles.buttonSection}>
-            <CustomButton_W
-              width={171}
-              content="+ 동작 추가"
-              onPress={() => {
-                //handleAddMotionPress();
-              }}
-              disabled={false}></CustomButton_W>
-          </View>
-          <View style={styles.buttonSection}>
-            <CustomButton_B
-              width={171}
-              content="루틴 운동 시작"
-              onPress={handleStartWorkoutPress}
-              disabled={false}></CustomButton_B>
-          </View>
-        </View>
-      )}
+      <TouchableOpacity
+        onPress={handleAddWorkoutMotionPress}
+        style={styles.addMotionContainer}>
+        <Text style={styles.addMotionText}>+ 동작 추가</Text>
+      </TouchableOpacity>
     </View>
   );
 };
