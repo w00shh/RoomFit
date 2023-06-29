@@ -172,6 +172,7 @@ const AddRoutine = ({navigation, route}) => {
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
+              isMotionDone: false,
               isFavorite: value.isFav,
               motion_id: value.motion_id,
               motionName: value.motion_name,
@@ -198,6 +199,7 @@ const AddRoutine = ({navigation, route}) => {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
+            isMotionDone: false,
             isFavorite: route.params.displaySelected[i].isFavorite,
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,

@@ -208,6 +208,7 @@ export const WorkoutStart = ({navigation, route}) => {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
+            isMotionDone: false,
             isFavorite: route.params.displaySelected[i].isFavorite,
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,
@@ -306,6 +307,10 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    console.log(motionList);
+  }, [motionList]);
+
   const SetComplete = () => {
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
@@ -320,10 +325,16 @@ export const WorkoutStart = ({navigation, route}) => {
     ) {
       setIsResting(true);
       setIsMotionDone(true);
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].isMotionDone = true;
+      setMotionList(updatedMotionList);
       setMIndex(m_index + 1);
       setSIndex(0);
       setRestTimer(restMotion);
     } else {
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].isMotionDone = true;
+      setMotionList(updatedMotionList);
       setWorkoutDone(true);
       setWorkoutDoneModal(true);
     }
@@ -401,16 +412,16 @@ export const WorkoutStart = ({navigation, route}) => {
                       width={126}
                       onPress={() => {
                         setWorkoutDoneModal(false);
-                        // navigation.push('AddMotion', {
-                        //   workout_id: route.params.workout_id,
-                        //   isRoutine: false,
-                        //   isExercising: true,
-                        //   motionList: motionList,
-                        //   elapsedTime: elapsedTime,
-                        //   TUT: TUT,
-                        //   m_index: m_index,
-                        //   s_index: s_index,
-                        // });
+                        navigation.push('AddMotion', {
+                          workout_id: route.params.workout_id,
+                          isRoutine: false,
+                          isExercising: true,
+                          motionList: motionList,
+                          elapsedTime: elapsedTime,
+                          TUT: TUT,
+                          m_index: m_index + 1,
+                          s_index: 0,
+                        });
                       }}
                       content="동작 추가"></CustomButton_W>
                   </View>

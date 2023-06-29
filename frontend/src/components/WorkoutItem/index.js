@@ -7,7 +7,6 @@ import {useEffect, useState} from 'react';
 
 const WorkoutItem = props => {
   const handleMotionDeletePress = motion_index => {
-    //props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
     const updatedMotionList = [...props.motionList];
     updatedMotionList.splice(motion_index, 1);
     props.setMotionList(updatedMotionList);
