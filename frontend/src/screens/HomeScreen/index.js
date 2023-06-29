@@ -76,9 +76,8 @@ const HomeScreen = ({navigation}) => {
       ),
     });
     getMyRoutine();
+    getRecentWorkout();
   }, []);
-
-  useEffect(() => {}, [routine]);
 
   const getMyRoutine = async () => {
     setRoutine([]);
@@ -103,6 +102,8 @@ const HomeScreen = ({navigation}) => {
       setRoutineReady(true);
     });
   };
+
+  const getRecentWorkout = async () => {};
 
   const PERFORMED = [
     {

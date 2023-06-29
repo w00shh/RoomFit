@@ -13,6 +13,7 @@ import WorkoutReady from './src/screens/WorkoutReady/index.js';
 import ConnectDevice from './src/screens/ConnectDevice/index.js';
 import WorkoutStart from './src/screens/WorkoutStart/index.js';
 import RoutineDetail from './src/screens/Routine/RoutineDetail/index.js';
+import Splash from './src/screens/Intro/splash.js';
 
 import {Provider} from 'react-redux';
 import {Store} from './src/redux/store.js';
@@ -20,11 +21,48 @@ import {Store} from './src/redux/store.js';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const config = {
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
+
 const App = () => {
   return (
     <Provider store={Store}>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen
+            name="Splash"
+            component={Splash}
+            options={{
+              headerShown: false,
+              transitionConfig: () => ({
+                transitionSpec: {
+                  duration: 500, // 애니메이션 지속 시간 설정
+                },
+                screenInterpolator: sceneProps => {
+                  // 애니메이션을 커스터마이즈할 수 있는 함수
+                  // 예시: 페이드 애니메이션
+                  const {position, layout, scene} = sceneProps;
+                  const {index} = scene;
+
+                  const opacity = position.interpolate({
+                    inputRange: [index - 1, index, index + 1],
+                    outputRange: [0, 1, 0],
+                  });
+
+                  return {opacity};
+                },
+              }),
+            }}
+          />
           <Stack.Screen
             name="Intro"
             component={Intro}

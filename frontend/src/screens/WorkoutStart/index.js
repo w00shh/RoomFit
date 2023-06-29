@@ -610,7 +610,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
               <View style={{marginLeft: 8}}>
                 <Text style={styles.pauseMotionTitle}>
-                  로우 케이블 크로스오버
+                  {motionList[m_index].motionName}
                 </Text>
                 <View style={{flexDirection: 'row'}}>
                   <View
@@ -618,7 +618,7 @@ export const WorkoutStart = ({navigation, route}) => {
                       flexDirection: 'row',
                       alignItems: 'flex-end',
                     }}>
-                    <Text style={styles.statusText2}>1</Text>
+                    <Text style={styles.statusText2}>{s_index + 1}</Text>
                     <Text style={styles.targetText2}>/4set</Text>
                   </View>
                   <View
@@ -627,7 +627,9 @@ export const WorkoutStart = ({navigation, route}) => {
                       alignItems: 'flex-end',
                       marginHorizontal: 16,
                     }}>
-                    <Text style={styles.statusText2}>15</Text>
+                    <Text style={styles.statusText2}>
+                      {motionList[m_index].sets[s_index].weight}
+                    </Text>
                     <Text style={styles.targetText2}> kg</Text>
                   </View>
                   <View
@@ -635,8 +637,12 @@ export const WorkoutStart = ({navigation, route}) => {
                       flexDirection: 'row',
                       alignItems: 'flex-end',
                     }}>
-                    <Text style={styles.statusText2}>1</Text>
-                    <Text style={styles.targetText2}>/18회</Text>
+                    <Text style={styles.statusText2}>
+                      {motionList[m_index].sets[s_index].reps}
+                    </Text>
+                    <Text style={styles.targetText2}>
+                      /{motionList[m_index].sets[s_index].reps}회
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -663,7 +669,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
                 <View style={{marginLeft: 8}}>
                   <Text style={styles.puaseSubtitle}>유효 수행시간</Text>
-                  <Text style={styles.puaseSubcontent}>{time}</Text>
+                  <Text style={styles.puaseSubcontent}>{formatTime(TUT)}</Text>
                 </View>
               </View>
             </View>
