@@ -6,6 +6,7 @@ import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const RecentExercise = props => {
+  props.start_time;
   return (
     <View>
       {props.data.map((value, key) => (
@@ -13,13 +14,13 @@ const RecentExercise = props => {
           <Text style={styles.titleText}>{value.title}</Text>
           <View style={styles.targetContainer}>
             <Text style={styles.timeText}>
-              {value.time[0]} - {value.time[1]}
+              {value.start_time} - {value.end_time}
             </Text>
             <Image
               style={{marginLeft: 5, marginRight: 5}}
               source={require('../../assets/images/divider.png')}></Image>
-            {value.target.map((values, keys) => (
-              <Text style={styles.targetText} key={keys}>
+            {value.targets.map((values, keys) => (
+              <Text key={keys} style={styles.targetText}>
                 {values}{' '}
               </Text>
             ))}
@@ -29,10 +30,8 @@ const RecentExercise = props => {
               name="timer"
               color={'#41b1ca'}
               size={20}
-              style={{marginLeft: 20}}></Timer>
-            <Text style={styles.exerciseInformation}>
-              {value.information[0]}
-            </Text>
+              style={{marginLeft: 12}}></Timer>
+            <Text style={styles.exerciseInformation}>{value.total_time}</Text>
             <Lightning
               name="lightning-bolt"
               color={'#fbcb22'}
@@ -40,16 +39,14 @@ const RecentExercise = props => {
               style={{marginLeft: 12}}></Lightning>
 
             <Text style={styles.exerciseInformation}>
-              {value.information[1]} kg
+              {value.total_weight} kg
             </Text>
             <Fire
               name="fire"
               color={'#fc7d36'}
               size={20}
               style={{marginLeft: 12}}></Fire>
-            <Text style={styles.exerciseInformation}>
-              {value.information[2]} Kcal
-            </Text>
+            <Text style={styles.exerciseInformation}>10,000 Kcal</Text>
           </View>
         </View>
       ))}
