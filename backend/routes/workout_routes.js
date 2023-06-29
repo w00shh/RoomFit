@@ -14,9 +14,10 @@ router.post('/', set_controller.create_set);
 router.put('/done', workout_controller.update_workout);
 
 //기록
-router.get('/get/:workout_id', workout_controller.get_workout);
+router.post('/brief', workout_controller.workout_brief);
+router.post('/brief/:recent', workout_controller.workout_brief);
 router.post('/recent', workout_controller.recent_workouts);
-router.get('/calander/:date', workout_controller.get_specific_date_workouts);
+router.post('/calander/:date', workout_controller.get_specific_date_workouts);
 router.get('/detail/:workout_id', workout_controller.workout_detail);
 
 //기록 삭제

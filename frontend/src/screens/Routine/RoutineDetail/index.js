@@ -262,7 +262,6 @@ const RoutineDetail = ({navigation, route}) => {
     await serverAxios
       .post('/workout', body)
       .then(res => {
-        console.log(res.data);
         setWorkoutId(res.data.workout_id);
       })
       .catch(e => {

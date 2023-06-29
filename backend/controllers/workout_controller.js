@@ -54,14 +54,17 @@ const recent_workouts = (req, res) => {
   });
 };
 
-const get_workout = (req, res) => {
-  if (!req.params.workout_id)
-    res.status(400).send({message: 'Workout ID can not be empty'});
+const workout_brief = (req, res) => {
+  if (!req.body) res.status(400).send({message: 'Content can not be empty'});
 
-  Workout.get(req.params.workout_id, (err, result) => {
-    if (err) console.error(err);
-    else res.json(result);
-  });
+  Workout.brief(
+    req.body.user_id,
+    req.params.recent == 'true' ? true : false,
+    (err, result) => {
+      if (err) console.error(err);
+      else res.json(result);
+    },
+  );
 };
 
 const workout_detail = (req, res) => {
@@ -107,7 +110,7 @@ const get_stat = (req, res) => {
 module.exports = {
   create_workout,
   update_workout,
-  get_workout,
+  workout_brief,
   recent_workouts,
   workout_detail,
   get_specific_date_workouts,
