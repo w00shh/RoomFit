@@ -2,19 +2,27 @@ import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
-import SetItem from '../../components/SetItem';
 import CustomButton_B from '../../components/CustomButton_B';
-import {useSelector, useDispatch} from 'react-redux';
-import {setEmail, setPassword} from '../../redux/actions';
+import {useDispatch} from 'react-redux';
+import {
+  setIsLogin,
+  setUserId,
+  setUserNickname,
+  setUserEmail,
+} from '../../redux/actions';
+import {serverAxios} from '../../utils/commonAxios';
 
-const Login = ({navigation}) => {
-  const {email, password} = useSelector(state => state.userReducer);
-  const dispatch = useDispatch();
+const Login = ({navigation, route}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loginDisabled, setLoginDisabled] = useState(true);
+  const dispatch = useDispatch();
 
-  const handleEmailChange = e => {};
-
-  const handlePasswordChange = e => {};
+  useEffect(() => {
+    if (route.params.isRegister) {
+      setEmail(route.params.email);
+    }
+  }, []);
 
   const handleLoginDisabled = () => {
     if (email.length > 0 && password.length > 0) {
@@ -28,20 +36,27 @@ const Login = ({navigation}) => {
     handleLoginDisabled();
   }, [email, password]);
 
-  const handleLoginPress = () => {
-    try {
-      dispatch(setEmail(email));
-      dispatch(setPassword(password));
-      console.group(email);
-      // var user = {
-      //     Name: name,
-      //     Age: age
-      // }
-      // await AsyncStorage.setItem('UserData', JSON.stringify(user));
-      navigation.navigate('HomeScreen');
-    } catch (e) {
-      console.log(e);
-    }
+  const handleLoginPress = async () => {
+    const body = {
+      email: email,
+      password: password,
+    };
+
+    await serverAxios
+      .put('/account/login', body)
+      .then(res => {
+        console.log(res.data);
+
+        dispatch(setIsLogin(res.data.success));
+        dispatch(setUserId(res.data.user_id));
+        dispatch(setUserNickname(res.data.user_name));
+        dispatch(setUserEmail(res.data.email));
+
+        navigation.reset({routes: [{name: 'HomeScreen'}]});
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   const handleselectionIdPress = () => {};
@@ -60,14 +75,16 @@ const Login = ({navigation}) => {
       <View>
         <Input
           label="이메일"
-          onChangeText={text => dispatch(setEmail(text))}
+          onChangeText={text => setEmail(text)}
           placeholder="이메일 입력"
+          defaultValue={email}
           inputMode="email"
           keyboardType="email-address"></Input>
         <Input
           label="비밀번호"
-          onChangeText={text => dispatch(setPassword(text))}
+          onChangeText={text => setPassword(text)}
           placeholder="비밀번호 입력"
+          defaultValue={password}
           inputMode="text"
           secureTextEntry={true}></Input>
       </View>

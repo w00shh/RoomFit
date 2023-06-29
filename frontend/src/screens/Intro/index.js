@@ -41,7 +41,11 @@ const Intro = ({navigation}) => {
 
       <View style={styles.selectionContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
+          onPress={() =>
+            navigation.navigate('Login', {
+              isRegister: false,
+            })
+          }
           style={{marginRight: 20}}>
           <Text>이메일로 로그인</Text>
         </TouchableOpacity>

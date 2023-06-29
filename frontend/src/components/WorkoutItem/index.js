@@ -27,7 +27,7 @@ const WorkoutItem = props => {
     const updatedMotionList = [...props.motionList];
     updatedMotionList[props.motion_index].sets.push({
       weight: 0,
-      reps: 0,
+      reps: 1,
       mode: '기본',
       isDone: false,
     });

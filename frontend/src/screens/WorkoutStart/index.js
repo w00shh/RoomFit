@@ -64,7 +64,6 @@ export const WorkoutStart = ({navigation, route}) => {
   const toggleSwitch2 = () => setIsLock(previousState => !previousState);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
-  const [weight, setWeight] = useState(0);
   const [m_index, setMIndex] = useState(route.params.m_index);
   const [s_index, setSIndex] = useState(route.params.s_index);
   const [isMotionDone, setIsMotionDone] = useState(false);
@@ -214,7 +213,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,
             imageUrl: route.params.displaySelected[i].imageUrl,
-            sets: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
+            sets: [{weight: 0, reps: 1, mode: '기본', isDone: false}],
           },
         ]);
       }
@@ -310,7 +309,6 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const SetComplete = () => {
     setIsMotionDone(false);
-    setWeight(0);
     let updatedMotionList = [...motionList];
     updatedMotionList[m_index].sets[s_index].isDone = true;
     setMotionList(updatedMotionList);
@@ -484,7 +482,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   marginHorizontal: 16,
                 }}>
                 <Text style={styles.statusText}>
-                  {motionList[m_index].sets[s_index].weight + weight}
+                  {motionList[m_index].sets[s_index].weight}
                 </Text>
                 <Text style={styles.targetText}> kg</Text>
               </View>
@@ -500,16 +498,22 @@ export const WorkoutStart = ({navigation, route}) => {
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={() => {
-                if (motionList[m_index].sets[s_index].weight + weight > 0)
-                  setWeight(weight - 1);
+                if (motionList[m_index].sets[s_index].weight > 0) {
+                  const updatedMotionList = [...motionList];
+                  updatedMotionList[m_index].sets[s_index].weight -= 1;
+                  setMotionList(updatedMotionList);
+                }
               }}
               style={styles.CButton}>
               <Minus name="minus" size={16} color="#808080"></Minus>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                if (motionList[m_index].sets[s_index].weight + weight < 200)
-                  setWeight(weight + 1);
+                if (motionList[m_index].sets[s_index].weight < 200) {
+                  const updatedMotionList = [...motionList];
+                  updatedMotionList[m_index].sets[s_index].weight += 1;
+                  setMotionList(updatedMotionList);
+                }
               }}
               style={styles.CButton}>
               <Plus name="plus" size={16} color="#808080"></Plus>

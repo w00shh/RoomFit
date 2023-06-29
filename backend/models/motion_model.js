@@ -43,7 +43,6 @@ Motion.load = function (user_id, callback) {
                 isFav: false
               });
             });
-              console.log(motionList);
               callback(null, motionList);
             }
           });

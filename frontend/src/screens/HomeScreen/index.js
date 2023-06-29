@@ -19,11 +19,10 @@ import RecentExercise from '../../components/RecentExercise';
 import RoutineBox from '../../components/Routine';
 import styles from './styles';
 import {useSelector, useDispatch} from 'react-redux';
-import {setEmail, setPassword} from '../../redux/actions';
 import {serverAxios} from '../../utils/commonAxios';
 
 const HomeScreen = ({navigation}) => {
-  const {email, password} = useSelector(state => state.userReducer);
+  const {isLogin} = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
   const [isConnected, setIsConnected] = useState(true);
   const [existRoutine, setExistRoutine] = useState(false);
