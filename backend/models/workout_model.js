@@ -48,8 +48,8 @@ Workout.recent = (user_id, callback) => {
 };
 
 //Get Brief Workout Information
-Workout.brief = (user_id, limit = false, callback) => {
-  const query = `
+Workout.brief = (user_id, recent = false, callback) => {
+  var query = `
     SELECT 
       t.workout_id,
       t.title,
@@ -89,19 +89,27 @@ Workout.brief = (user_id, limit = false, callback) => {
         JOIN motion AS m
         ON r.motion_id = m.motion_id
       WHERE w.user_id = ?
-      GROUP BY w.workout_id
-    ) AS t
   `;
+
+  if (recent)
+    query += `AND DATE(w.start_time) = (
+      SELECT MAX(DATE(start_time))
+      FROM workout
+    )
+  `;
+
+  query += `GROUP BY w.workout_id
+  ) AS t
+  ORDER BY t.start_time DESC`;
 
   db.all(query, [user_id], (err, rows) => {
     if (err) console.error(err);
     else {
-      console.log(rows);
       for (var i = 0; i < rows.length; i++) {
         const target_arr = JSON.parse(rows[i].targets).join(', ').split(', ');
         rows[i].targets = [...new Set(target_arr)];
-        console.log(rows[i].targets);
       }
+      console.log(rows);
       callback(null, rows);
     }
   });
@@ -158,23 +166,17 @@ Workout.delete = (workout_id, callback) => {
 
 //Statistics
 Workout.stat = (user_id, period, callback) => {
-  const condition_query = ` FROM workout WHERE user_id = ?
-                          AND julianday(date('now', 'localtime')) - julianday(date(start_time)) <= ?`;
-
+  const condition_query = ` FROM workout WHERE user_id = ? AND julianday(date('now', 'localtime')) - julianday(date(start_time)) <= ?`;
   const queries = {
     total_time:
       `SELECT time(SUM(strftime('%s', datetime(end_time)) - strftime('%s', datetime(start_time))), 'unixepoch')` +
-      condition_query +
-      `;`,
-    tut:
-      `SELECT time(SUM(strftime('%s',tut)), 'unixepoch')` +
-      condition_query +
-      `;`,
+      condition_query,
+    tut: `SELECT time(SUM(strftime('%s',tut)), 'unixepoch')` + condition_query,
     weight:
       `SELECT SUM(weight * rep) FROM set_info WHERE record_id IN (SELECT record_id FROM record WHERE workout_id in ( SELECT workout_id` +
       condition_query +
-      `));`,
-    count: `SELECT COUNT(*)` + condition_query + `;`,
+      `))`,
+    count: `SELECT COUNT(*)` + condition_query,
   };
 
   const data = {};
