@@ -237,7 +237,18 @@ const RoutineDetail = ({navigation, route}) => {
     });
   };
 
-  const handleStartWorkoutPress = () => {
+  const handleStartWorkoutPress = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+    await serverAxios
+      .post('/workout', body)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
     navigation.navigate('WorkoutStart', {
       isAddMotion: false,
       motionList: motionList,

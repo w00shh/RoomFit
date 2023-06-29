@@ -14,6 +14,7 @@ import CustomButton_B from '../../components/CustomButton_B';
 import Back from 'react-native-vector-icons/Ionicons';
 
 import {useSelector, useDispatch} from 'react-redux';
+import {serverAxios} from '../../utils/commonAxios';
 
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -132,7 +133,18 @@ const WorkoutReady = ({navigation, route}) => {
     navigation.push('AddMotion', {motionList: motionList});
   };
 
-  const handleStartWorkoutPress = () => {
+  const handleStartWorkoutPress = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+    await serverAxios
+      .post('/workout', body)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
     navigation.navigate('WorkoutStart', {
       isAddMotion: false,
       motionList: motionList,
