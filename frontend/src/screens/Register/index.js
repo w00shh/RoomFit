@@ -63,9 +63,12 @@ const Register = ({navigation}) => {
       .post('/account/register', body)
       .then(res => {
         console.log(res.data);
-        navigation.push('Login', {
-          isRegister: true,
-          email: email,
+        // navigation.push('Login', {
+        //   isRegister: true,
+        //   email: email,
+        // });
+        navigation.reset({
+          routes: [{name: 'Login', params: {isRegister: true, email: email}}],
         });
       })
       .catch(e => {

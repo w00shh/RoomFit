@@ -52,7 +52,7 @@ const Login = ({navigation, route}) => {
         dispatch(setUserNickname(res.data.user_name));
         dispatch(setUserEmail(res.data.email));
 
-        navigation.navigate('HomeScreen');
+        navigation.reset({routes: [{name: 'HomeScreen'}]});
       })
       .catch(e => {
         console.log(e);
