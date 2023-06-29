@@ -40,55 +40,63 @@ import {useSelector, useDispatch} from 'react-redux';
 import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 
 export const WorkoutStart = ({navigation, route}) => {
+  // motionList 관련 변수 :
   const [motionList, setMotionList] = useState(route.params.motionList);
+  const [m_index, setMIndex] = useState(route.params.m_index);
+  const [s_index, setSIndex] = useState(route.params.s_index);
+
+  //workout & record 관련 변수
   const [workoutId, setWorkoutId] = useState(route.params.workout_id);
   const [recordId, setRecordId] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isPaused, setIsPaused] = useState(route.params.isPaused);
+  const [workoutTitle, setWorkoutTitle] = useState('');
+  const [workoutMemo, setWorkoutMemo] = useState('');
+  const [workoutDone, setWorkoutDone] = useState(false);
+  const [workoutDoneModal, setWorkoutDoneModal] = useState(false);
+
+  //time 관련 변수 :
   const [TUT, setTUT] = useState(route.params.TUT);
   const [isTut, setIsTus] = useState(true);
   const [time, setTime] = useState('');
+  const [elapsedTime, setElapsedTime] = useState(route.params.elapsedTime);
+
+  //pause 화면 관련 변수 :
+  const [isPausedPage, setIsPausedPage] = useState(route.params.isPausedPage);
+  const [isPaused, setIsPaused] = useState(route.params.isPaused);
+  const [workoutDoneModal2, setWorkoutDoneModal2] = useState(false);
+  const [workoutMemoModal, setWorkoutMemoModal] = useState(false);
+
+  //setting 화면 관련 변수 :
   const [pressSetting, setPressSetting] = useState(false);
   const [isAssist, setIsAssist] = useState(true);
   const [isLock, setIsLock] = useState(false);
-  const [restSet, setRestSet] = useState(30);
-  const [temprestSet, setTempRestSet] = useState('');
-  const [restMotion, setRestMotion] = useState(60);
-  const [temprestMotion, setTempRestMotion] = useState('');
-  const [elapsedTime, setElapsedTime] = useState(route.params.elapsedTime);
-  const [restTimer, setRestTimer] = useState(restSet);
-  const [isResting, setIsResting] = useState(false);
-  const [isStopResting, setIsStopResting] = useState(false);
   const toggleSwitch = () => setIsAssist(previousState => !previousState);
   const toggleSwitch2 = () => setIsLock(previousState => !previousState);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
-  const [m_index, setMIndex] = useState(route.params.m_index);
-  const [s_index, setSIndex] = useState(route.params.s_index);
-  const [isMotionDone, setIsMotionDone] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [temprestSet, setTempRestSet] = useState('');
+  const [temprestMotion, setTempRestMotion] = useState('');
+  const [restSet, setRestSet] = useState(30);
+  const [restMotion, setRestMotion] = useState(60);
 
-  //모든 운동 끝나면 -> true
-  const [workoutDone, setWorkoutDone] = useState(false);
-  const [workoutDoneModal, setWorkoutDoneModal] = useState(false);
-  const [workoutDoneModal2, setWorkoutDoneModal2] = useState(false);
-  const [workoutMemoModal, setWorkoutMemoModal] = useState(false);
-  const [workoutTitle, setWorkoutTitle] = useState('');
-  const [workoutMemo, setWorkoutMemo] = useState('');
+  // resting 관련 변수
+  const [isResting, setIsResting] = useState(false);
+  const [isStopResting, setIsStopResting] = useState(false);
+  const [isMotionDone, setIsMotionDone] = useState(false);
+  const [restTimer, setRestTimer] = useState(restSet);
+  const [nextMotionModal, setNextMotionModal] = useState(false);
+
+  // motionList 수정 관련 변수 :
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isExercisingDisabled, setIsExercisingDisabled] = useState(false);
+  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
+  const dispatch = useDispatch();
+  const [isModifyMotion, setIsModifyMotion] = useState(
+    route.params.isModifyMotion,
+  );
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
     modeDescription: '설명',
   });
-
-  const [isModifyMotion, setIsModifyMotion] = useState(
-    route.params.isModifyMotion,
-  );
-  const [isPausedPage, setIsPausedPage] = useState(route.params.isPausedPage);
-
-  const [isExercisingDisbled, setIsExercisingDisabled] = useState(false);
-  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (motionList.length === 0) {
@@ -267,6 +275,7 @@ export const WorkoutStart = ({navigation, route}) => {
         if (restTimer <= 0) {
           setIsResting(false);
           setRestTimer(restSet);
+          setNextMotionModal(true);
         }
       }, 1000);
     }
@@ -387,6 +396,32 @@ export const WorkoutStart = ({navigation, route}) => {
                       width={126}
                       onPress={() => endResting(false)}
                       content="바로 시작"></CustomButton_B>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            visible={nextMotionModal}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer2}>
+              <View style={styles.restingContainer}>
+                <Text style={styles.restingTitle}>
+                  {isMotionDone ? '동작간 휴식' : '세트간 휴식'}
+                </Text>
+                <Text style={styles.restingTimer}>{formatTime(0)}</Text>
+                <View style={{flexDirection: 'row', marginTop: 16}}>
+                  <Text style={{color: '#242424'}}>
+                    세트간 휴식시간이 끝났습니다.
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row', marginTop: 15}}>
+                  <View>
+                    <CustomButton_B
+                      width={264}
+                      onPress={() => setNextMotionModal(false)}
+                      content="다음 동작 시작"></CustomButton_B>
                   </View>
                 </View>
               </View>
@@ -1046,7 +1081,7 @@ export const WorkoutStart = ({navigation, route}) => {
             </View>
             <View style={{marginLeft: 8}}>
               <CustomButton_B
-                disabled={isExercisingDisbled}
+                disabled={isExercisingDisabled}
                 width={171}
                 content={`운동중  ${formatTime(elapsedTime)}`}
                 onPress={saveModifying}></CustomButton_B>
