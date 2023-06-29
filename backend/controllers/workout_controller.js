@@ -57,14 +57,19 @@ const recent_workouts = (req, res) => {
 const workout_brief = (req, res) => {
   if (!req.body) res.status(400).send({message: 'Content can not be empty'});
 
-  Workout.brief(
-    req.body.user_id,
-    req.params.recent == 'true' ? true : false,
-    (err, result) => {
-      if (err) console.error(err);
-      else res.json(result);
-    },
-  );
+  Workout.brief(req.body.user_id, false, (err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
+  });
+};
+
+const workout_brief_recent = (req, res) => {
+  if (!req.body) res.status(400).send({message: 'Content can not be empty'});
+
+  Workout.brief(req.body.user_id, true, (err, result) => {
+    if (err) console.error(err);
+    else res.json(result);
+  });
 };
 
 const workout_detail = (req, res) => {
@@ -111,6 +116,7 @@ module.exports = {
   create_workout,
   update_workout,
   workout_brief,
+  workout_brief_recent,
   recent_workouts,
   workout_detail,
   get_specific_date_workouts,
