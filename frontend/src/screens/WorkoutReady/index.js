@@ -72,6 +72,7 @@ const WorkoutReady = ({navigation, route}) => {
       setMotionList(currentMotionList => [
         ...currentMotionList,
         {
+          isMotionDone: false,
           isFavorite: route.params.displaySelected[i].isFavorite,
           motion_id: route.params.displaySelected[i].motion_id,
           motionName: route.params.displaySelected[i].motionName,
