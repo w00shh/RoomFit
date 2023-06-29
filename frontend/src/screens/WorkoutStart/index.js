@@ -214,7 +214,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,
             imageUrl: route.params.displaySelected[i].imageUrl,
-            sets: [{weight: 0, reps: 0, mode: '기본', isDone: false}],
+            sets: [{weight: 0, reps: 1, mode: '기본', isDone: false}],
           },
         ]);
       }

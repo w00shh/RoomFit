@@ -194,7 +194,7 @@ const AddRoutine = ({navigation, route}) => {
             sets: [
               {
                 weight: 0,
-                reps: 0,
+                reps: 1,
                 mode: '기본',
                 isDone: false,
               },

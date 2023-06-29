@@ -92,7 +92,7 @@ const SetItem = props => {
           style={styles.valueText}
           keyboardType="number-pad"
           placeholder={String(props.reps)}
-          defaultValue={props.reps !== 0 ? String(props.reps) : null}
+          defaultValue={props.reps !== 1 ? String(props.reps) : null}
           onChangeText={handleRepsChange}></TextInput>
         <Text style={styles.unitText}>회</Text>
       </View>
