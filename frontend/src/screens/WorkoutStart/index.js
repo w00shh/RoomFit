@@ -307,10 +307,6 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsModalVisible(false);
   };
 
-  useEffect(() => {
-    console.log(motionList);
-  }, [motionList]);
-
   const SetComplete = () => {
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];

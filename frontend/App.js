@@ -47,7 +47,6 @@ const App = () => {
     };
 
     const handleUrl = url => {
-      console.log(url);
       const sep_url = url.url.split('auth?')[1];
       const params = {};
       sep_url.split('/').forEach(pair => {
@@ -55,7 +54,7 @@ const App = () => {
         params[key] = value;
       });
       const json = JSON.stringify(params);
-      console.log(json);
+      console.log(params);
     };
 
     handleDeepLink();
