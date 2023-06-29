@@ -23,6 +23,7 @@ const WorkoutReady = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+  const [workoutId, setWorkoutId] = useState();
 
   const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
 
@@ -133,6 +134,23 @@ const WorkoutReady = ({navigation, route}) => {
     navigation.push('AddMotion', {motionList: motionList});
   };
 
+  useEffect(() => {
+    if (workoutId) {
+      navigation.navigate('WorkoutStart', {
+        workout_id: workoutId,
+        isAddMotion: false,
+        motionList: motionList,
+        elapsedTime: 0,
+        TUT: 0,
+        m_index: 0,
+        s_index: 0,
+        isPaused: false,
+        isPausedPage: false,
+        isModifyMotion: false,
+      });
+    }
+  }, [workoutId]);
+
   const handleStartWorkoutPress = async () => {
     const body = {
       user_id: 'user1',
@@ -141,21 +159,11 @@ const WorkoutReady = ({navigation, route}) => {
       .post('/workout', body)
       .then(res => {
         console.log(res.data);
+        setWorkoutId(res.data.workout_id);
       })
       .catch(e => {
         console.log(e);
       });
-    navigation.navigate('WorkoutStart', {
-      isAddMotion: false,
-      motionList: motionList,
-      elapsedTime: 0,
-      TUT: 0,
-      m_index: 0,
-      s_index: 0,
-      isPaused: false,
-      isPausedPage: false,
-      isModifyMotion: false,
-    });
   };
   return (
     <View style={styles.pageContainer}>
