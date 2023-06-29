@@ -61,6 +61,7 @@ const WorkoutItem = props => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
+          disabled={props.motionList[props.motion_index].isMotionDone}
           style={styles.button}
           onPress={() => {
             handleMotionDeletePress(props.motion_index);
