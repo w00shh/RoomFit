@@ -47,7 +47,8 @@ const App = () => {
     };
 
     const handleUrl = url => {
-      const sep_url = url.url.split('google_auth?')[1];
+      console.log(url);
+      const sep_url = url.url.split('auth?')[1];
       const params = {};
       sep_url.split('/').forEach(pair => {
         const [key, value] = pair.split('=');

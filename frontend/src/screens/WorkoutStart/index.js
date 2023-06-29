@@ -307,6 +307,10 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    console.log(motionList);
+  }, [motionList]);
+
   const SetComplete = () => {
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
@@ -321,10 +325,16 @@ export const WorkoutStart = ({navigation, route}) => {
     ) {
       setIsResting(true);
       setIsMotionDone(true);
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].isMotionDone = true;
+      setMotionList(updatedMotionList);
       setMIndex(m_index + 1);
       setSIndex(0);
       setRestTimer(restMotion);
     } else {
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].isMotionDone = true;
+      setMotionList(updatedMotionList);
       setWorkoutDone(true);
       setWorkoutDoneModal(true);
     }
