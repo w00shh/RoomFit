@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
   const [existRoutine, setExistRoutine] = useState(false);
   const [isExercised, setIsExercised] = useState(true);
   const [routine, setRoutine] = useState([]);
-
+  const [recentRoutine, setRecentRoutine] = useState([]);
   const [isExercise, setIsExercise] = useState(true);
   const [isRecord, setIsRecord] = useState(false);
   const [isSetting, setIsSetting] = useState(false);
@@ -107,6 +107,9 @@ const HomeScreen = ({navigation}) => {
     const body = {
       user_id: 'user1',
     };
+    await serverAxios.post('/workout/brief/true', body).then(res => {
+      res.data.map((value, key) => {});
+    });
   };
 
   const PERFORMED = [
