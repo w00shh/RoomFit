@@ -33,7 +33,6 @@ const WorkoutItem = props => {
   };
   return (
     <View style={styles.workoutItemContainer}>
-      <Text>{String(props.motionList[props.motion_index].isMotionDoing)}</Text>
       <WorkoutTitle motion={props.motion}></WorkoutTitle>
       <SetItem
         isKey={true}
