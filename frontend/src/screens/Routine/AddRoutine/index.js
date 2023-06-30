@@ -30,6 +30,8 @@ const AddRoutine = ({navigation, route}) => {
     motionList.length === 0 ? true : false,
   );
   const [routineId, setRoutineId] = useState(route.params.routine_id);
+  const [backWithoutSave, setBackWithoutSave] = useState(false);
+  const [askSaveModal, setAskSaveModal] = useState(false);
 
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
@@ -119,11 +121,35 @@ const AddRoutine = ({navigation, route}) => {
     navigation.push('MyRoutine');
   };
 
+  const handleBackButton = () => {
+    if (motionList.length === 0) {
+      deleteRoutine();
+    } else {
+      setAskSaveModal(true);
+    }
+  };
+
+  const deleteRoutine = async () => {
+    await serverAxios
+      .put('/routine/delete', {
+        routine_id: routineId,
+      })
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const saveRoutineWithnoName = () => {};
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity
-          onPress={() => navigation.reset({routes: [{name: 'MyRoutine'}]})}>
+          onPress={() => {
+            navigation.reset({routes: [{name: 'MyRoutine'}]});
+            setBackWithoutSave(true);
+          }}>
           <Back
             name="arrow-back"
             color={'#242424'}
@@ -252,6 +278,13 @@ const AddRoutine = ({navigation, route}) => {
 
   return (
     <View style={styles.pageContainer}>
+      <Modal visible={askSaveModal} transparent={true} animationType="fade">
+        <View style={styles.modalNameContainer}>
+          <View style={styles.routineNameContainer}>
+            <Text>루틴을 저장하시겠습니까?</Text>
+          </View>
+        </View>
+      </Modal>
       <Modal
         visible={isRoutineNameModalVisible}
         transparent={true}

@@ -1,13 +1,13 @@
-const axios = require('axios');
+const serverAxios = require('../../frontend/src/utils/commonAxios');
 
 //세트 종료 테스트
-axios
-  .post('http://localhost:4000/set', {
+serverAxios
+  .post('/workout/set', {
     record_id: 1,
     routine_motion_id: null,
     set_no: 1,
     weight: 15,
-    rep: 10,
+    reps: 10,
     mode: 1,
   })
   .then(res => console.log(res))
