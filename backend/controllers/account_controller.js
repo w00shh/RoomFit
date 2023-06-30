@@ -183,6 +183,32 @@ const google_auth_passport = async (req, res) => {
   });
 };
 
+const kakao_auth_passport = async (req, res) => {
+  const account = new Account({
+    user_id: req.user.id,
+    user_name: req.user.kakao_account.profile.nickname,
+    email: req.user.kakao_account.email,
+    is_api: '2',
+  });
+
+  Account.kakao_auth(account, (err, id, isRegister) => {
+    if (err) {
+      const message =
+        err.message || 'Some error occurred while creating Account.';
+      const success = 0;
+      res.redirect(
+        `memcaps://account/kakao_auth?message=${message}/success=${success}`,
+      );
+    } else {
+      const user_id = account.user_id;
+      const success = 1;
+      res.redirect(
+        `memcaps://account/kakao_auth?user_id=${user_id}/success=${success}/isRegister=${isRegister}`,
+      );
+    }
+  });
+};
+
 const email_verification = (req, res) => {
   const email = req.body.email;
   Account.email_verification(email, (err, data) => {
@@ -232,6 +258,7 @@ module.exports = {
   google_auth,
   google_auth_redirect,
   google_auth_passport,
+  kakao_auth_passport,
   email_verification,
   find_id,
   find_password,

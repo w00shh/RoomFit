@@ -19,6 +19,20 @@ router.get(
     account_controller.google_auth_passport(req, res);
   },
 );
+router.get(
+  '/kakao-auth',
+  passport.authenticate('kakao', {
+    scope: ['profile_nickname', 'account_email'],
+  }),
+);
+
+router.get(
+  '/kakao-auth/redirect',
+  passport.authenticate('kakao', {failureRedirect: '/kakao-auth'}),
+  (req, res) => {
+    account_controller.kakao_auth_passport(req, res);
+  },
+);
 // router.get('/google-auth', account_controller.google_auth);
 // router.get('/google-auth/redirect', account_controller.google_auth_redirect);
 
