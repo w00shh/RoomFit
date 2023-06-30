@@ -163,6 +163,7 @@ const RoutineDetail = ({navigation, route}) => {
             ...currentMotionList,
             {
               isMotionDone: false,
+              isMotionDoing: false,
               isFavorite: value.isFav,
               motion_id: value.motion_id,
               motionName: value.motion_name,
@@ -188,6 +189,7 @@ const RoutineDetail = ({navigation, route}) => {
           ...currentMotionList,
           {
             isMotionDone: false,
+            isMotionDoing: false,
             isFavorite: route.params.displaySelected[i].isFavorite,
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,

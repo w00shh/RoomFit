@@ -219,6 +219,7 @@ export const WorkoutStart = ({navigation, route}) => {
           ...currentMotionList,
           {
             isMotionDone: false,
+            isMotionDoing: false,
             isFavorite: route.params.displaySelected[i].isFavorite,
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,
@@ -398,6 +399,7 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDone = true;
       setMotionList(updatedMotionList);
+
       setRestTimer(restMotion);
     } else {
       // 운동 종료시
@@ -411,6 +413,9 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const goNextMotion = () => {
+    // const updatedMotionList = [...motionList];
+    // updatedMotionList[m_index].isMotionDoing = true;
+    // setMotionList(updatedMotionList);
     setIsResting(false);
     setIsRestingModal(false);
     setRestTimer(restSet);

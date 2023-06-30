@@ -3,7 +3,6 @@ import WorkoutTitle from '../WorkoutTitle';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import SetItem from '../SetItem';
-import {useEffect, useState} from 'react';
 
 const WorkoutItem = props => {
   const handleMotionDeletePress = motion_index => {
@@ -34,6 +33,7 @@ const WorkoutItem = props => {
   };
   return (
     <View style={styles.workoutItemContainer}>
+      <Text>{String(props.motionList[props.motion_index].isMotionDoing)}</Text>
       <WorkoutTitle motion={props.motion}></WorkoutTitle>
       <SetItem
         isKey={true}
@@ -75,6 +75,7 @@ const WorkoutItem = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
+          disabled={props.motionList[props.motion_index].isMotionDone}
           onPress={() => {
             handleSetDeletePress(props.motion_index);
           }}>

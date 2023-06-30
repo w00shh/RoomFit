@@ -52,6 +52,7 @@ const AddMotion = ({navigation, route}) => {
             ...currentMotionList,
             {
               isMotionDone: false,
+              isMotionDoing: false,
               isFavorite: value.isFav,
               motion_id: value.motion_id,
               motionName: value.motion_name,
@@ -75,6 +76,7 @@ const AddMotion = ({navigation, route}) => {
       else
         displaySelected.set(motion.motion_id, {
           isMotionDone: false,
+          isMotionDoing: false,
           isFavorite: motion.isFavorite,
           motion_id: motion.motion_id,
           motionName: motion.motionName,
@@ -126,6 +128,7 @@ const AddMotion = ({navigation, route}) => {
             ...currentMotionList,
             {
               isMotionDone: false,
+              isMotionDoing: false,
               isFavorite: value.isFav,
               motion_id: value.motion_id,
               motionName: value.motion_name,
