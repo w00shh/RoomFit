@@ -112,6 +112,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 
+  askSaveContainer: {
+    width: 296,
+    height: 210,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    borderRadius: 12,
+    backgroundColor: 'white',
+  },
+
   titleContainer: {
     alignItems: 'center',
     justifyContent: 'center',

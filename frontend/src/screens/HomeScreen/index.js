@@ -112,7 +112,6 @@ const HomeScreen = ({navigation}) => {
     await serverAxios
       .post('/workout/brief/recent', body)
       .then(res => {
-        console.log(res.data);
         res.data.map((value, key) => {
           setRecentRoutine(currentRecentRoutine => [
             ...currentRecentRoutine,
@@ -144,7 +143,6 @@ const HomeScreen = ({navigation}) => {
       const start_arr = recentRoutine[0].start_time.split(' ');
       setRecentDay(start_arr[0]);
     }
-    console.log(recentRoutine);
   }, [recentRoutine]);
 
   const PERFORMED = [
