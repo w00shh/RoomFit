@@ -38,6 +38,7 @@ import AddMotion from '../AddMotion';
 import WorkoutItem from '../../components/WorkoutItem';
 import {useSelector, useDispatch} from 'react-redux';
 import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
+import {serverAxios} from '../../utils/commonAxios';
 
 export const WorkoutStart = ({navigation, route}) => {
   // motionList 관련 변수 :
@@ -80,6 +81,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
   // resting 관련 변수
   const [isResting, setIsResting] = useState(false);
+  const [isRestingModal, setIsRestingModal] = useState(false);
   const [isStopResting, setIsStopResting] = useState(false);
   const [isMotionDone, setIsMotionDone] = useState(false);
   const [restTimer, setRestTimer] = useState(restSet);
@@ -226,7 +228,65 @@ export const WorkoutStart = ({navigation, route}) => {
         ]);
       }
     }
+
+    getRecordId(0);
   }, []);
+
+  const getRecordId = async m_index => {
+    const body = {
+      workout_id: workoutId,
+      motion_id: motionList[m_index].motion_id,
+    };
+    await serverAxios
+      .post('/workout/record', body)
+      .then(res => {
+        console.log(res.data.record_id);
+        setRecordId(res.data.record_id);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const setCompletePost = async () => {
+    console.log([
+      recordId,
+      s_index + 1,
+      motionList[m_index].sets[s_index].weight,
+      motionList[m_index].sets[s_index].reps,
+      motionList[m_index].sets[s_index].mode,
+    ]);
+    const body = {
+      record_id: recordId,
+      set_no: s_index + 1,
+      weight: motionList[m_index].sets[s_index].weight,
+      reps: motionList[m_index].sets[s_index].reps,
+      mode: motionList[m_index].sets[s_index].mode,
+    };
+    console.log(body);
+    await serverAxios
+      .post('/workout/set', body)
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const saveWorkoutRecord = async () => {
+    console.log(formatTime(TUT));
+    const body = {
+      workout_id: workoutId,
+      tut: formatTime(TUT),
+      title: workoutTitle,
+      memo: workoutMemo,
+    };
+    await serverAxios
+      .put('/workout/done', body)
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
+      });
+  };
 
   function Item({mode}) {
     return (
@@ -273,9 +333,10 @@ export const WorkoutStart = ({navigation, route}) => {
       intervalId3 = setInterval(() => {
         setRestTimer(prevrestTime => prevrestTime - 1);
         if (restTimer <= 0) {
-          setIsResting(false);
-          setRestTimer(restSet);
           setNextMotionModal(true);
+          setIsResting(false);
+          setIsRestingModal(false);
+          setRestTimer(restSet);
         }
       }, 1000);
     }
@@ -316,32 +377,54 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsModalVisible(false);
   };
 
-  const SetComplete = () => {
+  const setComplete = () => {
+    setCompletePost();
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
     updatedMotionList[m_index].sets[s_index].isDone = true;
     setMotionList(updatedMotionList);
     if (s_index + 1 < motionList[m_index].sets.length) {
+      //set 종료시
       setIsResting(true);
-      setSIndex(s_index + 1);
+      setIsRestingModal(true);
     } else if (
       s_index + 1 === motionList[m_index].sets.length &&
       motionList[m_index + 1]
     ) {
+      // 동작 종료시
       setIsResting(true);
+      setIsRestingModal(true);
       setIsMotionDone(true);
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDone = true;
       setMotionList(updatedMotionList);
-      setMIndex(m_index + 1);
-      setSIndex(0);
       setRestTimer(restMotion);
     } else {
+      // 운동 종료시
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDone = true;
       setMotionList(updatedMotionList);
       setWorkoutDone(true);
       setWorkoutDoneModal(true);
+      setIsResting(true);
+    }
+  };
+
+  const goNextMotion = () => {
+    setIsResting(false);
+    setIsRestingModal(false);
+    setRestTimer(restSet);
+    setIsStopResting(false);
+    if (s_index + 1 < motionList[m_index].sets.length) {
+      setSIndex(s_index + 1);
+    } else if (
+      s_index + 1 === motionList[m_index].sets.length &&
+      motionList[m_index + 1]
+    ) {
+      getRecordId(m_index + 1);
+      setMIndex(m_index + 1);
+      setSIndex(0);
+      setRestTimer(restMotion);
     }
   };
 
@@ -353,7 +436,10 @@ export const WorkoutStart = ({navigation, route}) => {
     <SafeAreaView style={styles.pageContainer}>
       {!isPausedPage && !pressSetting && !isModifyMotion && (
         <View>
-          <Modal visible={isResting} transparent={true} animationType="fade">
+          <Modal
+            visible={isRestingModal}
+            transparent={true}
+            animationType="fade">
             <View style={styles.modalContainer2}>
               <View style={styles.restingContainer}>
                 <Text style={styles.restingTitle}>
@@ -386,7 +472,9 @@ export const WorkoutStart = ({navigation, route}) => {
                   <View style={{marginRight: 5}}>
                     <CustomButton_W
                       width={126}
-                      onPress={() => setIsStopResting(!isStopResting)}
+                      onPress={() => {
+                        setIsRestingModal(false);
+                      }}
                       content={
                         isStopResting ? '휴식 재개' : '일시정지'
                       }></CustomButton_W>
@@ -394,7 +482,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   <View style={{marginLeft: 5}}>
                     <CustomButton_B
                       width={126}
-                      onPress={() => endResting(false)}
+                      onPress={() => goNextMotion()}
                       content="바로 시작"></CustomButton_B>
                   </View>
                 </View>
@@ -420,7 +508,10 @@ export const WorkoutStart = ({navigation, route}) => {
                   <View>
                     <CustomButton_B
                       width={264}
-                      onPress={() => setNextMotionModal(false)}
+                      onPress={() => {
+                        goNextMotion();
+                        setNextMotionModal(false);
+                      }}
                       content="다음 동작 시작"></CustomButton_B>
                   </View>
                 </View>
@@ -488,7 +579,10 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={{flexDirection: 'row', marginTop: 5}}>
                   <CustomButton_B
                     width={264}
-                    onPress={() => navigation.navigate('HomeScreen')}
+                    onPress={() => {
+                      navigation.reset({routes: [{name: 'HomeScreen'}]});
+                      saveWorkoutRecord();
+                    }}
                     content="확인"
                     marginVertical={12}></CustomButton_B>
                 </View>
@@ -571,9 +665,13 @@ export const WorkoutStart = ({navigation, route}) => {
               <Plus name="plus" size={16} color="#808080"></Plus>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => SetComplete()}
+              onPress={() => {
+                isResting ? setIsRestingModal(true) : setComplete();
+              }}
               style={styles.CButton2}>
-              <Text style={styles.CText}>세트완료</Text>
+              <Text style={styles.CText}>
+                {isResting ? formatTime(restTimer) : '세트완료'}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.navigator}>

@@ -19,11 +19,8 @@ const RecentExercise = props => {
             <Image
               style={{marginLeft: 5, marginRight: 5}}
               source={require('../../assets/images/divider.png')}></Image>
-            {value.targets.map((values, keys) => (
-              <Text key={keys} style={styles.targetText}>
-                {values}{' '}
-              </Text>
-            ))}
+
+            <Text style={styles.targetText}>{value.targets.join(', ')}</Text>
           </View>
           <View style={{flexDirection: 'row', marginTop: 17.5}}>
             <Timer
