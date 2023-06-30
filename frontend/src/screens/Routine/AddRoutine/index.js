@@ -331,6 +331,7 @@ const AddRoutine = ({navigation, route}) => {
                   width={126}
                   onPress={() => {
                     setAskSaveModal(false);
+                    deleteRoutine();
                     navigation.reset({routes: [{name: 'MyRoutine'}]});
                   }}
                   content="취소"></CustomButton_W>
