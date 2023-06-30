@@ -108,6 +108,12 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   }, [motionList]);
 
+  useEffect(() => {
+    const updatedMotionList = [...motionList];
+    updatedMotionList[m_index].isMotionDoing = true;
+    setMotionList(updatedMotionList);
+  }, [m_index]);
+
   const modifyingMotion = () => {
     setIsPaused(true);
     setIsPausedPage(false);
@@ -399,12 +405,18 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDone = true;
       setMotionList(updatedMotionList);
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].isMotionDoing = false;
+      setMotionList(updatedMotionList);
 
       setRestTimer(restMotion);
     } else {
       // 운동 종료시
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDone = true;
+      setMotionList(updatedMotionList);
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].isMotionDoing = false;
       setMotionList(updatedMotionList);
       setWorkoutDone(true);
       setWorkoutDoneModal(true);

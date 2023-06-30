@@ -61,7 +61,10 @@ const WorkoutItem = props => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          disabled={props.motionList[props.motion_index].isMotionDone}
+          disabled={
+            props.motionList[props.motion_index].isMotionDone ||
+            props.motionList[props.motion_index].isMotionDoing
+          }
           style={styles.button}
           onPress={() => {
             handleMotionDeletePress(props.motion_index);
@@ -75,7 +78,10 @@ const WorkoutItem = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          disabled={props.motionList[props.motion_index].isMotionDone}
+          disabled={
+            props.motionList[props.motion_index].isMotionDone ||
+            props.motionList[props.motion_index].isMotionDoing
+          }
           onPress={() => {
             handleSetDeletePress(props.motion_index);
           }}>
@@ -88,6 +94,7 @@ const WorkoutItem = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
+          disabled={props.motionList[props.motion_index].isMotionDone}
           onPress={() => {
             handleSetAddPress(props.motion_index);
           }}>
