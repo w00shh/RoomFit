@@ -1,22 +1,51 @@
 import React from 'react';
-import {Text, TextInput, View} from 'react-native';
+import {Button, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
+import CustomButton_B from '../CustomButton_B';
 
 const Input = props => {
   return (
     <View style={styles.inputContainer}>
-      <View>
-        <Text style={styles.label}>{props.label}</Text>
-      </View>
+      {props.label && (
+        <View>
+          <Text style={styles.label}>{props.label}</Text>
+        </View>
+      )}
       <View style={styles.inputBox}>
         <TextInput
-          style={styles.input}
+          style={{
+            width: props.isCertification && 225,
+          }}
           onChangeText={props.onChangeText}
           placeholder={props.placeholder}
           defaultValue={props.defaultValue}
           inputMode={props.inputMode}
           keyboardType={props.keyboardType}
-          secureTextEntry={props.secureTextEntry}></TextInput>
+          secureTextEntry={props.secureTextEntry}
+          editable={!props.isCertificated}></TextInput>
+        {props.isCertification &&
+          (props.isCertificated ? (
+            <Text style={{color: '#5252fa'}}>인증완료</Text>
+          ) : (
+            <TouchableOpacity
+              style={{
+                padding: 5,
+                borderRadius: 8,
+                borderWidth: props.disabled ? 0 : 0.5,
+                borderColor: '#5252fa',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              disabled={props.disabled}
+              onPress={props.onPress}>
+              <Text
+                style={{
+                  color: props.disabled ? '#dfdfdf' : '#5252fa',
+                }}>
+                {props.certificationContent}
+              </Text>
+            </TouchableOpacity>
+          ))}
       </View>
     </View>
   );

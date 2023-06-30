@@ -22,6 +22,14 @@ const Register = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [isCertificated, setIsCertificated] = useState(false);
+  const [certificationDisabled, setCertificationDisabled] = useState(true);
+  const [certificationCode, setCertificationCode] = useState();
+  const [isCertificationNumberVisible, setIsCertificationNumberVisible] =
+    useState(false);
+  const [certificationNumber, setcertificationNumber] = useState('');
+  const [certificationNumberDisabled, setCertificationNumberDisabled] =
+    useState(true);
   const [password, setPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
@@ -41,8 +49,52 @@ const Register = ({navigation}) => {
 
   const handleEmailChange = text => {
     setEmail(text);
+    if (text.length > 0) {
+      setCertificationDisabled(false);
+    } else {
+      setCertificationDisabled(true);
+    }
   };
 
+  const handleCertificationPress = async () => {
+    const body = {
+      email: email,
+    };
+    console.log(body);
+    await serverAxios
+      .post('/account/email-verification', body)
+      .then(res => {
+        console.log(res.data);
+        setCertificationCode(res.data.verification_code);
+        setIsCertificationNumberVisible(true);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const handleCertificationNumberChange = text => {
+    setcertificationNumber(text);
+    if (text.length > 0) {
+      setCertificationNumberDisabled(false);
+    } else {
+      setCertificationNumberDisabled(true);
+    }
+  };
+
+  const handleCertificationNumberPress = () => {
+    console.log('num: ' + certificationNumber);
+    console.log('code: ' + certificationCode);
+    if (certificationNumber === String(certificationCode)) {
+      setIsCertificated(true);
+      setIsCertificationNumberVisible(false);
+      console.log('is same');
+    }
+  };
+
+  useEffect(() => {
+    console.log('isCertificated: ' + isCertificated);
+  }, [isCertificated]);
   const handlePasswordChange = text => {
     setPassword(text);
   };
@@ -50,6 +102,30 @@ const Register = ({navigation}) => {
   const handlePasswordConfirmChange = text => {
     setPasswordConfirm(text);
   };
+
+  const handleRegisterDisabled = () => {
+    if (
+      // isIdValid &&
+      // isNicknamevalid &&
+      // isEmailValid &&
+      // isPasswordValid &&
+      // isPasswordConfirmValid
+      id.length > 0 &&
+      nickname.length > 0 &&
+      email.length > 0 &&
+      isCertificated &&
+      password.length > 0 &&
+      password === passwordConfirm
+    ) {
+      setRegisterDisablbed(false);
+    } else {
+      setRegisterDisablbed(true);
+    }
+  };
+
+  useEffect(() => {
+    handleRegisterDisabled();
+  }, [id, nickname, email, password, passwordConfirm]);
 
   const handleRegisterPress = async () => {
     const body = {
@@ -63,12 +139,9 @@ const Register = ({navigation}) => {
       .post('/account/register', body)
       .then(res => {
         console.log(res.data);
-        // navigation.push('Login', {
-        //   isRegister: true,
-        //   email: email,
-        // });
-        navigation.reset({
-          routes: [{name: 'Login', params: {isRegister: true, email: email}}],
+        navigation.push('Login', {
+          isRegister: true,
+          email: email,
         });
       })
       .catch(e => {
@@ -77,31 +150,8 @@ const Register = ({navigation}) => {
   };
 
   const handleToLoginPress = () => {
-    navigation.navigate('Login');
+    navigation.navigate('Login', {isRegister: false});
   };
-
-  const handleRegisterDisabled = () => {
-    if (
-      // isIdValid &&
-      // isNicknamevalid &&
-      // isEmailValid &&
-      // isPasswordValid &&
-      // isPasswordConfirmValid
-      id.length > 0 &&
-      nickname.length > 0 &&
-      email.length > 0 &&
-      password.length > 0 &&
-      password === passwordConfirm
-    ) {
-      setRegisterDisablbed(false);
-    } else {
-      setRegisterDisablbed(true);
-    }
-  };
-
-  useEffect(() => {
-    handleRegisterDisabled();
-  }, [id, nickname, email, password, passwordConfirm]);
 
   return (
     <View style={styles.pageContainer}>
@@ -127,7 +177,24 @@ const Register = ({navigation}) => {
           placeholder="이메일 입력"
           defaultValue={email}
           inputMode="email"
-          keyboardType="email-address"></Input>
+          keyboardType="email-address"
+          isCertification={true}
+          isCertificated={isCertificated}
+          certificationContent="인증번호 전송"
+          disabled={certificationDisabled}
+          onPress={handleCertificationPress}></Input>
+        {isCertificationNumberVisible && (
+          <Input
+            onChangeText={handleCertificationNumberChange}
+            placeholder="인증번호 입력"
+            defaultValue={certificationNumber}
+            inputMode="text"
+            xkeyboardType="number-pad"
+            isCertification={true}
+            certificationContent="인증번호 입력"
+            disabled={certificationNumberDisabled}
+            onPress={handleCertificationNumberPress}></Input>
+        )}
         <Input
           label="비밀번호"
           onChangeText={handlePasswordChange}

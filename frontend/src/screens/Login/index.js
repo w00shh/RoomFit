@@ -59,9 +59,11 @@ const Login = ({navigation, route}) => {
       });
   };
 
-  const handleselectionIdPress = () => {};
+  const handleselectionIdFindPress = () => {};
 
-  const handleselectionPasswordPress = () => {};
+  const handleselectionPasswordFindPress = () => {
+    navigation.navigate('PasswordFind');
+  };
 
   const handleToRegisterPress = () => {
     navigation.navigate('Register');
@@ -95,7 +97,7 @@ const Login = ({navigation, route}) => {
         content="로그인하기"></CustomButton_B>
       <View style={styles.selectionContainer}>
         <View style={styles.selectionBox}>
-          <TouchableOpacity onPress={handleselectionIdPress}>
+          <TouchableOpacity onPress={handleselectionIdFindPress}>
             <Text style={styles.selectionText}>아이디 찾기</Text>
           </TouchableOpacity>
         </View>
@@ -103,7 +105,7 @@ const Login = ({navigation, route}) => {
           style={styles.divider}
           source={require('../../assets/images/divider.png')}></Image>
         <View style={styles.selectionBox}>
-          <TouchableOpacity onPress={handleselectionPasswordPress}>
+          <TouchableOpacity onPress={handleselectionPasswordFindPress}>
             <Text style={styles.selectionText}>비밀번호 찾기</Text>
           </TouchableOpacity>
         </View>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Linking} from 'react-native';
@@ -7,6 +7,7 @@ import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
 import Register from './src/screens/Register/index.js';
 import Login from './src/screens/Login/index.js';
+import PasswordFind from './src/screens/Login/Find/Password/index.js';
 import MyRoutine from './src/screens/Routine/MyRoutine/index.js';
 import AddRoutine from './src/screens/Routine/AddRoutine/index.js';
 import AddMotion from './src/screens/AddMotion/index.js';
@@ -104,6 +105,12 @@ const App = () => {
             component={Login}
             options={{headerShown: true, title: '', headerShadowVisible: false}}
           />
+          <Stack.Screen
+            name="PasswordFind"
+            component={PasswordFind}
+            options={{headerShown: true, title: '', headerShadowVisible: false}}
+          />
+
           <Stack.Screen
             name="Register"
             component={Register}
