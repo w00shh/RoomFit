@@ -1,4 +1,3 @@
-import base64 from 'react-native-base64';
 import {
   BleError,
   BleManager,
@@ -44,10 +43,8 @@ class BLEManager {
     await this.device?.discoverAllServicesAndCharacteristics();
   };
 
-  disconnectToPeripherals = async (identifier: string) => {
-    await this.bleManager.cancelDeviceConnection(identifier).then(result => {
-      console.log(result);
-    });
+  disconnectPeripherals = async () => {
+    await this.device?.cancelConnection();
     setConnectedDevice(null);
   };
 }

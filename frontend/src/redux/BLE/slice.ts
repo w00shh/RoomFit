@@ -22,6 +22,9 @@ export const startScanning = createAction('bleState/startScanning');
 export const stopScanning = createAction('bleState/stopScanning');
 export const startListening = createAction('bleState/startListening');
 
+// export const connectToDevice = createAction('bleState/connectToDevice');
+export const disconnectDevice = createAction('bleState/disconnectDevice');
+
 const bleState = createSlice({
   name: 'bleState',
   initialState,

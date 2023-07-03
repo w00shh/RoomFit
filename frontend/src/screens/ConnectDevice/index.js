@@ -11,8 +11,12 @@ import Reload from 'react-native-vector-icons/AntDesign';
 import OnOff from '../../components/Switch';
 import styles from './styles';
 
-import {startScanning, stopScanning} from '../../redux/BLE/slice';
-import {connectToDevice, disconnectToDevice} from '../../redux/BLE/listener';
+import {
+  startScanning,
+  stopScanning,
+  disconnectDevice,
+} from '../../redux/BLE/slice';
+import {connectToDevice} from '../../redux/BLE/listener';
 import {store, useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {checkBluetoothPermissions} from '../../redux/BLE/permission';
@@ -53,6 +57,7 @@ const ConnectDevice = ({navigation}) => {
 
   const dispatch = useAppDispatch();
   const discoveredDevices = useAppSelector(state => state.ble.allDevices);
+  const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
 
   useEffect(() => {
     checkBluetoothPermissions().then(res => {
@@ -84,8 +89,8 @@ const ConnectDevice = ({navigation}) => {
         {
           <TouchableOpacity
             style={styles.connectButton}
-            onPress={async () => {
-              await dispatch(connectToDevice(device));
+            onPress={() => {
+              dispatch(connectToDevice(device));
             }}>
             <Text style={styles.connect}>연결</Text>
           </TouchableOpacity>
@@ -96,7 +101,7 @@ const ConnectDevice = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.pageContainer}>
-      {store.getState().ble.connectedDevice && (
+      {connectedDevice && (
         <View>
           <View style={styles.connectExplain}>
             <Text style={styles.statusText}>연결된 기기</Text>
@@ -108,15 +113,13 @@ const ConnectDevice = ({navigation}) => {
           </View>
           <View style={styles.connectContainer}>
             <View>
-              <Text style={styles.connectText}>
-                {store.getState().ble.connectedDevice?.name}
-              </Text>
+              <Text style={styles.connectText}>{connectedDevice.name}</Text>
               <Text style={styles.battery}>배터리 {String(getBattery)}</Text>
             </View>
             <TouchableOpacity
               style={styles.disconnectButton}
               onPress={() => {
-                disconnectToDevice(store.getState().ble.connectedDevice);
+                dispatch(disconnectDevice());
               }}>
               <Text style={styles.connect}>연결 해제</Text>
             </TouchableOpacity>

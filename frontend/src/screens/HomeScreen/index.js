@@ -21,11 +21,12 @@ import styles from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {serverAxios} from '../../utils/commonAxios';
 import {PrivateValueStore} from '@react-navigation/native';
+import {useAppSelector} from '../../redux/store';
 
 const HomeScreen = ({navigation}) => {
   // const {isLogin} = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
-  const [isConnected, setIsConnected] = useState(false);
+  const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
   const [existRoutine, setExistRoutine] = useState(false);
   const [isExercised, setIsExercised] = useState(true);
   const [routine, setRoutine] = useState([]);
@@ -168,7 +169,7 @@ const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.pageContainer}>
       <ScrollView>
-        {!isConnected && (
+        {!connectedDevice && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
             <Text style={styles.noConnectionText2}>
@@ -184,7 +185,7 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        {isConnected && (
+        {connectedDevice && (
           <View style={{alignItems: 'center'}}>
             <CustomButton_B
               style={styles.connectButton}
