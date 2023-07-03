@@ -17,7 +17,7 @@ import WorkoutStart from './src/screens/WorkoutStart/index.js';
 import RoutineDetail from './src/screens/Routine/RoutineDetail/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
-import {Store} from './src/redux/store.js';
+import {store} from './src/redux/store.ts';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,39 +35,39 @@ const config = {
 };
 
 const App = () => {
-  React.useEffect(() => {
-    const handleDeepLink = async () => {
-      // 앱이 최초로 실행되었을 때 딥 링크 처리
-      const initialUrl = await Linking.getInitialURL();
-      if (initialUrl) {
-        handleUrl(initialUrl);
-      }
+  // React.useEffect(() => {
+  //   const handleDeepLink = async () => {
+  //     // 앱이 최초로 실행되었을 때 딥 링크 처리
+  //     const initialUrl = await Linking.getInitialURL();
+  //     if (initialUrl) {
+  //       handleUrl(initialUrl);
+  //     }
 
-      // 딥 링크 이벤트 리스너 등록
-      Linking.addEventListener('url', handleUrl);
-    };
+  //     // 딥 링크 이벤트 리스너 등록
+  //     Linking.addEventListener('url', handleUrl);
+  //   };
 
-    const handleUrl = url => {
-      const sep_url = url.url.split('auth?')[1];
-      const params = {};
-      sep_url.split('/').forEach(pair => {
-        const [key, value] = pair.split('=');
-        params[key] = value;
-      });
-      const json = JSON.stringify(params);
-      console.log(params);
-    };
+  //   const handleUrl = url => {
+  //     const sep_url = url.url.split('auth?')[1];
+  //     const params = {};
+  //     sep_url.split('/').forEach(pair => {
+  //       const [key, value] = pair.split('=');
+  //       params[key] = value;
+  //     });
+  //     const json = JSON.stringify(params);
+  //     console.log(params);
+  //   };
 
-    handleDeepLink();
+  //   handleDeepLink();
 
-    // 딥 링크 이벤트 리스너 해제
-    return () => {
-      Linking.removeEventListener('url', handleUrl);
-    };
-  }, []);
+  //   // 딥 링크 이벤트 리스너 해제
+  //   return () => {
+  //     Linking.removeEventListener('url', handleUrl);
+  //   };
+  // }, []);
 
   return (
-    <Provider store={Store}>
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen

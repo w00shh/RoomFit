@@ -23,9 +23,9 @@ import {serverAxios} from '../../utils/commonAxios';
 import {PrivateValueStore} from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
-  const {isLogin} = useSelector(state => state.userReducer);
+  // const {isLogin} = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
   const [existRoutine, setExistRoutine] = useState(false);
   const [isExercised, setIsExercised] = useState(true);
   const [routine, setRoutine] = useState([]);
