@@ -109,10 +109,67 @@ export const WorkoutStart = ({navigation, route}) => {
   }, [motionList]);
 
   useEffect(() => {
-    const updatedMotionList = [...motionList];
-    updatedMotionList[m_index].isMotionDoing = true;
-    setMotionList(updatedMotionList);
-  }, [m_index]);
+    console.log('m_index: ', m_index);
+    console.log('s_index: ', s_index);
+  }, []);
+
+  useEffect(() => {
+    if (route.params.motionList) {
+      setMotionList(route.params.motionList);
+    }
+
+    if (route.params.displaySelected) {
+      setMotionList(currentMotionList => [
+        ...currentMotionList,
+        {
+          isMotionDone: false,
+          isMotionDoing: true,
+          isFavorite: route.params.displaySelected[0].isFavorite,
+          motion_id: route.params.displaySelected[0].motion_id,
+          motionName: route.params.displaySelected[0].motionName,
+          imageUrl: route.params.displaySelected[0].imageUrl,
+          sets: [
+            {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
+          ],
+        },
+      ]);
+      for (let i = 1; i < route.params.displaySelected.length; i++) {
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            isMotionDone: false,
+            isMotionDoing: false,
+            isFavorite: route.params.displaySelected[i].isFavorite,
+            motion_id: route.params.displaySelected[i].motion_id,
+            motionName: route.params.displaySelected[i].motionName,
+            imageUrl: route.params.displaySelected[i].imageUrl,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
+            ],
+          },
+        ]);
+      }
+    } else {
+      let updatedMotionList = [...motionList];
+      updatedMotionList[0].isMotionDoing = true;
+      updatedMotionList[0].sets[0].isDoing = true;
+      setMotionList(updatedMotionList);
+    }
+    console.log('m_index: ', m_index);
+    console.log('s_index: ', s_index);
+  }, []);
+
+  // useEffect(() => {
+  //   let updatedMotionList = [...motionList];
+  //   updatedMotionList[m_index].isMotionDoing = true;
+  //   setMotionList(updatedMotionList);
+  // }, [m_index]);
+
+  // useEffect(() => {
+  //   let updatedMotionList = [...motionList];
+  //   updatedMotionList[m_index].sets[s_index].isDoing = true;
+  //   setMotionList(updatedMotionList);
+  // }, [m_index, s_index]);
 
   const modifyingMotion = () => {
     setIsPaused(true);
@@ -214,30 +271,6 @@ export const WorkoutStart = ({navigation, route}) => {
 
     setWorkoutMemoModal(true);
   };
-
-  useEffect(() => {
-    if (route.params.motionList) {
-      setMotionList(route.params.motionList);
-    }
-    if (route.params.displaySelected) {
-      for (let i = 0; i < route.params.displaySelected.length; i++) {
-        setMotionList(currentMotionList => [
-          ...currentMotionList,
-          {
-            isMotionDone: false,
-            isMotionDoing: false,
-            isFavorite: route.params.displaySelected[i].isFavorite,
-            motion_id: route.params.displaySelected[i].motion_id,
-            motionName: route.params.displaySelected[i].motionName,
-            imageUrl: route.params.displaySelected[i].imageUrl,
-            sets: [{weight: 0, reps: 1, mode: '기본', isDone: false}],
-          },
-        ]);
-      }
-    }
-
-    getRecordId(0);
-  }, []);
 
   const getRecordId = async m_index => {
     const body = {
@@ -394,6 +427,9 @@ export const WorkoutStart = ({navigation, route}) => {
       //set 종료시
       setIsResting(true);
       setIsRestingModal(true);
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].sets[s_index].isDoing = false;
+      setMotionList(updatedMotionList);
     } else if (
       s_index + 1 === motionList[m_index].sets.length &&
       motionList[m_index + 1]
@@ -408,6 +444,9 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDoing = false;
       setMotionList(updatedMotionList);
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].sets[s_index].isDoing = false;
+      setMotionList(updatedMotionList);
 
       setRestTimer(restMotion);
     } else {
@@ -417,6 +456,9 @@ export const WorkoutStart = ({navigation, route}) => {
       setMotionList(updatedMotionList);
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDoing = false;
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index].sets[s_index].isDoing = false;
+      setMotionList(updatedMotionList);
       setMotionList(updatedMotionList);
       setWorkoutDone(true);
       setWorkoutDoneModal(true);
@@ -425,15 +467,15 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const goNextMotion = () => {
-    // const updatedMotionList = [...motionList];
-    // updatedMotionList[m_index].isMotionDoing = true;
-    // setMotionList(updatedMotionList);
     setIsResting(false);
     setIsRestingModal(false);
     setRestTimer(restSet);
     setIsStopResting(false);
     if (s_index + 1 < motionList[m_index].sets.length) {
       setSIndex(s_index + 1);
+      let updatedMotionList = [...motionList];
+      updatedMotionList[m_index].sets[s_index + 1].isDoing = true;
+      setMotionList(updatedMotionList);
     } else if (
       s_index + 1 === motionList[m_index].sets.length &&
       motionList[m_index + 1]
@@ -441,6 +483,12 @@ export const WorkoutStart = ({navigation, route}) => {
       getRecordId(m_index + 1);
       setMIndex(m_index + 1);
       setSIndex(0);
+      let updatedMotionList = [...motionList];
+      updatedMotionList[m_index + 1].isMotionDoing = true;
+      setMotionList(updatedMotionList);
+      updatedMotionList = [...motionList];
+      updatedMotionList[m_index + 1].sets[0].isDoing = true;
+      setMotionList(updatedMotionList);
       setRestTimer(restMotion);
     }
   };
@@ -1189,8 +1237,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     motionList: motionList,
                     elapsedTime: elapsedTime,
                     TUT: TUT,
-                    m_index: m_index,
-                    s_index: s_index,
+                    m_index: m_index + 1,
+                    s_index: 0,
                   });
                 }}></CustomButton_W>
             </View>

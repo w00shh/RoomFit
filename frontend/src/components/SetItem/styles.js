@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 
   titleItem: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 
   keyBox: {
-    flex: 2,
+    flex: 1,
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
