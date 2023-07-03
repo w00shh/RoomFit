@@ -27,12 +27,20 @@ const WorkoutItem = props => {
       weight: 0,
       reps: 1,
       mode: '기본',
+      isDoing: false,
       isDone: false,
     });
     props.setMotionList(updatedMotionList);
   };
   return (
     <View style={styles.workoutItemContainer}>
+      {/* <Text>
+        isMotionDone:{String(props.motionList[props.motion_index].isMotionDone)}
+      </Text>
+      <Text>
+        isMotionDoing:
+        {String(props.motionList[props.motion_index].isMotionDoing)}
+      </Text> */}
       <WorkoutTitle motion={props.motion}></WorkoutTitle>
       <SetItem
         isKey={true}
@@ -55,6 +63,7 @@ const WorkoutItem = props => {
             weight={value.weight}
             reps={value.reps}
             mode={value.mode}
+            isDoing={value.isDoing}
             isDone={value.isDone}></SetItem>
         ))}
 

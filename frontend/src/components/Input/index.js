@@ -1,11 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import CustomButton_B from '../CustomButton_B';
 
 const Input = props => {
   return (
-    <View style={styles.inputContainer}>
+    <View
+      style={
+        props.isCertificationNumberVisible
+          ? {
+              ...styles.inputContainer,
+              borderWidth: 1,
+              borderColor: '#5252fa',
+            }
+          : styles.inputContainer
+      }>
       {props.label && (
         <View>
           <Text style={styles.label}>{props.label}</Text>

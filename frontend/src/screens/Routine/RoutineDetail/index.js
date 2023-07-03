@@ -199,6 +199,7 @@ const RoutineDetail = ({navigation, route}) => {
                 weight: 0,
                 reps: 1,
                 mode: '기본',
+                isDoing: false,
                 isDone: false,
               },
             ],
@@ -245,6 +246,8 @@ const RoutineDetail = ({navigation, route}) => {
   useEffect(() => {
     if (workoutId) {
       navigation.navigate('WorkoutStart', {
+        isRoutineDetail: true,
+        routine_id: routineId,
         workout_id: workoutId,
         isAddMotion: false,
         motionList: motionList,

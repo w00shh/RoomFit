@@ -185,6 +185,7 @@ const Register = ({navigation}) => {
           onPress={handleCertificationPress}></Input>
         {isCertificationNumberVisible && (
           <Input
+            isCertificationNumberVisible={true}
             onChangeText={handleCertificationNumberChange}
             placeholder="인증번호 입력"
             defaultValue={certificationNumber}

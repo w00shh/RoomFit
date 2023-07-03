@@ -13,6 +13,7 @@ const SetItem = props => {
   const [weight, setWeight] = useState(props.weight);
   const [reps, setReps] = useState(props.reps);
   //const [mode, setMode] = useState(props.mode);
+  const [isDoing, setIsDoing] = useState(props.isDoing);
   const [isDone, setIsDone] = useState(props.isDone);
 
   const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
@@ -48,6 +49,7 @@ const SetItem = props => {
         weight: weight,
         reps: reps,
         mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
+        isDoing: isDoing,
         isDone: isDone,
       };
     }
@@ -74,7 +76,17 @@ const SetItem = props => {
       )}
     </View>
   ) : (
-    <View style={styles.setContainer}>
+    <View
+      style={
+        props.isDoing
+          ? {
+              ...styles.setContainer,
+              borderWidth: 1,
+              borderColor: '#242424',
+              borderRadius: 8,
+            }
+          : styles.setContainer
+      }>
       <View style={styles.keyBox}>
         <Text style={styles.valueText}>{props.set_id + 1}</Text>
       </View>
@@ -96,6 +108,8 @@ const SetItem = props => {
           onChangeText={handleRepsChange}></TextInput>
         <Text style={styles.unitText}>회</Text>
       </View>
+      {/* <Text>isDoing: {String(props.isDoing)}</Text>
+      <Text>isDone: {String(props.isDone)}</Text> */}
       <View style={styles.itemBox}>
         <Text style={styles.modeText}>
           {props.motionList[props.target_motion_id].sets[props.set_id].mode}
@@ -103,59 +117,6 @@ const SetItem = props => {
         <TouchableOpacity onPress={handleModeSelectPress}>
           <Icon name="chevron-down" size={16} color="#808080"></Icon>
         </TouchableOpacity>
-        {/* <Dropdown
-          dropdownStyle={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 0,
-            borderWidth: 0,
-            borderRadius: 0,
-            overflow: 'hidden',
-          }}
-          dropdownIcon={
-            <Icon name="chevron-down" size={16} color="#808080"></Icon>
-          }
-          checkboxStyle={{
-            backgroundColor: '#5252fa',
-            borderWidth: 0,
-          }}
-          checkboxLabelStyle={{fontSize: 12, color: '#242424', padding: 16}}
-          modalBackgroundStyle={{
-            backgroundColor: 'rgba(0,0,0,0.7)',
-          }}
-          listHeaderComponent={
-            <View style={styles.modeTitleContainer}>
-              <Text style={styles.titleText}>하중모드</Text>
-            </View>
-          }
-          selectedItemStyle={{fontSize: 12}}
-          options={[
-            {
-              modeName: '기본',
-              modeDescription: '설명',
-            },
-            {
-              modeName: '고무밴드',
-              modeDescription: '설명',
-            },
-            {
-              modeName: '모드1',
-              modeDescription: '설명',
-            },
-            {
-              modeName: '모드2',
-              modeDescription: '설명',
-            },
-            {
-              modeName: '모드3',
-              modeDescription: '설명',
-            },
-          ]}
-          optionLabel="modeName"
-          optionValue="modeName"
-          selectedValue={mode}
-          onValueChange={value => setMode(mode)}
-          primaryColor={'green'}></Dropdown> */}
       </View>
       {props.isExercising && (
         <View style={styles.keyBox}>
