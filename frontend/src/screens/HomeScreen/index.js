@@ -280,7 +280,7 @@ const HomeScreen = ({navigation}) => {
             size={20}
             color={isExercise ? '#fff' : '#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('WorkoutRecord')}>
           <Board
             name="clipboard-check"
             size={20}

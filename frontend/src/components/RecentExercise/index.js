@@ -6,7 +6,6 @@ import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const RecentExercise = props => {
-  props.start_time;
   return (
     <View>
       {props.data.map((value, key) => (

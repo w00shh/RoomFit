@@ -15,6 +15,7 @@ import WorkoutReady from './src/screens/WorkoutReady/index.js';
 import ConnectDevice from './src/screens/ConnectDevice/index.js';
 import WorkoutStart from './src/screens/WorkoutStart/index.js';
 import RoutineDetail from './src/screens/Routine/RoutineDetail/index.js';
+import WorkoutRecord from './src/screens/WorkoutRecord/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
 import {Store} from './src/redux/store.js';
@@ -35,36 +36,36 @@ const config = {
 };
 
 const App = () => {
-  React.useEffect(() => {
-    const handleDeepLink = async () => {
-      // 앱이 최초로 실행되었을 때 딥 링크 처리
-      const initialUrl = await Linking.getInitialURL();
-      if (initialUrl) {
-        handleUrl(initialUrl);
-      }
+  // React.useEffect(() => {
+  //   const handleDeepLink = async () => {
+  //     // 앱이 최초로 실행되었을 때 딥 링크 처리
+  //     const initialUrl = await Linking.getInitialURL();
+  //     if (initialUrl) {
+  //       handleUrl(initialUrl);
+  //     }
 
-      // 딥 링크 이벤트 리스너 등록
-      Linking.addEventListener('url', handleUrl);
-    };
+  //     // 딥 링크 이벤트 리스너 등록
+  //     Linking.addEventListener('url', handleUrl);
+  //   };
 
-    const handleUrl = url => {
-      const sep_url = url.url.split('auth?')[1];
-      const params = {};
-      sep_url.split('/').forEach(pair => {
-        const [key, value] = pair.split('=');
-        params[key] = value;
-      });
-      const json = JSON.stringify(params);
-      console.log(params);
-    };
+  //   const handleUrl = url => {
+  //     const sep_url = url.url.split('auth?')[1];
+  //     const params = {};
+  //     sep_url.split('/').forEach(pair => {
+  //       const [key, value] = pair.split('=');
+  //       params[key] = value;
+  //     });
+  //     const json = JSON.stringify(params);
+  //     console.log(params);
+  //   };
 
-    handleDeepLink();
+  //   handleDeepLink();
 
-    // 딥 링크 이벤트 리스너 해제
-    return () => {
-      Linking.removeEventListener('url', handleUrl);
-    };
-  }, []);
+  //   // 딥 링크 이벤트 리스너 해제
+  //   return () => {
+  //     Linking.removeEventListener('url', handleUrl);
+  //   };
+  // }, []);
 
   return (
     <Provider store={Store}>
@@ -208,6 +209,20 @@ const App = () => {
             component={WorkoutStart}
             options={{
               headerShown: false,
+            }}></Stack.Screen>
+          <Stack.Screen
+            name="WorkoutRecord"
+            component={WorkoutRecord}
+            options={{
+              title: '운동기록',
+              animation: 'slide_from_right',
+              headerTitleStyle: {
+                fontWeight: '700',
+                fontSize: 28,
+                marginLeft: 20,
+              },
+              headerShadowVisible: false,
+              headerBackVisible: false,
             }}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
