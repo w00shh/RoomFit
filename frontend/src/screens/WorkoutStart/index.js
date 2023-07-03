@@ -41,6 +41,14 @@ import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 import {serverAxios} from '../../utils/commonAxios';
 
 export const WorkoutStart = ({navigation, route}) => {
+  const [isFastWorkout, setIsFastWorkout] = useState(
+    route.params.isFastWorkout,
+  );
+
+  useEffect(() => {
+    console.log(isFastWorkout);
+  }, []);
+
   // motionList 관련 변수 :
   const [motionList, setMotionList] = useState(route.params.motionList);
   const [m_index, setMIndex] = useState(route.params.m_index);
@@ -109,11 +117,6 @@ export const WorkoutStart = ({navigation, route}) => {
   }, [motionList]);
 
   useEffect(() => {
-    console.log('m_index: ', m_index);
-    console.log('s_index: ', s_index);
-  }, []);
-
-  useEffect(() => {
     if (route.params.motionList) {
       setMotionList(route.params.motionList);
     }
@@ -155,21 +158,7 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList[0].sets[0].isDoing = true;
       setMotionList(updatedMotionList);
     }
-    console.log('m_index: ', m_index);
-    console.log('s_index: ', s_index);
   }, []);
-
-  // useEffect(() => {
-  //   let updatedMotionList = [...motionList];
-  //   updatedMotionList[m_index].isMotionDoing = true;
-  //   setMotionList(updatedMotionList);
-  // }, [m_index]);
-
-  // useEffect(() => {
-  //   let updatedMotionList = [...motionList];
-  //   updatedMotionList[m_index].sets[s_index].isDoing = true;
-  //   setMotionList(updatedMotionList);
-  // }, [m_index, s_index]);
 
   const modifyingMotion = () => {
     setIsPaused(true);
@@ -540,9 +529,7 @@ export const WorkoutStart = ({navigation, route}) => {
                       onPress={() => {
                         setIsRestingModal(false);
                       }}
-                      content={
-                        isStopResting ? '휴식 재개' : '일시정지'
-                      }></CustomButton_W>
+                      content="창 닫기"></CustomButton_W>
                   </View>
                   <View style={{marginLeft: 5}}>
                     <CustomButton_B
@@ -600,6 +587,7 @@ export const WorkoutStart = ({navigation, route}) => {
                       onPress={() => {
                         setWorkoutDoneModal(false);
                         navigation.push('AddMotion', {
+                          isFastWorkout: isFastWorkout,
                           workout_id: route.params.workout_id,
                           isRoutine: false,
                           isExercising: true,
@@ -1231,6 +1219,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 content="+ 동작 추가"
                 onPress={() => {
                   navigation.push('AddMotion', {
+                    isFastWorkout: isFastWorkout,
                     workout_id: route.params.workout_id,
                     isRoutine: false,
                     isExercising: true,

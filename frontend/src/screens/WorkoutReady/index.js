@@ -140,6 +140,7 @@ const WorkoutReady = ({navigation, route}) => {
   useEffect(() => {
     if (workoutId) {
       navigation.navigate('WorkoutStart', {
+        isFastWorkout: true,
         workout_id: workoutId,
         isAddMotion: false,
         motionList: motionList,
