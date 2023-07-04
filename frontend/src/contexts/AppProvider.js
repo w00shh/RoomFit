@@ -3,15 +3,24 @@ import React, {useState, createContext} from 'react';
 export const AppContext = createContext();
 
 const AppProvider = ({children}) => {
-  const [userid, setUserid] = React.useState('');
-  const [usernickname, setUsernickname] = React.useState('');
-  const [useremail, setUseremail] = React.useState('');
-  const [targetmotionindex, setTargetmotionindex] = React.useState(0);
-  const [targetsetindex, setTargetsetindex] = React.useState(0);
+  const [isLogin, setIsLogin] = useState(false);
+  const [userid, setUserid] = useState('');
+  const [usernickname, setUsernickname] = useState('');
+  const [useremail, setUseremail] = useState('');
+  const [targetmotionindex, setTargetmotionindex] = useState(0);
+  const [targetsetindex, setTargetsetindex] = useState(0);
 
   const value = {
-    state: {userid, usernickname, useremail, targetmotionindex, targetsetindex},
+    state: {
+      isLogin,
+      userid,
+      usernickname,
+      useremail,
+      targetmotionindex,
+      targetsetindex,
+    },
     actions: {
+      setIsLogin,
       setUserid,
       setUsernickname,
       setUseremail,

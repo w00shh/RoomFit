@@ -1,22 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styles from './styles';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
 import CustomButton_B from '../../components/CustomButton_B';
 import {useDispatch} from 'react-redux';
-import {
-  setIsLogin,
-  setUserId,
-  setUserNickname,
-  setUserEmail,
-} from '../../redux/actions';
 import {serverAxios} from '../../utils/commonAxios';
+import {AppContext} from '../../contexts/AppProvider';
 
 const Login = ({navigation, route}) => {
+  const appcontext = useContext(AppContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginDisabled, setLoginDisabled] = useState(true);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (route.params.isRegister) {
@@ -47,10 +42,10 @@ const Login = ({navigation, route}) => {
       .then(res => {
         console.log(res.data);
 
-        dispatch(setIsLogin(res.data.success));
-        dispatch(setUserId(res.data.user_id));
-        dispatch(setUserNickname(res.data.user_name));
-        dispatch(setUserEmail(res.data.email));
+        appcontext.actions.setIsLogin(res.data.success);
+        appcontext.actions.setUserid(res.data.user_id);
+        appcontext.actions.setUsernickname(res.data.user_name);
+        appcontext.actions.setUseremail(res.data.email);
 
         navigation.reset({routes: [{name: 'HomeScreen'}]});
       })
