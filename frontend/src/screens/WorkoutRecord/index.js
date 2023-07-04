@@ -196,7 +196,24 @@ const WorkoutRecord = ({navigation}) => {
                     }}>
                     {value.date}
                   </Text>
-                  <RecentExercise data={value.data}></RecentExercise>
+                  {value.data.map((values, keys) => (
+                    <TouchableOpacity
+                      key={keys}
+                      onPress={() =>
+                        navigation.navigate('WorkoutDetail', {
+                          workout_id: values.workout_id,
+                          title: values.title,
+                          start_time: values.start_time,
+                          end_time: values.end_time,
+                          targets: values.targets,
+                          total_time: values.total_time,
+                          total_weight: values.total_weight,
+                          isHomeScreen: false,
+                        })
+                      }>
+                      <RecentExercise data={values}></RecentExercise>
+                    </TouchableOpacity>
+                  ))}
                 </View>
               </View>
             ))}
@@ -214,6 +231,13 @@ const WorkoutRecord = ({navigation}) => {
             }}
             onDayPress={day => {
               setSelectedDate(day.dateString);
+            }}
+            markedDates={{
+              [selectedDate]: {
+                selected: true,
+                selectedColor: '#5252fa',
+                selectedTextColor: 'white',
+              },
             }}></Calendar>
         </View>
       )}
@@ -221,13 +245,13 @@ const WorkoutRecord = ({navigation}) => {
       <View style={styles.navigator}>
         <TouchableOpacity
           style={{marginLeft: 45}}
-          onPress={() => navigation.navigate('HomeScreen')}>
+          onPress={() => navigation.push('HomeScreen')}>
           <Dumbbell
             name="dumbbell"
             size={20}
             color={isExercise ? '#fff' : '#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('WorkoutRecord')}>
+        <TouchableOpacity onPress={() => navigation.push('WorkoutRecord')}>
           <Board
             name="clipboard-check"
             size={20}

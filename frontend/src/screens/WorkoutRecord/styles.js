@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
   },
 
   Calendar: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomWidth: 8,
+    borderBottomColor: '#f5f5f5',
   },
 });
 

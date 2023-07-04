@@ -267,7 +267,24 @@ const HomeScreen = ({navigation}) => {
               <Text style={{marginLeft: 16, marginTop: 12}}>
                 {recentRoutine[0].date}
               </Text>
-              <RecentExercise data={recentRoutine}></RecentExercise>
+              {recentRoutine.map((value, key) => (
+                <TouchableOpacity
+                  key={key}
+                  onPress={() =>
+                    navigation.navigate('WorkoutDetail', {
+                      workout_id: value.workout_id,
+                      title: value.title,
+                      start_time: value.start_time,
+                      end_time: value.end_time,
+                      targets: value.targets,
+                      total_time: value.total_time,
+                      total_weight: value.total_weight,
+                      isHomeScreen: true,
+                    })
+                  }>
+                  <RecentExercise data={value}></RecentExercise>
+                </TouchableOpacity>
+              ))}
             </View>
             <View style={{height: 90}}></View>
           </View>
