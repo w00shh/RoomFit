@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
 
   intro: {
     marginTop: 20,
-    marginLeft: '8%',
-    marginRight: '8%',
+    marginLeft: '12%',
+    marginRight: '12%',
   },
 
   mainLogo: {
@@ -27,6 +27,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000000',
+
+    width: 358,
+    height: 56,
+
+    borderRadius: 8,
+    padding: 0,
+
+    marginTop: 0,
+  },
+
+  Kakao_Button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#fee500',
 
     width: 358,
     height: 56,
@@ -53,6 +68,12 @@ const styles = StyleSheet.create({
 
   Button_Text: {
     color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+
+  Button_Text2: {
+    color: 'black',
     fontSize: 16,
     fontWeight: '500',
   },
