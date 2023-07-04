@@ -123,7 +123,7 @@ const WorkoutReady = ({navigation, route}) => {
   const handleSelectPress = () => {
     updatedMotionList = [...motionList];
     updatedMotionList[appcontext.state.targetmotionindex].sets[
-      appcontext.targetsetindex
+      appcontext.state.targetsetindex
     ].mode = selectedMode.modeName;
     setMotionList(updatedMotionList);
 
