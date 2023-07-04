@@ -55,7 +55,9 @@ export const WorkoutStart = ({navigation, route}) => {
 
   //workout & record 관련 변수
   const [workoutId, setWorkoutId] = useState(route.params.workout_id);
-  const [recordId, setRecordId] = useState();
+  const [recordId, setRecordId] = useState(
+    route.params.record_id ? route.params.record_id : null,
+  );
   const [workoutTitle, setWorkoutTitle] = useState('');
   const [workoutMemo, setWorkoutMemo] = useState('');
   const [workoutDone, setWorkoutDone] = useState(false);
@@ -178,6 +180,7 @@ export const WorkoutStart = ({navigation, route}) => {
         updatedMotionList[m_index].sets[0].isDoing = true;
         setMotionList(updatedMotionList);
       }
+      getRecordId(0);
     }
   }, []);
 
@@ -275,13 +278,25 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsStopResting(false);
   };
 
-  const writeMemo = () => {
+  const writeMemo = async () => {
     if (workoutDone) {
       if (isQuickWorkout) {
         setWorkoutDoneModal(false);
       } else {
         if (saveAddedMotionToRoutine) {
-          conosole.log(route.params.motionList);
+          const body = {
+            routine_id: route.params.routine_id,
+            motion_list: motionList,
+          };
+
+          await serverAxios
+            .post('/routine/save', body)
+            .then(res => {
+              console.log(res.data);
+            })
+            .catch(e => {
+              console.log(e);
+            });
         }
         setRoutineDoneModal(false);
       }
@@ -622,6 +637,7 @@ export const WorkoutStart = ({navigation, route}) => {
                         navigation.push('AddMotion', {
                           isQuickWorkout: isQuickWorkout,
                           workout_id: route.params.workout_id,
+                          record_id: recordId,
                           isRoutine: false,
                           isExercising: true,
                           isAddedMotionDone: true,
@@ -665,6 +681,8 @@ export const WorkoutStart = ({navigation, route}) => {
                       navigation.push('AddMotion', {
                         isQuickWorkout: isQuickWorkout,
                         workout_id: route.params.workout_id,
+                        record_id: recordId,
+                        routine_id: route.params.routine_id,
                         isRoutine: false,
                         isExercising: true,
                         isAddedMotionDone: true,
@@ -1318,6 +1336,8 @@ export const WorkoutStart = ({navigation, route}) => {
                   navigation.push('AddMotion', {
                     isQuickWorkout: isQuickWorkout,
                     workout_id: route.params.workout_id,
+                    record_id: recordId,
+                    routine_id: route.params.routine_id,
                     isRoutine: false,
                     isExercising: true,
                     isAddedMotionDone: false,
