@@ -45,8 +45,6 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -54,9 +52,9 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-      <key>localhost</key>
+      <key>ec2-18-119-142-5.us-east-2.compute.amazonaws.com</key>
       <dict>
-        <key>ec2-18-119-142-5.us-east-2.compute.amazonaws.com</key>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
         <true/>
       </dict>
 		</dict>
