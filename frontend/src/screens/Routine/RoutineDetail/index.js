@@ -247,6 +247,7 @@ const RoutineDetail = ({navigation, route}) => {
     if (workoutId) {
       navigation.navigate('WorkoutStart', {
         isRoutineDetail: true,
+        isQuickWorkout: false,
         routine_id: routineId,
         workout_id: workoutId,
         isAddMotion: false,

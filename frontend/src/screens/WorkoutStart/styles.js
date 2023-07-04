@@ -360,6 +360,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
+  endingContainer2: {
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+  },
+
   memoContainer: {
     width: 296,
     height: 350,
