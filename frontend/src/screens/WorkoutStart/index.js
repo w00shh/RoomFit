@@ -39,15 +39,14 @@ import WorkoutItem from '../../components/WorkoutItem';
 import {useSelector, useDispatch} from 'react-redux';
 import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 import {serverAxios} from '../../utils/commonAxios';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 export const WorkoutStart = ({navigation, route}) => {
-  const [isFastWorkout, setIsFastWorkout] = useState(
-    route.params.isFastWorkout,
+  const [isQuickWorkout, setisQuickWorkout] = useState(
+    route.params.isQuickWorkout,
   );
-
-  useEffect(() => {
-    console.log(isFastWorkout);
-  }, []);
+  const [saveAddedMotionToRoutine, setSaveAddedMotionToRoutine] =
+    useState(false);
 
   // motionList 관련 변수 :
   const [motionList, setMotionList] = useState(route.params.motionList);
@@ -61,6 +60,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const [workoutMemo, setWorkoutMemo] = useState('');
   const [workoutDone, setWorkoutDone] = useState(false);
   const [workoutDoneModal, setWorkoutDoneModal] = useState(false);
+  const [routineDoneModal, setRoutineDoneModal] = useState(false);
 
   //time 관련 변수 :
   const [TUT, setTUT] = useState(route.params.TUT);
@@ -122,20 +122,37 @@ export const WorkoutStart = ({navigation, route}) => {
     }
 
     if (route.params.displaySelected) {
-      setMotionList(currentMotionList => [
-        ...currentMotionList,
-        {
-          isMotionDone: false,
-          isMotionDoing: true,
-          isFavorite: route.params.displaySelected[0].isFavorite,
-          motion_id: route.params.displaySelected[0].motion_id,
-          motionName: route.params.displaySelected[0].motionName,
-          imageUrl: route.params.displaySelected[0].imageUrl,
-          sets: [
-            {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
-          ],
-        },
-      ]);
+      if (route.params.isAddedMotionDone) {
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            isMotionDone: false,
+            isMotionDoing: true,
+            isFavorite: route.params.displaySelected[0].isFavorite,
+            motion_id: route.params.displaySelected[0].motion_id,
+            motionName: route.params.displaySelected[0].motionName,
+            imageUrl: route.params.displaySelected[0].imageUrl,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
+            ],
+          },
+        ]);
+      } else {
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            isMotionDone: false,
+            isMotionDoing: false,
+            isFavorite: route.params.displaySelected[0].isFavorite,
+            motion_id: route.params.displaySelected[0].motion_id,
+            motionName: route.params.displaySelected[0].motionName,
+            imageUrl: route.params.displaySelected[0].imageUrl,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
+            ],
+          },
+        ]);
+      }
       for (let i = 1; i < route.params.displaySelected.length; i++) {
         setMotionList(currentMotionList => [
           ...currentMotionList,
@@ -153,10 +170,14 @@ export const WorkoutStart = ({navigation, route}) => {
         ]);
       }
     } else {
+      /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
       let updatedMotionList = [...motionList];
-      updatedMotionList[0].isMotionDoing = true;
-      updatedMotionList[0].sets[0].isDoing = true;
-      setMotionList(updatedMotionList);
+      console.log('route.params.isAddMotion: ', route.params.AddMotion);
+      if (!route.params.isAddMotion) {
+        updatedMotionList[m_index].isMotionDoing = true;
+        updatedMotionList[m_index].sets[0].isDoing = true;
+        setMotionList(updatedMotionList);
+      }
     }
   }, []);
 
@@ -255,8 +276,16 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const writeMemo = () => {
-    if (workoutDone) setWorkoutDoneModal(false);
-    else setWorkoutDoneModal2(false);
+    if (workoutDone) {
+      if (isQuickWorkout) {
+        setWorkoutDoneModal(false);
+      } else {
+        if (saveAddedMotionToRoutine) {
+          conosole.log(route.params.motionList);
+        }
+        setRoutineDoneModal(false);
+      }
+    } else setWorkoutDoneModal2(false);
 
     setWorkoutMemoModal(true);
   };
@@ -450,7 +479,11 @@ export const WorkoutStart = ({navigation, route}) => {
       setMotionList(updatedMotionList);
       setMotionList(updatedMotionList);
       setWorkoutDone(true);
-      setWorkoutDoneModal(true);
+      if (isQuickWorkout) {
+        setWorkoutDoneModal(true);
+      } else {
+        setRoutineDoneModal(true);
+      }
       setIsResting(true);
     }
   };
@@ -576,7 +609,7 @@ export const WorkoutStart = ({navigation, route}) => {
             animationType="fade">
             <View style={styles.modalContainer2}>
               <View style={styles.endingContainer}>
-                <Text style={styles.restingTitle}>루틴 수행 완료</Text>
+                <Text style={styles.restingTitle}>운동 수행 완료</Text>
                 <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
                   다른 동작을 추가 하시겠습니까?
                 </Text>
@@ -587,10 +620,11 @@ export const WorkoutStart = ({navigation, route}) => {
                       onPress={() => {
                         setWorkoutDoneModal(false);
                         navigation.push('AddMotion', {
-                          isFastWorkout: isFastWorkout,
+                          isQuickWorkout: isQuickWorkout,
                           workout_id: route.params.workout_id,
                           isRoutine: false,
                           isExercising: true,
+                          isAddedMotionDone: true,
                           motionList: motionList,
                           elapsedTime: elapsedTime,
                           TUT: TUT,
@@ -606,6 +640,69 @@ export const WorkoutStart = ({navigation, route}) => {
                       onPress={() => writeMemo()}
                       content="여기서 종료"></CustomButton_B>
                   </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            visible={routineDoneModal}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer2}>
+              <View style={styles.endingContainer2}>
+                <Text style={styles.restingTitle}>루틴 수행 완료</Text>
+                <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
+                  루틴을 모두 수행했습니다.
+                </Text>
+                <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
+                  다른 동작을 추가하시거나, 운동을 완료해주세요.
+                </Text>
+
+                <View style={{alignSelf: 'stretch', marginVertical: 0}}>
+                  <CustomButton_W
+                    onPress={() => {
+                      setRoutineDoneModal(false);
+                      navigation.push('AddMotion', {
+                        isQuickWorkout: isQuickWorkout,
+                        workout_id: route.params.workout_id,
+                        isRoutine: false,
+                        isExercising: true,
+                        isAddedMotionDone: true,
+                        motionList: motionList,
+                        elapsedTime: elapsedTime,
+                        TUT: TUT,
+                        m_index: m_index + 1,
+                        s_index: 0,
+                      });
+                    }}
+                    content="동작 추가"></CustomButton_W>
+                </View>
+                <BouncyCheckbox
+                  size={24}
+                  fillColor="#5252fa"
+                  unfillColor="#FFFFFF"
+                  textComponent={
+                    <Text
+                      style={{
+                        marginHorizontal: 8,
+                        fontSize: 14,
+                        color: '#242424',
+                      }}>
+                      추가하는 동작을 내 루틴에 추가하기
+                    </Text>
+                  }
+                  iconStyle={{borderColor: '#5252fa'}}
+                  innerIconStyle={{borderWidth: 2}}
+                  isChecked={saveAddedMotionToRoutine}
+                  onPress={() => {
+                    setSaveAddedMotionToRoutine(!saveAddedMotionToRoutine);
+                  }}
+                />
+                <View style={{alignSelf: 'stretch'}}>
+                  <CustomButton_B
+                    marginVertical={0}
+                    onPress={() => writeMemo()}
+                    content="운동 완료"></CustomButton_B>
                 </View>
               </View>
             </View>
@@ -1219,15 +1316,16 @@ export const WorkoutStart = ({navigation, route}) => {
                 content="+ 동작 추가"
                 onPress={() => {
                   navigation.push('AddMotion', {
-                    isFastWorkout: isFastWorkout,
+                    isQuickWorkout: isQuickWorkout,
                     workout_id: route.params.workout_id,
                     isRoutine: false,
                     isExercising: true,
+                    isAddedMotionDone: false,
                     motionList: motionList,
                     elapsedTime: elapsedTime,
                     TUT: TUT,
-                    m_index: m_index + 1,
-                    s_index: 0,
+                    m_index: m_index,
+                    s_index: s_index,
                   });
                 }}></CustomButton_W>
             </View>
