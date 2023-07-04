@@ -34,7 +34,22 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 45,
+    marginTop: 0,
+  },
+
+  Kakao_Button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#fee500',
+
+    width: 358,
+    height: 56,
+
+    borderRadius: 8,
+    padding: 0,
+
+    marginTop: 12,
   },
   Google_Button: {
     alignItems: 'center',
@@ -53,6 +68,12 @@ const styles = StyleSheet.create({
 
   Button_Text: {
     color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+
+  Button_Text2: {
+    color: 'black',
     fontSize: 16,
     fontWeight: '500',
   },
