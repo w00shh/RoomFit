@@ -19,7 +19,8 @@ import WorkoutRecord from './src/screens/WorkoutRecord/index.js';
 import WorkoutDetail from './src/screens/WorkoutDetail/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
-import {Store} from './src/redux/store.js';
+import {store} from './src/redux/store.ts';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -68,7 +69,7 @@ const App = () => {
   // }, []);
 
   return (
-    <Provider store={Store}>
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
