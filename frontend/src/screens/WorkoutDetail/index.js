@@ -56,7 +56,8 @@ const WorkoutDetail = ({navigation, route}) => {
   };
   return (
     <View style={styles.pageContainer}>
-      <View style={{marginTop: 24}}>
+      <Text style={styles.yoyakText}>운동 요약</Text>
+      <View style={{marginTop: 24, marginLeft: 16}}>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.grayCircle}>
             <Body name="body" color="#3aa84c" size={23}></Body>
@@ -101,7 +102,7 @@ const WorkoutDetail = ({navigation, route}) => {
             marginTop: 20,
             justifyContent: 'flex-start',
           }}>
-          <View style={{flexDirection: 'row', width: 120}}>
+          <View style={{flexDirection: 'row', width: 140}}>
             <View style={styles.grayCircle}>
               <Timer name="timer" color="#41b1ca" size={23}></Timer>
             </View>
@@ -129,7 +130,7 @@ const WorkoutDetail = ({navigation, route}) => {
             marginTop: 20,
             justifyContent: 'flex-start',
           }}>
-          <View style={{flexDirection: 'row', width: 120}}>
+          <View style={{flexDirection: 'row', width: 140}}>
             <View style={styles.grayCircle}>
               <Lightning
                 name="lightning-bolt"
@@ -153,6 +154,11 @@ const WorkoutDetail = ({navigation, route}) => {
               <Text style={styles.puaseSubcontent}>10000</Text>
             </View>
           </View>
+        </View>
+      </View>
+      <View>
+        <View style={styles.memoContainer}>
+          <Text>ss</Text>
         </View>
       </View>
     </View>

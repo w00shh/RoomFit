@@ -76,6 +76,18 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#242424',
   },
+
+  yoyakText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+    marginLeft: 16,
+  },
+
+  memoContainer: {
+    backgroundColor: '#f5f5f5',
+    width: '90%',
+  },
 });
 
 export default styles;
