@@ -217,6 +217,7 @@ const WorkoutRecord = ({navigation}) => {
                 </View>
               </View>
             ))}
+          <View style={{height: 90}}></View>
         </ScrollView>
       )}
       {isCalender && (
@@ -245,7 +246,7 @@ const WorkoutRecord = ({navigation}) => {
       <View style={styles.navigator}>
         <TouchableOpacity
           style={{marginLeft: 45}}
-          onPress={() => navigation.push('HomeScreen')}>
+          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
           <Dumbbell
             name="dumbbell"
             size={20}

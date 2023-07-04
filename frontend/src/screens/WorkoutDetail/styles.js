@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
   pauseMotionTitle: {
     fontSize: 16,
-    fontWeight: '400',
+    fontWeight: '700',
     color: '#242424',
   },
 
@@ -86,7 +86,12 @@ const styles = StyleSheet.create({
 
   memoContainer: {
     backgroundColor: '#f5f5f5',
-    width: '90%',
+    width: '95%',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderRadius: 8,
+    marginTop: 24,
+    height: 74,
   },
 });
 

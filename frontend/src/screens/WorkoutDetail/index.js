@@ -19,7 +19,6 @@ const WorkoutDetail = ({navigation, route}) => {
         <View style={{flexDirection: 'column'}}>
           <Text
             style={{
-              marginHorizontal: 6,
               color: 'black',
               fontSize: 16,
               fontWeight: '700',
@@ -64,36 +63,10 @@ const WorkoutDetail = ({navigation, route}) => {
           </View>
 
           <View style={{marginLeft: 8}}>
-            <Text style={styles.pauseMotionTitle}>{route.params.targets}</Text>
-            <View style={{flexDirection: 'row'}}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'flex-end',
-                }}>
-                <Text style={styles.statusText2}>1</Text>
-                <Text style={styles.targetText2}>/4set</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'flex-end',
-                  marginHorizontal: 16,
-                }}>
-                <Text style={styles.statusText2}>
-                  {route.params.total_weight}
-                </Text>
-                <Text style={styles.targetText2}> kg</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'flex-end',
-                }}>
-                <Text style={styles.statusText2}>1</Text>
-                <Text style={styles.targetText2}>/2회</Text>
-              </View>
-            </View>
+            <Text style={styles.puaseSubtitle}>운동 부위</Text>
+            <Text style={styles.pauseMotionTitle}>
+              {route.params.targets.join(', ')}
+            </Text>
           </View>
         </View>
         <View
@@ -102,7 +75,7 @@ const WorkoutDetail = ({navigation, route}) => {
             marginTop: 20,
             justifyContent: 'flex-start',
           }}>
-          <View style={{flexDirection: 'row', width: 140}}>
+          <View style={{flexDirection: 'row', width: 145}}>
             <View style={styles.grayCircle}>
               <Timer name="timer" color="#41b1ca" size={23}></Timer>
             </View>
@@ -115,7 +88,7 @@ const WorkoutDetail = ({navigation, route}) => {
           </View>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.RgrayCircle}>
-              <Timer name="timer" color="#41b1ca" size={23}></Timer>
+              <Timer name="timer" color="#9f76e1" size={23}></Timer>
             </View>
 
             <View style={{marginLeft: 8}}>
@@ -130,7 +103,7 @@ const WorkoutDetail = ({navigation, route}) => {
             marginTop: 20,
             justifyContent: 'flex-start',
           }}>
-          <View style={{flexDirection: 'row', width: 140}}>
+          <View style={{flexDirection: 'row', width: 145}}>
             <View style={styles.grayCircle}>
               <Lightning
                 name="lightning-bolt"
@@ -156,10 +129,13 @@ const WorkoutDetail = ({navigation, route}) => {
           </View>
         </View>
       </View>
-      <View>
+      <View style={{alignItems: 'center'}}>
         <View style={styles.memoContainer}>
-          <Text>ss</Text>
+          <Text>운동 메모</Text>
         </View>
+      </View>
+      <View style={{marginTop: 40}}>
+        <Text style={styles.yoyakText}>운동 요약</Text>
       </View>
     </View>
   );

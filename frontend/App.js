@@ -122,6 +122,7 @@ const App = () => {
             component={HomeScreen}
             options={{
               headerShown: true,
+              animation: 'none',
               title: '운동',
               headerShadowVisible: true,
               headerBackVisible: false,
