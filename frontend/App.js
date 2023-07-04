@@ -20,7 +20,6 @@ import WorkoutDetail from './src/screens/WorkoutDetail/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
 import {Store} from './src/redux/store.js';
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 

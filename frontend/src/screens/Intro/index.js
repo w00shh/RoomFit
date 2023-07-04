@@ -1,24 +1,7 @@
 import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Image,
-  TouchableOpacity,
-  Linking,
-} from 'react-native';
+import {Text, View, Image, TouchableOpacity, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Kakao from 'react-native-vector-icons/Ionicons';
-import {WithLocalSvg} from 'react-native-svg';
-import apple from '../../assets/images/apple_logo.svg';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import CustomButton_B from '../../components/CustomButton_B';
 import styles from './styles';
 
 const Intro = ({navigation}) => {
@@ -30,12 +13,12 @@ const Intro = ({navigation}) => {
       <Image
         style={styles.mainLogo}
         source={require('../../assets/images/img_logo_roomfit.png')}></Image>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}
         style={styles.Apple_Button}>
         <Icon name="apple" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         onPress={() => {
           Linking.openURL(
