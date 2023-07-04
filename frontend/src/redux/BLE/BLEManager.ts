@@ -5,6 +5,8 @@ import {
   Device,
 } from 'react-native-ble-plx';
 import {setConnectedDevice} from './slice';
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 export interface DeviceReference {
   name?: string | null;

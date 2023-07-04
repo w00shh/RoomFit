@@ -23,32 +23,34 @@ import {checkBluetoothPermissions} from '../../redux/BLE/permission';
 const Buffer = require('buffer/').Buffer;
 
 const ConnectDevice = ({navigation}) => {
-  navigation.setOptions({
-    headerRight: () => (
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text
-          style={{
-            marginRight: 10,
-            marginTop: 5,
-            fontWeight: '700',
-            fontSize: 15,
-          }}>
-          새로고침
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(stopScanning());
-            dispatch(startScanning());
-          }}>
-          <Reload
-            name="reload1"
-            size={25}
-            color="#242424"
-            style={styles.reloadIcon}></Reload>
-        </TouchableOpacity>
-      </View>
-    ),
-  });
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text
+            style={{
+              marginRight: 10,
+              marginTop: 5,
+              fontWeight: '700',
+              fontSize: 15,
+            }}>
+            새로고침
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(stopScanning());
+              dispatch(startScanning());
+            }}>
+            <Reload
+              name="reload1"
+              size={25}
+              color="#242424"
+              style={styles.reloadIcon}></Reload>
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, []);
 
   const [testMode, setTestMode] = useState('read');
   const [getBattery, setGetBattery] = useState('');
