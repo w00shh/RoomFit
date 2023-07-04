@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Component} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -36,12 +36,12 @@ import CustomButton_B from '../../components/CustomButton_B';
 import WorkoutTitle from '../../components/WorkoutTitle';
 import AddMotion from '../AddMotion';
 import WorkoutItem from '../../components/WorkoutItem';
-import {useSelector, useDispatch} from 'react-redux';
-import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import {AppContext} from '../../contexts/AppProvider';
 
 export const WorkoutStart = ({navigation, route}) => {
+  const appcontext = useContext(AppContext);
   const [isQuickWorkout, setisQuickWorkout] = useState(
     route.params.isQuickWorkout,
   );
@@ -101,8 +101,7 @@ export const WorkoutStart = ({navigation, route}) => {
   // motionList 수정 관련 변수 :
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isExercisingDisabled, setIsExercisingDisabled] = useState(false);
-  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
-  const dispatch = useDispatch();
+
   const [isModifyMotion, setIsModifyMotion] = useState(
     route.params.isModifyMotion,
   );
@@ -452,8 +451,9 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const handleSelectPress = () => {
     updatedMotionList = [...motionList];
-    updatedMotionList[targetmotionid].sets[targetsetid].mode =
-      selectedMode.modeName;
+    updatedMotionList[appcontext.state.targetmotionindex].sets[
+      appcontext.state.targetsetindex
+    ].mode = selectedMode.modeName;
     setMotionList(updatedMotionList);
 
     setIsModalVisible(false);

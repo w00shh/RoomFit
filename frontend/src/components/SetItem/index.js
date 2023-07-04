@@ -1,29 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styles from './styles';
 import {Text, TextInput, TouchableOpacity, View} from 'react-native';
-import Dropdown from 'react-native-input-select';
 import Icon from 'react-native-vector-icons/Feather';
 import Check from 'react-native-vector-icons/Entypo';
 import {useSelector, useDispatch} from 'react-redux';
 import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
+import {AppContext} from '../../contexts/AppProvider';
 
 const SetItem = props => {
+  const appcontext = useContext(AppContext);
   const modes = ['기본', '고무밴드', '모드1', '모드2', '모드3'];
 
   const [weight, setWeight] = useState(props.weight);
   const [reps, setReps] = useState(props.reps);
-  //const [mode, setMode] = useState(props.mode);
+
   const [isDoing, setIsDoing] = useState(props.isDoing);
   const [isDone, setIsDone] = useState(props.isDone);
-
-  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
 
   const dispatch = useDispatch();
 
   const handleModeSelectPress = () => {
-    dispatch(setTargetMotionId(props.target_motion_id));
-
-    dispatch(setTargetSetId(props.set_id));
+    appcontext.actions.setTargetmotionindex(props.target_motion_id);
+    appcontext.actions.setTargetsetindex(props.set_id);
 
     props.setIsModalVisible(true);
   };
