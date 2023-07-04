@@ -3,25 +3,26 @@ import styles from './styles';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../components/Input';
 import CustomButton_B from '../../components/CustomButton_B';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
   setIsLogin,
-  setUserEmail,
-  setUserNickname,
   setUserId,
+  setUserNickname,
+  setUserEmail,
 } from '../../redux/actions';
 import {serverAxios} from '../../utils/commonAxios';
 
-const Login = ({navigation}) => {
+const Login = ({navigation, route}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const dispatch = useDispatch();
   const [loginDisabled, setLoginDisabled] = useState(true);
+  const dispatch = useDispatch();
 
-  const handleEmailChange = e => {};
-
-  const handlePasswordChange = e => {};
+  useEffect(() => {
+    if (route.params.isRegister) {
+      setEmail(route.params.email);
+    }
+  }, []);
 
   const handleLoginDisabled = () => {
     if (email.length > 0 && password.length > 0) {
@@ -36,8 +37,6 @@ const Login = ({navigation}) => {
   }, [email, password]);
 
   const handleLoginPress = async () => {
-    console.log(email);
-    console.log(password);
     const body = {
       email: email,
       password: password,
@@ -49,18 +48,22 @@ const Login = ({navigation}) => {
         console.log(res.data);
 
         dispatch(setIsLogin(res.data.success));
-        dispatch(setUserNickname(res.data.user_name));
         dispatch(setUserId(res.data.user_id));
-        navigation.navigate('HomeScreen');
+        dispatch(setUserNickname(res.data.user_name));
+        dispatch(setUserEmail(res.data.email));
+
+        navigation.reset({routes: [{name: 'HomeScreen'}]});
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const handleselectionIdPress = () => {};
+  const handleselectionIdFindPress = () => {};
 
-  const handleselectionPasswordPress = () => {};
+  const handleselectionPasswordFindPress = () => {
+    navigation.navigate('PasswordFind');
+  };
 
   const handleToRegisterPress = () => {
     navigation.navigate('Register');
@@ -76,12 +79,14 @@ const Login = ({navigation}) => {
           label="이메일"
           onChangeText={text => setEmail(text)}
           placeholder="이메일 입력"
+          defaultValue={email}
           inputMode="email"
           keyboardType="email-address"></Input>
         <Input
           label="비밀번호"
           onChangeText={text => setPassword(text)}
           placeholder="비밀번호 입력"
+          defaultValue={password}
           inputMode="text"
           secureTextEntry={true}></Input>
       </View>
@@ -92,7 +97,7 @@ const Login = ({navigation}) => {
         content="로그인하기"></CustomButton_B>
       <View style={styles.selectionContainer}>
         <View style={styles.selectionBox}>
-          <TouchableOpacity onPress={handleselectionIdPress}>
+          <TouchableOpacity onPress={handleselectionIdFindPress}>
             <Text style={styles.selectionText}>아이디 찾기</Text>
           </TouchableOpacity>
         </View>
@@ -100,7 +105,7 @@ const Login = ({navigation}) => {
           style={styles.divider}
           source={require('../../assets/images/divider.png')}></Image>
         <View style={styles.selectionBox}>
-          <TouchableOpacity onPress={handleselectionPasswordPress}>
+          <TouchableOpacity onPress={handleselectionPasswordFindPress}>
             <Text style={styles.selectionText}>비밀번호 찾기</Text>
           </TouchableOpacity>
         </View>

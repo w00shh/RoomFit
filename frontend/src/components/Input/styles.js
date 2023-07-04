@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 
   inputBox: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
 });

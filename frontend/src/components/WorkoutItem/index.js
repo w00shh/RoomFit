@@ -3,11 +3,9 @@ import WorkoutTitle from '../WorkoutTitle';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import SetItem from '../SetItem';
-import {useEffect, useState} from 'react';
 
 const WorkoutItem = props => {
   const handleMotionDeletePress = motion_index => {
-    //props.setMotionList(props.motionList.filter(item => item.motion_id !== id));
     const updatedMotionList = [...props.motionList];
     updatedMotionList.splice(motion_index, 1);
     props.setMotionList(updatedMotionList);
@@ -27,14 +25,22 @@ const WorkoutItem = props => {
     const updatedMotionList = [...props.motionList];
     updatedMotionList[props.motion_index].sets.push({
       weight: 0,
-      reps: 0,
+      reps: 1,
       mode: '기본',
+      isDoing: false,
       isDone: false,
     });
     props.setMotionList(updatedMotionList);
   };
   return (
     <View style={styles.workoutItemContainer}>
+      {/* <Text>
+        isMotionDone:{String(props.motionList[props.motion_index].isMotionDone)}
+      </Text>
+      <Text>
+        isMotionDoing:
+        {String(props.motionList[props.motion_index].isMotionDoing)}
+      </Text> */}
       <WorkoutTitle motion={props.motion}></WorkoutTitle>
       <SetItem
         isKey={true}
@@ -57,11 +63,16 @@ const WorkoutItem = props => {
             weight={value.weight}
             reps={value.reps}
             mode={value.mode}
+            isDoing={value.isDoing}
             isDone={value.isDone}></SetItem>
         ))}
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
+          disabled={
+            props.motionList[props.motion_index].isMotionDone ||
+            props.motionList[props.motion_index].isMotionDoing
+          }
           style={styles.button}
           onPress={() => {
             handleMotionDeletePress(props.motion_index);
@@ -75,6 +86,10 @@ const WorkoutItem = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
+          disabled={
+            props.motionList[props.motion_index].isMotionDone ||
+            props.motionList[props.motion_index].isMotionDoing
+          }
           onPress={() => {
             handleSetDeletePress(props.motion_index);
           }}>
@@ -87,6 +102,7 @@ const WorkoutItem = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
+          disabled={props.motionList[props.motion_index].isMotionDone}
           onPress={() => {
             handleSetAddPress(props.motion_index);
           }}>

@@ -51,6 +51,8 @@ const AddMotion = ({navigation, route}) => {
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
+              isMotionDone: false,
+              isMotionDoing: false,
               isFavorite: value.isFav,
               motion_id: value.motion_id,
               motionName: value.motion_name,
@@ -73,10 +75,12 @@ const AddMotion = ({navigation, route}) => {
         displaySelected.delete(motion.motion_id);
       else
         displaySelected.set(motion.motion_id, {
+          isMotionDone: false,
+          isMotionDoing: false,
+          isFavorite: motion.isFavorite,
           motion_id: motion.motion_id,
           motionName: motion.motionName,
           imageUrl: motion.imageUrl,
-          isFavorite: motion.isFavorite,
         });
       setSelected(newSelected);
     },
@@ -123,6 +127,8 @@ const AddMotion = ({navigation, route}) => {
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
+              isMotionDone: false,
+              isMotionDoing: false,
               isFavorite: value.isFav,
               motion_id: value.motion_id,
               motionName: value.motion_name,
@@ -250,7 +256,10 @@ const AddMotion = ({navigation, route}) => {
 
                 route.params.isExercising
                   ? navigation.push('WorkoutStart', {
+                      isQuickWorkout: route.params.isQuickWorkout,
+                      workout_id: route.params.workout_id,
                       isAddMotion: true,
+                      isAddedMotionDone: route.params.isAddedMotionDone,
                       motionList: route.params.motionList,
                       selectedMotionKeys: selectedMotionKeys,
                       displaySelected: Array.from(displaySelected.values()),

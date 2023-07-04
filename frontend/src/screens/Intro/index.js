@@ -9,6 +9,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -34,14 +35,34 @@ const Intro = ({navigation}) => {
         <Icon name="apple" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.Google_Button}>
+      {/* <TouchableOpacity
+        onPress={() => {
+          Linking.openURL(
+            `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/kakao-auth`,
+          );
+        }}
+        style={styles.Apple_Button}>
+        <Icon name="apple" size={20} color="white"></Icon>
+        <Text style={styles.Button_Text}> Apple로 시작하기</Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity
+        style={styles.Google_Button}
+        onPress={() =>
+          Linking.openURL(
+            `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/google-auth`,
+          )
+        }>
         <Icon name="google" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Google로 시작하기</Text>
       </TouchableOpacity>
 
       <View style={styles.selectionContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
+          onPress={() =>
+            navigation.navigate('Login', {
+              isRegister: false,
+            })
+          }
           style={{marginRight: 20}}>
           <Text>이메일로 로그인</Text>
         </TouchableOpacity>

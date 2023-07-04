@@ -72,7 +72,7 @@ const AddRoutine = ({navigation}) => {
 
   useEffect(() => {
     if (routineId) {
-      navigation.navigate('AddRoutine', {
+      navigation.push('AddRoutine', {
         isMotionAdded: false,
         routineName: '새로운 루틴',
         routine_id: routineId,

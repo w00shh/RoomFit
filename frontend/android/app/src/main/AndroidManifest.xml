@@ -12,7 +12,10 @@
 
      <uses-feature
         android:name="android.hardware.bluetooth_le"
-        android:required="false" />
+        android:required="true" />
+      <!-- android:required="false"는 해당 기능이 앱에 필수적이지 않고 선택적으로 사용될 
+      수 있다는 것을 나타냅니다. 즉, 앱이 BLE를 사용할 수 없는 기기에서도 실행될 수 있습니다. 
+      이 속성을 true로 설정하면 앱이 BLE를 지원하지 않는 기기에서는 설치되지 않습니다. -->
 
     <application
       android:name=".MainApplication"
@@ -32,6 +35,14 @@
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        <intent-filter android:autoVerify="true">
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data
+            android:scheme="memcaps"
+          />
         </intent-filter>
       </activity>
     </application>

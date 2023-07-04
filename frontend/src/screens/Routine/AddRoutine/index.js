@@ -17,6 +17,7 @@ import {serverAxios} from '../../../utils/commonAxios';
 import {useSelector, useDispatch} from 'react-redux';
 import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
+import Back from 'react-native-vector-icons/Ionicons';
 
 const AddRoutine = ({navigation, route}) => {
   const [motionList, setMotionList] = useState([]);
@@ -24,11 +25,14 @@ const AddRoutine = ({navigation, route}) => {
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
     useState(false);
+  const [saveRoutineNameModal, setSaveRotuineNameModal] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSaveDisabled, setIsSaveDisabled] = useState(
     motionList.length === 0 ? true : false,
   );
-  const [routine_id, setRoutine_id] = useState(route.params.routine_id);
+  const [routineId, setRoutineId] = useState(route.params.routine_id);
+  const [saveWithNoname, setSaveWithNoname] = useState(false);
+  const [askSaveModal, setAskSaveModal] = useState(false);
 
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
@@ -105,7 +109,7 @@ const AddRoutine = ({navigation, route}) => {
 
   const handleSaveRoutine = async () => {
     const body = {
-      routine_id: routine_id,
+      routine_id: routineId,
       motion_list: motionList,
     };
     await serverAxios
@@ -118,8 +122,53 @@ const AddRoutine = ({navigation, route}) => {
     navigation.push('MyRoutine');
   };
 
+  const handleBackButton = () => {
+    console.log(motionList);
+    if (motionList.length === 0) {
+      deleteRoutine();
+      navigation.reset({routes: [{name: 'MyRoutine'}]});
+    } else {
+      setAskSaveModal(true);
+    }
+  };
+
+  const deleteRoutine = async () => {
+    await serverAxios
+      .put('/routine/delete', {
+        routine_ids: routineId,
+      })
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const saveRoutine = () => {
+    if (routineName === '새로운 루틴') {
+      setSaveRotuineNameModal(true);
+      setAskSaveModal(false);
+    } else {
+      handleSaveRoutine();
+    }
+  };
+
+  const saveRoutineWithnoName = () => {};
+
   useEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            handleBackButton();
+            //navigation.reset({routes: [{name: 'MyRoutine'}]});
+          }}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{marginLeft: 10, marginRight: 10}}></Back>
+        </TouchableOpacity>
+      ),
       headerTitle: () => (
         <>
           <Text
@@ -143,7 +192,7 @@ const AddRoutine = ({navigation, route}) => {
         <TouchableOpacity
           disabled={isSaveDisabled}
           onPress={() => {
-            handleSaveRoutine();
+            saveRoutine();
           }}>
           <Text>저장</Text>
         </TouchableOpacity>
@@ -161,6 +210,8 @@ const AddRoutine = ({navigation, route}) => {
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
+              isMotionDone: false,
+              isMotionDoing: false,
               isFavorite: value.isFav,
               motion_id: value.motion_id,
               motionName: value.motion_name,
@@ -187,6 +238,8 @@ const AddRoutine = ({navigation, route}) => {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
+            isMotionDone: false,
+            isMotionDoing: false,
             isFavorite: route.params.displaySelected[i].isFavorite,
             motion_id: route.params.displaySelected[i].motion_id,
             motionName: route.params.displaySelected[i].motionName,
@@ -194,8 +247,9 @@ const AddRoutine = ({navigation, route}) => {
             sets: [
               {
                 weight: 0,
-                reps: 0,
+                reps: 1,
                 mode: '기본',
+                isDoing: false,
                 isDone: false,
               },
             ],
@@ -218,7 +272,7 @@ const AddRoutine = ({navigation, route}) => {
       isRoutine: true,
       routineName: routineName,
       motionList: motionList,
-      routine_id: routine_id,
+      routine_id: routineId,
     });
   };
   const handleConfirmPress = async () => {
@@ -226,7 +280,7 @@ const AddRoutine = ({navigation, route}) => {
     setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
 
     const body = {
-      routine_id: routine_id,
+      routine_id: routineId,
       routine_name: routineName,
     };
     await serverAxios
@@ -237,22 +291,62 @@ const AddRoutine = ({navigation, route}) => {
       });
   };
 
-  const handleStartWorkoutPress = () => {
-    navigation.navigate('WorkoutStart', {
-      isAddMotion: false,
-      motionList: motionList,
-      elapsedTime: 0,
-      TUT: 0,
-      m_index: 0,
-      s_index: 0,
-      isPaused: false,
-      isPausedPage: false,
-      isModifyMotion: false,
-    });
+  const handleConfirmPress2 = async () => {
+    const body = {
+      routine_id: routineId,
+      routine_name: routineName,
+    };
+    await serverAxios
+      .put('/routine/nameChange', body)
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
+      });
+
+    const body2 = {
+      routine_id: routineId,
+      motion_list: motionList,
+    };
+
+    await serverAxios
+      .post('/routine/save', body2)
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
+      });
+    setSaveRotuineNameModal(false);
+    navigation.reset({routes: [{name: 'MyRoutine'}]});
   };
 
   return (
     <View style={styles.pageContainer}>
+      <Modal visible={askSaveModal} transparent={true} animationType="fade">
+        <View style={styles.modalNameContainer}>
+          <View style={styles.askSaveContainer}>
+            <Text style={styles.titleText}>루틴 생성 취소</Text>
+            <Text style={{marginTop: 17}}>저장하지 않고 나가게되면</Text>
+            <Text>데이터는 저장되지 않습니다.</Text>
+            <View style={{flexDirection: 'row', marginTop: 13}}>
+              <View style={{marginRight: 5}}>
+                <CustomButton_W
+                  width={126}
+                  onPress={() => {
+                    setAskSaveModal(false);
+                    deleteRoutine();
+                    navigation.reset({routes: [{name: 'MyRoutine'}]});
+                  }}
+                  content="취소"></CustomButton_W>
+              </View>
+              <View style={{marginLeft: 5}}>
+                <CustomButton_B
+                  width={126}
+                  onPress={() => saveRoutine()}
+                  content="저장"></CustomButton_B>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Modal
         visible={isRoutineNameModalVisible}
         transparent={true}
@@ -274,6 +368,32 @@ const AddRoutine = ({navigation, route}) => {
             <TouchableOpacity
               style={styles.confirmButton}
               onPress={handleConfirmPress}>
+              <Text style={styles.confirmText}>확인</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        visible={saveRoutineNameModal}
+        transparent={true}
+        animationType="fade">
+        <View style={styles.modalNameContainer}>
+          <View style={styles.routineNameContainer}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.titleText}>루틴 이름</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                styles={styles.routineNameInput}
+                onChangeText={text => {
+                  setRoutineName(text);
+                }}
+                placeholder="루틴 이름"
+                inputMode="text"></TextInput>
+            </View>
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={handleConfirmPress2}>
               <Text style={styles.confirmText}>확인</Text>
             </TouchableOpacity>
           </View>
@@ -339,32 +459,11 @@ const AddRoutine = ({navigation, route}) => {
         </>
       )}
 
-      {!route.params.isRoutineDetail ? (
-        <TouchableOpacity
-          onPress={handleAddWorkoutMotionPress}
-          style={styles.addMotionContainer}>
-          <Text style={styles.addMotionText}>+ 동작 추가</Text>
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.buttonContainer}>
-          <View style={styles.buttonSection}>
-            <CustomButton_W
-              width={171}
-              content="+ 동작 추가"
-              onPress={() => {
-                //handleAddMotionPress();
-              }}
-              disabled={false}></CustomButton_W>
-          </View>
-          <View style={styles.buttonSection}>
-            <CustomButton_B
-              width={171}
-              content="루틴 운동 시작"
-              onPress={handleStartWorkoutPress}
-              disabled={false}></CustomButton_B>
-          </View>
-        </View>
-      )}
+      <TouchableOpacity
+        onPress={handleAddWorkoutMotionPress}
+        style={styles.addMotionContainer}>
+        <Text style={styles.addMotionText}>+ 동작 추가</Text>
+      </TouchableOpacity>
     </View>
   );
 };

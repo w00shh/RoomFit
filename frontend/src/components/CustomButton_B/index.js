@@ -12,7 +12,7 @@ const CustomButton_B = props => {
         backgroundColor: props.disabled ? '#cbcbfd' : '#5252fa',
 
         width: props.width,
-        height: 56,
+        height: props.height ? props.height : 56,
 
         borderRadius: 8,
         padding: 0,

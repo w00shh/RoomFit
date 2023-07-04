@@ -14,6 +14,7 @@ import CustomButton_B from '../../components/CustomButton_B';
 import Back from 'react-native-vector-icons/Ionicons';
 
 import {useSelector, useDispatch} from 'react-redux';
+import {serverAxios} from '../../utils/commonAxios';
 
 const WorkoutReady = ({navigation, route}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -22,6 +23,7 @@ const WorkoutReady = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+  const [workoutId, setWorkoutId] = useState();
 
   const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
 
@@ -70,6 +72,8 @@ const WorkoutReady = ({navigation, route}) => {
       setMotionList(currentMotionList => [
         ...currentMotionList,
         {
+          isMotionDone: false,
+          isMotionDoing: false,
           isFavorite: route.params.displaySelected[i].isFavorite,
           motion_id: route.params.displaySelected[i].motion_id,
           motionName: route.params.displaySelected[i].motionName,
@@ -77,8 +81,9 @@ const WorkoutReady = ({navigation, route}) => {
           sets: [
             {
               weight: 0,
-              reps: 0,
+              reps: 1,
               mode: '기본',
+              isDoing: false,
               isDone: false,
             },
           ],
@@ -132,18 +137,36 @@ const WorkoutReady = ({navigation, route}) => {
     navigation.push('AddMotion', {motionList: motionList});
   };
 
-  const handleStartWorkoutPress = () => {
-    navigation.navigate('WorkoutStart', {
-      isAddMotion: false,
-      motionList: motionList,
-      elapsedTime: 0,
-      TUT: 0,
-      m_index: 0,
-      s_index: 0,
-      isPaused: false,
-      isPausedPage: false,
-      isModifyMotion: false,
-    });
+  useEffect(() => {
+    if (workoutId) {
+      navigation.navigate('WorkoutStart', {
+        isQuickWorkout: true,
+        workout_id: workoutId,
+        isAddMotion: false,
+        motionList: motionList,
+        elapsedTime: 0,
+        TUT: 0,
+        m_index: 0,
+        s_index: 0,
+        isPaused: false,
+        isPausedPage: false,
+        isModifyMotion: false,
+      });
+    }
+  }, [workoutId]);
+
+  const handleStartWorkoutPress = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+    await serverAxios
+      .post('/workout', body)
+      .then(res => {
+        setWorkoutId(res.data.workout_id);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
   return (
     <View style={styles.pageContainer}>
