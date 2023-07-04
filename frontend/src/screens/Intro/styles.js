@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
 
   intro: {
     marginTop: 20,
-    marginLeft: '8%',
-    marginRight: '8%',
+    marginLeft: '12%',
+    marginRight: '12%',
   },
 
   mainLogo: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 12,
+    marginTop: 45,
   },
   Google_Button: {
     alignItems: 'center',

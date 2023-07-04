@@ -1,24 +1,7 @@
 import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Image,
-  TouchableOpacity,
-  Linking,
-} from 'react-native';
+import {Text, View, Image, TouchableOpacity, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Kakao from 'react-native-vector-icons/Ionicons';
-import {WithLocalSvg} from 'react-native-svg';
-import apple from '../../assets/images/apple_logo.svg';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import CustomButton_B from '../../components/CustomButton_B';
 import styles from './styles';
 
 const Intro = ({navigation}) => {
@@ -36,7 +19,7 @@ const Intro = ({navigation}) => {
         <Icon name="apple" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           Linking.openURL(
             `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/kakao-auth`,
@@ -45,7 +28,7 @@ const Intro = ({navigation}) => {
         style={styles.Kakao_Button}>
         <Kakao name="chatbubble" size={20} color="black"></Kakao>
         <Text style={styles.Button_Text2}> Kakao로 시작하기</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         style={styles.Google_Button}
         onPress={() =>
