@@ -47,6 +47,7 @@ export const WorkoutStart = ({navigation, route}) => {
   );
   const [saveAddedMotionToRoutine, setSaveAddedMotionToRoutine] =
     useState(false);
+  const [isSaveWorkoutDisabled, setIsSaveWorkoutDisabled] = useState(true);
 
   // motionList 관련 변수 :
   const [motionList, setMotionList] = useState(route.params.motionList);
@@ -183,6 +184,14 @@ export const WorkoutStart = ({navigation, route}) => {
       getRecordId(0);
     }
   }, []);
+
+  useEffect(() => {
+    if (workoutTitle.length > 0) {
+      setIsSaveWorkoutDisabled(false);
+    } else {
+      setIsSaveWorkoutDisabled(true);
+    }
+  }, [workoutTitle]);
 
   const modifyingMotion = () => {
     setIsPaused(true);
@@ -747,6 +756,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={{flexDirection: 'row', marginTop: 5}}>
                   <CustomButton_B
                     width={264}
+                    disabled={isSaveWorkoutDisabled}
                     onPress={() => {
                       navigation.reset({routes: [{name: 'HomeScreen'}]});
                       saveWorkoutRecord();
