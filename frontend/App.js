@@ -19,7 +19,9 @@ import WorkoutRecord from './src/screens/WorkoutRecord/index.js';
 import WorkoutDetail from './src/screens/WorkoutDetail/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
-import {Store} from './src/redux/store.js';
+import {store} from './src/redux/store.ts';
+import AppProvider from './src/contexts/AppProvider.js';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +36,23 @@ const config = {
     restSpeedThreshold: 0.01,
   },
 };
+
+export const AppContext = React.createContext({
+  state: {
+    userid: '',
+    usernickname: '',
+    useremail: '',
+    targetmotionindex: 0,
+    targetsetindex: 0,
+  },
+  actions: {
+    setUserid: () => {},
+    setUsernickname: () => {},
+    setUseremail: () => {},
+    setTargetmotionindex: () => {},
+    setTargetsetindex: () => {},
+  },
+});
 
 const App = () => {
   // React.useEffect(() => {
@@ -68,171 +87,181 @@ const App = () => {
   // }, []);
 
   return (
-    <Provider store={Store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Splash"
-            component={Splash}
-            options={{
-              headerShown: false,
-              transitionConfig: () => ({
-                transitionSpec: {
-                  duration: 500, // 애니메이션 지속 시간 설정
+    <Provider store={store}>
+      <AppProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Splash"
+              component={Splash}
+              options={{
+                headerShown: false,
+                transitionConfig: () => ({
+                  transitionSpec: {
+                    duration: 500, // 애니메이션 지속 시간 설정
+                  },
+                  screenInterpolator: sceneProps => {
+                    // 애니메이션을 커스터마이즈할 수 있는 함수
+                    // 예시: 페이드 애니메이션
+                    const {position, layout, scene} = sceneProps;
+                    const {index} = scene;
+
+                    const opacity = position.interpolate({
+                      inputRange: [index - 1, index, index + 1],
+                      outputRange: [0, 1, 0],
+                    });
+
+                    return {opacity};
+                  },
+                }),
+              }}
+            />
+            <Stack.Screen
+              name="Intro"
+              component={Intro}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                headerShown: true,
+                title: '',
+                headerShadowVisible: false,
+              }}
+            />
+            <Stack.Screen
+              name="PasswordFind"
+              component={PasswordFind}
+              options={{
+                headerShown: true,
+                title: '',
+                headerShadowVisible: false,
+              }}
+            />
+
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={{headerShown: true, title: ''}}
+            />
+            <Stack.Screen
+              name="HomeScreen"
+              component={HomeScreen}
+              options={{
+                headerShown: true,
+                animation: 'none',
+                title: '운동',
+                headerShadowVisible: true,
+                headerBackVisible: false,
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 20,
                 },
-                screenInterpolator: sceneProps => {
-                  // 애니메이션을 커스터마이즈할 수 있는 함수
-                  // 예시: 페이드 애니메이션
-                  const {position, layout, scene} = sceneProps;
-                  const {index} = scene;
-
-                  const opacity = position.interpolate({
-                    inputRange: [index - 1, index, index + 1],
-                    outputRange: [0, 1, 0],
-                  });
-
-                  return {opacity};
+              }}
+            />
+            <Stack.Screen
+              name="ConnectDevice"
+              component={ConnectDevice}
+              options={{
+                headerShown: true,
+                title: '기기 연결',
+                headerShadowVisible: false,
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16,
                 },
-              }),
-            }}
-          />
-          <Stack.Screen
-            name="Intro"
-            component={Intro}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{headerShown: true, title: '', headerShadowVisible: false}}
-          />
-          <Stack.Screen
-            name="PasswordFind"
-            component={PasswordFind}
-            options={{headerShown: true, title: '', headerShadowVisible: false}}
-          />
+              }}
+            />
+            <Stack.Screen
+              name="MyRoutine"
+              component={MyRoutine}
+              options={{
+                title: '내 루틴',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16,
+                },
+                headerShadowVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="AddRoutine"
+              component={AddRoutine}
+              options={{
+                title: '새로운 루틴',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16,
+                },
+                headerBackVisible: false,
+                headerShadowVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="RoutineDetail"
+              component={RoutineDetail}
+              options={{
+                title: '루틴 상세',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16,
+                },
+                headerShadowVisible: false,
+              }}></Stack.Screen>
 
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{headerShown: true, title: ''}}
-          />
-          <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
-            options={{
-              headerShown: true,
-              animation: 'none',
-              title: '운동',
-              headerShadowVisible: true,
-              headerBackVisible: false,
-              headerTitleStyle: {
-                fontWeight: '700',
-                fontSize: 20,
-              },
-            }}
-          />
-          <Stack.Screen
-            name="ConnectDevice"
-            component={ConnectDevice}
-            options={{
-              headerShown: true,
-              title: '기기 연결',
-              headerShadowVisible: false,
-              headerTitleStyle: {
-                fontWeight: '700',
-                fontSize: 16,
-              },
-            }}
-          />
-          <Stack.Screen
-            name="MyRoutine"
-            component={MyRoutine}
-            options={{
-              title: '내 루틴',
-              headerTitleStyle: {
-                fontWeight: '700',
-                fontSize: 16,
-              },
-              headerShadowVisible: false,
-            }}></Stack.Screen>
-          <Stack.Screen
-            name="AddRoutine"
-            component={AddRoutine}
-            options={{
-              title: '새로운 루틴',
-              headerTitleStyle: {
-                fontWeight: '700',
-                fontSize: 16,
-              },
-              headerBackVisible: false,
-              headerShadowVisible: false,
-            }}></Stack.Screen>
-          <Stack.Screen
-            name="RoutineDetail"
-            component={RoutineDetail}
-            options={{
-              title: '루틴 상세',
-              headerTitleStyle: {
-                fontWeight: '700',
-                fontSize: 16,
-              },
-              headerShadowVisible: false,
-            }}></Stack.Screen>
+            <Stack.Screen
+              name="AddMotion"
+              component={AddMotion}
+              options={{
+                title: '동작 선택',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16,
+                },
+                headerShadowVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="WorkoutReady"
+              component={WorkoutReady}
+              options={{
+                title: '운동',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 20,
+                  marginLeft: 20,
+                },
+                headerBackVisible: false,
+                headerShadowVisible: true,
+              }}></Stack.Screen>
 
-          <Stack.Screen
-            name="AddMotion"
-            component={AddMotion}
-            options={{
-              title: '동작 선택',
-              headerTitleStyle: {
-                fontWeight: '700',
-                fontSize: 16,
-              },
-              headerShadowVisible: false,
-            }}></Stack.Screen>
-          <Stack.Screen
-            name="WorkoutReady"
-            component={WorkoutReady}
-            options={{
-              title: '운동',
-              headerTitleStyle: {
-                fontWeight: '700',
-                fontSize: 20,
-                marginLeft: 20,
-              },
-              headerBackVisible: false,
-              headerShadowVisible: true,
-            }}></Stack.Screen>
-
-          <Stack.Screen
-            name="WorkoutStart"
-            component={WorkoutStart}
-            options={{
-              headerShown: false,
-            }}></Stack.Screen>
-          <Stack.Screen
-            name="WorkoutRecord"
-            component={WorkoutRecord}
-            options={{
-              title: '운동기록',
-              animation: 'slide_from_right',
-              headerTitleStyle: {
-                fontWeight: '700',
-                fontSize: 28,
-                marginLeft: 20,
-              },
-              headerShadowVisible: false,
-              headerBackVisible: false,
-            }}></Stack.Screen>
-          <Stack.Screen
-            name="WorkoutDetail"
-            component={WorkoutDetail}
-            options={{
-              headerShadowVisible: false,
-            }}></Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen
+              name="WorkoutStart"
+              component={WorkoutStart}
+              options={{
+                headerShown: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="WorkoutRecord"
+              component={WorkoutRecord}
+              options={{
+                title: '운동기록',
+                animation: 'slide_from_right',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 28,
+                  marginLeft: 20,
+                },
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="WorkoutDetail"
+              component={WorkoutDetail}
+              options={{
+                headerShadowVisible: false,
+              }}></Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AppProvider>
     </Provider>
   );
 };

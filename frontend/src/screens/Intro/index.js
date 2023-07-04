@@ -19,7 +19,7 @@ const Intro = ({navigation}) => {
         <Icon name="apple" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           Linking.openURL(
             `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/kakao-auth`,
@@ -28,7 +28,7 @@ const Intro = ({navigation}) => {
         style={styles.Kakao_Button}>
         <Kakao name="chatbubble" size={20} color="black"></Kakao>
         <Text style={styles.Button_Text2}> Kakao로 시작하기</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         style={styles.Google_Button}
         onPress={() =>
