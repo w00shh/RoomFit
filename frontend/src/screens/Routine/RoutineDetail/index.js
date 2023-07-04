@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -10,15 +10,14 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
-
 import WorkoutItem from '../../../components/WorkoutItem';
 import {serverAxios} from '../../../utils/commonAxios';
-
-import {useSelector, useDispatch} from 'react-redux';
 import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
+import {AppContext} from '../../../contexts/AppProvider';
 
 const RoutineDetail = ({navigation, route}) => {
+  const appcontext = useContext(AppContext);
   const [motionList, setMotionList] = useState([]);
   const [routineId, setRoutineId] = useState(route.params.routine_id);
   const [workoutId, setWorkoutId] = useState();
@@ -35,10 +34,6 @@ const RoutineDetail = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
-
-  const {targetmotionid, targetsetid} = useSelector(state => state.userReducer);
-
-  const dispatch = useDispatch();
 
   const modeList = [
     {
@@ -97,8 +92,9 @@ const RoutineDetail = ({navigation, route}) => {
 
   const handleSelectPress = () => {
     updatedMotionList = [...motionList];
-    updatedMotionList[targetmotionid].sets[targetsetid].mode =
-      selectedMode.modeName;
+    updatedMotionList[appcontext.state.targetmotionindex].sets[
+      appcontext.state.targetsetindex
+    ].mode = selectedMode.modeName;
     setMotionList(updatedMotionList);
 
     setIsModalVisible(false);
