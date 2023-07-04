@@ -34,12 +34,6 @@
     "react-native-screens": "^3.20.0",
     "react-native-select-dropdown": "^3.3.4",
     "react-native-splash-screen": "^3.3.0",
-<<<<<<< HEAD
-    "react-native-stopwatch-timer": "^0.0.21",
-    "react-native-stopwatch-timer-custom": "^1.0.1",
-    "react-native-svg": "^13.9.0",
-=======
->>>>>>> 46d8f95632b1cc5ea8f3e93b3b8006954476d9a1
     "react-native-swiper": "^1.6.0",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.1.1",
