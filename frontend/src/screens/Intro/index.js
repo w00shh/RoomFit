@@ -13,12 +13,12 @@ const Intro = ({navigation}) => {
       <Image
         style={styles.mainLogo}
         source={require('../../assets/images/img_logo_roomfit.png')}></Image>
-      {/* <TouchableOpacity
+      <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}
         style={styles.Apple_Button}>
         <Icon name="apple" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
           Linking.openURL(
