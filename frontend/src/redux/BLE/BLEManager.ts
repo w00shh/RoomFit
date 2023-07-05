@@ -3,6 +3,7 @@ import BleManager, {Peripheral} from 'react-native-ble-manager';
 import {setConnectedDevice} from './slice';
 import {LogBox} from 'react-native';
 LogBox.ignoreLogs(['new NativeEventEmitter']);
+const Buffer = require('buffer');
 
 export interface DeviceReference {
   name?: string | null;
@@ -60,8 +61,10 @@ class BLEManager {
         console.log('Connecting to', peripheralID);
 
         try {
-          await BleManager.connect(peripheralID);
-          await BleManager.retrieveServices(peripheralID);
+          await BleManager.connect(peripheralID).then(async () => {
+            console.log('Connected to', peripheralID);
+            await BleManager.retrieveServices(peripheralID);
+          });
         } catch (err) {
           reject();
         }
@@ -101,10 +104,14 @@ class BLEManager {
     if (await BleManager.isPeripheralConnected(peripheralID)) {
       BleManager.read(peripheralID, '180f', '2a19')
         .then(res => {
-          return res;
+          console.log(res.toString());
+          if (res) {
+            return res.toString();
+          }
         })
         .catch(err => {
           console.error(err);
+          return null;
         });
     }
   };

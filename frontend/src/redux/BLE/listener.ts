@@ -4,10 +4,6 @@ import {
   setConnectedDevice,
   setBattery,
   startScanning,
-  // startListening,
-  // stopScanning,
-  // connectToDevice,
-  // disconnectDevice,
 } from './slice';
 import BLEManager, {DeviceReference} from './BLEManager';
 import {store} from '../store';
@@ -49,7 +45,7 @@ bleMiddleware.startListening({
 export const readDeviceBattery = createAsyncThunk(
   'bleThunk/readDeviceBattery',
   async (ref: DeviceReference, thunkApi) => {
-    if (ref.id) {
+    if (ref.id != null) {
       const battery = BLEManager.readBattery(ref.id);
       thunkApi.dispatch(setBattery(battery));
     }

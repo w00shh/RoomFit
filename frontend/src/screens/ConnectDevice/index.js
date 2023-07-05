@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Image,
+  Button,
   TouchableOpacity,
 } from 'react-native';
 import Reload from 'react-native-vector-icons/AntDesign';
@@ -23,6 +24,11 @@ import {checkBluetoothPermissions} from '../../redux/BLE/permission';
 const Buffer = require('buffer/').Buffer;
 
 const ConnectDevice = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const discoveredDevices = useAppSelector(state => state.ble.allDevices);
+  const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
+  const battery = useAppSelector(state => state.ble.battery);
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -50,15 +56,6 @@ const ConnectDevice = ({navigation}) => {
       ),
     });
   }, []);
-
-  const [testMode, setTestMode] = useState('read');
-  const [getBattery, setGetBattery] = useState('');
-  const [pp, setPP] = useState('');
-  const [inputText, setInputText] = useState('');
-
-  const dispatch = useAppDispatch();
-  const discoveredDevices = useAppSelector(state => state.ble.allDevices);
-  const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
 
   useEffect(() => {
     checkBluetoothPermissions().then(res => {
@@ -88,7 +85,6 @@ const ConnectDevice = ({navigation}) => {
             style={styles.connectButton}
             onPress={() => {
               dispatch(connectToDevice(device));
-              dispatch(readDeviceBattery(connectedDevice));
             }}>
             <Text style={styles.connect}>연결</Text>
           </TouchableOpacity>
@@ -112,7 +108,7 @@ const ConnectDevice = ({navigation}) => {
           <View style={styles.connectContainer}>
             <View>
               <Text style={styles.connectText}>{connectedDevice.name}</Text>
-              <Text style={styles.battery}>배터리 {String(getBattery)}</Text>
+              <Text style={styles.battery}>배터리 {battery}</Text>
             </View>
             <TouchableOpacity
               style={styles.disconnectButton}
@@ -146,6 +142,11 @@ const ConnectDevice = ({navigation}) => {
             />
           </View>
         ))}
+        <Button
+          title={'Battery'}
+          onPress={() => {
+            dispatch(readDeviceBattery(connectedDevice));
+          }}></Button>
       </ScrollView>
     </SafeAreaView>
   );

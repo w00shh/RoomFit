@@ -4,7 +4,7 @@ import {DeviceReference} from './BLEManager';
 interface BLEState {
   allDevices: DeviceReference[];
   connectedDevice: DeviceReference | null;
-  battery: number | null;
+  battery: any;
 }
 
 const initialState: BLEState = {
@@ -41,7 +41,7 @@ const bleState = createSlice({
     ) => {
       state.connectedDevice = action.payload;
     },
-    setBattery: (state, action: PayloadAction<string | null>) => {
+    setBattery: (state, action: PayloadAction<any>) => {
       state.battery = action.payload;
     },
   },
