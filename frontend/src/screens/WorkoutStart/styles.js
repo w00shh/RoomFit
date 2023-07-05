@@ -1,17 +1,20 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * width_ratio,
+    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
   devider: {
-    marginTop: 18,
-    height: 8,
+    marginTop: 18 * height_ratio,
+    height: 8 * height_ratio,
   },
 
   devider2: {
@@ -20,7 +23,7 @@ const styles = StyleSheet.create({
   },
 
   motionName: {
-    marginTop: 25,
+    marginTop: 25 * height_ratio,
     color: '#242424',
     fontSize: 20,
     fontWeight: '400',
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: '#808080',
-    marginBottom: 10,
+    marginBottom: 10 * height_ratio,
   },
 
   statusText2: {
@@ -58,8 +61,8 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#fff',
 
-    width: 56,
-    height: 56,
+    width: 56 * width_ratio,
+    height: 56 * height_ratio,
 
     borderRadius: 8,
     padding: 0,
@@ -67,8 +70,8 @@ const styles = StyleSheet.create({
     borderColor: '#dfdfdf',
     borderStyle: 'solid',
 
-    marginTop: 16,
-    marginRight: 12,
+    marginTop: 16 * height_ratio,
+    marginRight: 12 * width_ratio,
   },
 
   CButton2: {
@@ -77,8 +80,8 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#fff',
 
-    width: 222,
-    height: 56,
+    width: 222 * width_ratio,
+    height: 56 * height_ratio,
 
     borderRadius: 8,
     padding: 0,
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
     borderColor: '#dfdfdf',
     borderStyle: 'solid',
 
-    marginTop: 16,
+    marginTop: 16 * height_ratio,
   },
 
   CText: {
@@ -102,10 +105,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#5252fa',
 
-    width: 358,
-    height: 56,
+    width: 358 * width_ratio,
+    height: 56 * height_ratio,
 
-    marginTop: 12,
+    marginTop: 12 * height_ratio,
     borderRadius: 8,
     padding: 0,
   },
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
     color: '#242424',
-    marginLeft: 16,
+    marginLeft: 16 * width_ratio,
   },
 
   pauseMotionTitle: {
@@ -146,8 +149,8 @@ const styles = StyleSheet.create({
   },
 
   grayCircle: {
-    width: 48,
-    height: 48,
+    width: 48 * width_ratio,
+    height: 48 * width_ratio,
 
     backgroundColor: '#f5f5f5',
     borderRadius: 24,
@@ -157,8 +160,8 @@ const styles = StyleSheet.create({
   },
 
   RgrayCircle: {
-    width: 48,
-    height: 48,
+    width: 48 * width_ratio,
+    height: 48 * width_ratio,
 
     backgroundColor: '#f5f5f5',
     borderRadius: 24,
@@ -166,7 +169,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    marginLeft: 60,
+    marginLeft: 60 * width_ratio,
   },
 
   endButton: {
@@ -176,14 +179,14 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#242424',
 
-    width: 171,
-    height: 56,
+    width: 171 * width_ratio,
+    height: 56 * height_ratio,
 
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 16,
-    marginRight: 16,
+    marginTop: 16 * height_ratio,
+    marginRight: 16 * width_ratio,
   },
 
   restartButton: {
@@ -193,13 +196,13 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#5252fa',
 
-    width: 171,
-    height: 56,
+    width: 171 * width_ratio,
+    height: 56 * height_ratio,
 
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 16,
+    marginTop: 16 * height_ratio,
   },
 
   tutText: {
@@ -214,9 +217,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: 12,
-    width: 358,
-    height: 64,
-    marginTop: 10,
+    width: 358 * width_ratio,
+    height: 64 * height_ratio,
+    marginTop: 10 * height_ratio,
   },
 
   settings: {
@@ -229,14 +232,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 35,
+    marginTop: 35 * height_ratio,
     flex: 1,
   },
 
   settingText: {
     fontSize: 16,
     fontWeight: '400',
-    marginLeft: 16,
     color: '#242424',
   },
 
@@ -256,13 +258,13 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    height: 500,
+    height: 500 * height_ratio,
     flex: 1,
   },
 
   modeTitleContainer: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingVertical: 24 * height_ratio,
   },
 
   titleText: {
@@ -300,18 +302,12 @@ const styles = StyleSheet.create({
   restContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 16,
+    marginLeft: 16 * width_ratio,
   },
   restChecker: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 16,
-  },
-  rests: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    height: 56,
+    marginRight: 16 * width_ratio,
   },
 
   modalContainer2: {
@@ -325,8 +321,8 @@ const styles = StyleSheet.create({
   },
 
   restingContainer: {
-    width: 296,
-    height: 296,
+    width: 296 * width_ratio,
+    height: 296 * height_ratio,
     flexDirection: 'column',
     backgroundColor: 'white',
     alignItems: 'center',
@@ -337,13 +333,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#242424',
-    marginTop: 30,
+    marginTop: 30 * height_ratio,
   },
 
   restingTimer: {
     fontSize: 48,
     color: '#242424',
-    marginTop: 16,
+    marginTop: 16 * height_ratio,
   },
 
   plusminus: {
@@ -352,8 +348,8 @@ const styles = StyleSheet.create({
   },
 
   endingContainer: {
-    width: 296,
-    height: 189,
+    width: 296 * width_ratio,
+    height: 189 * height_ratio,
     flexDirection: 'column',
     backgroundColor: 'white',
     alignItems: 'center',
@@ -365,12 +361,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     borderRadius: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 16 * width_ratio,
   },
 
   memoContainer: {
-    width: 296,
-    height: 350,
+    width: 296 * width_ratio,
+    height: 350 * height_ratio,
     flexDirection: 'column',
     backgroundColor: 'white',
     alignItems: 'center',
@@ -379,19 +375,19 @@ const styles = StyleSheet.create({
 
   titleInput: {
     backgroundColor: '#f5f5f5',
-    width: 264,
-    height: 56,
-    marginTop: 20,
-    paddingHorizontal: 12,
+    width: 264 * width_ratio,
+    height: 56 * height_ratio,
+    marginTop: 20 * height_ratio,
+    paddingHorizontal: 12 * width_ratio,
     borderRadius: 8,
   },
 
   memoInput: {
     backgroundColor: '#f5f5f5',
-    width: 264,
-    height: 110,
-    marginTop: 18,
-    paddingHorizontal: 12,
+    width: 264 * width_ratio,
+    height: 110 * height_ratio,
+    marginTop: 18 * height_ratio,
+    paddingHorizontal: 12 * width_ratio,
     borderRadius: 8,
   },
   motionTitle: {
@@ -420,7 +416,7 @@ const styles = StyleSheet.create({
 
   modeTitleContainer5: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingVertical: 24 * height_ratio,
   },
 
   titleText5: {
@@ -431,9 +427,11 @@ const styles = StyleSheet.create({
 
   modeItemContainer: {
     flexDirection: 'column',
-    height: 72,
-    padding: 12,
-    margin: 4,
+    height: 72 * height_ratio,
+    paddingVertical: 12 * height_ratio,
+    paddingHorizontal: 12 * width_ratio,
+    marginVertical: 4 * height_ratio,
+    marginHorizontal: 4 * width_ratio,
     alignItems: 'flex-start',
     justifyContent: 'center',
     backgroundColor: '#f5f5f5',
@@ -465,8 +463,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
   buttonContainer: {

@@ -6,10 +6,16 @@ import {
   TouchableOpacity,
   Linking,
   PixelRatio,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Kakao from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+const standard_w = 390;
+const standard_h = 797;
 
 const Intro = ({navigation}) => {
   return (
@@ -54,7 +60,7 @@ const Intro = ({navigation}) => {
               isRegister: false,
             })
           }
-          style={{marginRight: 20}}>
+          style={{marginRight: 20 * (width / standard_w)}}>
           <Text>이메일로 로그인</Text>
         </TouchableOpacity>
         <Image
@@ -62,7 +68,7 @@ const Intro = ({navigation}) => {
           source={require('../../assets/images/divider.png')}></Image>
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}
-          style={{marginLeft: 20}}>
+          style={{marginLeft: 20 * (width / standard_w)}}>
           <Text>이메일로 회원가입</Text>
         </TouchableOpacity>
       </View>

@@ -9,6 +9,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import Reload from 'react-native-vector-icons/AntDesign';
 import Setting from 'react-native-vector-icons/Ionicons';
@@ -22,6 +23,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import {serverAxios} from '../../utils/commonAxios';
 import {PrivateValueStore} from '@react-navigation/native';
 import {useAppSelector} from '../../redux/store';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
+const standard_w = 390;
+const standard_h = 797;
 
 const HomeScreen = ({navigation}) => {
   // const {isLogin} = useSelector(state => state.userReducer);
@@ -71,7 +77,7 @@ const HomeScreen = ({navigation}) => {
               fontSize: 28,
               fontWeight: '700',
               color: '#242424',
-              marginLeft: 10,
+              marginLeft: 10 * width_ratio,
             }}>
             운동
           </Text>
@@ -265,7 +271,10 @@ const HomeScreen = ({navigation}) => {
         {recentRoutine.length > 0 && (
           <View>
             <View>
-              <Text style={{marginLeft: 16, marginTop: 12}}>
+              <Text
+                style={{
+                  marginTop: 12 * height_ratio,
+                }}>
                 {recentRoutine[0].date}
               </Text>
               {recentRoutine.map((value, key) => (
@@ -292,7 +301,7 @@ const HomeScreen = ({navigation}) => {
         )}
       </ScrollView>
       <View style={styles.navigator}>
-        <TouchableOpacity style={{marginLeft: 45}}>
+        <TouchableOpacity style={{marginLeft: 45 * width_ratio}}>
           <Dumbbell
             name="dumbbell"
             size={20}
@@ -304,7 +313,7 @@ const HomeScreen = ({navigation}) => {
             size={20}
             color={isRecord ? '#fff' : '#dfdfdf'}></Board>
         </TouchableOpacity>
-        <TouchableOpacity style={{marginRight: 45}}>
+        <TouchableOpacity style={{marginRight: 45 * width_ratio}}>
           <Setting
             name="settings"
             size={20}

@@ -1,14 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
+import moment from 'moment';
 import Setting from 'react-native-vector-icons/Ionicons';
 import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import RecentExercise from '../../components/RecentExercise';
+import {AppContext} from '../../contexts/AppProvider';
 
 const WorkoutRecord = ({navigation}) => {
+  const appcontext = useContext(AppContext);
   const [isExercise, setIsExercise] = useState(false);
   const [isRecord, setIsRecord] = useState(true);
   const [isSetting, setIsSetting] = useState(false);
@@ -16,6 +19,12 @@ const WorkoutRecord = ({navigation}) => {
   const [isCalender, setIsCalender] = useState(false);
   const [recentRoutine, setRecentRoutine] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(
+    moment().format('YYYY-MM'),
+  );
+  const [workedDay, setworkedDay] = useState([]);
+  const [markedDates, setMarkedDates] = useState({});
+  const datesToMark = ['2023-07-05', '2023-07-10', '2023-07-15'];
 
   useEffect(() => {
     getBreifWorkout();
@@ -75,6 +84,48 @@ const WorkoutRecord = ({navigation}) => {
 
   const handleDayPress = day => {
     setSelectedDate(day.dateString);
+  };
+
+  const handleMonthChange = (year, month) => {
+    const formattedMonth = String(month).padStart(2, '0');
+    const yearMonth = `${year}-${formattedMonth}`;
+    setSelectedMonth(yearMonth);
+  };
+
+  useEffect(() => {
+    getMonthWorkoutDay();
+  }, [selectedMonth]);
+
+  getMonthWorkoutDay = async () => {
+    const body = {
+      user_id: 'user1', //Appcontext.state.userid
+      month: selectedMonth,
+    };
+    await serverAxios.post('/workout/calender/month', body).then(res => {
+      res.data.map((value, key) => {
+        setworkedDay(currentWorkedDay => [
+          ...currentWorkedDay,
+          {
+            start_time: value.start_time.split(' ')[0],
+          },
+        ]);
+      });
+    });
+  };
+
+  useEffect(() => {
+    console.log(workedDay);
+    markDates();
+  }, [workedDay]);
+
+  const markDates = () => {
+    const updatedMarkedDates = {};
+
+    datesToMark.forEach(date => {
+      updatedMarkedDates[date] = {marked: true, dotColor: 'red'};
+    });
+
+    setworkedDay(updatedMarkedDates);
   };
 
   return (
@@ -225,6 +276,7 @@ const WorkoutRecord = ({navigation}) => {
           <Calendar
             style={styles.Calendar}
             monthFormat={'yyyy.M'}
+            onMonthChange={month => handleMonthChange(month.year, month.month)}
             theme={{
               todayTextColor: '#5252fa',
               selectedDayBackgroundColor: '#5252fa',
@@ -233,13 +285,7 @@ const WorkoutRecord = ({navigation}) => {
             onDayPress={day => {
               setSelectedDate(day.dateString);
             }}
-            markedDates={{
-              [selectedDate]: {
-                selected: true,
-                selectedColor: '#5252fa',
-                selectedTextColor: 'white',
-              },
-            }}></Calendar>
+            markedDates={workedDay}></Calendar>
         </View>
       )}
 

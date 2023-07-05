@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import CustomButton_W from '../../components/CustomButton_W';
 import Check from 'react-native-vector-icons/AntDesign';
@@ -39,6 +40,9 @@ import WorkoutItem from '../../components/WorkoutItem';
 import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {AppContext} from '../../contexts/AppProvider';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 export const WorkoutStart = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
@@ -378,7 +382,7 @@ export const WorkoutStart = ({navigation, route}) => {
         <View
           style={{
             flexDirection: 'column',
-            height: 72,
+            height: 72 * height_ratio,
             padding: 12,
             margin: 4,
             alignItems: 'flex-start',
@@ -557,11 +561,12 @@ export const WorkoutStart = ({navigation, route}) => {
                   {isMotionDone ? '동작간 휴식' : '세트간 휴식'}
                 </Text>
                 <Text style={styles.restingTimer}>{formatTime(restTimer)}</Text>
-                <View style={{flexDirection: 'row', marginTop: 16}}>
+                <View
+                  style={{flexDirection: 'row', marginTop: 16 * height_ratio}}>
                   <TouchableOpacity
                     onPress={() => setRestTimer(restTimer - 10)}
                     style={{
-                      marginRight: 25,
+                      marginRight: 25 * width_ratio,
                       flexDirection: 'row',
                       alignItems: 'center',
                     }}>
@@ -571,7 +576,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   <TouchableOpacity
                     onPress={() => setRestTimer(restTimer + 10)}
                     style={{
-                      marginLeft: 25,
+                      marginLeft: 25 * width_ratio,
                       flexDirection: 'row',
                       alignItems: 'center',
                     }}>
@@ -580,15 +585,15 @@ export const WorkoutStart = ({navigation, route}) => {
                   </TouchableOpacity>
                 </View>
                 <View style={{flexDirection: 'row'}}>
-                  <View style={{marginRight: 5}}>
+                  <View style={{marginRight: 5 * width_ratio}}>
                     <CustomButton_W
-                      width={126}
+                      width={126 * width_ratio}
                       onPress={() => {
                         setIsRestingModal(false);
                       }}
                       content="창 닫기"></CustomButton_W>
                   </View>
-                  <View style={{marginLeft: 5}}>
+                  <View style={{marginLeft: 5 * width_ratio}}>
                     <CustomButton_B
                       width={126}
                       onPress={() => goNextMotion()}
@@ -608,15 +613,17 @@ export const WorkoutStart = ({navigation, route}) => {
                   {isMotionDone ? '동작간 휴식' : '세트간 휴식'}
                 </Text>
                 <Text style={styles.restingTimer}>{formatTime(0)}</Text>
-                <View style={{flexDirection: 'row', marginTop: 16}}>
+                <View
+                  style={{flexDirection: 'row', marginTop: 16 * height_ratio}}>
                   <Text style={{color: '#242424'}}>
                     세트간 휴식시간이 끝났습니다.
                   </Text>
                 </View>
-                <View style={{flexDirection: 'row', marginTop: 15}}>
+                <View
+                  style={{flexDirection: 'row', marginTop: 15 * height_ratio}}>
                   <View>
                     <CustomButton_B
-                      width={264}
+                      width={264 * width_ratio}
                       onPress={() => {
                         goNextMotion();
                         setNextMotionModal(false);
@@ -634,11 +641,17 @@ export const WorkoutStart = ({navigation, route}) => {
             <View style={styles.modalContainer2}>
               <View style={styles.endingContainer}>
                 <Text style={styles.restingTitle}>운동 수행 완료</Text>
-                <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: '#242424',
+                    marginTop: 12 * height_ratio,
+                  }}>
                   다른 동작을 추가 하시겠습니까?
                 </Text>
-                <View style={{flexDirection: 'row', marginTop: 5}}>
-                  <View style={{marginRight: 5}}>
+                <View
+                  style={{flexDirection: 'row', marginTop: 5 * height_ratio}}>
+                  <View style={{marginRight: 5 * width_ratio}}>
                     <CustomButton_W
                       width={126}
                       onPress={() => {
@@ -659,7 +672,7 @@ export const WorkoutStart = ({navigation, route}) => {
                       }}
                       content="동작 추가"></CustomButton_W>
                   </View>
-                  <View style={{marginLeft: 5}}>
+                  <View style={{marginLeft: 5 * width_ratio}}>
                     <CustomButton_B
                       width={126}
                       onPress={() => writeMemo()}
@@ -676,10 +689,20 @@ export const WorkoutStart = ({navigation, route}) => {
             <View style={styles.modalContainer2}>
               <View style={styles.endingContainer2}>
                 <Text style={styles.restingTitle}>루틴 수행 완료</Text>
-                <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: '#242424',
+                    marginTop: 12 * height_ratio,
+                  }}>
                   루틴을 모두 수행했습니다.
                 </Text>
-                <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: '#242424',
+                    marginTop: 12 * height_ratio,
+                  }}>
                   다른 동작을 추가하시거나, 운동을 완료해주세요.
                 </Text>
 
@@ -711,7 +734,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   textComponent={
                     <Text
                       style={{
-                        marginHorizontal: 8,
+                        marginHorizontal: 8 * width_ratio,
                         fontSize: 14,
                         color: '#242424',
                       }}>
@@ -753,21 +776,22 @@ export const WorkoutStart = ({navigation, route}) => {
                   onChangeText={text => setWorkoutMemo(text)}
                   value={workoutMemo}
                   placeholder="추가 메모 남기기 (선택)"></TextInput>
-                <View style={{flexDirection: 'row', marginTop: 5}}>
+                <View
+                  style={{flexDirection: 'row', marginTop: 5 * height_ratio}}>
                   <CustomButton_B
-                    width={264}
+                    width={264 * width_ratio}
                     disabled={isSaveWorkoutDisabled}
                     onPress={() => {
                       navigation.reset({routes: [{name: 'HomeScreen'}]});
                       saveWorkoutRecord();
                     }}
                     content="확인"
-                    marginVertical={12}></CustomButton_B>
+                    marginVertical={12 * height_ratio}></CustomButton_B>
                 </View>
               </View>
             </View>
           </Modal>
-          <View style={{alignItems: 'center', height: 440}}>
+          <View style={{alignItems: 'center', height: 440 * height_ratio}}>
             <View>
               <Text style={styles.timer}>{formatTime(elapsedTime)}</Text>
               <View
@@ -780,7 +804,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   name="timer-cog"
                   size={18}
                   color={'#9f76e1'}
-                  style={{marginRight: 10}}></TutTimer>
+                  style={{marginRight: 10 * width_ratio}}></TutTimer>
                 <Text style={styles.tutText}>{formatTime(TUT)}</Text>
               </View>
             </View>
@@ -804,7 +828,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'flex-end',
-                  marginHorizontal: 16,
+                  marginHorizontal: 16 * width_ratio,
                 }}>
                 <Text style={styles.statusText}>
                   {motionList[m_index].sets[s_index].weight}
@@ -855,7 +879,7 @@ export const WorkoutStart = ({navigation, route}) => {
           <View style={styles.navigator}>
             <TouchableOpacity
               onPress={modifyingMotion}
-              style={{marginLeft: 45}}>
+              style={{marginLeft: 45 * width_ratio}}>
               <Dumbbell name="dumbbell" size={20} color={'#fff'}></Dumbbell>
             </TouchableOpacity>
             <TouchableOpacity onPress={pausedModal}>
@@ -863,7 +887,7 @@ export const WorkoutStart = ({navigation, route}) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setPressSetting(true)}
-              style={{marginRight: 45}}>
+              style={{marginRight: 45 * width_ratio}}>
               <Setting name="settings" size={20} color={'#fff'}></Setting>
             </TouchableOpacity>
           </View>
@@ -878,19 +902,25 @@ export const WorkoutStart = ({navigation, route}) => {
             <View style={styles.modalContainer2}>
               <View style={styles.endingContainer}>
                 <Text style={styles.restingTitle}>운동 종료</Text>
-                <Text style={{fontSize: 14, color: '#242424', marginTop: 12}}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: '#242424',
+                    marginTop: 12 * height_ratio,
+                  }}>
                   운동을 종료하시겠습니까?
                 </Text>
-                <View style={{flexDirection: 'row', marginTop: 5}}>
-                  <View style={{marginRight: 5}}>
+                <View
+                  style={{flexDirection: 'row', marginTop: 5 * height_ratio}}>
+                  <View style={{marginRight: 5 * width_ratio}}>
                     <CustomButton_W
-                      width={126}
+                      width={126 * width_ratio}
                       onPress={() => setWorkoutDoneModal2(false)}
                       content="취소"></CustomButton_W>
                   </View>
-                  <View style={{marginLeft: 5}}>
+                  <View style={{marginLeft: 5 * width_ratio}}>
                     <CustomButton_B
-                      width={126}
+                      width={126 * width_ratio}
                       onPress={() => writeMemo()}
                       content="종료"></CustomButton_B>
                   </View>
@@ -917,9 +947,10 @@ export const WorkoutStart = ({navigation, route}) => {
                   onChangeText={text => setWorkoutMemo(text)}
                   value={workoutMemo}
                   placeholder="추가 메모 남기기 (선택)"></TextInput>
-                <View style={{flexDirection: 'row', marginTop: 5}}>
+                <View
+                  style={{flexDirection: 'row', marginTop: 5 * height_ratio}}>
                   <CustomButton_B
-                    width={264}
+                    width={264 * width_ratio}
                     onPress={() => navigation.navigate('HomeScreen')}
                     content="확인"
                     marginVertical={12}></CustomButton_B>
@@ -930,13 +961,17 @@ export const WorkoutStart = ({navigation, route}) => {
           <View>
             <Text style={styles.pauseTitle}>일시정지</Text>
           </View>
-          <View style={{marginLeft: 16, marginTop: 24}}>
+          <View
+            style={{
+              marginLeft: 16 * width_ratio,
+              marginTop: 24 * height_ratio,
+            }}>
             <View style={{flexDirection: 'row'}}>
               <View style={styles.grayCircle}>
                 <Body name="body" color="#3aa84c" size={23}></Body>
               </View>
 
-              <View style={{marginLeft: 8}}>
+              <View style={{marginLeft: 8 * width_ratio}}>
                 <Text style={styles.pauseMotionTitle}>
                   {motionList[m_index].motionName}
                 </Text>
@@ -953,7 +988,7 @@ export const WorkoutStart = ({navigation, route}) => {
                     style={{
                       flexDirection: 'row',
                       alignItems: 'flex-end',
-                      marginHorizontal: 16,
+                      marginHorizontal: 16 * width_ratio,
                     }}>
                     <Text style={styles.statusText2}>
                       {motionList[m_index].sets[s_index].weight}
@@ -978,14 +1013,14 @@ export const WorkoutStart = ({navigation, route}) => {
             <View
               style={{
                 flexDirection: 'row',
-                marginTop: 20,
+                marginTop: 20 * height_ratio,
                 justifyContent: 'flex-start',
               }}>
-              <View style={{flexDirection: 'row', width: 120}}>
+              <View style={{flexDirection: 'row', width: 120 * width_ratio}}>
                 <View style={styles.grayCircle}>
                   <Timer name="timer" color="#41b1ca" size={23}></Timer>
                 </View>
-                <View style={{marginLeft: 8}}>
+                <View style={{marginLeft: 8 * width_ratio}}>
                   <Text style={styles.puaseSubtitle}>전체 운동시간</Text>
                   <Text style={styles.puaseSubcontent}>{time}</Text>
                 </View>
@@ -995,7 +1030,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   <Timer name="timer" color="#41b1ca" size={23}></Timer>
                 </View>
 
-                <View style={{marginLeft: 8}}>
+                <View style={{marginLeft: 8 * width_ratio}}>
                   <Text style={styles.puaseSubtitle}>유효 수행시간</Text>
                   <Text style={styles.puaseSubcontent}>{formatTime(TUT)}</Text>
                 </View>
@@ -1004,17 +1039,17 @@ export const WorkoutStart = ({navigation, route}) => {
             <View
               style={{
                 flexDirection: 'row',
-                marginTop: 20,
+                marginTop: 20 * height_ratio,
                 justifyContent: 'flex-start',
               }}>
-              <View style={{flexDirection: 'row', width: 120}}>
+              <View style={{flexDirection: 'row', width: 120 * width_ratio}}>
                 <View style={styles.grayCircle}>
                   <Lightning
                     name="lightning-bolt"
                     color="#fbcb22"
                     size={23}></Lightning>
                 </View>
-                <View style={{marginLeft: 8}}>
+                <View style={{marginLeft: 8 * width_ratio}}>
                   <Text style={styles.puaseSubtitle}>볼륨</Text>
                   <Text style={styles.puaseSubcontent}>{time}</Text>
                 </View>
@@ -1024,7 +1059,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   <Fire name="fire" color="#fc7d36" size={23}></Fire>
                 </View>
 
-                <View style={{marginLeft: 8}}>
+                <View style={{marginLeft: 8 * width_ratio}}>
                   <Text style={styles.puaseSubtitle}>칼로리</Text>
                   <Text style={styles.puaseSubcontent}>{time}</Text>
                 </View>
@@ -1036,7 +1071,7 @@ export const WorkoutStart = ({navigation, route}) => {
             source={require('../../assets/images/devider.png')}
             style={styles.devider2}></Image>
 
-          <ScrollView style={{height: 320}}></ScrollView>
+          <ScrollView style={{height: 320 * height_ratio}}></ScrollView>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableOpacity
               onPress={() => setWorkoutDoneModal2(true)}
@@ -1045,7 +1080,10 @@ export const WorkoutStart = ({navigation, route}) => {
                 name="square"
                 color={'#fff'}
                 size={15}
-                style={{marginRight: 8, marginTop: 2}}></Square>
+                style={{
+                  marginRight: 8 * width_ratio,
+                  marginTop: 2 * height_ratio,
+                }}></Square>
               <Text style={styles.CText3}>운동 종료</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1055,7 +1093,10 @@ export const WorkoutStart = ({navigation, route}) => {
                 name="caretright"
                 color={'white'}
                 size={17}
-                style={{marginRight: 8, marginTop: 2}}></Start>
+                style={{
+                  marginRight: 8 * width_ratio,
+                  marginTop: 2 * height_ratio,
+                }}></Start>
               <Text style={styles.CText3}>운동 다시 시작</Text>
             </TouchableOpacity>
           </View>
@@ -1072,7 +1113,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={styles.modeTitleContainer}>
                   <Text style={styles.titleText}>세트간 휴식시간</Text>
                 </View>
-                <ScrollView style={{height: 500}}>
+                <ScrollView style={{height: 500 * height_ratio}}>
                   {restTime.map((value, key) => (
                     <TouchableOpacity
                       key={key}
@@ -1082,7 +1123,7 @@ export const WorkoutStart = ({navigation, route}) => {
                           flexDirection: 'row',
                           justifyContent: 'space-between',
                           width: '100%',
-                          height: 56,
+                          height: 56 * height_ratio,
                           backgroundColor:
                             value.time === temprestSet ? '#f5f5f5' : 'white',
                         }}>
@@ -1129,7 +1170,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={styles.modeTitleContainer}>
                   <Text style={styles.titleText}>동작간 휴식시간</Text>
                 </View>
-                <ScrollView style={{height: 500}}>
+                <ScrollView style={{height: 500 * height_ratio}}>
                   {restTime.map((value, key) => (
                     <TouchableOpacity
                       key={key}
@@ -1139,7 +1180,7 @@ export const WorkoutStart = ({navigation, route}) => {
                           flexDirection: 'row',
                           justifyContent: 'space-between',
                           width: '100%',
-                          height: 56,
+                          height: 56 * height_ratio,
                           backgroundColor:
                             value.time === temprestMotion ? '#f5f5f5' : 'white',
                         }}>
@@ -1163,14 +1204,14 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={styles.modeButtonContainer}>
                   <View>
                     <CustomButton_W
-                      width={171}
+                      width={171 * width_ratio}
                       content="취소"
                       disabled={false}
                       onPress={() => setModalVisible3(false)}></CustomButton_W>
                   </View>
                   <View>
                     <CustomButton_B
-                      width={171}
+                      width={171 * width_ratio}
                       content="선택 완료"
                       disabled={false}
                       onPress={() => MotionRestTime()}></CustomButton_B>
@@ -1187,7 +1228,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <Text
                   style={{
                     color: isAssist ? '#5252fa' : '#fff',
-                    marginRight: 3,
+                    marginRight: 3 * width_ratio,
                   }}>
                   ON
                 </Text>
@@ -1199,7 +1240,6 @@ export const WorkoutStart = ({navigation, route}) => {
                   value={isAssist}
                   style={{
                     transform: [{scaleX: 1.2}, {scaleY: 1.2}],
-                    marginRight: 16,
                   }}
                 />
               </View>
@@ -1212,7 +1252,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <Text
                   style={{
                     color: isLock ? '#5252fa' : '#fff',
-                    marginRight: 3,
+                    marginRight: 3 * width_ratio,
                   }}>
                   ON
                 </Text>
@@ -1224,7 +1264,6 @@ export const WorkoutStart = ({navigation, route}) => {
                   value={isLock}
                   style={{
                     transform: [{scaleX: 1.2}, {scaleY: 1.2}],
-                    marginRight: 16,
                   }}
                 />
               </View>
@@ -1240,7 +1279,7 @@ export const WorkoutStart = ({navigation, route}) => {
                     name="right"
                     size={20}
                     color="#242424"
-                    style={{marginRight: 16, marginLeft: 4}}></Right>
+                    style={{marginLeft: 4 * width_ratio}}></Right>
                 </TouchableOpacity>
               </View>
             </View>
@@ -1255,7 +1294,7 @@ export const WorkoutStart = ({navigation, route}) => {
                     name="right"
                     size={20}
                     color="#242424"
-                    style={{marginRight: 16, marginLeft: 4}}></Right>
+                    style={{marginLeft: 4 * width_ratio}}></Right>
                 </TouchableOpacity>
               </View>
             </View>
@@ -1274,7 +1313,10 @@ export const WorkoutStart = ({navigation, route}) => {
                 name="chevron-left"
                 size={15}
                 color="#fff"
-                style={{marginRight: 7, marginTop: 3}}></Left>
+                style={{
+                  marginRight: 7 * width_ratio,
+                  marginTop: 3 * height_ratio,
+                }}></Left>
               <Text style={styles.CText3}>
                 휴식중 {formatTime(elapsedTime)}
               </Text>
@@ -1369,7 +1411,7 @@ export const WorkoutStart = ({navigation, route}) => {
           </View>
         </View>
       )}
-      <StatusBar style={{marginTop: 15}} />
+      <StatusBar style={{marginTop: 15 * height_ratio}} />
     </SafeAreaView>
   );
 };
