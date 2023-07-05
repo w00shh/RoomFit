@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Text, View, Image, TouchableOpacity, Linking} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Linking,
+  PixelRatio,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Kakao from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
