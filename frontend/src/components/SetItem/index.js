@@ -1,23 +1,25 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styles from './styles';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Check from 'react-native-vector-icons/Entypo';
-import {useSelector, useDispatch} from 'react-redux';
-import {setTargetMotionId, setTargetSetId} from '../../redux/actions';
 import {AppContext} from '../../contexts/AppProvider';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const SetItem = props => {
   const appcontext = useContext(AppContext);
-  const modes = ['기본', '고무밴드', '모드1', '모드2', '모드3'];
-
   const [weight, setWeight] = useState(props.weight);
   const [reps, setReps] = useState(props.reps);
-
   const [isDoing, setIsDoing] = useState(props.isDoing);
   const [isDone, setIsDone] = useState(props.isDone);
-
-  const dispatch = useDispatch();
 
   const handleModeSelectPress = () => {
     appcontext.actions.setTargetmotionindex(props.target_motion_id);

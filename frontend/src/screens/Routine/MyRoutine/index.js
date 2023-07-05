@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {TouchableOpacity, View, Image} from 'react-native';
+import {TouchableOpacity, View, Image, Dimensions} from 'react-native';
 import styles from './styles';
 import {Text} from 'react-native';
 import {serverAxios} from '../../../utils/commonAxios';
@@ -8,7 +8,10 @@ import Check from 'react-native-vector-icons/AntDesign';
 import Right from 'react-native-vector-icons/AntDesign';
 import Back from 'react-native-vector-icons/Ionicons';
 
-const AddRoutine = ({navigation}) => {
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
+
+const MyRoutine = ({navigation}) => {
   const [routineId, setRoutineId] = useState();
   const [routine, setRoutine] = useState([]);
   const [isEditDisabled, setIsEditDisabled] = useState(false);
@@ -24,7 +27,10 @@ const AddRoutine = ({navigation}) => {
             name="arrow-back"
             color={'#242424'}
             size={25}
-            style={{marginLeft: 10, marginRight: 10}}></Back>
+            style={{
+              marginLeft: 10 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
         </TouchableOpacity>
       ),
     });
@@ -168,13 +174,13 @@ const AddRoutine = ({navigation}) => {
                       : '#dfdfdf'
                     : '#dfdfdf',
 
-                  width: 24,
-                  height: 24,
+                  width: 24 * width_ratio,
+                  height: 24 * height_ratio,
                   borderRadius: 4,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginTop: 16,
-                  marginRight: 8,
+                  marginTop: 16 * height_ratio,
+                  marginRight: 8 * width_ratio,
                 }}>
                 <Check name="check" color="#fff"></Check>
               </View>
@@ -182,11 +188,15 @@ const AddRoutine = ({navigation}) => {
             <View style={styles.routineContainer}>
               <View style={{flexDirection: 'column'}}>
                 <Text style={styles.titleText}>{value.routine_name}</Text>
-                <View style={{flexDirection: 'row', marginLeft: 16}}>
+                <View
+                  style={{flexDirection: 'row', marginLeft: 16 * width_ratio}}>
                   <Text style={styles.targetText}>{value.major_targets}</Text>
 
                   <Image
-                    style={{marginLeft: 4, marginRight: 8}}
+                    style={{
+                      marginLeft: 4 * width_ratio,
+                      marginRight: 8 * width_ratio,
+                    }}
                     source={require('../../../assets/images/divider.png')}></Image>
                   <Text style={styles.targetText}>
                     {value.motion_count}개의 운동
@@ -217,4 +227,4 @@ const AddRoutine = ({navigation}) => {
   );
 };
 
-export default AddRoutine;
+export default MyRoutine;

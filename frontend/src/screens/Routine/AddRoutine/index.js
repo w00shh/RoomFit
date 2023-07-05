@@ -7,6 +7,7 @@ import {
   Modal,
   ScrollView,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -16,6 +17,9 @@ import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
 import Back from 'react-native-vector-icons/Ionicons';
 import {AppContext} from '../../../contexts/AppProvider';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const AddRoutine = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
@@ -70,9 +74,11 @@ const AddRoutine = ({navigation, route}) => {
         <View
           style={{
             flexDirection: 'column',
-            height: 72,
-            padding: 12,
-            margin: 4,
+            height: 72 * height_ratio,
+            paddingVertical: 12 * height_ratio,
+            paddingHorizontal: 12 * width_ratio,
+            marginVertical: 4 * height_ratio,
+            marginHorizontal: 4 * width_ratio,
             alignItems: 'flex-start',
             justifyContent: 'center',
             backgroundColor:
@@ -162,14 +168,17 @@ const AddRoutine = ({navigation, route}) => {
             name="arrow-back"
             color={'#242424'}
             size={25}
-            style={{marginLeft: 10, marginRight: 10}}></Back>
+            style={{
+              marginLeft: 10 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
         </TouchableOpacity>
       ),
       headerTitle: () => (
         <>
           <Text
             style={{
-              marginHorizontal: 6,
+              marginHorizontal: 6 * width_ratio,
               color: 'black',
               fontSize: 16,
               fontWeight: '700',
@@ -322,10 +331,10 @@ const AddRoutine = ({navigation, route}) => {
             <Text style={styles.titleText}>루틴 생성 취소</Text>
             <Text style={{marginTop: 17}}>저장하지 않고 나가게되면</Text>
             <Text>데이터는 저장되지 않습니다.</Text>
-            <View style={{flexDirection: 'row', marginTop: 13}}>
+            <View style={{flexDirection: 'row', marginTop: 13 * height_ratio}}>
               <View style={{marginRight: 5}}>
                 <CustomButton_W
-                  width={126}
+                  width={126 * width_ratio}
                   onPress={() => {
                     setAskSaveModal(false);
                     deleteRoutine();
@@ -335,7 +344,7 @@ const AddRoutine = ({navigation, route}) => {
               </View>
               <View style={{marginLeft: 5}}>
                 <CustomButton_B
-                  width={126}
+                  width={126 * width_ratio}
                   onPress={() => saveRoutine()}
                   content="저장"></CustomButton_B>
               </View>
@@ -412,14 +421,14 @@ const AddRoutine = ({navigation, route}) => {
             <View style={styles.modeButtonContainer}>
               <View>
                 <CustomButton_W
-                  width={171}
+                  width={171 * width_ratio}
                   content="취소"
                   onPress={handleCancelPress}
                   disabled={false}></CustomButton_W>
               </View>
               <View>
                 <CustomButton_B
-                  width={171}
+                  width={171 * width_ratio}
                   content="선택 완료"
                   onPress={handleSelectPress}
                   disabled={false}></CustomButton_B>
@@ -429,7 +438,7 @@ const AddRoutine = ({navigation, route}) => {
         </View>
       </Modal>
       {route.params.isMotionAdded || route.params.isRoutineDetail ? (
-        <ScrollView style={{height: 450}}>
+        <ScrollView style={{height: 450 * height_ratio}}>
           {motionList[0] &&
             motionList.map((value, key) => (
               <WorkoutItem

@@ -1,4 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   pageContainer: {
@@ -6,12 +9,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
   titleContainer: {
-    marginBottom: 32,
+    marginBottom: 32 * height_ratio,
     alignSelf: 'flex-start',
   },
   titleText: {
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
   selectionContainer: {
     flexDirection: 'row',
     alignItems: 'space-between',
-    marginVertical: 8,
+    marginVertical: 8 * height_ratio,
   },
 
   selectionBox: {
@@ -37,12 +40,12 @@ const styles = StyleSheet.create({
   },
 
   divider: {
-    height: 20,
+    height: 20 * height_ratio,
   },
 
   toRegister: {
     flexDirection: 'row',
-    marginVertical: 200,
+    marginVertical: 200 * height_ratio,
   },
   questionText: {
     marginHorizontal: 4,

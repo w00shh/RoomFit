@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, ScrollView, TouchableOpacity, Image, Text} from 'react-native';
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Text,
+  Dimensions,
+} from 'react-native';
 import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,6 +18,9 @@ import Back from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import finalPropsSelectorFactory from 'react-redux/es/connect/selectorFactory';
 import {serverAxios} from '../../utils/commonAxios';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const WorkoutDetail = ({navigation, route}) => {
   useEffect(() => {
@@ -56,13 +66,13 @@ const WorkoutDetail = ({navigation, route}) => {
   return (
     <View style={styles.pageContainer}>
       <Text style={styles.yoyakText}>운동 요약</Text>
-      <View style={{marginTop: 24, marginLeft: 16}}>
+      <View style={{marginTop: 24 * height_ratio}}>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.grayCircle}>
             <Body name="body" color="#3aa84c" size={23}></Body>
           </View>
 
-          <View style={{marginLeft: 8}}>
+          <View style={{marginLeft: 8 * width_ratio}}>
             <Text style={styles.puaseSubtitle}>운동 부위</Text>
             <Text style={styles.pauseMotionTitle}>
               {route.params.targets.join(', ')}
@@ -72,14 +82,14 @@ const WorkoutDetail = ({navigation, route}) => {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: 20,
+            marginTop: 20 * height_ratio,
             justifyContent: 'flex-start',
           }}>
-          <View style={{flexDirection: 'row', width: 145}}>
+          <View style={{flexDirection: 'row', width: 145 * width_ratio}}>
             <View style={styles.grayCircle}>
               <Timer name="timer" color="#41b1ca" size={23}></Timer>
             </View>
-            <View style={{marginLeft: 8}}>
+            <View style={{marginLeft: 8 * width_ratio}}>
               <Text style={styles.puaseSubtitle}>전체 운동시간</Text>
               <Text style={styles.puaseSubcontent}>
                 {route.params.total_time}
@@ -91,7 +101,7 @@ const WorkoutDetail = ({navigation, route}) => {
               <Timer name="timer" color="#9f76e1" size={23}></Timer>
             </View>
 
-            <View style={{marginLeft: 8}}>
+            <View style={{marginLeft: 8 * width_ratio}}>
               <Text style={styles.puaseSubtitle}>유효 수행시간</Text>
               <Text style={styles.puaseSubcontent}>tut</Text>
             </View>
@@ -100,17 +110,17 @@ const WorkoutDetail = ({navigation, route}) => {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: 20,
+            marginTop: 20 * height_ratio,
             justifyContent: 'flex-start',
           }}>
-          <View style={{flexDirection: 'row', width: 145}}>
+          <View style={{flexDirection: 'row', width: 145 * width_ratio}}>
             <View style={styles.grayCircle}>
               <Lightning
                 name="lightning-bolt"
                 color="#fbcb22"
                 size={23}></Lightning>
             </View>
-            <View style={{marginLeft: 8}}>
+            <View style={{marginLeft: 8 * width_ratio}}>
               <Text style={styles.puaseSubtitle}>볼륨</Text>
               <Text style={styles.puaseSubcontent}>
                 {route.params.total_weight}
@@ -122,7 +132,7 @@ const WorkoutDetail = ({navigation, route}) => {
               <Fire name="fire" color="#fc7d36" size={23}></Fire>
             </View>
 
-            <View style={{marginLeft: 8}}>
+            <View style={{marginLeft: 8 * width_ratio}}>
               <Text style={styles.puaseSubtitle}>칼로리</Text>
               <Text style={styles.puaseSubcontent}>10000</Text>
             </View>
@@ -134,7 +144,7 @@ const WorkoutDetail = ({navigation, route}) => {
           <Text>운동 메모</Text>
         </View>
       </View>
-      <View style={{marginTop: 40}}>
+      <View style={{marginTop: 40 * height_ratio, alignSelf: 'stretch'}}>
         <Text style={styles.yoyakText}>운동 요약</Text>
       </View>
     </View>

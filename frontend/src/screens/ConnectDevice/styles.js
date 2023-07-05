@@ -1,11 +1,14 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
     flexDirection: 'column',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
 
@@ -13,12 +16,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginHorizontal: 16,
+    marginHorizontal: 16 * width_ratio,
   },
 
   devider: {
-    marginTop: 12,
-    height: 2,
+    marginTop: 12 * height_ratio,
+    height: 2 * height_ratio,
   },
 
   deviceName: {
@@ -28,8 +31,8 @@ const styles = StyleSheet.create({
   },
 
   connectButton: {
-    width: 63,
-    height: 36,
+    width: 63 * width_ratio,
+    height: 36 * height_ratio,
     borderColor: '#dfdfdf',
     borderWidth: 1,
     borderRadius: 8,
@@ -38,8 +41,8 @@ const styles = StyleSheet.create({
   },
 
   disconnectButton: {
-    width: 95,
-    height: 36,
+    width: 95 * width_ratio,
+    height: 36 * height_ratio,
     borderColor: '#dfdfdf',
     borderWidth: 1,
     borderRadius: 8,
@@ -62,9 +65,9 @@ const styles = StyleSheet.create({
   connectContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 19,
-    marginHorizontal: 16,
-    marginBottom: 47,
+    marginTop: 19 * height_ratio,
+    marginHorizontal: 16 * width_ratio,
+    marginBottom: 47 * height_ratio,
   },
 
   connect: {
@@ -80,8 +83,8 @@ const styles = StyleSheet.create({
   },
 
   reloadIcon: {
-    marginRight: 16,
-    marginTop: 5,
+    marginRight: 16 * width_ratio,
+    marginTop: 5 * height_ratio,
     fontWeight: '900',
   },
 });

@@ -1,11 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styles from './styles';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import Input from '../../components/Input';
 import CustomButton_B from '../../components/CustomButton_B';
-import {useDispatch} from 'react-redux';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const Login = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
@@ -86,19 +88,11 @@ const Login = ({navigation, route}) => {
           secureTextEntry={true}></Input>
       </View>
       <CustomButton_B
-        width={356}
+        width={358 * width_ratio}
         onPress={handleLoginPress}
         disabled={loginDisabled}
         content="로그인하기"></CustomButton_B>
       <View style={styles.selectionContainer}>
-        <View style={styles.selectionBox}>
-          <TouchableOpacity onPress={handleselectionIdFindPress}>
-            <Text style={styles.selectionText}>아이디 찾기</Text>
-          </TouchableOpacity>
-        </View>
-        <Image
-          style={styles.divider}
-          source={require('../../assets/images/divider.png')}></Image>
         <View style={styles.selectionBox}>
           <TouchableOpacity onPress={handleselectionPasswordFindPress}>
             <Text style={styles.selectionText}>비밀번호 찾기</Text>
