@@ -57,7 +57,7 @@ const Intro = ({navigation}) => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Login', {
-              isRegister: false,
+              email: '',
             })
           }
           style={{marginRight: 20 * (width / standard_w)}}>

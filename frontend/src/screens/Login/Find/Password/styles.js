@@ -47,6 +47,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  descriptionContainer: {
+    position: 'absolute',
+    bottom: 58 * height_ratio,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   descriptionText: {
     color: '#808080',
     marginRight: 4 * width_ratio,
