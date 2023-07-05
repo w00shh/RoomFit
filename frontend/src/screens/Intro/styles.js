@@ -1,25 +1,26 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, PixelRatio, Dimensions} from 'react-native';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+const standard_w = 390;
+const standard_h = 797;
 
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * (height / standard_h),
+    paddingHorizontal: 16 * (width / standard_w),
     backgroundColor: 'white',
   },
 
   intro: {
-    marginTop: 20,
-    marginLeft: '12%',
-    marginRight: '12%',
+    marginTop: 48 * (height / standard_h),
   },
 
   mainLogo: {
-    marginTop: 25,
-    marginLeft: '20%',
-    marginRight: '20%',
+    marginTop: 24 * (height / standard_h),
   },
 
   Apple_Button: {
@@ -28,13 +29,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#000000',
 
-    width: 358,
-    height: 56,
+    width: 358 * (width / standard_w),
+    height: 56 * (height / standard_h),
 
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 0,
+    marginTop: 59 * (height / standard_h),
   },
 
   Kakao_Button: {
@@ -43,13 +44,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fee500',
 
-    width: 358,
-    height: 56,
+    width: 358 * (width / standard_w),
+    height: 56 * (height / standard_h),
 
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 45,
+    marginTop: 45 * (height / standard_h),
   },
   Google_Button: {
     alignItems: 'center',
@@ -57,13 +58,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#4285f4',
 
-    width: 358,
-    height: 56,
+    width: 358 * (width / standard_w),
+    height: 56 * (height / standard_h),
 
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 12,
+    marginTop: 12 * (height / standard_h),
   },
 
   Button_Text: {
@@ -79,14 +80,14 @@ const styles = StyleSheet.create({
   },
 
   selectionContainer: {
-    marginTop: 45,
+    marginTop: 25 * (height / standard_h),
     flexDirection: 'row',
 
     flex: 1,
   },
 
   devider: {
-    height: 20,
+    height: 20 * (height / standard_h),
   },
 });
 
