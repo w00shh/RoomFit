@@ -1,4 +1,8 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+import {withSafeAreaInsets} from 'react-native-safe-area-context';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   pageContainer: {
@@ -6,13 +10,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
   makeRoutineContainer: {
-    width: 358,
-    height: 56,
+    width: 358 * width_ratio,
+    height: 56 * height_ratio,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
@@ -20,45 +24,44 @@ const styles = StyleSheet.create({
     borderColor: '#dfdfdf',
     borderRadius: 8,
 
-    marginVertical: 24,
+    marginVertical: 24 * height_ratio,
   },
   makeRoutineText: {
     fontSize: 14,
     color: '#5252fa',
   },
   deleteRoutineContainer: {
-    width: 358,
-    height: 56,
+    width: 358 * width_ratio,
+    height: 56 * height_ratio,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5252fa',
     borderRadius: 8,
-
-    marginVertical: 24,
+    marginVertical: 24 * height_ratio,
   },
   deleteRoutineText: {
     fontSize: 14,
     color: 'white',
   },
   routineContainer: {
-    marginTop: 16,
+    marginTop: 16 * height_ratio,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#f5f5f5',
 
-    width: 318,
-    height: 74,
+    width: 318 * width_ratio,
+    height: 74 * height_ratio,
     borderRadius: 8,
-    marginLeft: 8,
+    marginLeft: 8 * width_ratio,
   },
 
   titleText: {
     color: '#242424',
     fontSize: 16,
     fontWeight: '400',
-    marginLeft: 16,
-    marginBottom: 4,
+    marginLeft: 16 * width_ratio,
+    marginBottom: 4 * height_ratio,
   },
 
   targetText: {
@@ -68,17 +71,17 @@ const styles = StyleSheet.create({
   },
 
   rightIcon: {
-    marginRight: 16,
+    marginRight: 16 * width_ratio,
     backgroundColor: '#f5f5f5',
   },
   checkBox: {
     backgroundColor: '#dfdfdf',
-    width: 24,
-    height: 24,
+    width: 24 * width_ratio,
+    height: 24 * height_ratio,
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 16,
+    marginTop: 16 * height_ratio,
   },
 });
 

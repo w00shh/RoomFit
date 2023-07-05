@@ -1,20 +1,23 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   motionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 358,
-    height: 48,
+    width: 358 * width_ratio,
+    height: 48 * height_ratio,
     padding: 0,
-    marginVertical: 16,
+    marginVertical: 16 * height_ratio,
   },
 
   imageContainer: {
-    width: 48,
-    height: 48,
+    width: 48 * width_ratio,
+    height: 48 * height_ratio,
 
-    marginHorizontal: 10,
+    marginHorizontal: 10 * width_ratio,
   },
 
   nameContainer: {

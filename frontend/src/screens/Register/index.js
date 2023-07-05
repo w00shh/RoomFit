@@ -1,16 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View, ScrollView} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import styles from './styles.js';
 import Input from '../../components/Input/index.js';
 import CustomButton_B from '../../components/CustomButton_B/index.js';
 import {serverAxios} from '../../utils/commonAxios.js';
-import {useSelector, useDispatch} from 'react-redux';
-import {
-  setIsLogin,
-  setUserId,
-  setUserNickname,
-  setUserEmail,
-} from '../../redux/actions';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const Register = ({navigation}) => {
   const [id, setId] = useState('');
@@ -211,7 +213,7 @@ const Register = ({navigation}) => {
           inputMode="text"
           secureTextEntry={true}></Input>
         <CustomButton_B
-          width={356}
+          width={358 * width_ratio}
           onPress={handleRegisterPress}
           disabled={registerDisabled}
           content="회원가입"></CustomButton_B>

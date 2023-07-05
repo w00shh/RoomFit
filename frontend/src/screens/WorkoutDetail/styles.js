@@ -1,17 +1,20 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
     flexDirection: 'column',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * width_ratio,
+    paddingHorizontal: 16 * height_ratio,
     backgroundColor: 'white',
   },
 
   grayCircle: {
-    width: 48,
-    height: 48,
+    width: 48 * width_ratio,
+    height: 48 * width_ratio,
 
     backgroundColor: '#f5f5f5',
     borderRadius: 24,
@@ -21,8 +24,8 @@ const styles = StyleSheet.create({
   },
 
   RgrayCircle: {
-    width: 48,
-    height: 48,
+    width: 48 * width_ratio,
+    height: 48 * width_ratio,
 
     backgroundColor: '#f5f5f5',
     borderRadius: 24,
@@ -30,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    marginLeft: 60,
+    marginLeft: 60 * width_ratio,
   },
 
   pauseMotionTitle: {
@@ -49,7 +52,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: '#808080',
-    marginBottom: 10,
+    marginBottom: 10 * height_ratio,
   },
 
   statusText2: {
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '400',
     color: '#808080',
-    marginBottom: 1,
+    marginBottom: 1 * height_ratio,
   },
 
   puaseSubtitle: {
@@ -81,17 +84,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#242424',
-    marginLeft: 16,
   },
 
   memoContainer: {
     backgroundColor: '#f5f5f5',
-    width: '95%',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    alignSelf: 'stretch',
+    paddingHorizontal: 16 * width_ratio,
+    paddingVertical: 16 * height_ratio,
     borderRadius: 8,
-    marginTop: 24,
-    height: 74,
+    marginTop: 24 * height_ratio,
+    height: 74 * height_ratio,
   },
 });
 

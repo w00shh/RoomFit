@@ -7,6 +7,7 @@ import {
   Modal,
   ScrollView,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -15,6 +16,9 @@ import {serverAxios} from '../../../utils/commonAxios';
 import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
 import {AppContext} from '../../../contexts/AppProvider';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const RoutineDetail = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
@@ -67,9 +71,11 @@ const RoutineDetail = ({navigation, route}) => {
         <View
           style={{
             flexDirection: 'column',
-            height: 72,
-            padding: 12,
-            margin: 4,
+            height: 72 * height_ratio,
+            paddingVertical: 12 * height_ratio,
+            paddingHorizontal: 12 * width_ratio,
+            marginVertical: 4 * height_ratio,
+            marginHorizontal: 4 * width_ratio,
             alignItems: 'flex-start',
             justifyContent: 'center',
             backgroundColor:
@@ -121,7 +127,7 @@ const RoutineDetail = ({navigation, route}) => {
         <>
           <Text
             style={{
-              marginHorizontal: 6,
+              marginHorizontal: 6 * width_ratio,
               color: 'black',
               fontSize: 16,
               fontWeight: '700',
@@ -319,14 +325,14 @@ const RoutineDetail = ({navigation, route}) => {
             <View style={styles.modeButtonContainer}>
               <View>
                 <CustomButton_W
-                  width={171}
+                  width={171 * width_ratio}
                   content="취소"
                   onPress={handleCancelPress}
                   disabled={false}></CustomButton_W>
               </View>
               <View>
                 <CustomButton_B
-                  width={171}
+                  width={171 * width_ratio}
                   content="선택 완료"
                   onPress={handleSelectPress}
                   disabled={false}></CustomButton_B>
@@ -336,7 +342,7 @@ const RoutineDetail = ({navigation, route}) => {
         </View>
       </Modal>
 
-      <ScrollView style={{height: 450}}>
+      <ScrollView style={{height: 450 * height_ratio}}>
         {motionList[0] &&
           motionList.map((value, key) => (
             <WorkoutItem
@@ -355,14 +361,14 @@ const RoutineDetail = ({navigation, route}) => {
       <View style={styles.buttonContainer}>
         <View style={styles.buttonSection}>
           <CustomButton_W
-            width={171}
+            width={171 * width_ratio}
             content="+ 동작 추가"
             onPress={handleAddMotionPress}
             disabled={false}></CustomButton_W>
         </View>
         <View style={styles.buttonSection}>
           <CustomButton_B
-            width={171}
+            width={171 * width_ratio}
             content="루틴 운동 시작"
             onPress={handleStartWorkoutPress}
             disabled={false}></CustomButton_B>

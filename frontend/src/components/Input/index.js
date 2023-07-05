@@ -1,7 +1,15 @@
 import React, {useEffect} from 'react';
-import {Button, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from 'react-native';
 import styles from './styles';
-import CustomButton_B from '../CustomButton_B';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const Input = props => {
   return (
@@ -23,7 +31,7 @@ const Input = props => {
       <View style={styles.inputBox}>
         <TextInput
           style={{
-            width: props.isCertification && 225,
+            width: props.isCertification && 225 * width_ratio,
           }}
           onChangeText={props.onChangeText}
           placeholder={props.placeholder}
@@ -38,7 +46,8 @@ const Input = props => {
           ) : (
             <TouchableOpacity
               style={{
-                padding: 5,
+                paddingHorizontal: 5 * width_ratio,
+                paddingVertical: 5 * height_ratio,
                 borderRadius: 8,
                 borderWidth: props.disabled ? 0 : 0.5,
                 borderColor: '#5252fa',

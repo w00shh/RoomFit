@@ -1,4 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   setContainer: {
@@ -10,9 +13,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 4,
+    marginVertical: 4 * height_ratio,
+    marginHorizontal: 4 * width_ratio,
     paddingVertical: 0,
-    paddingHorizontal: 8,
+    paddingHorizontal: 8 * width_ratio,
   },
 
   titleText: {
@@ -24,30 +28,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 4,
+    marginVertical: 4 * height_ratio,
+    marginHorizontal: 4 * width_ratio,
     paddingVertical: 0,
-    paddingHorizontal: 8,
+    paddingHorizontal: 8 * width_ratio,
   },
 
   keyBox: {
     flex: 1,
-    height: 40,
+    height: 40 * height_ratio,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 4,
+    marginVertical: 4 * height_ratio,
+    marginHorizontal: 4 * width_ratio,
     paddingVertical: 0,
-    paddingHorizontal: 8,
+    paddingHorizontal: 8 * width_ratio,
     backgroundColor: '#f5f5f5',
   },
   itemBox: {
     flex: 2,
-    height: 40,
+    height: 40 * height_ratio,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    margin: 4,
+    marginVertical: 4 * height_ratio,
+    marginHorizontal: 4 * width_ratio,
     paddingVertical: 0,
-    paddingHorizontal: 8,
+    paddingHorizontal: 8 * width_ratio,
     backgroundColor: '#f5f5f5',
   },
 
@@ -59,7 +66,8 @@ const styles = StyleSheet.create({
   unitText: {
     fontSize: 12,
     color: '#acacac',
-    margin: 4,
+    marginVertical: 4 * height_ratio,
+    marginHorizontal: 4 * width_ratio,
   },
   modeText: {
     fontSize: 12,
@@ -67,7 +75,7 @@ const styles = StyleSheet.create({
   },
   modeTitleContainer: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingVertical: 24 * height_ratio,
   },
 
   titleText: {

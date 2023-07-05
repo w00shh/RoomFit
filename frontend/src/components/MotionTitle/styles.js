@@ -1,14 +1,17 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   motionTitle: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: 358,
-    height: 48,
+    width: 358 * width_ratio,
+    height: 48 * height_ratio,
     padding: 0,
-    marginVertical: 16,
+    marginVertical: 16 * height_ratio,
   },
 
   descriptionContainer: {
@@ -17,10 +20,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   imageContainer: {
-    width: 48,
-    height: 48,
+    width: 48 * width_ratio,
+    height: 48 * height_ratio,
 
-    marginHorizontal: 10,
+    marginHorizontal: 10 * width_ratio,
   },
 
   nameContainer: {
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 48,
+    width: 48 * width_ratio,
   },
 });
 
