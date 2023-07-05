@@ -11,12 +11,12 @@ import Reload from 'react-native-vector-icons/AntDesign';
 import OnOff from '../../components/Switch';
 import styles from './styles';
 
+import {startScanning} from '../../redux/BLE/slice';
 import {
-  startScanning,
-  stopScanning,
-  disconnectDevice,
-} from '../../redux/BLE/slice';
-import {connectToDevice} from '../../redux/BLE/listener';
+  connectToDevice,
+  disconnectFromDevice,
+  readDeviceBattery,
+} from '../../redux/BLE/listener';
 import {store, useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {checkBluetoothPermissions} from '../../redux/BLE/permission';
@@ -38,7 +38,6 @@ const ConnectDevice = ({navigation}) => {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              dispatch(stopScanning());
               dispatch(startScanning());
             }}>
             <Reload
@@ -66,10 +65,6 @@ const ConnectDevice = ({navigation}) => {
       if (res) {
         console.log('Start Scanning');
         dispatch(startScanning());
-        setTimeout(() => {
-          stopScanning();
-          console.log('Stopped Scanning');
-        }, 15000);
       }
     });
   }, []);
@@ -93,6 +88,7 @@ const ConnectDevice = ({navigation}) => {
             style={styles.connectButton}
             onPress={() => {
               dispatch(connectToDevice(device));
+              dispatch(readDeviceBattery(connectedDevice));
             }}>
             <Text style={styles.connect}>연결</Text>
           </TouchableOpacity>
@@ -121,7 +117,7 @@ const ConnectDevice = ({navigation}) => {
             <TouchableOpacity
               style={styles.disconnectButton}
               onPress={() => {
-                dispatch(disconnectDevice());
+                dispatch(disconnectFromDevice(connectedDevice));
               }}>
               <Text style={styles.connect}>연결 해제</Text>
             </TouchableOpacity>

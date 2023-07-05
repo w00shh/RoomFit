@@ -1,9 +1,5 @@
-import {
-  BleError,
-  BleManager,
-  Characteristic,
-  Device,
-} from 'react-native-ble-plx';
+import {NativeModules, NativeEventEmitter, Platform} from 'react-native';
+import BleManager, {Peripheral} from 'react-native-ble-manager';
 import {setConnectedDevice} from './slice';
 import {LogBox} from 'react-native';
 LogBox.ignoreLogs(['new NativeEventEmitter']);
@@ -14,40 +10,103 @@ export interface DeviceReference {
 }
 
 class BLEManager {
-  bleManager: BleManager;
-  device: Device | null;
-  isListening = false;
+  bleManagerModule: any;
+  bleManagerEmitter: any;
+  device: Peripheral | null;
+  scanning: boolean;
+
+  stopScanListener: any;
+  peripheralDiscoverListener: any;
+  onDisconnectListener: any;
+  connectTimeout: any;
 
   constructor() {
-    this.bleManager = new BleManager();
+    BleManager.start({showAlert: false});
+
+    this.bleManagerModule = NativeModules.BleManager;
+    this.bleManagerEmitter = new NativeEventEmitter(this.bleManagerModule);
     this.device = null;
+    this.scanning = false;
   }
 
   scanForPeripherals = (
-    onDeviceFound: (deviceSummary: DeviceReference) => void,
+    onPeripheralFound: (peripheral: Peripheral | null) => void,
   ) => {
-    this.bleManager.startDeviceScan(null, null, (_, scannedDevice) => {
-      onDeviceFound({
-        id: scannedDevice?.id,
-        name: scannedDevice?.localName ?? scannedDevice?.name,
+    if (!this.scanning) {
+      BleManager.scan([], 15, true).then(() => {
+        console.log('Scanning...');
+        this.scanning = true;
       });
-    });
+      this.peripheralDiscoverListener = this.bleManagerEmitter.addListener(
+        'BleManagerDiscoverPeripheral',
+        onPeripheralFound,
+      );
+
+      this.stopScanListener = this.bleManagerEmitter.addListener(
+        'BleManagerStopScan',
+        () => {
+          onPeripheralFound(null);
+        },
+      );
+      return;
+    }
   };
 
-  stopScanningForPeripherals = () => {
-    this.bleManager.stopDeviceScan();
+  connectToPeripheral = async (peripheralID: string) => {
+    try {
+      await new Promise(async (resolve, reject) => {
+        this.connectTimeout = setTimeout(reject, 3000);
+
+        console.log('Connecting to', peripheralID);
+
+        try {
+          await BleManager.connect(peripheralID);
+          await BleManager.retrieveServices(peripheralID);
+        } catch (err) {
+          reject();
+        }
+
+        if (this.connectTimeout) {
+          clearTimeout(this.connectTimeout);
+
+          this.connectTimeout = null;
+
+          this.onDisconnectListener = this.bleManagerEmitter.addListener(
+            'BleManagerDisconnectPeripheral',
+            this.onDisconnectPeripheral,
+          );
+
+          // resolve();
+        }
+      });
+    } catch (err) {
+      clearTimeout(this.connectTimeout);
+      this.connectTimeout = null;
+      console.error('Could not connect to device');
+      // throw new Error(err);
+    }
+    return;
   };
 
-  connectToPeripherals = async (identifier: string) => {
-    this.device = await this.bleManager.connectToDevice(identifier);
-    setConnectedDevice(this.device);
-    console.log(this.device.name);
-    await this.device?.discoverAllServicesAndCharacteristics();
+  disconnectFromPeripherals = async (peripheralID: string) => {
+    await BleManager.disconnect(peripheralID);
   };
 
-  disconnectPeripherals = async () => {
-    await this.device?.cancelConnection();
-    setConnectedDevice(null);
+  onDisconnectPeripheral = async (peripheralID: string) => {
+    console.log(peripheralID, 'disconnected');
+    this.onDisconnectListener.remove();
+  };
+
+  readBattery = async (peripheralID: string) => {
+    if (await BleManager.isPeripheralConnected(peripheralID)) {
+      BleManager.read(peripheralID, '180f', '2a19')
+        .then(res => {
+          return res;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   };
 }
 

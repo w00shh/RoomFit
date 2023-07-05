@@ -4,11 +4,13 @@ import {DeviceReference} from './BLEManager';
 interface BLEState {
   allDevices: DeviceReference[];
   connectedDevice: DeviceReference | null;
+  battery: number | null;
 }
 
 const initialState: BLEState = {
   allDevices: [],
   connectedDevice: null,
+  battery: null,
 };
 
 const isDuplicateDevice = (
@@ -19,11 +21,11 @@ const isDuplicateDevice = (
 export type DevicesAction = PayloadAction<DeviceReference>;
 
 export const startScanning = createAction('bleState/startScanning');
-export const stopScanning = createAction('bleState/stopScanning');
-export const startListening = createAction('bleState/startListening');
+// export const stopScanning = createAction('bleState/stopScanning');
+// export const startListening = createAction('bleState/startListening');
 
 // export const connectToDevice = createAction('bleState/connectToDevice');
-export const disconnectDevice = createAction('bleState/disconnectDevice');
+// export const disconnectDevice = createAction('bleState/disconnectDevice');
 
 const bleState = createSlice({
   name: 'bleState',
@@ -39,9 +41,12 @@ const bleState = createSlice({
     ) => {
       state.connectedDevice = action.payload;
     },
+    setBattery: (state, action: PayloadAction<string | null>) => {
+      state.battery = action.payload;
+    },
   },
 });
 
-export const {setDevice, setConnectedDevice} = bleState.actions;
+export const {setDevice, setConnectedDevice, setBattery} = bleState.actions;
 
 export default bleState.reducer;
