@@ -12,12 +12,12 @@ import Reload from 'react-native-vector-icons/AntDesign';
 import OnOff from '../../components/Switch';
 import styles from './styles';
 
-import {startScanning} from '../../redux/BLE/slice';
 import {
-  connectToDevice,
-  disconnectFromDevice,
+  startScanning,
   readDeviceBattery,
-} from '../../redux/BLE/listener';
+  stopScanning,
+} from '../../redux/BLE/slice';
+import {connectToDevice, disconnectFromDevice} from '../../redux/BLE/listener';
 import {store, useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {checkBluetoothPermissions} from '../../redux/BLE/permission';
@@ -83,8 +83,9 @@ const ConnectDevice = ({navigation}) => {
         {
           <TouchableOpacity
             style={styles.connectButton}
-            onPress={() => {
-              dispatch(connectToDevice(device));
+            onPress={async () => {
+              await dispatch(connectToDevice(device));
+              dispatch(readDeviceBattery());
             }}>
             <Text style={styles.connect}>연결</Text>
           </TouchableOpacity>
@@ -108,7 +109,9 @@ const ConnectDevice = ({navigation}) => {
           <View style={styles.connectContainer}>
             <View>
               <Text style={styles.connectText}>{connectedDevice.name}</Text>
-              <Text style={styles.battery}>배터리 {battery}</Text>
+              {typeof battery == 'number' && (
+                <Text style={styles.battery}>배터리 {battery}%</Text>
+              )}
             </View>
             <TouchableOpacity
               style={styles.disconnectButton}
@@ -142,11 +145,6 @@ const ConnectDevice = ({navigation}) => {
             />
           </View>
         ))}
-        <Button
-          title={'Battery'}
-          onPress={() => {
-            dispatch(readDeviceBattery(connectedDevice));
-          }}></Button>
       </ScrollView>
     </SafeAreaView>
   );

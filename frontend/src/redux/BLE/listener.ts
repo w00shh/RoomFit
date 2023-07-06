@@ -4,6 +4,8 @@ import {
   setConnectedDevice,
   setBattery,
   startScanning,
+  readDeviceBattery,
+  stopScanning,
 } from './slice';
 import BLEManager, {DeviceReference} from './BLEManager';
 import {store} from '../store';
@@ -14,8 +16,19 @@ export const connectToDevice = createAsyncThunk(
   'bleThunk/connectToDevice',
   async (ref: DeviceReference, thunkApi) => {
     if (ref.id) {
-      BLEManager.connectToPeripheral(ref.id);
-      thunkApi.dispatch(setConnectedDevice(ref));
+      const isConnected = await BLEManager.connectToPeripheral(ref.id);
+      const onDisconnectListener = BLEManager.bleManagerEmitter.addListener(
+        'BleManagerDisconnectPeripheral',
+        () => {
+          console.log(ref.id, 'disconnected');
+          thunkApi.dispatch(setConnectedDevice(null));
+          onDisconnectListener.remove();
+        },
+      );
+      if (isConnected) {
+        console.log('Connected Successfully');
+        thunkApi.dispatch(setConnectedDevice(ref));
+      } else console.log('Failed to connect');
     }
   },
 );
@@ -26,6 +39,7 @@ export const disconnectFromDevice = createAsyncThunk(
     if (ref.id) {
       BLEManager.disconnectFromPeripherals(ref.id);
       thunkApi.dispatch(setConnectedDevice(null));
+      thunkApi.dispatch(setDevice(ref));
     } else {
       console.log('Device Not Found');
     }
@@ -42,12 +56,24 @@ bleMiddleware.startListening({
   },
 });
 
-export const readDeviceBattery = createAsyncThunk(
-  'bleThunk/readDeviceBattery',
-  async (ref: DeviceReference, thunkApi) => {
-    if (ref.id != null) {
-      const battery = BLEManager.readBattery(ref.id);
-      thunkApi.dispatch(setBattery(battery));
+// bleMiddleware.startListening({
+//   actionCreator: stopScanning,
+//   effect: () => {
+//     BLEManager.stopScan();
+//   },
+// });
+
+bleMiddleware.startListening({
+  actionCreator: readDeviceBattery,
+  effect: async (_, listenerApi) => {
+    if (store.getState().ble.connectedDevice) {
+      await BLEManager.readBattery()
+        .then(res => {
+          listenerApi.dispatch(setBattery(res));
+        })
+        .catch(err => {
+          listenerApi.dispatch(setBattery(null));
+        });
     }
   },
-);
+});

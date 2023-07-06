@@ -3,7 +3,8 @@ import BleManager, {Peripheral} from 'react-native-ble-manager';
 import {setConnectedDevice} from './slice';
 import {LogBox} from 'react-native';
 LogBox.ignoreLogs(['new NativeEventEmitter']);
-const Buffer = require('buffer');
+import {Buffer} from 'buffer';
+import {store} from '../store';
 
 export interface DeviceReference {
   name?: string | null;
@@ -28,34 +29,44 @@ class BLEManager {
     this.bleManagerEmitter = new NativeEventEmitter(this.bleManagerModule);
     this.device = null;
     this.scanning = false;
+
+    this.stopScanListener = null;
+    this.peripheralDiscoverListener = null;
   }
 
   scanForPeripherals = (
     onPeripheralFound: (peripheral: Peripheral | null) => void,
   ) => {
-    if (!this.scanning) {
-      BleManager.scan([], 15, true).then(() => {
-        console.log('Scanning...');
-        this.scanning = true;
-      });
+    BleManager.scan([], 15, false).then(() => {
+      this.scanning = true;
+      console.log('Scanning...');
+    });
+
+    if (this.peripheralDiscoverListener == null)
       this.peripheralDiscoverListener = this.bleManagerEmitter.addListener(
         'BleManagerDiscoverPeripheral',
         onPeripheralFound,
       );
 
+    if (this.stopScanListener == null)
       this.stopScanListener = this.bleManagerEmitter.addListener(
         'BleManagerStopScan',
         () => {
+          console.log('Scanning Stopped');
+          this.scanning = false;
           onPeripheralFound(null);
         },
       );
-      return;
-    }
+    return;
   };
 
   connectToPeripheral = async (peripheralID: string) => {
+    const connectedID = store.getState().ble.connectedDevice?.id;
+    if (connectedID) this.disconnectFromPeripherals(connectedID);
+
+    var res = false;
     try {
-      await new Promise(async (resolve, reject) => {
+      await new Promise<void>(async (resolve, reject) => {
         this.connectTimeout = setTimeout(reject, 3000);
 
         console.log('Connecting to', peripheralID);
@@ -66,53 +77,46 @@ class BLEManager {
             await BleManager.retrieveServices(peripheralID);
           });
         } catch (err) {
+          res = false;
           reject();
         }
 
         if (this.connectTimeout) {
           clearTimeout(this.connectTimeout);
-
           this.connectTimeout = null;
-
-          this.onDisconnectListener = this.bleManagerEmitter.addListener(
-            'BleManagerDisconnectPeripheral',
-            this.onDisconnectPeripheral,
-          );
-
-          // resolve();
+          res = true;
+          resolve();
         }
       });
     } catch (err) {
       clearTimeout(this.connectTimeout);
       this.connectTimeout = null;
       console.error('Could not connect to device');
-      // throw new Error(err);
     }
-    return;
+    return res;
   };
 
   disconnectFromPeripherals = async (peripheralID: string) => {
     await BleManager.disconnect(peripheralID);
   };
 
-  onDisconnectPeripheral = async (peripheralID: string) => {
-    console.log(peripheralID, 'disconnected');
-    this.onDisconnectListener.remove();
-  };
+  // stopScan = async () => {
+  //   await BleManager.stopScan();
+  //   this.peripheralDiscoverListener.remove();
+  //   this.stopScanListener.remove();
+  // };
 
-  readBattery = async (peripheralID: string) => {
-    if (await BleManager.isPeripheralConnected(peripheralID)) {
-      BleManager.read(peripheralID, '180f', '2a19')
-        .then(res => {
-          console.log(res.toString());
-          if (res) {
-            return res.toString();
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          return null;
-        });
+  // onDisconnectPeripheral = async (peripheralID: string) => {
+  //   console.log(peripheralID, 'disconnected');
+  //   this.onDisconnectListener.remove();
+  // };
+
+  readBattery = async () => {
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      const battery = await BleManager.read(id, '180f', '2a19');
+      console.log(battery);
+      return battery[0];
     }
   };
 }
