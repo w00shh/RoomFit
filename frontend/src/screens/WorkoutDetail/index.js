@@ -80,10 +80,21 @@ const WorkoutDetail = ({navigation, route}) => {
         console.log(e);
       });
 
-    if (route.params.isHomeScreen) {
+    if (route.params.startingPoint == 0) {
+      /* StartingPoint가 HomeScreen일 때 */
       navigation.reset({routes: [{name: 'HomeScreen'}]});
+    } else if (route.params.startingPoint == 1) {
+      /* StartingPoint가 WorkoutRecord의 운동기록 탭일 때 */
+      navigation.push('WorkoutRecord', {
+        isCalendar: false,
+        selectedDate: route.params.selectedDate,
+      });
     } else {
-      navigation.reset({routes: [{name: 'WorkoutRecord'}]});
+      /* StartingPoint가 WorkoutRecord의 캘린더 탭일 때 */
+      navigation.push('WorkoutRecord', {
+        isCalendar: true,
+        selectedDate: route.params.selectedDate,
+      });
     }
   };
   return (
@@ -195,7 +206,7 @@ const WorkoutDetail = ({navigation, route}) => {
       </View>
       <View style={{alignItems: 'center'}}>
         <View style={styles.memoContainer}>
-          <Text>운동 메모</Text>
+          <Text>{route.params.memo}</Text>
         </View>
       </View>
       <View style={{marginTop: 40 * height_ratio, alignSelf: 'stretch'}}>

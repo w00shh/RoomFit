@@ -782,8 +782,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     width={264 * width_ratio}
                     disabled={isSaveWorkoutDisabled}
                     onPress={() => {
-                      navigation.reset({routes: [{name: 'HomeScreen'}]});
                       saveWorkoutRecord();
+                      navigation.reset({routes: [{name: 'HomeScreen'}]});
                     }}
                     content="확인"
                     marginVertical={12 * height_ratio}></CustomButton_B>
@@ -951,7 +951,9 @@ export const WorkoutStart = ({navigation, route}) => {
                   style={{flexDirection: 'row', marginTop: 5 * height_ratio}}>
                   <CustomButton_B
                     width={264 * width_ratio}
-                    onPress={() => navigation.navigate('HomeScreen')}
+                    onPress={() => {
+                      navigation.reset({routes: [{name: 'HomeScreen'}]});
+                    }}
                     content="확인"
                     marginVertical={12}></CustomButton_B>
                 </View>
