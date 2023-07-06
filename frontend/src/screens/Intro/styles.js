@@ -1,25 +1,24 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
 
   intro: {
-    marginTop: 20,
-    marginLeft: '12%',
-    marginRight: '12%',
+    marginTop: 48 * height_ratio,
   },
 
   mainLogo: {
-    marginTop: 25,
-    marginLeft: '20%',
-    marginRight: '20%',
+    marginTop: 24 * height_ratio,
   },
 
   Apple_Button: {
@@ -28,13 +27,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#000000',
 
-    width: 358,
-    height: 56,
+    width: 358 * width_ratio,
+    height: 56 * height_ratio,
 
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 0,
+    marginTop: 59 * height_ratio,
   },
 
   Kakao_Button: {
@@ -43,13 +42,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fee500',
 
-    width: 358,
-    height: 56,
+    width: 358 * width_ratio,
+    height: 56 * height_ratio,
 
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 45,
+    marginTop: 45 * height_ratio,
   },
   Google_Button: {
     alignItems: 'center',
@@ -57,13 +56,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#4285f4',
 
-    width: 358,
-    height: 56,
+    width: 358 * width_ratio,
+    height: 56 * height_ratio,
 
     borderRadius: 8,
     padding: 0,
 
-    marginTop: 12,
+    marginTop: 12 * height_ratio,
   },
 
   Button_Text: {
@@ -79,14 +78,14 @@ const styles = StyleSheet.create({
   },
 
   selectionContainer: {
-    marginTop: 45,
+    marginTop: 25 * height_ratio,
     flexDirection: 'row',
 
     flex: 1,
   },
 
   devider: {
-    height: 20,
+    height: 20 * height_ratio,
   },
 });
 

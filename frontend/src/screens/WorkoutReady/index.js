@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from 'react-native';
 import styles from './styles';
 import WorkoutItem from '../../components/WorkoutItem/';
@@ -14,6 +15,9 @@ import CustomButton_B from '../../components/CustomButton_B';
 import Back from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const WorkoutReady = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
@@ -57,7 +61,10 @@ const WorkoutReady = ({navigation, route}) => {
             name="arrow-back"
             color={'#242424'}
             size={25}
-            style={{marginLeft: 10, marginRight: 10}}></Back>
+            style={{
+              marginLeft: 10 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
         </TouchableOpacity>
       ),
     });
@@ -97,9 +104,11 @@ const WorkoutReady = ({navigation, route}) => {
         <View
           style={{
             flexDirection: 'column',
-            height: 72,
-            padding: 12,
-            margin: 4,
+            height: 72 * height_ratio,
+            paddingVertical: 12 * height_ratio,
+            paddingHorizontal: 12 * width_ratio,
+            marginVertical: 4 * height_ratio,
+            marginHorizontal: 4 * width_ratio,
             alignItems: 'flex-start',
             justifyContent: 'center',
             backgroundColor:
@@ -184,14 +193,14 @@ const WorkoutReady = ({navigation, route}) => {
             <View style={styles.modeButtonContainer}>
               <View>
                 <CustomButton_W
-                  width={171}
+                  width={171 * width_ratio}
                   content="취소"
                   onPress={handleCancelPress}
                   disabled={false}></CustomButton_W>
               </View>
               <View>
                 <CustomButton_B
-                  width={171}
+                  width={171 * width_ratio}
                   content="선택 완료"
                   onPress={handleSelectPress}
                   disabled={false}></CustomButton_B>
@@ -201,7 +210,7 @@ const WorkoutReady = ({navigation, route}) => {
         </View>
       </Modal>
 
-      <ScrollView style={{height: 450}}>
+      <ScrollView style={{height: 450 * height_ratio}}>
         {motionList &&
           motionList.map((value, key) => (
             <WorkoutItem
@@ -219,7 +228,7 @@ const WorkoutReady = ({navigation, route}) => {
       <View style={styles.buttonContainer}>
         <View style={styles.buttonSection}>
           <CustomButton_W
-            width={171}
+            width={171 * width_ratio}
             content="+ 동작 추가"
             onPress={() => {
               handleAddMotionPress();
@@ -228,7 +237,7 @@ const WorkoutReady = ({navigation, route}) => {
         </View>
         <View style={styles.buttonSection}>
           <CustomButton_B
-            width={171}
+            width={171 * width_ratio}
             content="운동 시작"
             onPress={handleStartWorkoutPress}
             disabled={false}></CustomButton_B>

@@ -7,10 +7,14 @@ import {
   Image,
   Button,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import Reload from 'react-native-vector-icons/AntDesign';
 import OnOff from '../../components/Switch';
 import styles from './styles';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 import {
   startScanning,
@@ -35,8 +39,8 @@ const ConnectDevice = ({navigation}) => {
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text
             style={{
-              marginRight: 10,
-              marginTop: 5,
+              marginRight: 10 * width_ratio,
+              marginTop: 5 * height_ratio,
               fontWeight: '700',
               fontSize: 15,
             }}>
@@ -73,11 +77,11 @@ const ConnectDevice = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginHorizontal: 16,
-          marginTop: 30,
-          width: 350,
-          height: 30,
-          marginBottom: 10,
+          marginHorizontal: 16 * width_ratio,
+          marginTop: 30 * height_ratio,
+          width: 350 * width_ratio,
+          height: 30 * height_ratio,
+          marginBottom: 10 * height_ratio,
         }}>
         <Text style={styles.deviceName}>{device.name}</Text>
         {

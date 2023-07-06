@@ -1,14 +1,17 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
   Image,
+  Dimensions,
 } from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {serverAxios} from '../../utils/commonAxios';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const MotionItem = props => {
   return (
@@ -88,14 +91,12 @@ const MotionItem = props => {
         </TouchableWithoutFeedback>
       )}
 
-      {/* <Icon name="staro" size={20}></Icon> */}
-
       <View style={styles.imageContainer}>
         <Image
           source={{
             uri: props.motion.imageUrl,
           }}
-          style={{width: 48, height: 48}}></Image>
+          style={{width: 48 * width_ratio, height: 48 * height_ratio}}></Image>
       </View>
       <View style={styles.nameContainer}>
         <Text

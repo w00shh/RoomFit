@@ -1,6 +1,9 @@
 import React from 'react';
-import {TouchableOpacity, Button, Text, StyleSheet} from 'react-native';
-import styles, {CText, CButton} from './styles';
+import {TouchableOpacity, Text, Dimensions} from 'react-native';
+import styles from './styles';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const CustomButton_W = props => {
   return (
@@ -10,13 +13,13 @@ const CustomButton_W = props => {
         justifyContent: 'center',
         backgroundColor: 'white',
         width: props.width,
-        height: 56,
+        height: 56 * height_ratio,
         padding: 0,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#dfdfdf',
         borderStyle: 'solid',
-        marginVertical: 24,
+        marginVertical: 24 * height_ratio,
       }}
       onPress={props.onPress}
       disabled={props.disabled}>

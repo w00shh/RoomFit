@@ -17,6 +17,7 @@ import WorkoutStart from './src/screens/WorkoutStart/index.js';
 import RoutineDetail from './src/screens/Routine/RoutineDetail/index.js';
 import WorkoutRecord from './src/screens/WorkoutRecord/index.js';
 import WorkoutDetail from './src/screens/WorkoutDetail/index.js';
+import MainSetting from './src/screens/Settings/MainSetting/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
@@ -24,18 +25,6 @@ import AppProvider from './src/contexts/AppProvider.js';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const config = {
-  animation: 'spring',
-  config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
 
 export const AppContext = React.createContext({
   state: {
@@ -55,36 +44,36 @@ export const AppContext = React.createContext({
 });
 
 const App = () => {
-  // React.useEffect(() => {
-  //   const handleDeepLink = async () => {
-  //     // 앱이 최초로 실행되었을 때 딥 링크 처리
-  //     const initialUrl = await Linking.getInitialURL();
-  //     if (initialUrl) {
-  //       handleUrl(initialUrl);
-  //     }
+  React.useEffect(() => {
+    const handleDeepLink = async () => {
+      // 앱이 최초로 실행되었을 때 딥 링크 처리
+      const initialUrl = await Linking.getInitialURL();
+      if (initialUrl) {
+        handleUrl(initialUrl);
+      }
 
-  //     // 딥 링크 이벤트 리스너 등록
-  //     Linking.addEventListener('url', handleUrl);
-  //   };
+      // 딥 링크 이벤트 리스너 등록
+      Linking.addEventListener('url', handleUrl);
+    };
 
-  //   const handleUrl = url => {
-  //     const sep_url = url.url.split('auth?')[1];
-  //     const params = {};
-  //     sep_url.split('/').forEach(pair => {
-  //       const [key, value] = pair.split('=');
-  //       params[key] = value;
-  //     });
-  //     const json = JSON.stringify(params);
-  //     console.log(params);
-  //   };
+    const handleUrl = url => {
+      const sep_url = url.url.split('auth?')[1];
+      const params = {};
+      sep_url.split('/').forEach(pair => {
+        const [key, value] = pair.split('=');
+        params[key] = value;
+      });
+      const json = JSON.stringify(params);
+      console.log(params);
+    };
 
-  //   handleDeepLink();
+    handleDeepLink();
 
-  //   // 딥 링크 이벤트 리스너 해제
-  //   return () => {
-  //     Linking.removeEventListener('url', handleUrl);
-  //   };
-  // }, []);
+    // 딥 링크 이벤트 리스너 해제
+    return () => {
+      Linking.removeEventListener('url', handleUrl);
+    };
+  }, []);
 
   return (
     <Provider store={store}>
@@ -244,7 +233,7 @@ const App = () => {
               component={WorkoutRecord}
               options={{
                 title: '운동기록',
-                animation: 'slide_from_right',
+                animation: 'none',
                 headerTitleStyle: {
                   fontWeight: '700',
                   fontSize: 28,
@@ -258,6 +247,13 @@ const App = () => {
               component={WorkoutDetail}
               options={{
                 headerShadowVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="MainSetting"
+              component={MainSetting}
+              options={{
+                animation: 'none',
+                headerShown: false,
               }}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

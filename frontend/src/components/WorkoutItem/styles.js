@@ -1,4 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   workoutItemContainer: {
@@ -14,11 +17,11 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 8,
+    paddingVertical: 12 * height_ratio,
+    paddingHorizontal: 8 * width_ratio,
   },
   icon: {
-    marginRight: 4,
+    marginRight: 4 * width_ratio,
   },
 });
 

@@ -1,7 +1,10 @@
 import React from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const WorkoutTitle = props => {
   return (
@@ -12,7 +15,10 @@ const WorkoutTitle = props => {
             source={{
               uri: props.motion.imageUrl,
             }}
-            style={{width: 48, height: 48}}></Image>
+            style={{
+              width: 48 * width_ratio,
+              height: 48 * height_ratio,
+            }}></Image>
         </View>
         <View style={styles.nameContainer}>
           <Text style={styles.koreanText}>{props.motion.motionName}</Text>

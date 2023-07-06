@@ -1,12 +1,17 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
+const standard_w = 390;
+const standard_h = 797;
 
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
 
@@ -16,28 +21,28 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#f5f5f5',
 
-    width: 358,
-    height: 168,
+    width: 358 * width_ratio,
+    height: 168 * height_ratio,
     borderRadius: 24,
-    paddingVertical: 40,
+    paddingVertical: 40 * height_ratio,
   },
 
   noConnectionText: {
     fontSize: 16,
     fontWeight: '500',
     color: '#242424',
-    marginTop: 24,
+    marginTop: 24 * height_ratio,
   },
 
   noConnectionText2: {
     fontSize: 14,
     fontWeight: '400',
     color: '#808080',
-    marginTop: 3,
+    marginTop: 3 * height_ratio,
   },
 
   connectButton: {
-    marginBottom: 16,
+    marginBottom: 16 * height_ratio,
   },
 
   subtitleText: {
@@ -47,8 +52,7 @@ const styles = StyleSheet.create({
 
     color: '#242424',
 
-    marginTop: 20,
-    marginLeft: 16,
+    marginTop: 20 * height_ratio,
   },
 
   routineContainer: {
@@ -56,12 +60,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
 
-    width: 358,
-    height: 168,
+    width: 358 * width_ratio,
+    height: 168 * height_ratio,
     borderRadius: 24,
-    paddingVertical: 40,
+    paddingVertical: 40 * height_ratio,
 
-    marginTop: 20,
+    marginTop: 20 * height_ratio,
   },
 
   noRoutineText: {
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     color: '#808080',
-    marginTop: 3,
+    marginTop: 3 * height_ratio,
   },
 
   makeRoutineButton: {
@@ -83,8 +87,8 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#fff',
 
-    width: 97,
-    height: 39,
+    width: 97 * width_ratio,
+    height: 39 * height_ratio,
 
     borderRadius: 8,
     padding: 0,
@@ -92,12 +96,11 @@ const styles = StyleSheet.create({
     borderColor: '#dfdfdf',
     borderStyle: 'solid',
 
-    marginVertical: 24,
+    marginVertical: 24 * height_ratio,
   },
 
   allRoutine: {
-    marginTop: 32,
-    marginRight: 16,
+    marginTop: 32 * height_ratio,
   },
   navigator: {
     position: 'absolute',
@@ -106,9 +109,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: 100,
-    width: 358,
-    height: 64,
-    bottom: 20,
+    width: 358 * width_ratio,
+    height: 64 * height_ratio,
+    bottom: 29 * height_ratio,
   },
 });
 

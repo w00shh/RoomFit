@@ -1,14 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
+import moment from 'moment';
 import Setting from 'react-native-vector-icons/Ionicons';
 import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import RecentExercise from '../../components/RecentExercise';
+import {AppContext} from '../../contexts/AppProvider';
 
 const WorkoutRecord = ({navigation}) => {
+  const appcontext = useContext(AppContext);
   const [isExercise, setIsExercise] = useState(false);
   const [isRecord, setIsRecord] = useState(true);
   const [isSetting, setIsSetting] = useState(false);
@@ -16,9 +19,25 @@ const WorkoutRecord = ({navigation}) => {
   const [isCalender, setIsCalender] = useState(false);
   const [recentRoutine, setRecentRoutine] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(
+    moment().format('YYYY-MM'),
+  );
+  const [workedDay, setworkedDay] = useState([]);
+  const [markedDates, setMarkedDates] = useState({});
+  const [selectedWorkout, setSelectedWorkout] = useState([]);
+  const markDates = () => {
+    const updateMarkedDates = {};
+
+    workedDay.forEach(date => {
+      updateMarkedDates[date.start_time] = {marked: true, dotColor: '#5252fa'};
+    });
+
+    setMarkedDates(updateMarkedDates);
+  };
 
   useEffect(() => {
     getBreifWorkout();
+    getMonthWorkoutDay();
   }, []);
 
   const getBreifWorkout = async () => {
@@ -76,6 +95,76 @@ const WorkoutRecord = ({navigation}) => {
   const handleDayPress = day => {
     setSelectedDate(day.dateString);
   };
+
+  const handleMonthChange = (year, month) => {
+    const formattedMonth = String(month).padStart(2, '0');
+    const yearMonth = `${year}-${formattedMonth}`;
+    setSelectedMonth(yearMonth);
+  };
+
+  useEffect(() => {
+    getMonthWorkoutDay();
+  }, [selectedMonth]);
+
+  useEffect(() => {
+    getDaybreifWorkout();
+  }, [selectedDate]);
+
+  useEffect(() => {}, [selectedWorkout]);
+
+  getDaybreifWorkout = async () => {
+    const body = {
+      user_id: 'user1',
+      date: selectedDate,
+    };
+    await serverAxios.post('workout/calender/date', body).then(res => {
+      res.data.map((value, key) => {
+        setSelectedWorkout({
+          workout_id: value.workout_id,
+          title: value.title,
+          date: value.start_time.split(' ')[0],
+          start_time:
+            value.start_time.split(' ')[1].split(':')[0] +
+            ':' +
+            value.start_time.split(' ')[1].split(':')[1],
+          end_time:
+            value.end_time.split(' ')[1].split(':')[0] +
+            ':' +
+            value.end_time.split(' ')[1].split(':')[1],
+          total_time: value.total_time,
+          total_weight: value.total_weight,
+          targets: value.targets,
+        });
+      });
+    });
+  };
+
+  getMonthWorkoutDay = async () => {
+    const body = {
+      user_id: 'user1', //Appcontext.state.userid
+      month: selectedMonth,
+    };
+    await serverAxios
+      .post('/workout/calender/month', body)
+      .then(res => {
+        setworkedDay([]);
+        res.data.map((value, key) => {
+          setworkedDay(currentWorkedDay => [
+            ...currentWorkedDay,
+            {
+              start_time: value.start_time.split(' ')[0],
+            },
+          ]);
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    markDates();
+  }, [workedDay]);
 
   return (
     <View style={styles.pageContainer}>
@@ -221,48 +310,79 @@ const WorkoutRecord = ({navigation}) => {
         </ScrollView>
       )}
       {isCalender && (
-        <View style={{width: '100%'}}>
-          <Calendar
-            style={styles.Calendar}
-            monthFormat={'yyyy.M'}
-            theme={{
-              todayTextColor: '#5252fa',
-              selectedDayBackgroundColor: '#5252fa',
-              arrowColor: '#5252fa',
-            }}
-            onDayPress={day => {
-              setSelectedDate(day.dateString);
-            }}
-            markedDates={{
-              [selectedDate]: {
-                selected: true,
-                selectedColor: '#5252fa',
-                selectedTextColor: 'white',
-              },
-            }}></Calendar>
-        </View>
+        <ScrollView>
+          <View>
+            <Calendar
+              style={styles.Calendar}
+              monthFormat={'yyyy.M'}
+              onMonthChange={month =>
+                handleMonthChange(month.year, month.month)
+              }
+              theme={{
+                todayTextColor: '#5252fa',
+                selectedDayBackgroundColor: '#5252fa',
+                arrowColor: '#5252fa',
+              }}
+              onDayPress={day => {
+                setSelectedDate(day.dateString);
+              }}
+              markedDates={{
+                ...markedDates,
+                [selectedDate]: {
+                  selected: true,
+                  selectedColor: '#5252fa',
+                  selectedTextColor: 'white',
+                },
+              }}></Calendar>
+          </View>
+          {selectedWorkout.workout_id &&
+            selectedDate === selectedWorkout.date && (
+              <ScrollView>
+                <View>
+                  <Text
+                    style={{
+                      marginTop: 10,
+                      fontSize: 16,
+                      fontWeight: '700',
+                      color: '#242424',
+                    }}>
+                    {selectedWorkout.date}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('WorkoutDetail', {
+                        workout_id: selectedWorkout.workout_id,
+                        title: selectedWorkout.title,
+                        start_time: selectedWorkout.start_time,
+                        end_time: selectedWorkout.end_time,
+                        targets: selectedWorkout.targets,
+                        total_time: selectedWorkout.total_time,
+                        total_weight: selectedWorkout.total_weight,
+                        isHomeScreen: false,
+                      })
+                    }>
+                    <RecentExercise data={selectedWorkout}></RecentExercise>
+                  </TouchableOpacity>
+                </View>
+                <View style={{height: 90}}></View>
+              </ScrollView>
+            )}
+        </ScrollView>
       )}
 
       <View style={styles.navigator}>
         <TouchableOpacity
           style={{marginLeft: 45}}
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
-          <Dumbbell
-            name="dumbbell"
-            size={20}
-            color={isExercise ? '#fff' : '#dfdfdf'}></Dumbbell>
+          <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.push('WorkoutRecord')}>
-          <Board
-            name="clipboard-check"
-            size={20}
-            color={isRecord ? '#fff' : '#dfdfdf'}></Board>
+          <Board name="clipboard-check" size={20} color={'#fff'}></Board>
         </TouchableOpacity>
-        <TouchableOpacity style={{marginRight: 45}}>
-          <Setting
-            name="settings"
-            size={20}
-            color={isSetting ? '#fff' : '#dfdfdf'}></Setting>
+        <TouchableOpacity
+          style={{marginRight: 45}}
+          onPress={() => navigation.navigate('MainSetting')}>
+          <Setting name="settings" size={20} color={'#dfdfdf'}></Setting>
         </TouchableOpacity>
       </View>
     </View>

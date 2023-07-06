@@ -14,6 +14,9 @@ import CustomButton_B from '../../components/CustomButton_B';
 import XX from 'react-native-vector-icons/Feather';
 import {serverAxios} from '../../utils/commonAxios';
 
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
+
 const AddMotion = ({navigation, route}) => {
   const [motionList, setMotionList] = useState([]);
   const [motionListMap, setMotionListMap] = useState(new Map());
@@ -22,7 +25,7 @@ const AddMotion = ({navigation, route}) => {
   const [displaySelected, setDisplaySelected] = useState(new Map());
   const [selectedLength, setSelectedLength] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
-  const {width} = Dimensions.get('window');
+
   let length = 0;
 
   const getTextWidth = text => {
@@ -30,8 +33,6 @@ const AddMotion = ({navigation, route}) => {
     for (let i = 0; i < text.length; i++) {
       if (text[i] === ' ') charCount--;
     }
-    const defaultFontSize = 13; // 기본 폰트 크기를 설정합니다.
-    const averageCharWidth = 1; // 평균 글자 너비를 설정합니다.
 
     let textWidth = charCount * 17;
     if (textWidth > 70 && textWidth <= 110) textWidth += 20;
@@ -185,9 +186,9 @@ const AddMotion = ({navigation, route}) => {
           flexDirection: 'row',
           flexWrap: 'wrap',
           alignSelf: 'flex-start',
-          marginTop: 16,
-          marginLeft: 4,
-          marginBottom: 5,
+          marginTop: 16 * height_ratio,
+          marginLeft: 4 * width_ratio,
+          marginBottom: 5 * height_ratio,
         }}>
         {displaySelected &&
           Array.from(displaySelected.values()).map((value, key) => (
@@ -195,17 +196,18 @@ const AddMotion = ({navigation, route}) => {
               key={key}
               style={{
                 width:
-                  getTextWidth(value.motionName) > 84
-                    ? getTextWidth(value.motionName)
-                    : 84,
-                height: 32,
+                  getTextWidth(value.motionName) * width_ratio >
+                  84 * width_ratio
+                    ? getTextWidth(value.motionName) * width_ratio
+                    : 84 * width_ratio,
+                height: 32 * height_ratio,
                 backgroundColor: '#242424',
                 borderRadius: 8,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-evenly',
-                marginLeft: 8,
-                marginTop: 7,
+                marginLeft: 8 * width_ratio,
+                marginTop: 7 * height_ratio,
               }}>
               <Text style={styles.selectMotionText}>{value.motionName}</Text>
               <TouchableOpacity onPress={() => deleteSelected(value.motion_id)}>

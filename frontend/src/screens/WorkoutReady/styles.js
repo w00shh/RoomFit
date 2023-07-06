@@ -1,4 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
 
   modeTitleContainer: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingVertical: 24 * height_ratio,
   },
 
   titleText: {
@@ -33,9 +36,11 @@ const styles = StyleSheet.create({
 
   modeItemContainer: {
     flexDirection: 'column',
-    height: 72,
-    padding: 12,
-    margin: 4,
+    height: 72 * height_ratio,
+    paddingVertical: 12 * height_ratio,
+    paddingHorizontal: 12 * width_ratio,
+    marginVertical: 4 * height_ratio,
+    marginHorizontal: 4 * width_ratio,
     alignItems: 'flex-start',
     justifyContent: 'center',
     backgroundColor: '#f5f5f5',
@@ -67,8 +72,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
   buttonContainer: {
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   startButton: {
-    width: 171,
+    width: 171 * width_ratio,
     backgroundColor: 'white',
   },
   startText: {
