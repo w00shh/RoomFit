@@ -11,6 +11,50 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16 * height_ratio,
     backgroundColor: 'white',
   },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+  },
+  workoutDeleteContainer: {
+    width: 292 * width_ratio,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    backgroundColor: '#fff',
+  },
+
+  modalTopContainer: {
+    height: 32 * height_ratio,
+  },
+
+  textContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16 * height_ratio,
+  },
+
+  titleText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+  },
+
+  descriptionContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 2 * height_ratio,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'space-evenly',
+    paddingVertical: 16 * height_ratio,
+  },
 
   grayCircle: {
     width: 48 * width_ratio,
