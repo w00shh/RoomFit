@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -18,11 +18,25 @@ import Back from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import finalPropsSelectorFactory from 'react-redux/es/connect/selectorFactory';
 import {serverAxios} from '../../utils/commonAxios';
+import RecordItem from '../../components/RecordItem';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
 
 const WorkoutDetail = ({navigation, route}) => {
+  const [workoutList, setWorkoutList] = useState();
+  const getWorkoutDetail = async () => {
+    const targetUrl = '/workout/detail/' + route.params.workout_id;
+    await serverAxios
+      .get(targetUrl)
+      .then(res => {
+        setWorkoutList(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -46,6 +60,7 @@ const WorkoutDetail = ({navigation, route}) => {
         </TouchableOpacity>
       ),
     });
+    getWorkoutDetail();
   }, []);
 
   const deleteRecord = async () => {
@@ -145,7 +160,11 @@ const WorkoutDetail = ({navigation, route}) => {
         </View>
       </View>
       <View style={{marginTop: 40 * height_ratio, alignSelf: 'stretch'}}>
-        <Text style={styles.yoyakText}>운동 요약</Text>
+        <Text style={styles.yoyakText}>운동 상세</Text>
+        {workoutList &&
+          workoutList.map((value, key) => (
+            <RecordItem index={key} record={value}></RecordItem>
+          ))}
       </View>
     </View>
   );
