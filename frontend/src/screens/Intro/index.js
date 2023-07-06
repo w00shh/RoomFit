@@ -12,9 +12,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Kakao from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import {AppContext} from '../../contexts/AppProvider';
+import {WithLocalSvg} from 'react-native-svg';
+import Imgintro from '../../assets/images/img_intro.svg';
 
-const width = Dimensions.get('screen').width;
-const height = Dimensions.get('screen').height;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 const standard_w = 390;
 const standard_h = 797;
 
@@ -57,9 +59,18 @@ const Intro = ({navigation}) => {
   }, []);
   return (
     <View style={styles.pageContainer}>
-      <Image
-        style={styles.intro}
-        source={require('../../assets/images/img_intro.png')}></Image>
+      {/* <WithLocalSvg
+        width={320 * width_ratio}
+        height={352 * height_ratio}
+        asset={Imgintro}></WithLocalSvg> */}
+      <View
+        style={{
+          marginTop: 32 * height_ratio,
+          width: 320 * width_ratio,
+          height: 352 * height_ratio,
+        }}>
+        <Image source={require('../../assets/images/img_intro.png')}></Image>
+      </View>
       <Image
         style={styles.mainLogo}
         source={require('../../assets/images/img_logo_roomfit.png')}></Image>
@@ -69,7 +80,7 @@ const Intro = ({navigation}) => {
         <Icon name="apple" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           Linking.openURL(
             `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/kakao-auth`,
@@ -78,7 +89,7 @@ const Intro = ({navigation}) => {
         style={styles.Kakao_Button}>
         <Kakao name="chatbubble" size={20} color="black"></Kakao>
         <Text style={styles.Button_Text2}> Kakao로 시작하기</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         style={styles.Google_Button}
         onPress={() =>
@@ -97,7 +108,7 @@ const Intro = ({navigation}) => {
               isRegister: false,
             })
           }
-          style={{marginRight: 20 * (width / standard_w)}}>
+          style={{marginRight: 20 * width_ratio}}>
           <Text>이메일로 로그인</Text>
         </TouchableOpacity>
         <Image
@@ -105,7 +116,7 @@ const Intro = ({navigation}) => {
           source={require('../../assets/images/divider.png')}></Image>
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}
-          style={{marginLeft: 20 * (width / standard_w)}}>
+          style={{marginLeft: 20 * width_ratio}}>
           <Text>이메일로 회원가입</Text>
         </TouchableOpacity>
       </View>
