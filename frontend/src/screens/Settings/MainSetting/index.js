@@ -18,11 +18,13 @@ import Right from 'react-native-vector-icons/AntDesign';
 import Setting from 'react-native-vector-icons/Ionicons';
 import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
+import {AppContext} from '../../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
 
 const MainSetting = ({navigation}) => {
+  const appcontext = useContext(AppContext);
   const [isAssist, setIsAssist] = useState(true);
   const [isLock, setIsLock] = useState(false);
   const toggleSwitch = () => setIsAssist(previousState => !previousState);
@@ -38,7 +40,8 @@ const MainSetting = ({navigation}) => {
               asset={Profile}
             />
             <TouchableOpacity
-              style={{flexDirection: 'row', alignItems: 'center'}}>
+              style={{flexDirection: 'row', alignItems: 'center'}}
+              onPress={() => navigation.navigate('ProfileSetting')}>
               <Text
                 style={{
                   fontSize: 20,
@@ -46,7 +49,7 @@ const MainSetting = ({navigation}) => {
                   color: '#242424',
                   marginLeft: 16 * width_ratio,
                 }}>
-                김운동
+                {appcontext.state.usernickname}
               </Text>
               <Right
                 name="right"
