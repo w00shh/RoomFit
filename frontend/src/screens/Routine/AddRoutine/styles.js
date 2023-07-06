@@ -141,19 +141,20 @@ const styles = StyleSheet.create({
 
   inputContainer: {
     width: 264 * width_ratio,
+    height: 56 * height_ratio,
     paddingHorizontal: 16 * width_ratio,
     borderRadius: 8,
     backgroundColor: '#f5f5f5',
   },
   routineNameInput: {
     fontSize: 16,
+    height: 56 * height_ratio,
   },
   confirmButton: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5252fa',
     width: 264 * width_ratio,
-    height: 56 * height_ratio,
     borderRadius: 8,
     padding: 0,
   },
