@@ -43,6 +43,7 @@ const Intro = ({navigation}) => {
       if (params.user_id) {
         appcontext.actions.setIsLogin(true);
         appcontext.actions.setUserid(params.user_id);
+        appcontext.actions.setUsernickname(params.user_id);
         navigation.reset({routes: [{name: 'HomeScreen'}]});
       }
     };

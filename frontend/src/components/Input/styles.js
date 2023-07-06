@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'column',
     width: 358 * width_ratio,
+
     paddingTop: 8 * height_ratio,
     marginVertical: 8 * height_ratio,
     paddingHorizontal: 16 * width_ratio,
@@ -20,6 +21,7 @@ const styles = StyleSheet.create({
   },
 
   inputBox: {
+    height: 56 * height_ratio,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

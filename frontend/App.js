@@ -18,6 +18,8 @@ import RoutineDetail from './src/screens/Routine/RoutineDetail/index.js';
 import WorkoutRecord from './src/screens/WorkoutRecord/index.js';
 import WorkoutDetail from './src/screens/WorkoutDetail/index.js';
 import MainSetting from './src/screens/Settings/MainSetting/index.js';
+import ProfileSetting from './src/screens/Settings/ProfileSetting/index.js';
+import PasswordSetting from './src/screens/Settings/PasswordSetting/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
@@ -254,6 +256,20 @@ const App = () => {
               options={{
                 animation: 'none',
                 headerShown: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="ProfileSetting"
+              component={ProfileSetting}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="PasswordSetting"
+              component={PasswordSetting}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
               }}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

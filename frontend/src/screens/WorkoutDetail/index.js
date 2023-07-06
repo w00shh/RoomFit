@@ -6,6 +6,7 @@ import {
   Image,
   Text,
   Dimensions,
+  Modal,
 } from 'react-native';
 import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -19,11 +20,15 @@ import styles from './styles';
 import finalPropsSelectorFactory from 'react-redux/es/connect/selectorFactory';
 import {serverAxios} from '../../utils/commonAxios';
 import RecordItem from '../../components/RecordItem';
+import CustomButton_B from '../../components/CustomButton_B';
+import CustomButton_W from '../../components/CustomButton_W';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
 
 const WorkoutDetail = ({navigation, route}) => {
+  const [isWorkoutDeleteModalVisible, setIsWorkoutDeleteModalVisible] =
+    useState(false);
   const [workoutList, setWorkoutList] = useState();
   const getWorkoutDetail = async () => {
     const targetUrl = '/workout/detail/' + route.params.workout_id;
@@ -55,7 +60,10 @@ const WorkoutDetail = ({navigation, route}) => {
         </View>
       ),
       headerRight: () => (
-        <TouchableOpacity onPress={() => deleteRecord()}>
+        <TouchableOpacity
+          onPress={() => {
+            setIsWorkoutDeleteModalVisible(true);
+          }}>
           <Text style={{color: '#242424'}}>기록삭제</Text>
         </TouchableOpacity>
       ),
@@ -72,14 +80,56 @@ const WorkoutDetail = ({navigation, route}) => {
         console.log(e);
       });
 
-    if (route.params.isHomeScreen) {
+    if (route.params.startingPoint == 0) {
+      /* StartingPoint가 HomeScreen일 때 */
       navigation.reset({routes: [{name: 'HomeScreen'}]});
+    } else if (route.params.startingPoint == 1) {
+      /* StartingPoint가 WorkoutRecord의 운동기록 탭일 때 */
+      navigation.push('WorkoutRecord', {
+        isCalendar: false,
+        selectedDate: route.params.selectedDate,
+      });
     } else {
-      navigation.reset({routes: [{name: 'WorkoutRecord'}]});
+      /* StartingPoint가 WorkoutRecord의 캘린더 탭일 때 */
+      navigation.push('WorkoutRecord', {
+        isCalendar: true,
+        selectedDate: route.params.selectedDate,
+      });
     }
   };
   return (
     <View style={styles.pageContainer}>
+      <Modal
+        visible={isWorkoutDeleteModalVisible}
+        transparent={true}
+        animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.workoutDeleteContainer}>
+            <View style={styles.modalTopContainer}></View>
+            <View style={styles.textContainer}>
+              <Text style={styles.titleText}>운동 기록 삭제</Text>
+              <View style={styles.descriptionContainer}>
+                <Text>운동 기록을 삭제하시겠습니까?</Text>
+                <Text>삭제 후에는 복구할 수 없습니다.</Text>
+              </View>
+            </View>
+            <View style={styles.buttonContainer}>
+              <CustomButton_W
+                width={126 * width_ratio}
+                onPress={() => {
+                  setIsWorkoutDeleteModalVisible(false);
+                }}
+                content="취소"></CustomButton_W>
+              <CustomButton_B
+                width={126 * width_ratio}
+                onPress={() => {
+                  deleteRecord();
+                }}
+                content="삭제"></CustomButton_B>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Text style={styles.yoyakText}>운동 요약</Text>
       <View style={{marginTop: 24 * height_ratio}}>
         <View style={{flexDirection: 'row'}}>
@@ -156,15 +206,17 @@ const WorkoutDetail = ({navigation, route}) => {
       </View>
       <View style={{alignItems: 'center'}}>
         <View style={styles.memoContainer}>
-          <Text>운동 메모</Text>
+          <Text>{route.params.memo}</Text>
         </View>
       </View>
       <View style={{marginTop: 40 * height_ratio, alignSelf: 'stretch'}}>
         <Text style={styles.yoyakText}>운동 상세</Text>
-        {workoutList &&
-          workoutList.map((value, key) => (
-            <RecordItem key={key} record={value}></RecordItem>
-          ))}
+        <ScrollView>
+          {workoutList &&
+            workoutList.map((value, key) => (
+              <RecordItem key={key} record={value}></RecordItem>
+            ))}
+        </ScrollView>
       </View>
     </View>
   );
