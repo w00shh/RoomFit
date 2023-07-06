@@ -298,7 +298,9 @@ const MainSetting = ({navigation}) => {
         <View style={{height: 90 * height_ratio}}></View>
       </ScrollView>
       <View style={styles.navigator}>
-        <TouchableOpacity style={{marginLeft: 45 * width_ratio}}>
+        <TouchableOpacity
+          style={{marginLeft: 45 * width_ratio}}
+          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
           <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('WorkoutRecord')}>
