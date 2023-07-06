@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Image,
+  Button,
   TouchableOpacity,
 } from 'react-native';
 import Reload from 'react-native-vector-icons/AntDesign';
@@ -13,16 +14,21 @@ import styles from './styles';
 
 import {
   startScanning,
+  readDeviceBattery,
   stopScanning,
-  disconnectDevice,
 } from '../../redux/BLE/slice';
-import {connectToDevice} from '../../redux/BLE/listener';
+import {connectToDevice, disconnectFromDevice} from '../../redux/BLE/listener';
 import {store, useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {checkBluetoothPermissions} from '../../redux/BLE/permission';
 const Buffer = require('buffer/').Buffer;
 
 const ConnectDevice = ({navigation}) => {
+  const dispatch = useAppDispatch();
+  const discoveredDevices = useAppSelector(state => state.ble.allDevices);
+  const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
+  const battery = useAppSelector(state => state.ble.battery);
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -38,7 +44,6 @@ const ConnectDevice = ({navigation}) => {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              dispatch(stopScanning());
               dispatch(startScanning());
             }}>
             <Reload
@@ -52,24 +57,11 @@ const ConnectDevice = ({navigation}) => {
     });
   }, []);
 
-  const [testMode, setTestMode] = useState('read');
-  const [getBattery, setGetBattery] = useState('');
-  const [pp, setPP] = useState('');
-  const [inputText, setInputText] = useState('');
-
-  const dispatch = useAppDispatch();
-  const discoveredDevices = useAppSelector(state => state.ble.allDevices);
-  const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
-
   useEffect(() => {
     checkBluetoothPermissions().then(res => {
       if (res) {
         console.log('Start Scanning');
         dispatch(startScanning());
-        setTimeout(() => {
-          stopScanning();
-          console.log('Stopped Scanning');
-        }, 15000);
       }
     });
   }, []);
@@ -91,8 +83,9 @@ const ConnectDevice = ({navigation}) => {
         {
           <TouchableOpacity
             style={styles.connectButton}
-            onPress={() => {
-              dispatch(connectToDevice(device));
+            onPress={async () => {
+              await dispatch(connectToDevice(device));
+              dispatch(readDeviceBattery());
             }}>
             <Text style={styles.connect}>연결</Text>
           </TouchableOpacity>
@@ -116,12 +109,14 @@ const ConnectDevice = ({navigation}) => {
           <View style={styles.connectContainer}>
             <View>
               <Text style={styles.connectText}>{connectedDevice.name}</Text>
-              <Text style={styles.battery}>배터리 {String(getBattery)}</Text>
+              {typeof battery == 'number' && (
+                <Text style={styles.battery}>배터리 {battery}%</Text>
+              )}
             </View>
             <TouchableOpacity
               style={styles.disconnectButton}
               onPress={() => {
-                dispatch(disconnectDevice());
+                dispatch(disconnectFromDevice(connectedDevice));
               }}>
               <Text style={styles.connect}>연결 해제</Text>
             </TouchableOpacity>

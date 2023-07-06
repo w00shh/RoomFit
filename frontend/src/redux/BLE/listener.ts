@@ -2,11 +2,10 @@ import {createAsyncThunk, createListenerMiddleware} from '@reduxjs/toolkit';
 import {
   setDevice,
   setConnectedDevice,
+  setBattery,
   startScanning,
-  startListening,
+  readDeviceBattery,
   stopScanning,
-  //   connectToDevice,
-  disconnectDevice,
 } from './slice';
 import BLEManager, {DeviceReference} from './BLEManager';
 import {store} from '../store';
@@ -17,45 +16,64 @@ export const connectToDevice = createAsyncThunk(
   'bleThunk/connectToDevice',
   async (ref: DeviceReference, thunkApi) => {
     if (ref.id) {
-      BLEManager.stopScanningForPeripherals();
-      BLEManager.connectToPeripherals(ref.id);
-      thunkApi.dispatch(setConnectedDevice(ref));
+      const isConnected = await BLEManager.connectToPeripheral(ref.id);
+      const onDisconnectListener = BLEManager.bleManagerEmitter.addListener(
+        'BleManagerDisconnectPeripheral',
+        () => {
+          console.log(ref.id, 'disconnected');
+          thunkApi.dispatch(setConnectedDevice(null));
+          onDisconnectListener.remove();
+        },
+      );
+      if (isConnected) {
+        console.log('Connected Successfully');
+        thunkApi.dispatch(setConnectedDevice(ref));
+      } else console.log('Failed to connect');
     }
   },
 );
 
-// bleMiddleware.startListening({
-//   actionCreator: connectToDevice,
-//   effect: (_, listenerApi) => {
-//     if (_) {
-//       BLEManager.stopScanningForPeripherals();
-//       BLEManager.connectToPeripherals(_.id);
-//       listenerApi.dispatch(setConnectedDevice(_));
-//     }
-//   },
-// });
+export const disconnectFromDevice = createAsyncThunk(
+  'bleThunk/disconnectFromDevice',
+  async (ref: DeviceReference, thunkApi) => {
+    if (ref.id) {
+      BLEManager.disconnectFromPeripherals(ref.id);
+      thunkApi.dispatch(setConnectedDevice(null));
+      thunkApi.dispatch(setDevice(ref));
+    } else {
+      console.log('Device Not Found');
+    }
+  },
+);
 
 bleMiddleware.startListening({
   actionCreator: startScanning,
   effect: (_, listenerApi) => {
     store.getState().ble.allDevices = [];
     BLEManager.scanForPeripherals(device => {
-      if (device.name != null) listenerApi.dispatch(setDevice(device));
+      if (device?.name != null) listenerApi.dispatch(setDevice(device));
     });
   },
 });
 
-bleMiddleware.startListening({
-  actionCreator: stopScanning,
-  effect: () => {
-    BLEManager.stopScanningForPeripherals();
-  },
-});
+// bleMiddleware.startListening({
+//   actionCreator: stopScanning,
+//   effect: () => {
+//     BLEManager.stopScan();
+//   },
+// });
 
 bleMiddleware.startListening({
-  actionCreator: disconnectDevice,
-  effect: (_, listenerApi) => {
-    BLEManager.disconnectPeripherals();
-    listenerApi.dispatch(setConnectedDevice(null));
+  actionCreator: readDeviceBattery,
+  effect: async (_, listenerApi) => {
+    if (store.getState().ble.connectedDevice) {
+      await BLEManager.readBattery()
+        .then(res => {
+          listenerApi.dispatch(setBattery(res));
+        })
+        .catch(err => {
+          listenerApi.dispatch(setBattery(null));
+        });
+    }
   },
 });
