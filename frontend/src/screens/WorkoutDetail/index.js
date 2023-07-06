@@ -163,7 +163,7 @@ const WorkoutDetail = ({navigation, route}) => {
         <Text style={styles.yoyakText}>운동 상세</Text>
         {workoutList &&
           workoutList.map((value, key) => (
-            <RecordItem index={key} record={value}></RecordItem>
+            <RecordItem key={key} record={value}></RecordItem>
           ))}
       </View>
     </View>

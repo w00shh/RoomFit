@@ -26,7 +26,7 @@ const RecordItem = props => {
           <Text style={styles.englishText}>{props.record.motion_name}</Text>
           <View style={styles.setInfoContainer}>
             {props.record.sets.map((value, key) => (
-              <SetInfo index={key} number={key + 1} set={value}></SetInfo>
+              <SetInfo key={key} number={key + 1} set={value}></SetInfo>
             ))}
           </View>
         </View>
