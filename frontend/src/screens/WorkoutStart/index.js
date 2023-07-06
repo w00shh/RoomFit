@@ -595,7 +595,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   </View>
                   <View style={{marginLeft: 5 * width_ratio}}>
                     <CustomButton_B
-                      width={126}
+                      width={126 * width_ratio}
                       onPress={() => goNextMotion()}
                       content="바로 시작"></CustomButton_B>
                   </View>
@@ -653,7 +653,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   style={{flexDirection: 'row', marginTop: 5 * height_ratio}}>
                   <View style={{marginRight: 5 * width_ratio}}>
                     <CustomButton_W
-                      width={126}
+                      width={126 * width_ratio}
                       onPress={() => {
                         setWorkoutDoneModal(false);
                         navigation.push('AddMotion', {
@@ -782,8 +782,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     width={264 * width_ratio}
                     disabled={isSaveWorkoutDisabled}
                     onPress={() => {
-                      navigation.reset({routes: [{name: 'HomeScreen'}]});
                       saveWorkoutRecord();
+                      navigation.reset({routes: [{name: 'HomeScreen'}]});
                     }}
                     content="확인"
                     marginVertical={12 * height_ratio}></CustomButton_B>
@@ -951,7 +951,9 @@ export const WorkoutStart = ({navigation, route}) => {
                   style={{flexDirection: 'row', marginTop: 5 * height_ratio}}>
                   <CustomButton_B
                     width={264 * width_ratio}
-                    onPress={() => navigation.navigate('HomeScreen')}
+                    onPress={() => {
+                      navigation.reset({routes: [{name: 'HomeScreen'}]});
+                    }}
                     content="확인"
                     marginVertical={12}></CustomButton_B>
                 </View>
@@ -1145,14 +1147,14 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={styles.modeButtonContainer}>
                   <View>
                     <CustomButton_W
-                      width={171}
+                      width={171 * width_ratio}
                       content="취소"
                       disabled={false}
                       onPress={() => setModalVisible2(false)}></CustomButton_W>
                   </View>
                   <View>
                     <CustomButton_B
-                      width={171}
+                      width={171 * width_ratio}
                       content="선택 완료"
                       disabled={false}
                       onPress={() => setRestTime()}></CustomButton_B>
@@ -1346,7 +1348,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={styles.modeButtonContainer5}>
                   <View>
                     <CustomButton_W
-                      width={171}
+                      width={171 * width_ratio}
                       content="취소"
                       onPress={handleCancelPress}
                       disabled={false}></CustomButton_W>
@@ -1382,7 +1384,7 @@ export const WorkoutStart = ({navigation, route}) => {
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <View style={{marginRight: 8}}>
               <CustomButton_W
-                width={171}
+                width={171 * width_ratio}
                 content="+ 동작 추가"
                 onPress={() => {
                   navigation.push('AddMotion', {
@@ -1404,7 +1406,7 @@ export const WorkoutStart = ({navigation, route}) => {
             <View style={{marginLeft: 8}}>
               <CustomButton_B
                 disabled={isExercisingDisabled}
-                width={171}
+                width={171 * width_ratio}
                 content={`운동중  ${formatTime(elapsedTime)}`}
                 onPress={saveModifying}></CustomButton_B>
             </View>

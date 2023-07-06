@@ -10,15 +10,17 @@ import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
 
-const WorkoutRecord = ({navigation}) => {
+const WorkoutRecord = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
   const [isExercise, setIsExercise] = useState(false);
   const [isRecord, setIsRecord] = useState(true);
   const [isSetting, setIsSetting] = useState(false);
   const [isLeft, setIsLeft] = useState(true);
-  const [isCalender, setIsCalender] = useState(false);
+  const [isCalender, setIsCalender] = useState(route.params.isCalendar);
   const [recentRoutine, setRecentRoutine] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(
+    route.params.selectedDate ? route.params.selectedDate : null,
+  );
   const [selectedMonth, setSelectedMonth] = useState(
     moment().format('YYYY-MM'),
   );
@@ -66,6 +68,7 @@ const WorkoutRecord = ({navigation}) => {
               total_time: value.total_time,
               total_weight: value.total_weight,
               targets: value.targets,
+              memo: value.memo,
             },
           ]);
         });
@@ -110,8 +113,6 @@ const WorkoutRecord = ({navigation}) => {
     getDaybreifWorkout();
   }, [selectedDate]);
 
-  useEffect(() => {}, [selectedWorkout]);
-
   getDaybreifWorkout = async () => {
     const body = {
       user_id: 'user1',
@@ -119,22 +120,26 @@ const WorkoutRecord = ({navigation}) => {
     };
     await serverAxios.post('workout/calender/date', body).then(res => {
       res.data.map((value, key) => {
-        setSelectedWorkout({
-          workout_id: value.workout_id,
-          title: value.title,
-          date: value.start_time.split(' ')[0],
-          start_time:
-            value.start_time.split(' ')[1].split(':')[0] +
-            ':' +
-            value.start_time.split(' ')[1].split(':')[1],
-          end_time:
-            value.end_time.split(' ')[1].split(':')[0] +
-            ':' +
-            value.end_time.split(' ')[1].split(':')[1],
-          total_time: value.total_time,
-          total_weight: value.total_weight,
-          targets: value.targets,
-        });
+        setSelectedWorkout(currentSelectedWorkout => [
+          ...currentSelectedWorkout,
+          {
+            workout_id: value.workout_id,
+            title: value.title,
+            date: value.start_time.split(' ')[0],
+            start_time:
+              value.start_time.split(' ')[1].split(':')[0] +
+              ':' +
+              value.start_time.split(' ')[1].split(':')[1],
+            end_time:
+              value.end_time.split(' ')[1].split(':')[0] +
+              ':' +
+              value.end_time.split(' ')[1].split(':')[1],
+            total_time: value.total_time,
+            total_weight: value.total_weight,
+            targets: value.targets,
+            memo: value.memo,
+          },
+        ]);
       });
     });
   };
@@ -172,7 +177,8 @@ const WorkoutRecord = ({navigation}) => {
         style={{
           flexDirection: 'row',
         }}>
-        <View
+        <TouchableOpacity
+          onPress={() => setIsLeft(true)}
           style={{
             flex: 1,
             alignItems: 'center',
@@ -182,18 +188,18 @@ const WorkoutRecord = ({navigation}) => {
             borderBottomColor: isLeft ? '#242424' : '#f5f5f5',
             borderBottomWidth: 2,
           }}>
-          <TouchableOpacity onPress={() => setIsLeft(true)}>
-            <Text
-              style={{
-                fontWeight: isLeft ? '700' : '400',
-                fontSize: 16,
-                color: isLeft ? '#242424' : '#808080',
-              }}>
-              운동추세
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
+          <Text
+            style={{
+              fontWeight: isLeft ? '700' : '400',
+              fontSize: 16,
+              color: isLeft ? '#242424' : '#808080',
+            }}>
+            운동추세
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setIsLeft(false)}
           style={{
             flex: 1,
             alignItems: 'center',
@@ -203,17 +209,15 @@ const WorkoutRecord = ({navigation}) => {
             borderBottomColor: isLeft ? '#f5f5f5' : '#242424',
             borderBottomWidth: 2,
           }}>
-          <TouchableOpacity onPress={() => setIsLeft(false)}>
-            <Text
-              style={{
-                fontWeight: isLeft ? '400' : '700',
-                fontSize: 16,
-                color: isLeft ? '#808080' : '#242424',
-              }}>
-              통계
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <Text
+            style={{
+              fontWeight: isLeft ? '400' : '700',
+              fontSize: 16,
+              color: isLeft ? '#808080' : '#242424',
+            }}>
+            통계
+          </Text>
+        </TouchableOpacity>
       </View>
       {/* {isLeft ? (
         <Image source={require('../../assets/images/line.png')}></Image>
@@ -290,6 +294,8 @@ const WorkoutRecord = ({navigation}) => {
                       key={keys}
                       onPress={() =>
                         navigation.navigate('WorkoutDetail', {
+                          startingPoint: 1,
+                          selectedDate: selectedDate,
                           workout_id: values.workout_id,
                           title: values.title,
                           start_time: values.start_time,
@@ -297,6 +303,7 @@ const WorkoutRecord = ({navigation}) => {
                           targets: values.targets,
                           total_time: values.total_time,
                           total_weight: values.total_weight,
+                          memo: values.memo,
                           isHomeScreen: false,
                         })
                       }>
@@ -335,9 +342,9 @@ const WorkoutRecord = ({navigation}) => {
                 },
               }}></Calendar>
           </View>
-          {selectedWorkout.workout_id &&
-            selectedDate === selectedWorkout.date && (
-              <ScrollView>
+          {selectedWorkout.length > 0 &&
+            selectedDate === selectedWorkout[0].date && (
+              <>
                 <View>
                   <Text
                     style={{
@@ -346,26 +353,32 @@ const WorkoutRecord = ({navigation}) => {
                       fontWeight: '700',
                       color: '#242424',
                     }}>
-                    {selectedWorkout.date}
+                    {selectedDate}
                   </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('WorkoutDetail', {
-                        workout_id: selectedWorkout.workout_id,
-                        title: selectedWorkout.title,
-                        start_time: selectedWorkout.start_time,
-                        end_time: selectedWorkout.end_time,
-                        targets: selectedWorkout.targets,
-                        total_time: selectedWorkout.total_time,
-                        total_weight: selectedWorkout.total_weight,
-                        isHomeScreen: false,
-                      })
-                    }>
-                    <RecentExercise data={selectedWorkout}></RecentExercise>
-                  </TouchableOpacity>
+                  {selectedWorkout.map((value, key) => (
+                    <TouchableOpacity
+                      key={key}
+                      onPress={() =>
+                        navigation.navigate('WorkoutDetail', {
+                          startingPoint: 2,
+                          selectedDate: selectedDate,
+                          workout_id: value.workout_id,
+                          title: value.title,
+                          start_time: value.start_time,
+                          end_time: value.end_time,
+                          targets: value.targets,
+                          total_time: value.total_time,
+                          total_weight: value.total_weight,
+                          memo: value.memo,
+                          isHomeScreen: false,
+                        })
+                      }>
+                      <RecentExercise data={value}></RecentExercise>
+                    </TouchableOpacity>
+                  ))}
                 </View>
                 <View style={{height: 90}}></View>
-              </ScrollView>
+              </>
             )}
         </ScrollView>
       )}

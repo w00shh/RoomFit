@@ -138,6 +138,7 @@ const HomeScreen = ({navigation}) => {
               total_time: value.total_time,
               total_weight: value.total_weight,
               targets: value.targets,
+              memo: value.memo,
             },
           ]);
         });
@@ -288,6 +289,8 @@ const HomeScreen = ({navigation}) => {
                       targets: value.targets,
                       total_time: value.total_time,
                       total_weight: value.total_weight,
+                      memo: value.memo,
+                      startingPoint: 0,
                       isHomeScreen: true,
                     })
                   }>
@@ -306,7 +309,10 @@ const HomeScreen = ({navigation}) => {
             size={20}
             color={isExercise ? '#fff' : '#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('WorkoutRecord')}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('WorkoutRecord', {isCalendar: false})
+          }>
           <Board
             name="clipboard-check"
             size={20}
