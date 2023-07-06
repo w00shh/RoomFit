@@ -1,7 +1,7 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 760;
 
 const styles = StyleSheet.create({
   pageContainer: {
@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
 
   intro: {
     marginTop: 48 * height_ratio,
+    aspectRatio: (320 * width_ratio) / (352 * height_ratio),
   },
 
   mainLogo: {

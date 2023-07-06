@@ -10,8 +10,8 @@ import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {serverAxios} from '../../utils/commonAxios';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const MotionItem = props => {
   return (

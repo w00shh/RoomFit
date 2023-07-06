@@ -1,7 +1,7 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const styles = StyleSheet.create({
   modalNameContainer: {
@@ -145,16 +145,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16 * width_ratio,
     borderRadius: 8,
     backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
   },
   routineNameInput: {
     fontSize: 16,
-    height: 56 * height_ratio,
+    height: 100 * height_ratio,
+    width: 264 * width_ratio,
+    backgroundColor: '#f5f5f5',
+    paddingHorizontal: 16 * width_ratio,
+    borderRadius: 8,
   },
   confirmButton: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5252fa',
     width: 264 * width_ratio,
+    height: 56 * height_ratio,
     borderRadius: 8,
     padding: 0,
   },

@@ -1,8 +1,8 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const styles = StyleSheet.create({
   pageContainer: {

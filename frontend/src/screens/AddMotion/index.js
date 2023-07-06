@@ -14,8 +14,8 @@ import CustomButton_B from '../../components/CustomButton_B';
 import XX from 'react-native-vector-icons/Feather';
 import {serverAxios} from '../../utils/commonAxios';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const AddMotion = ({navigation, route}) => {
   const [motionList, setMotionList] = useState([]);

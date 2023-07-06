@@ -3,8 +3,8 @@ import styles from './styles';
 import {Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
 import Right from 'react-native-vector-icons/AntDesign';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const RoutineBox = props => {
   return (

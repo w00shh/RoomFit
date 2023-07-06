@@ -2,8 +2,8 @@ import React from 'react';
 import {TouchableOpacity, Text, Dimensions} from 'react-native';
 import styles from './styles';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const CustomButton_W = props => {
   return (
