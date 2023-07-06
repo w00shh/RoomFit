@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useId} from 'react';
+import React, {useState, useEffect, useId, useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -23,6 +23,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {serverAxios} from '../../utils/commonAxios';
 import {PrivateValueStore} from '@react-navigation/native';
 import {useAppSelector} from '../../redux/store';
+import {AppContext} from '../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
@@ -30,8 +31,7 @@ const standard_w = 390;
 const standard_h = 797;
 
 const HomeScreen = ({navigation}) => {
-  // const {isLogin} = useSelector(state => state.userReducer);
-  const dispatch = useDispatch();
+  const appcontext = useContext(AppContext);
   const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
   const [existRoutine, setExistRoutine] = useState(false);
   const [isExercised, setIsExercised] = useState(true);
@@ -203,7 +203,6 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-
         <View
           style={{
             flexDirection: 'row',

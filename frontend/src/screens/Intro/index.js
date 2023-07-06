@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -11,6 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Kakao from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
+import {AppContext} from '../../contexts/AppProvider';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -18,6 +19,41 @@ const standard_w = 390;
 const standard_h = 797;
 
 const Intro = ({navigation}) => {
+  appcontext = useContext(AppContext);
+  useEffect(() => {
+    const handleDeepLink = async () => {
+      // 앱이 최초로 실행되었을 때 딥 링크 처리
+      const initialUrl = await Linking.getInitialURL();
+      if (initialUrl) {
+        handleUrl(initialUrl);
+      }
+
+      // 딥 링크 이벤트 리스너 등록
+      Linking.addEventListener('url', handleUrl);
+    };
+
+    const handleUrl = url => {
+      const sep_url = url.url.split('auth?')[1];
+      const params = {};
+      sep_url.split('/').forEach(pair => {
+        const [key, value] = pair.split('=');
+        params[key] = value;
+      });
+      console.log(params);
+      if (params.user_id) {
+        appcontext.actions.setIsLogin(true);
+        appcontext.actions.setUserid(params.user_id);
+        navigation.reset({routes: [{name: 'HomeScreen'}]});
+      }
+    };
+
+    handleDeepLink();
+
+    // 딥 링크 이벤트 리스너 해제
+    return () => {
+      Linking.removeEventListener('url', handleUrl);
+    };
+  }, []);
   return (
     <View style={styles.pageContainer}>
       <Image
@@ -32,7 +68,7 @@ const Intro = ({navigation}) => {
         <Icon name="apple" size={20} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity
+      <TouchableOpacity
         onPress={() => {
           Linking.openURL(
             `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/kakao-auth`,
@@ -41,7 +77,7 @@ const Intro = ({navigation}) => {
         style={styles.Kakao_Button}>
         <Kakao name="chatbubble" size={20} color="black"></Kakao>
         <Text style={styles.Button_Text2}> Kakao로 시작하기</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.Google_Button}
         onPress={() =>

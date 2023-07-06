@@ -25,18 +25,6 @@ import AppProvider from './src/contexts/AppProvider.js';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const config = {
-  animation: 'spring',
-  config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
-
 export const AppContext = React.createContext({
   state: {
     userid: '',
