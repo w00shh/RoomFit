@@ -19,8 +19,8 @@ import Back from 'react-native-vector-icons/Ionicons';
 import {AppContext} from '../../../contexts/AppProvider';
 import CustomButton_B from '../../../components/CustomButton_B';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const PasswordSetting = ({navigation}) => {
   const [currentPW, setCurrentPW] = useState('');

@@ -17,8 +17,8 @@ import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
 import {AppContext} from '../../../contexts/AppProvider';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const RoutineDetail = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
@@ -292,7 +292,6 @@ const RoutineDetail = ({navigation, route}) => {
             </View>
             <View style={styles.inputContainer}>
               <TextInput
-                styles={styles.routineNameInput}
                 onChangeText={text => {
                   setRoutineName(text);
                 }}

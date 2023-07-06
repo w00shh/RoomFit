@@ -11,8 +11,8 @@ import Input from '../../components/Input/index.js';
 import CustomButton_B from '../../components/CustomButton_B/index.js';
 import {serverAxios} from '../../utils/commonAxios.js';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const Register = ({navigation}) => {
   const [id, setId] = useState('');

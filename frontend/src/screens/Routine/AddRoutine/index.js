@@ -363,7 +363,6 @@ const AddRoutine = ({navigation, route}) => {
             </View>
             <View style={styles.inputContainer}>
               <TextInput
-                styles={styles.routineNameInput}
                 onChangeText={text => {
                   setRoutineName(text);
                 }}
@@ -389,7 +388,6 @@ const AddRoutine = ({navigation, route}) => {
             </View>
             <View style={styles.inputContainer}>
               <TextInput
-                styles={styles.routineNameInput}
                 onChangeText={text => {
                   setRoutineName(text);
                 }}

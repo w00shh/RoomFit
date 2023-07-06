@@ -4,8 +4,8 @@ import styles from './styles';
 import Right from 'react-native-vector-icons/AntDesign';
 import SetInfo from '../SetInfo';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const RecordItem = props => {
   return (

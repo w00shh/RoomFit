@@ -5,8 +5,8 @@ import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const RecentExercise = props => {
   const value = props.data;

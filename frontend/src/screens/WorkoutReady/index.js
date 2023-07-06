@@ -16,8 +16,8 @@ import Back from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
 
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutReady = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
