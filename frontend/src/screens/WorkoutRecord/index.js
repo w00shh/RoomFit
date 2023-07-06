@@ -1,11 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
@@ -15,9 +9,6 @@ import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
-
-const width_ratio = Dimensions.get('window').width / 390;
-const height_ratio = Dimensions.get('window').height / 844;
 
 const WorkoutRecord = ({navigation}) => {
   const appcontext = useContext(AppContext);
@@ -33,10 +24,20 @@ const WorkoutRecord = ({navigation}) => {
   );
   const [workedDay, setworkedDay] = useState([]);
   const [markedDates, setMarkedDates] = useState({});
-  const datesToMark = ['2023-07-05', '2023-07-10', '2023-07-15'];
+  const [selectedWorkout, setSelectedWorkout] = useState([]);
+  const markDates = () => {
+    const updateMarkedDates = {};
+
+    workedDay.forEach(date => {
+      updateMarkedDates[date.start_time] = {marked: true, dotColor: '#5252fa'};
+    });
+
+    setMarkedDates(updateMarkedDates);
+  };
 
   useEffect(() => {
     getBreifWorkout();
+    getMonthWorkoutDay();
   }, []);
 
   const getBreifWorkout = async () => {
@@ -105,37 +106,65 @@ const WorkoutRecord = ({navigation}) => {
     getMonthWorkoutDay();
   }, [selectedMonth]);
 
+  useEffect(() => {
+    getDaybreifWorkout();
+  }, [selectedDate]);
+
+  useEffect(() => {}, [selectedWorkout]);
+
+  getDaybreifWorkout = async () => {
+    const body = {
+      user_id: 'user1',
+      date: selectedDate,
+    };
+    await serverAxios.post('workout/calender/date', body).then(res => {
+      res.data.map((value, key) => {
+        setSelectedWorkout({
+          workout_id: value.workout_id,
+          title: value.title,
+          date: value.start_time.split(' ')[0],
+          start_time:
+            value.start_time.split(' ')[1].split(':')[0] +
+            ':' +
+            value.start_time.split(' ')[1].split(':')[1],
+          end_time:
+            value.end_time.split(' ')[1].split(':')[0] +
+            ':' +
+            value.end_time.split(' ')[1].split(':')[1],
+          total_time: value.total_time,
+          total_weight: value.total_weight,
+          targets: value.targets,
+        });
+      });
+    });
+  };
+
   getMonthWorkoutDay = async () => {
     const body = {
       user_id: 'user1', //Appcontext.state.userid
       month: selectedMonth,
     };
-    await serverAxios.post('/workout/calender/month', body).then(res => {
-      res.data.map((value, key) => {
-        setworkedDay(currentWorkedDay => [
-          ...currentWorkedDay,
-          {
-            start_time: value.start_time.split(' ')[0],
-          },
-        ]);
+    await serverAxios
+      .post('/workout/calender/month', body)
+      .then(res => {
+        setworkedDay([]);
+        res.data.map((value, key) => {
+          setworkedDay(currentWorkedDay => [
+            ...currentWorkedDay,
+            {
+              start_time: value.start_time.split(' ')[0],
+            },
+          ]);
+        });
+      })
+      .catch(e => {
+        console.log(e);
       });
-    });
   };
 
   useEffect(() => {
-    console.log(workedDay);
     markDates();
   }, [workedDay]);
-
-  const markDates = () => {
-    const updatedMarkedDates = {};
-
-    datesToMark.forEach(date => {
-      updatedMarkedDates[date] = {marked: true, dotColor: 'red'};
-    });
-
-    setworkedDay(updatedMarkedDates);
-  };
 
   return (
     <View style={styles.pageContainer}>
@@ -148,8 +177,8 @@ const WorkoutRecord = ({navigation}) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            width: 179 * width_ratio,
-            height: 50 * height_ratio,
+            wdith: 179,
+            height: 50,
             borderBottomColor: isLeft ? '#242424' : '#f5f5f5',
             borderBottomWidth: 2,
           }}>
@@ -169,8 +198,8 @@ const WorkoutRecord = ({navigation}) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            width: 179 * width_ratio,
-            height: 50 * height_ratio,
+            width: 179,
+            height: 50,
             borderBottomColor: isLeft ? '#f5f5f5' : '#242424',
             borderBottomWidth: 2,
           }}>
@@ -198,16 +227,16 @@ const WorkoutRecord = ({navigation}) => {
           alignItems: 'center',
           borderRadius: 100,
           backgroundColor: '#f5f5f5',
-          width: 156 * width_ratio,
-          height: 40 * height_ratio,
-          marginTop: 24 * height_ratio,
+          width: 156,
+          height: 40,
+          marginTop: 24,
         }}>
         <View
           style={{
             backgroundColor: isCalender ? '#f5f5f5' : '#fff',
             borderRadius: 100,
-            width: 73 * width_ratio,
-            height: 32 * height_ratio,
+            width: 73,
+            height: 32,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -225,8 +254,8 @@ const WorkoutRecord = ({navigation}) => {
           style={{
             backgroundColor: isCalender ? '#fff' : '#f5f5f5',
             borderRadius: 100,
-            width: 73 * width_ratio,
-            height: 32 * height_ratio,
+            width: 73,
+            height: 32,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -249,7 +278,7 @@ const WorkoutRecord = ({navigation}) => {
                 <View>
                   <Text
                     style={{
-                      marginTop: 20 * height_ratio,
+                      marginTop: 20,
                       fontSize: 16,
                       fontWeight: '700',
                       color: '#242424',
@@ -277,30 +306,73 @@ const WorkoutRecord = ({navigation}) => {
                 </View>
               </View>
             ))}
-          <View style={{height: 90 * height_ratio}}></View>
+          <View style={{height: 90}}></View>
         </ScrollView>
       )}
       {isCalender && (
-        <View style={{alignSelf: 'stretch'}}>
-          <Calendar
-            style={styles.Calendar}
-            monthFormat={'yyyy.M'}
-            onMonthChange={month => handleMonthChange(month.year, month.month)}
-            theme={{
-              todayTextColor: '#5252fa',
-              selectedDayBackgroundColor: '#5252fa',
-              arrowColor: '#5252fa',
-            }}
-            onDayPress={day => {
-              setSelectedDate(day.dateString);
-            }}
-            markedDates={workedDay}></Calendar>
-        </View>
+        <ScrollView>
+          <View>
+            <Calendar
+              style={styles.Calendar}
+              monthFormat={'yyyy.M'}
+              onMonthChange={month =>
+                handleMonthChange(month.year, month.month)
+              }
+              theme={{
+                todayTextColor: '#5252fa',
+                selectedDayBackgroundColor: '#5252fa',
+                arrowColor: '#5252fa',
+              }}
+              onDayPress={day => {
+                setSelectedDate(day.dateString);
+              }}
+              markedDates={{
+                ...markedDates,
+                [selectedDate]: {
+                  selected: true,
+                  selectedColor: '#5252fa',
+                  selectedTextColor: 'white',
+                },
+              }}></Calendar>
+          </View>
+          {selectedWorkout.workout_id &&
+            selectedDate === selectedWorkout.date && (
+              <ScrollView>
+                <View>
+                  <Text
+                    style={{
+                      marginTop: 5,
+                      fontSize: 16,
+                      fontWeight: '700',
+                      color: '#242424',
+                    }}>
+                    {selectedWorkout.date}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('WorkoutDetail', {
+                        workout_id: selectedWorkout.workout_id,
+                        title: selectedWorkout.title,
+                        start_time: selectedWorkout.start_time,
+                        end_time: selectedWorkout.end_time,
+                        targets: selectedWorkout.targets,
+                        total_time: selectedWorkout.total_time,
+                        total_weight: selectedWorkout.total_weight,
+                        isHomeScreen: false,
+                      })
+                    }>
+                    <RecentExercise data={selectedWorkout}></RecentExercise>
+                  </TouchableOpacity>
+                </View>
+                <View style={{height: 90}}></View>
+              </ScrollView>
+            )}
+        </ScrollView>
       )}
 
       <View style={styles.navigator}>
         <TouchableOpacity
-          style={{marginLeft: 45 * width_ratio}}
+          style={{marginLeft: 45}}
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
           <Dumbbell
             name="dumbbell"
@@ -313,7 +385,7 @@ const WorkoutRecord = ({navigation}) => {
             size={20}
             color={isRecord ? '#fff' : '#dfdfdf'}></Board>
         </TouchableOpacity>
-        <TouchableOpacity style={{marginRight: 45 * width_ratio}}>
+        <TouchableOpacity style={{marginRight: 45}}>
           <Setting
             name="settings"
             size={20}
