@@ -22,6 +22,9 @@ if linkage != nil
 end
 
 target 'frontend' do
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral"
+
   config = use_native_modules!
 
   # Flags change depending on the env values.

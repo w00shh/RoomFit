@@ -45,17 +45,19 @@
 		<dict>
 			<key>localhost</key>
 			<dict>
-				<key>ec2-18-119-142-5.us-east-2.compute.amazonaws.com</key>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-      <key>ec2-18-119-142-5.us-east-2.compute.amazonaws.com</key>
-      <dict>
-        <key>NSExceptionAllowsInsecureHTTPLoads</key>
-        <true/>
-      </dict>
+			<key>ec2-18-119-142-5.us-east-2.compute.amazonaws.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string></string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
