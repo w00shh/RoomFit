@@ -177,7 +177,8 @@ const WorkoutRecord = ({navigation, route}) => {
         style={{
           flexDirection: 'row',
         }}>
-        <View
+        <TouchableOpacity
+          onPress={() => setIsLeft(true)}
           style={{
             flex: 1,
             alignItems: 'center',
@@ -187,18 +188,18 @@ const WorkoutRecord = ({navigation, route}) => {
             borderBottomColor: isLeft ? '#242424' : '#f5f5f5',
             borderBottomWidth: 2,
           }}>
-          <TouchableOpacity onPress={() => setIsLeft(true)}>
-            <Text
-              style={{
-                fontWeight: isLeft ? '700' : '400',
-                fontSize: 16,
-                color: isLeft ? '#242424' : '#808080',
-              }}>
-              운동추세
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
+          <Text
+            style={{
+              fontWeight: isLeft ? '700' : '400',
+              fontSize: 16,
+              color: isLeft ? '#242424' : '#808080',
+            }}>
+            운동추세
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setIsLeft(false)}
           style={{
             flex: 1,
             alignItems: 'center',
@@ -208,17 +209,15 @@ const WorkoutRecord = ({navigation, route}) => {
             borderBottomColor: isLeft ? '#f5f5f5' : '#242424',
             borderBottomWidth: 2,
           }}>
-          <TouchableOpacity onPress={() => setIsLeft(false)}>
-            <Text
-              style={{
-                fontWeight: isLeft ? '400' : '700',
-                fontSize: 16,
-                color: isLeft ? '#808080' : '#242424',
-              }}>
-              통계
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <Text
+            style={{
+              fontWeight: isLeft ? '400' : '700',
+              fontSize: 16,
+              color: isLeft ? '#808080' : '#242424',
+            }}>
+            통계
+          </Text>
+        </TouchableOpacity>
       </View>
       {/* {isLeft ? (
         <Image source={require('../../assets/images/line.png')}></Image>
