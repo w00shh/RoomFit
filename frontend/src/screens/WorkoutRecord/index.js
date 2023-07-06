@@ -341,7 +341,7 @@ const WorkoutRecord = ({navigation}) => {
                 <View>
                   <Text
                     style={{
-                      marginTop: 5,
+                      marginTop: 10,
                       fontSize: 16,
                       fontWeight: '700',
                       color: '#242424',

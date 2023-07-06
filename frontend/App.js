@@ -17,6 +17,7 @@ import WorkoutStart from './src/screens/WorkoutStart/index.js';
 import RoutineDetail from './src/screens/Routine/RoutineDetail/index.js';
 import WorkoutRecord from './src/screens/WorkoutRecord/index.js';
 import WorkoutDetail from './src/screens/WorkoutDetail/index.js';
+import MainSetting from './src/screens/Settings/MainSetting/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
@@ -232,7 +233,7 @@ const App = () => {
               component={WorkoutRecord}
               options={{
                 title: '운동기록',
-                animation: 'slide_from_right',
+                animation: 'none',
                 headerTitleStyle: {
                   fontWeight: '700',
                   fontSize: 28,
@@ -246,6 +247,13 @@ const App = () => {
               component={WorkoutDetail}
               options={{
                 headerShadowVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="MainSetting"
+              component={MainSetting}
+              options={{
+                animation: 'none',
+                headerShown: false,
               }}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>

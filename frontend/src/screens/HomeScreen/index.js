@@ -312,7 +312,9 @@ const HomeScreen = ({navigation}) => {
             size={20}
             color={isRecord ? '#fff' : '#dfdfdf'}></Board>
         </TouchableOpacity>
-        <TouchableOpacity style={{marginRight: 45 * width_ratio}}>
+        <TouchableOpacity
+          style={{marginRight: 45 * width_ratio}}
+          onPress={() => navigation.navigate('MainSetting')}>
           <Setting
             name="settings"
             size={20}
