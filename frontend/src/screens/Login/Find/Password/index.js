@@ -84,9 +84,7 @@ const PasswordFind = ({navigation}) => {
             width={358 * width_ratio}
             marginVertical={12 * height_ratio}
             onPress={() => {
-              navigation.push('Login', {
-                email: email,
-              });
+              navigation.navigate('Login');
             }}
             content="로그인 화면으로 이동하기"></CustomButton_B>
           <View style={styles.descriptionContainer}>

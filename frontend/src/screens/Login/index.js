@@ -11,9 +11,15 @@ const height_ratio = Dimensions.get('window').height / 844;
 
 const Login = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
-  const [email, setEmail] = useState(route.params.email);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginDisabled, setLoginDisabled] = useState(true);
+
+  useEffect(() => {
+    if (route.params.isRegister) {
+      setEmail(route.params.email);
+    }
+  }, []);
 
   const handleLoginDisabled = () => {
     if (email.length > 0 && password.length > 0) {
