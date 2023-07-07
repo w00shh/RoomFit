@@ -625,7 +625,7 @@ const WorkoutRecord = ({navigation, route}) => {
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
           <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.push('WorkoutRecord')}>
+        <TouchableOpacity>
           <Board name="clipboard-check" size={20} color={'#fff'}></Board>
         </TouchableOpacity>
         <TouchableOpacity
