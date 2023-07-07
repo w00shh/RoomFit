@@ -12,6 +12,7 @@ import {
   FlatList,
   TextInput,
   Dimensions,
+  Platform,
 } from 'react-native';
 import CustomButton_W from '../../components/CustomButton_W';
 import Check from 'react-native-vector-icons/AntDesign';
@@ -26,16 +27,11 @@ import Start from 'react-native-vector-icons/AntDesign';
 import Square from 'react-native-vector-icons/FontAwesome';
 import TutTimer from 'react-native-vector-icons/MaterialCommunityIcons';
 import Setting from 'react-native-vector-icons/Ionicons';
-import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import Left from 'react-native-vector-icons/Entypo';
 import Right from 'react-native-vector-icons/AntDesign';
-import Swiper from 'react-native-swiper';
 import styles from './styles';
-import OnOff from '../../components/Switch';
 import CustomButton_B from '../../components/CustomButton_B';
-import WorkoutTitle from '../../components/WorkoutTitle';
-import AddMotion from '../AddMotion';
 import WorkoutItem from '../../components/WorkoutItem';
 import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
@@ -134,9 +130,9 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: true,
-            isFavorite: route.params.displaySelected[0].isFavorite,
+            isFav: route.params.displaySelected[0].isFav,
             motion_id: route.params.displaySelected[0].motion_id,
-            motionName: route.params.displaySelected[0].motionName,
+            motion_name: route.params.displaySelected[0].motion_name,
             imageUrl: route.params.displaySelected[0].imageUrl,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
@@ -149,9 +145,9 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
-            isFavorite: route.params.displaySelected[0].isFavorite,
+            isFav: route.params.displaySelected[0].isFav,
             motion_id: route.params.displaySelected[0].motion_id,
-            motionName: route.params.displaySelected[0].motionName,
+            motion_name: route.params.displaySelected[0].motion_name,
             imageUrl: route.params.displaySelected[0].imageUrl,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
@@ -165,9 +161,9 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
-            isFavorite: route.params.displaySelected[i].isFavorite,
+            isFav: route.params.displaySelected[i].isFav,
             motion_id: route.params.displaySelected[i].motion_id,
-            motionName: route.params.displaySelected[i].motionName,
+            motion_name: route.params.displaySelected[i].motion_name,
             imageUrl: route.params.displaySelected[i].imageUrl,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
@@ -197,7 +193,6 @@ export const WorkoutStart = ({navigation, route}) => {
   }, [workoutTitle]);
 
   const modifyingMotion = () => {
-    setIsPaused(true);
     setIsPausedPage(false);
     setIsModifyMotion(true);
   };
@@ -512,7 +507,7 @@ export const WorkoutStart = ({navigation, route}) => {
       } else {
         setRoutineDoneModal(true);
       }
-      setIsResting(true);
+      setIsResting(false);
     }
   };
 
@@ -544,6 +539,7 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const endSetting = () => {
+    setIsPaused(false);
     setPressSetting(false);
     setRestTimer(restSet);
   };
@@ -814,8 +810,8 @@ export const WorkoutStart = ({navigation, route}) => {
             style={styles.devider}></Image>
 
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.motionName}>
-              {motionList[m_index].motionName}
+            <Text style={styles.motion_name}>
+              {motionList[m_index].motion_name}
             </Text>
             <View style={{flexDirection: 'row'}}>
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
@@ -878,7 +874,7 @@ export const WorkoutStart = ({navigation, route}) => {
           </View>
           <View style={styles.navigator}>
             <TouchableOpacity
-              onPress={modifyingMotion}
+              onPress={() => modifyingMotion()}
               style={{marginLeft: 45 * width_ratio}}>
               <Dumbbell name="dumbbell" size={20} color={'#fff'}></Dumbbell>
             </TouchableOpacity>
@@ -886,7 +882,10 @@ export const WorkoutStart = ({navigation, route}) => {
               <Pause name="pausecircle" size={20} color={'#fff'}></Pause>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setPressSetting(true)}
+              onPress={() => {
+                setPressSetting(true);
+                setIsPaused(true);
+              }}
               style={{marginRight: 45 * width_ratio}}>
               <Setting name="settings" size={20} color={'#fff'}></Setting>
             </TouchableOpacity>
@@ -975,7 +974,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
               <View style={{marginLeft: 8 * width_ratio}}>
                 <Text style={styles.pauseMotionTitle}>
-                  {motionList[m_index].motionName}
+                  {motionList[m_index].motion_name}
                 </Text>
                 <View style={{flexDirection: 'row'}}>
                   <View
@@ -1222,11 +1221,20 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </Modal>
-          <Text style={styles.pauseTitle}>운동 설정</Text>
+          <View
+            style={{
+              paddingHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
+            }}>
+            <Text style={styles.pauseTitle}>운동 설정</Text>
+          </View>
           <View style={styles.settings}>
             <View style={styles.settingContainer}>
               <Text style={styles.settingText}>스마트 어시스트</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
                 <Text
                   style={{
                     color: isAssist ? '#5252fa' : '#fff',
@@ -1241,7 +1249,20 @@ export const WorkoutStart = ({navigation, route}) => {
                   onValueChange={toggleSwitch}
                   value={isAssist}
                   style={{
-                    transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+                    transform: [
+                      {
+                        scaleX:
+                          Platform.OS === 'ios'
+                            ? 0.8 * height_ratio
+                            : 1.2 * height_ratio,
+                      },
+                      {
+                        scaleY:
+                          Platform.OS === 'ios'
+                            ? 0.8 * width_ratio
+                            : 1.2 * width_ratio,
+                      },
+                    ],
                   }}
                 />
               </View>
@@ -1265,7 +1286,20 @@ export const WorkoutStart = ({navigation, route}) => {
                   onValueChange={toggleSwitch2}
                   value={isLock}
                   style={{
-                    transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+                    transform: [
+                      {
+                        scaleX:
+                          Platform.OS === 'ios'
+                            ? 0.8 * height_ratio
+                            : 1.2 * height_ratio,
+                      },
+                      {
+                        scaleY:
+                          Platform.OS === 'ios'
+                            ? 0.8 * width_ratio
+                            : 1.2 * width_ratio,
+                      },
+                    ],
                   }}
                 />
               </View>

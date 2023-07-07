@@ -10,7 +10,8 @@ import {
   Dimensions,
 } from 'react-native';
 import styles from './styles';
-import Icon from 'react-native-vector-icons/Entypo';
+import Edit from 'react-native-vector-icons/Entypo';
+import Back from 'react-native-vector-icons/Ionicons';
 import WorkoutItem from '../../../components/WorkoutItem';
 import {serverAxios} from '../../../utils/commonAxios';
 import CustomButton_W from '../../../components/CustomButton_W';
@@ -33,6 +34,7 @@ const RoutineDetail = ({navigation, route}) => {
   const [isSaveDisabled, setIsSaveDisabled] = useState(
     motionList.length === 0 ? true : false,
   );
+  const [routineNameSaveDisabled, setRoutineNameSaveDisabled] = useState(true);
 
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
@@ -121,8 +123,21 @@ const RoutineDetail = ({navigation, route}) => {
     navigation.push('MyRoutine');
   };
 
+  const handleBackButton = () => {
+    navigation.reset({routes: [{name: 'HomeScreen'}]});
+  };
   useEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            handleBackButton();
+            //navigation.reset({routes: [{name: 'MyRoutine'}]});
+          }}>
+          <Back name="arrow-back" color={'#242424'} size={25} style={{}}></Back>
+        </TouchableOpacity>
+      ),
+
       headerTitle: () => (
         <>
           <Text
@@ -138,7 +153,7 @@ const RoutineDetail = ({navigation, route}) => {
             onPress={() => {
               setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
             }}>
-            <Icon name="edit" size={16} color="#808080"></Icon>
+            <Edit name="edit" size={16} color="#808080"></Edit>
           </TouchableOpacity>
         </>
       ),
@@ -166,9 +181,9 @@ const RoutineDetail = ({navigation, route}) => {
             {
               isMotionDone: false,
               isMotionDoing: false,
-              isFavorite: value.isFav,
+              isFav: value.isFav,
               motion_id: value.motion_id,
-              motionName: value.motion_name,
+              motion_name: value.motion_name,
               imageUrl: value.imageUrl,
               sets: value.sets,
             },
@@ -192,9 +207,9 @@ const RoutineDetail = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
-            isFavorite: route.params.displaySelected[i].isFavorite,
+            isFav: route.params.displaySelected[i].isFav,
             motion_id: route.params.displaySelected[i].motion_id,
-            motionName: route.params.displaySelected[i].motionName,
+            motion_name: route.params.displaySelected[i].motion_name,
             imageUrl: route.params.displaySelected[i].imageUrl,
             sets: [
               {
@@ -218,6 +233,14 @@ const RoutineDetail = ({navigation, route}) => {
       setIsSaveDisabled(false);
     }
   }, [motionList]);
+
+  useEffect(() => {
+    if (routineName.length === 0) {
+      setRoutineNameSaveDisabled(true);
+    } else {
+      setRoutineNameSaveDisabled(false);
+    }
+  }, [routineName]);
 
   const handleConfirmPress = async () => {
     setIsRoutineName(!isRoutineName);
@@ -299,11 +322,11 @@ const RoutineDetail = ({navigation, route}) => {
                 placeholder="루틴 이름"
                 inputMode="text"></TextInput>
             </View>
-            <TouchableOpacity
-              style={styles.confirmButton}
-              onPress={handleConfirmPress}>
-              <Text style={styles.confirmText}>확인</Text>
-            </TouchableOpacity>
+            <CustomButton_B
+              width={264 * width_ratio}
+              onPress={handleConfirmPress}
+              disabled={routineNameSaveDisabled}
+              content="확인"></CustomButton_B>
           </View>
         </View>
       </Modal>

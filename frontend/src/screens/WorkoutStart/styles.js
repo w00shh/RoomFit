@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     height: 8,
   },
 
-  motionName: {
+  motion_name: {
     marginTop: 25 * height_ratio,
     color: '#242424',
     fontSize: 20,
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
     color: '#242424',
-    marginLeft: 16 * width_ratio,
   },
 
   pauseMotionTitle: {
@@ -233,6 +232,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 35 * height_ratio,
+    paddingHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
+
     flex: 1,
   },
 

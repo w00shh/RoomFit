@@ -1,16 +1,14 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
-  Modal,
   Switch,
-  Image,
   Dimensions,
   SafeAreaView,
+  Platform,
 } from 'react-native';
-import {serverAxios} from '../../../utils/commonAxios';
 import styles from './styles';
 import {WithLocalSvg} from 'react-native-svg';
 import Profile from '../../../assets/images/normalProfile.svg';
@@ -70,7 +68,8 @@ const MainSetting = ({navigation}) => {
             <Text style={styles.contentText}>기기 연결</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText2}>Roomfit 1</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ConnectDevice')}>
                 <Right
                   name="right"
                   size={18}
@@ -96,7 +95,20 @@ const MainSetting = ({navigation}) => {
                 onValueChange={toggleSwitch}
                 value={isAssist}
                 style={{
-                  transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+                  transform: [
+                    {
+                      scaleX:
+                        Platform.OS === 'ios'
+                          ? 0.8 * height_ratio
+                          : 1.2 * height_ratio,
+                    },
+                    {
+                      scaleY:
+                        Platform.OS === 'ios'
+                          ? 0.8 * width_ratio
+                          : 1.2 * width_ratio,
+                    },
+                  ],
                 }}
               />
             </View>
@@ -122,7 +134,20 @@ const MainSetting = ({navigation}) => {
                 onValueChange={toggleSwitch2}
                 value={isLock}
                 style={{
-                  transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+                  transform: [
+                    {
+                      scaleX:
+                        Platform.OS === 'ios'
+                          ? 0.8 * height_ratio
+                          : 1.2 * height_ratio,
+                    },
+                    {
+                      scaleY:
+                        Platform.OS === 'ios'
+                          ? 0.8 * width_ratio
+                          : 1.2 * width_ratio,
+                    },
+                  ],
                 }}
               />
             </View>
@@ -135,7 +160,10 @@ const MainSetting = ({navigation}) => {
             <Text style={styles.contentText}>세트간 휴식시간</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText2}>30초</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RestingTime', {title: '세트'});
+                }}>
                 <Right
                   name="right"
                   size={18}
@@ -148,7 +176,10 @@ const MainSetting = ({navigation}) => {
             <Text style={styles.contentText}>동작간 휴식시간</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText2}>30초</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RestingTime', {title: '동작'});
+                }}>
                 <Right
                   name="right"
                   size={18}
@@ -161,7 +192,8 @@ const MainSetting = ({navigation}) => {
             <Text style={styles.contentText}>절전 모드</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText2}>5분</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PowerSaving')}>
                 <Right
                   name="right"
                   size={18}
@@ -306,7 +338,10 @@ const MainSetting = ({navigation}) => {
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
           <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('WorkoutRecord')}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('WorkoutRecord', {isCalendar: false})
+          }>
           <Board name="clipboard-check" size={20} color={'#dfdfdf'}></Board>
         </TouchableOpacity>
         <TouchableOpacity style={{marginRight: 45 * width_ratio}}>

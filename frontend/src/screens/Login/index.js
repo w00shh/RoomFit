@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styles from './styles';
-import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
+import {Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import Input from '../../components/Input';
 import CustomButton_B from '../../components/CustomButton_B';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
+import Back from 'react-native-vector-icons/Ionicons';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -16,6 +17,23 @@ const Login = ({navigation, route}) => {
   const [loginDisabled, setLoginDisabled] = useState(true);
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{
+              marginLeft: 0 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
+        </TouchableOpacity>
+      ),
+    });
     if (route.params.isRegister) {
       setEmail(route.params.email);
     }

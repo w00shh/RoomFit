@@ -5,11 +5,11 @@ import {
   Text,
   View,
   Image,
-  Button,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
 import Reload from 'react-native-vector-icons/AntDesign';
+import Back from 'react-native-vector-icons/Ionicons';
 import OnOff from '../../components/Switch';
 import styles from './styles';
 
@@ -35,6 +35,21 @@ const ConnectDevice = ({navigation}) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{
+              marginLeft: 0 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
+        </TouchableOpacity>
+      ),
       headerRight: () => (
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text
@@ -77,9 +92,8 @@ const ConnectDevice = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginHorizontal: 16 * width_ratio,
           marginTop: 30 * height_ratio,
-          width: 350 * width_ratio,
+          width: 358 * width_ratio,
           height: 30 * height_ratio,
           marginBottom: 10 * height_ratio,
         }}>
@@ -129,7 +143,7 @@ const ConnectDevice = ({navigation}) => {
       )}
       <View style={styles.connectExplain}>
         <Text style={styles.statusText}>탐색된 기기</Text>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <OnOff></OnOff>
           <Text>룸핏만 보기</Text>
         </View>

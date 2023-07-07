@@ -1,17 +1,12 @@
-import React, {useState, useEffect, useId, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
   View,
-  Image,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import Reload from 'react-native-vector-icons/AntDesign';
 import Setting from 'react-native-vector-icons/Ionicons';
 import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
@@ -19,16 +14,12 @@ import CustomButton_B from '../../components/CustomButton_B';
 import RecentExercise from '../../components/RecentExercise';
 import RoutineBox from '../../components/Routine';
 import styles from './styles';
-import {useSelector, useDispatch} from 'react-redux';
 import {serverAxios} from '../../utils/commonAxios';
-import {PrivateValueStore} from '@react-navigation/native';
 import {useAppSelector} from '../../redux/store';
 import {AppContext} from '../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
-const standard_w = 390;
-const standard_h = 797;
 
 const HomeScreen = ({navigation}) => {
   const appcontext = useContext(AppContext);
@@ -69,21 +60,21 @@ const HomeScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <View>
-          <Text
-            style={{
-              fontSize: 28,
-              fontWeight: '700',
-              color: '#242424',
-              marginLeft: 10 * width_ratio,
-            }}>
-            운동
-          </Text>
-        </View>
-      ),
-    });
+    // navigation.setOptions({
+    //   headerTitle: () => (
+    //     <View>
+    //       <Text
+    //         style={{
+    //           fontSize: 28,
+    //           fontWeight: '700',
+    //           color: '#242424',
+    //           marginLeft: 10 * width_ratio,
+    //         }}>
+    //         운동
+    //       </Text>
+    //     </View>
+    //   ),
+    // });
     getMyRoutine();
     getRecentWorkout();
   }, []);
@@ -119,29 +110,30 @@ const HomeScreen = ({navigation}) => {
     await serverAxios
       .post('/workout/brief/recent', body)
       .then(res => {
-        res.data.map((value, key) => {
-          setRecentRoutine(currentRecentRoutine => [
-            ...currentRecentRoutine,
-            {
-              recentInedx: key,
-              workout_id: value.workout_id,
-              title: value.title,
-              date: value.start_time.split(' ')[0],
-              start_time:
-                value.start_time.split(' ')[1].split(':')[0] +
-                ':' +
-                value.start_time.split(' ')[1].split(':')[1],
-              end_time:
-                value.end_time.split(' ')[1].split(':')[0] +
-                ':' +
-                value.end_time.split(' ')[1].split(':')[1],
-              total_time: value.total_time,
-              total_weight: value.total_weight,
-              targets: value.targets,
-              memo: value.memo,
-            },
-          ]);
-        });
+        setRecentRoutine(res.data);
+        // res.data.map((value, key) => {
+        //   setRecentRoutine(currentRecentRoutine => [
+        //     ...currentRecentRoutine,
+        //     {
+        //       recentInedx: key,
+        //       workout_id: value.workout_id,
+        //       title: value.title,
+        //       date: value.start_time.split(' ')[0],
+        //       start_time:
+        //         value.start_time.split(' ')[1].split(':')[0] +
+        //         ':' +
+        //         value.start_time.split(' ')[1].split(':')[1],
+        //       end_time:
+        //         value.end_time.split(' ')[1].split(':')[0] +
+        //         ':' +
+        //         value.end_time.split(' ')[1].split(':')[1],
+        //       total_time: value.total_time,
+        //       total_weight: value.total_weight,
+        //       targets: value.targets,
+        //       memo: value.memo,
+        //     },
+        //   ]);
+        // });
       })
       .catch(e => console.log(e));
   };
@@ -153,29 +145,9 @@ const HomeScreen = ({navigation}) => {
     }
   }, [recentRoutine]);
 
-  const PERFORMED = [
-    {
-      date: '2023.06.01',
-      data: [
-        {
-          title: '상체 뽀개기',
-          target: ['어깨', '어깨', '이두', '삼두'],
-          time: ['오후 1:30', '오후 3:00'],
-          information: ['01:30:20', '1205', '654'],
-        },
-        {
-          title: '하체 위주',
-          target: ['하체', '유산소'],
-          time: ['오후 1:30', '오후 3:00'],
-          information: ['01:30:20', '1205', '654'],
-        },
-      ],
-    },
-  ];
-
   return (
     <SafeAreaView style={styles.pageContainer}>
-      <ScrollView>
+      <ScrollView style={{marginVertical: 16 * height_ratio}}>
         {!connectedDevice && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
@@ -275,7 +247,7 @@ const HomeScreen = ({navigation}) => {
                 style={{
                   marginTop: 12 * height_ratio,
                 }}>
-                {recentRoutine[0].date}
+                {recentRoutine[0].start_time.split(' ')[0]}
               </Text>
               {recentRoutine.map((value, key) => (
                 <TouchableOpacity
@@ -284,8 +256,14 @@ const HomeScreen = ({navigation}) => {
                     navigation.navigate('WorkoutDetail', {
                       workout_id: value.workout_id,
                       title: value.title,
-                      start_time: value.start_time,
-                      end_time: value.end_time,
+                      start_time:
+                        value.start_time.split(' ')[1].split(':')[0] +
+                        ':' +
+                        value.start_time.split(' ')[1].split(':')[0],
+                      end_time:
+                        value.end_time.split(' ')[1].split(':')[0] +
+                        ':' +
+                        value.end_time.split(' ')[1].split(':')[0],
                       targets: value.targets,
                       total_time: value.total_time,
                       total_weight: value.total_weight,

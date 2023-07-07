@@ -29,7 +29,7 @@ Motion.load = function (user_id, callback) {
           favRows.forEach(row => {
             motionList.push({
               ...row,
-              isFav: true
+              isFav: true,
             });
           });
           const sqlNotFav = `SELECT * FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
@@ -38,11 +38,11 @@ Motion.load = function (user_id, callback) {
               console.error(err);
             } else {
               notFavRows.forEach(row => {
-              motionList.push({
-                ...row,
-                isFav: false
+                motionList.push({
+                  ...row,
+                  isFav: false,
+                });
               });
-            });
               callback(null, motionList);
             }
           });
@@ -92,31 +92,30 @@ Motion.search_motion = function (user_id, motion_name, callback) {
         if (err) {
           console.error(err);
         } else {
-          if(replaceName.length===0){
+          if (replaceName.length === 0) {
             favRows.forEach(row => {
               motionList.push({
                 ...row,
-                isFav: true
+                isFav: true,
               });
             });
-          }
-          else if (Hangul.isConsonantAll(replaceName)) {
+          } else if (Hangul.isConsonantAll(replaceName)) {
             favRows.forEach(row => {
-              const dbMotionName = Hangul.disassemble(
+              const dbmotion_name = Hangul.disassemble(
                 row.motion_name.replace(/ /g, ''),
               );
               let dbCho = [];
-              for (let i = 1; i < dbMotionName.length; i++) {
-                if (Hangul.isVowel(dbMotionName[i])) {
-                  if (Hangul.isCho(dbMotionName[i - 1])) {
-                    dbCho += dbMotionName[i - 1];
+              for (let i = 1; i < dbmotion_name.length; i++) {
+                if (Hangul.isVowel(dbmotion_name[i])) {
+                  if (Hangul.isCho(dbmotion_name[i - 1])) {
+                    dbCho += dbmotion_name[i - 1];
                   }
                 }
               }
               if (Hangul.rangeSearch(dbCho, replaceName).length != 0) {
                 motionList.push({
                   ...row,
-                  isFav: true
+                  isFav: true,
                 });
               }
             });
@@ -130,7 +129,7 @@ Motion.search_motion = function (user_id, motion_name, callback) {
               ) {
                 motionList.push({
                   ...row,
-                  isFav: true
+                  isFav: true,
                 });
               }
             });
@@ -140,31 +139,30 @@ Motion.search_motion = function (user_id, motion_name, callback) {
             if (err) {
               console.error(err);
             } else {
-              if(replaceName.length===0){
+              if (replaceName.length === 0) {
                 notFavRows.forEach(row => {
                   motionList.push({
                     ...row,
-                    isFav: false
+                    isFav: false,
                   });
                 });
-              }
-              else if (Hangul.isConsonantAll(replaceName)) {
+              } else if (Hangul.isConsonantAll(replaceName)) {
                 notFavRows.forEach(row => {
-                  const dbMotionName = Hangul.disassemble(
+                  const dbmotion_name = Hangul.disassemble(
                     row.motion_name.replace(/ /g, ''),
                   );
                   let dbCho = [];
-                  for (let i = 1; i < dbMotionName.length; i++) {
-                    if (Hangul.isVowel(dbMotionName[i])) {
-                      if (Hangul.isCho(dbMotionName[i - 1])) {
-                        dbCho += dbMotionName[i - 1];
+                  for (let i = 1; i < dbmotion_name.length; i++) {
+                    if (Hangul.isVowel(dbmotion_name[i])) {
+                      if (Hangul.isCho(dbmotion_name[i - 1])) {
+                        dbCho += dbmotion_name[i - 1];
                       }
                     }
                   }
                   if (Hangul.rangeSearch(dbCho, replaceName).length != 0) {
                     motionList.push({
                       ...row,
-                      isFav: false
+                      isFav: false,
                     });
                   }
                 });
@@ -178,7 +176,7 @@ Motion.search_motion = function (user_id, motion_name, callback) {
                   ) {
                     motionList.push({
                       ...row,
-                      isFav: false
+                      isFav: false,
                     });
                   }
                 });

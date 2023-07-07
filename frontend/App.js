@@ -20,10 +20,17 @@ import WorkoutDetail from './src/screens/WorkoutDetail/index.js';
 import MainSetting from './src/screens/Settings/MainSetting/index.js';
 import ProfileSetting from './src/screens/Settings/ProfileSetting/index.js';
 import PasswordSetting from './src/screens/Settings/PasswordSetting/index.js';
+import HeightWeight from './src/screens/Settings/HeightWeight/index.js';
+import BodyFat from './src/screens/Settings/BodyFat/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
 import AppProvider from './src/contexts/AppProvider.js';
+import RestingTime from './src/screens/Settings/RestingTime/index.js';
+import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -140,10 +147,10 @@ const App = () => {
               name="HomeScreen"
               component={HomeScreen}
               options={{
-                headerShown: true,
+                headerShown: false,
                 animation: 'none',
                 title: '운동',
-                headerShadowVisible: true,
+                headerShadowVisible: false,
                 headerBackVisible: false,
                 headerTitleStyle: {
                   fontWeight: '700',
@@ -196,6 +203,7 @@ const App = () => {
                   fontWeight: '700',
                   fontSize: 16,
                 },
+                headerBackVisible: false,
                 headerShadowVisible: false,
               }}></Stack.Screen>
 
@@ -221,7 +229,7 @@ const App = () => {
                   marginLeft: 20,
                 },
                 headerBackVisible: false,
-                headerShadowVisible: true,
+                headerShadowVisible: false,
               }}></Stack.Screen>
 
             <Stack.Screen
@@ -267,6 +275,34 @@ const App = () => {
             <Stack.Screen
               name="PasswordSetting"
               component={PasswordSetting}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="RestingTime"
+              component={RestingTime}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="PowerSaving"
+              component={PowerSaving}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="HeightWeight"
+              component={HeightWeight}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="BodyFat"
+              component={BodyFat}
               options={{
                 headerShadowVisible: false,
                 headerBackVisible: false,

@@ -3,9 +3,9 @@ import styles from './styles';
 import {useEffect, useState} from 'react';
 import Input from '../../../../components/Input';
 import CustomButton_B from '../../../../components/CustomButton_B';
+import CustomButton_W from '../../../../components/CustomButton_W';
 import CheckMark from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../../../utils/commonAxios';
-import CustomButton_W from '../../../../components/CustomButton_W';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;

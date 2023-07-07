@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -16,12 +16,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginHorizontal: 16 * width_ratio,
+    marginVertical: Platform.OS === 'ios' ? 16 * height_ratio : 0,
+    marginHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
   },
 
   devider: {
     marginTop: 12 * height_ratio,
-    height: 2 * height_ratio,
+    height: 1 * height_ratio,
+    width: 358 * width_ratio,
   },
 
   deviceName: {
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
   },
 
   reloadIcon: {
-    marginRight: 16 * width_ratio,
+    marginRight: 5 * width_ratio,
     marginTop: 5 * height_ratio,
     fontWeight: '900',
   },

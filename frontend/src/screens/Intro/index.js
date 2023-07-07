@@ -5,8 +5,8 @@ import {
   Image,
   TouchableOpacity,
   Linking,
-  PixelRatio,
   Dimensions,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Kakao from 'react-native-vector-icons/Ionicons';
@@ -17,8 +17,6 @@ import Imgintro from '../../assets/images/img_intro.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
-const standard_w = 390;
-const standard_h = 797;
 
 const Intro = ({navigation}) => {
   appcontext = useContext(AppContext);
@@ -53,9 +51,9 @@ const Intro = ({navigation}) => {
     handleDeepLink();
 
     // 딥 링크 이벤트 리스너 해제
-    return () => {
-      Linking.removeEventListener('url', handleUrl);
-    };
+    // return () => {
+    //   Linking.removeEventListener('url', handleUrl);
+    // };
   }, []);
   return (
     <View style={styles.pageContainer}>
@@ -65,7 +63,8 @@ const Intro = ({navigation}) => {
         asset={Imgintro}></WithLocalSvg> */}
       <View
         style={{
-          marginTop: 32 * height_ratio,
+          marginTop:
+            Platform.OS === 'ios' ? 64 * height_ratio : 32 * height_ratio,
           width: 320 * width_ratio,
           height: 352 * height_ratio,
         }}>
