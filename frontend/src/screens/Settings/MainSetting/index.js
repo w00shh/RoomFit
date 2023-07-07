@@ -135,7 +135,10 @@ const MainSetting = ({navigation}) => {
             <Text style={styles.contentText}>세트간 휴식시간</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText2}>30초</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RestingTime', {title: '세트'});
+                }}>
                 <Right
                   name="right"
                   size={18}
@@ -148,7 +151,10 @@ const MainSetting = ({navigation}) => {
             <Text style={styles.contentText}>동작간 휴식시간</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText2}>30초</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RestingTime', {title: '동작'});
+                }}>
                 <Right
                   name="right"
                   size={18}
@@ -306,7 +312,10 @@ const MainSetting = ({navigation}) => {
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
           <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('WorkoutRecord')}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('WorkoutRecord', {isCalendar: false})
+          }>
           <Board name="clipboard-check" size={20} color={'#dfdfdf'}></Board>
         </TouchableOpacity>
         <TouchableOpacity style={{marginRight: 45 * width_ratio}}>
