@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: 358 * width_ratio,
     height: 56 * height_ratio,
+    fontSize: 14 * height_ratio,
     backgroundColor: '#f5f5f5',
     borderRadius: 12,
     paddingVertical: 16 * height_ratio,

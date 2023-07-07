@@ -42,7 +42,7 @@ const MainSetting = ({navigation}) => {
               onPress={() => navigation.navigate('ProfileSetting')}>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: 20 * height_ratio,
                   fontWeight: '700',
                   color: '#242424',
                   marginLeft: 16 * width_ratio,
@@ -51,14 +51,16 @@ const MainSetting = ({navigation}) => {
               </Text>
               <Right
                 name="right"
-                size={20}
+                size={20 * height_ratio}
                 style={styles.rightIcon}
-                color={'#242424'}></Right>
+                color="#242424"></Right>
             </TouchableOpacity>
           </View>
           <View>
             <TouchableOpacity style={styles.logoutButton}>
-              <Text style={{fontSize: 16, color: '#242424'}}>로그아웃</Text>
+              <Text style={{fontSize: 16 * height_ratio, color: '#242424'}}>
+                로그아웃
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -72,9 +74,9 @@ const MainSetting = ({navigation}) => {
                 onPress={() => navigation.navigate('ConnectDevice')}>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -83,6 +85,7 @@ const MainSetting = ({navigation}) => {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
+                  fontSize: 14 * height_ratio,
                   color: isAssist ? '#5252fa' : '#f5f5f5',
                   marginRight: 3 * width_ratio,
                 }}>
@@ -122,6 +125,7 @@ const MainSetting = ({navigation}) => {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
+                  fontSize: 14 * height_ratio,
                   color: isLock ? '#5252fa' : '#f5f5f5',
                   marginRight: 3 * width_ratio,
                 }}>
@@ -166,9 +170,9 @@ const MainSetting = ({navigation}) => {
                 }}>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -182,9 +186,9 @@ const MainSetting = ({navigation}) => {
                 }}>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -196,9 +200,9 @@ const MainSetting = ({navigation}) => {
                 onPress={() => navigation.navigate('PowerSaving')}>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -212,9 +216,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -225,9 +229,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -238,9 +242,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -250,9 +254,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -262,9 +266,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -277,9 +281,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -289,9 +293,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -301,9 +305,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -313,9 +317,9 @@ const MainSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color={'#242424'}></Right>
+                  color="#242424"></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -336,16 +340,25 @@ const MainSetting = ({navigation}) => {
         <TouchableOpacity
           style={{marginLeft: 45 * width_ratio}}
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
-          <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
+          <Dumbbell
+            name="dumbbell"
+            size={20 * height_ratio}
+            color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('WorkoutRecord', {isCalendar: false})
           }>
-          <Board name="clipboard-check" size={20} color={'#dfdfdf'}></Board>
+          <Board
+            name="clipboard-check"
+            size={20 * height_ratio}
+            color={'#dfdfdf'}></Board>
         </TouchableOpacity>
         <TouchableOpacity style={{marginRight: 45 * width_ratio}}>
-          <Setting name="settings" size={20} color={'#fff'}></Setting>
+          <Setting
+            name="settings"
+            size={20 * height_ratio}
+            color={'#fff'}></Setting>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

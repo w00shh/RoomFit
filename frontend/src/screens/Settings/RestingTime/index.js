@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 
@@ -53,10 +54,10 @@ const RestingTime = ({navigation, route}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
+              marginRight: Platform.OS === 'ios' ? 0 : 10 * width_ratio,
             }}></Back>
         </TouchableOpacity>
       ),
@@ -65,7 +66,7 @@ const RestingTime = ({navigation, route}) => {
           <Text
             style={{
               color: '#242424',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
             {route.params.title}간 휴식시간
@@ -76,7 +77,7 @@ const RestingTime = ({navigation, route}) => {
   }, []);
   return (
     <View style={styles.pageContainer}>
-      <ScrollView style={{height: 500 * height_ratio, marginTop: 16}}>
+      <ScrollView style={{marginTop: 16 * height_ratio}}>
         {restTime.map((value, key) => (
           <TouchableOpacity
             key={key}
@@ -84,20 +85,19 @@ const RestingTime = ({navigation, route}) => {
             <View
               style={{
                 flexDirection: 'row',
-
                 height: 56 * height_ratio,
               }}>
               <View style={styles.restContainer}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: 16 * height_ratio,
                     color: value.time === temprestSet ? '#5252fa' : '#242424',
                   }}>
                   {calcTime(value.time)}
                 </Text>
                 <Check
                   name="check"
-                  size={20}
+                  size={20 * height_ratio}
                   color={
                     value.time === temprestSet ? '#5252fa' : 'white'
                   }></Check>

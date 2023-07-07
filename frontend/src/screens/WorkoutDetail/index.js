@@ -4,7 +4,6 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  Image,
   Text,
   Dimensions,
   Modal,
@@ -49,7 +48,7 @@ const WorkoutDetail = ({navigation, route}) => {
           <Text
             style={{
               color: 'black',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
             {route.params.title}
@@ -138,7 +137,7 @@ const WorkoutDetail = ({navigation, route}) => {
           </View>
 
           <View style={{marginLeft: 8 * width_ratio}}>
-            <Text style={styles.puaseSubtitle}>운동 부위</Text>
+            <Text style={styles.pauseSubtitle}>운동 부위</Text>
             <Text style={styles.pauseMotionTitle}>
               {route.params.targets.join(', ')}
             </Text>
@@ -155,8 +154,8 @@ const WorkoutDetail = ({navigation, route}) => {
               <Timer name="timer" color="#41b1ca" size={23}></Timer>
             </View>
             <View style={{marginLeft: 8 * width_ratio}}>
-              <Text style={styles.puaseSubtitle}>전체 운동시간</Text>
-              <Text style={styles.puaseSubcontent}>
+              <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
+              <Text style={styles.pauseSubcontent}>
                 {route.params.total_time}
               </Text>
             </View>
@@ -167,8 +166,8 @@ const WorkoutDetail = ({navigation, route}) => {
             </View>
 
             <View style={{marginLeft: 8 * width_ratio}}>
-              <Text style={styles.puaseSubtitle}>유효 수행시간</Text>
-              <Text style={styles.puaseSubcontent}>tut</Text>
+              <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
+              <Text style={styles.pauseSubcontent}>tut</Text>
             </View>
           </View>
         </View>
@@ -186,8 +185,8 @@ const WorkoutDetail = ({navigation, route}) => {
                 size={23}></Lightning>
             </View>
             <View style={{marginLeft: 8 * width_ratio}}>
-              <Text style={styles.puaseSubtitle}>볼륨</Text>
-              <Text style={styles.puaseSubcontent}>
+              <Text style={styles.pauseSubtitle}>볼륨</Text>
+              <Text style={styles.pauseSubcontent}>
                 {route.params.total_weight}
               </Text>
             </View>
@@ -198,8 +197,8 @@ const WorkoutDetail = ({navigation, route}) => {
             </View>
 
             <View style={{marginLeft: 8 * width_ratio}}>
-              <Text style={styles.puaseSubtitle}>칼로리</Text>
-              <Text style={styles.puaseSubcontent}>10000</Text>
+              <Text style={styles.pauseSubtitle}>칼로리</Text>
+              <Text style={styles.pauseSubcontent}>10000</Text>
             </View>
           </View>
         </View>

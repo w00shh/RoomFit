@@ -81,51 +81,51 @@ const styles = StyleSheet.create({
   },
 
   pauseMotionTitle: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
 
   statusText: {
-    fontSize: 48,
+    fontSize: 48 * height_ratio,
     fontWeight: '400',
     color: '#242424',
   },
 
   targetText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
     color: '#808080',
     marginBottom: 10 * height_ratio,
   },
 
   statusText2: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
 
   targetText2: {
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
     fontWeight: '400',
     color: '#808080',
     marginBottom: 1 * height_ratio,
   },
 
-  puaseSubtitle: {
-    fontSize: 12,
+  pauseSubtitle: {
+    fontSize: 12 * height_ratio,
     fontWeight: '400',
     color: '#808080',
   },
 
-  puaseSubcontent: {
-    fontSize: 16,
+  pauseSubcontent: {
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
 
   yoyakText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
