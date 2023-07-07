@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -79,10 +79,10 @@ const styles = StyleSheet.create({
   },
 
   selectionContainer: {
-    marginTop: 25 * height_ratio,
-    flexDirection: 'row',
-
     flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: Platform.OS === 'ios' ? 64 * height_ratio : 32 * height_ratio,
   },
 
   devider: {

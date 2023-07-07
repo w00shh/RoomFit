@@ -1,17 +1,12 @@
-import React, {useState, useEffect, useId, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
   View,
-  Image,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import Reload from 'react-native-vector-icons/AntDesign';
 import Setting from 'react-native-vector-icons/Ionicons';
 import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
@@ -19,16 +14,12 @@ import CustomButton_B from '../../components/CustomButton_B';
 import RecentExercise from '../../components/RecentExercise';
 import RoutineBox from '../../components/Routine';
 import styles from './styles';
-import {useSelector, useDispatch} from 'react-redux';
 import {serverAxios} from '../../utils/commonAxios';
-import {PrivateValueStore} from '@react-navigation/native';
 import {useAppSelector} from '../../redux/store';
 import {AppContext} from '../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
-const standard_w = 390;
-const standard_h = 797;
 
 const HomeScreen = ({navigation}) => {
   const appcontext = useContext(AppContext);
@@ -69,21 +60,21 @@ const HomeScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <View>
-          <Text
-            style={{
-              fontSize: 28,
-              fontWeight: '700',
-              color: '#242424',
-              marginLeft: 10 * width_ratio,
-            }}>
-            운동
-          </Text>
-        </View>
-      ),
-    });
+    // navigation.setOptions({
+    //   headerTitle: () => (
+    //     <View>
+    //       <Text
+    //         style={{
+    //           fontSize: 28,
+    //           fontWeight: '700',
+    //           color: '#242424',
+    //           marginLeft: 10 * width_ratio,
+    //         }}>
+    //         운동
+    //       </Text>
+    //     </View>
+    //   ),
+    // });
     getMyRoutine();
     getRecentWorkout();
   }, []);
@@ -156,7 +147,7 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.pageContainer}>
-      <ScrollView>
+      <ScrollView style={{marginVertical: 16 * height_ratio}}>
         {!connectedDevice && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>

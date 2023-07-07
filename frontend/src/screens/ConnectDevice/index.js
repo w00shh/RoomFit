@@ -5,11 +5,11 @@ import {
   Text,
   View,
   Image,
-  Button,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
 import Reload from 'react-native-vector-icons/AntDesign';
+import Back from 'react-native-vector-icons/Ionicons';
 import OnOff from '../../components/Switch';
 import styles from './styles';
 
@@ -35,6 +35,21 @@ const ConnectDevice = ({navigation}) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{
+              marginLeft: 0 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
+        </TouchableOpacity>
+      ),
       headerRight: () => (
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text

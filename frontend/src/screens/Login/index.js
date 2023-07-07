@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styles from './styles';
-import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
+import {Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import Input from '../../components/Input';
 import CustomButton_B from '../../components/CustomButton_B';
 import {serverAxios} from '../../utils/commonAxios';

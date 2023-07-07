@@ -145,21 +145,21 @@ const AddMotion = ({navigation, route}) => {
 
   useEffect(() => {
     navigation.setOptions({
-      // headerLeft: () => (
-      //   <TouchableOpacity
-      //     onPress={() => {
-
-      //     }}>
-      //     <Back
-      //       name="arrow-back"
-      //       color={'#242424'}
-      //       size={25}
-      //       style={{
-      //         marginLeft: 0 * width_ratio,
-      //         marginRight: 10 * width_ratio,
-      //       }}></Back>
-      //   </TouchableOpacity>
-      // ),
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{
+              marginLeft: 0 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
+        </TouchableOpacity>
+      ),
       headerRight: () => (
         <TouchableOpacity>
           <Text>+ 커스텀 동작</Text>

@@ -143,10 +143,10 @@ const App = () => {
               name="HomeScreen"
               component={HomeScreen}
               options={{
-                headerShown: true,
+                headerShown: false,
                 animation: 'none',
                 title: '운동',
-                headerShadowVisible: true,
+                headerShadowVisible: false,
                 headerBackVisible: false,
                 headerTitleStyle: {
                   fontWeight: '700',
@@ -225,7 +225,7 @@ const App = () => {
                   marginLeft: 20,
                 },
                 headerBackVisible: false,
-                headerShadowVisible: true,
+                headerShadowVisible: false,
               }}></Stack.Screen>
 
             <Stack.Screen

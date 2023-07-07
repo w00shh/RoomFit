@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginVertical: Platform.OS === 'ios' ? 16 * height_ratio : 0,
     marginHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
   },
 
