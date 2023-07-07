@@ -17,14 +17,14 @@ const height_ratio = Dimensions.get('screen').height / 844;
 const PowerSaving = ({navigation, route}) => {
   const [tempPowerSaving, setTempPowerSaving] = useState();
   const powerSave = [
+    {time: 3, selsected: false},
+    {time: 5, selsected: false},
+    {time: 7, selsected: false},
+    {time: 10, selsected: false},
     {time: 15, selsected: false},
     {time: 20, selsected: false},
     {time: 30, selsected: false},
-    {time: 40, selsected: false},
-    {time: 50, selsected: false},
     {time: 60, selsected: false},
-    {time: 75, selsected: false},
-    {time: 90, selsected: false},
     {time: 120, selsected: false},
     {time: 150, selsected: false},
   ];
@@ -33,11 +33,11 @@ const PowerSaving = ({navigation, route}) => {
     const min = Math.floor(time / 60);
     const sec = time % 60;
     if (time < 60) {
-      return `${time}초`;
+      return `${time}분`;
     } else if (time % 60 === 0) {
-      return `${min}분`;
+      return `${min}시간`;
     } else {
-      return `${min}분 ${sec}초`;
+      return `${min}시간 ${sec}분`;
     }
   };
   const handleBackButton = () => {
@@ -68,7 +68,7 @@ const PowerSaving = ({navigation, route}) => {
               fontSize: 16,
               fontWeight: '700',
             }}>
-            {route.params.title}간 휴식시간
+            절전모드
           </Text>
         </>
       ),
@@ -76,8 +76,14 @@ const PowerSaving = ({navigation, route}) => {
   }, []);
   return (
     <View style={styles.pageContainer}>
+      <View style={{width: 358 * width_ratio}}>
+        <Text style={{fontSize: 14, color: '#808080'}}>
+          설정한 시간동안 움직임이 감지되지 않으면 운동 종료로 인식하고
+          절전모드로 들어갑니다.
+        </Text>
+      </View>
       <ScrollView style={{height: 500 * height_ratio, marginTop: 16}}>
-        {restTime.map((value, key) => (
+        {powerSave.map((value, key) => (
           <TouchableOpacity
             key={key}
             onPress={() => setTempPowerSaving(value.time)}>

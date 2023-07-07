@@ -277,15 +277,15 @@ const WorkoutRecord = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <View style={{height: 16}}></View>
       {!isCalendar && (
         <ScrollView>
           {workoutList.length > 0 &&
             formattedData.map(value => (
-              <View key={value.date}>
+              <View key={value.date} style={{marginBottom: 40}}>
                 <View>
                   <Text
                     style={{
-                      marginTop: 20,
                       fontSize: 16,
                       fontWeight: '700',
                       color: '#242424',
@@ -322,7 +322,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 </View>
               </View>
             ))}
-          <View style={{height: 90}}></View>
+          <View style={{height: 50}}></View>
         </ScrollView>
       )}
       {isCalendar && (

@@ -171,7 +171,8 @@ const MainSetting = ({navigation}) => {
             <Text style={styles.contentText}>절전 모드</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText2}>5분</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PowerSaving')}>
                 <Right
                   name="right"
                   size={18}

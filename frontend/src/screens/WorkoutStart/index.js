@@ -197,7 +197,6 @@ export const WorkoutStart = ({navigation, route}) => {
   }, [workoutTitle]);
 
   const modifyingMotion = () => {
-    setIsPaused(true);
     setIsPausedPage(false);
     setIsModifyMotion(true);
   };
@@ -512,7 +511,7 @@ export const WorkoutStart = ({navigation, route}) => {
       } else {
         setRoutineDoneModal(true);
       }
-      setIsResting(true);
+      setIsResting(false);
     }
   };
 
@@ -544,6 +543,7 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const endSetting = () => {
+    setIsPaused(false);
     setPressSetting(false);
     setRestTimer(restSet);
   };
@@ -878,7 +878,7 @@ export const WorkoutStart = ({navigation, route}) => {
           </View>
           <View style={styles.navigator}>
             <TouchableOpacity
-              onPress={modifyingMotion}
+              onPress={() => modifyingMotion()}
               style={{marginLeft: 45 * width_ratio}}>
               <Dumbbell name="dumbbell" size={20} color={'#fff'}></Dumbbell>
             </TouchableOpacity>
@@ -886,7 +886,10 @@ export const WorkoutStart = ({navigation, route}) => {
               <Pause name="pausecircle" size={20} color={'#fff'}></Pause>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setPressSetting(true)}
+              onPress={() => {
+                setPressSetting(true);
+                setIsPaused(true);
+              }}
               style={{marginRight: 45 * width_ratio}}>
               <Setting name="settings" size={20} color={'#fff'}></Setting>
             </TouchableOpacity>
