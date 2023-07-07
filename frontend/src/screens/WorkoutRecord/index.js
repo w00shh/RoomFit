@@ -16,7 +16,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const [isRecord, setIsRecord] = useState(true);
   const [isSetting, setIsSetting] = useState(false);
   const [isLeft, setIsLeft] = useState(true);
-  const [isCalender, setIsCalender] = useState(route.params.isCalendar);
+  const [isCalendar, setIsCalendar] = useState(route.params.isCalendar);
   const [recentRoutine, setRecentRoutine] = useState([]);
   const [workoutList, setWorkoutList] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
@@ -121,28 +121,29 @@ const WorkoutRecord = ({navigation, route}) => {
       date: selectedDate,
     };
     await serverAxios.post('workout/calender/date', body).then(res => {
-      res.data.map((value, key) => {
-        setSelectedWorkout(currentSelectedWorkout => [
-          ...currentSelectedWorkout,
-          {
-            workout_id: value.workout_id,
-            title: value.title,
-            date: value.start_time.split(' ')[0],
-            start_time:
-              value.start_time.split(' ')[1].split(':')[0] +
-              ':' +
-              value.start_time.split(' ')[1].split(':')[1],
-            end_time:
-              value.end_time.split(' ')[1].split(':')[0] +
-              ':' +
-              value.end_time.split(' ')[1].split(':')[1],
-            total_time: value.total_time,
-            total_weight: value.total_weight,
-            targets: value.targets,
-            memo: value.memo,
-          },
-        ]);
-      });
+      setSelectedWorkout(res.data);
+      // res.data.map((value, key) => {
+      //   setSelectedWorkout(currentSelectedWorkout => [
+      //     ...currentSelectedWorkout,
+      //     {
+      //       workout_id: value.workout_id,
+      //       title: value.title,
+      //       date: value.start_time.split(' ')[0],
+      //       start_time:
+      //         value.start_time.split(' ')[1].split(':')[0] +
+      //         ':' +
+      //         value.start_time.split(' ')[1].split(':')[1],
+      //       end_time:
+      //         value.end_time.split(' ')[1].split(':')[0] +
+      //         ':' +
+      //         value.end_time.split(' ')[1].split(':')[1],
+      //       total_time: value.total_time,
+      //       total_weight: value.total_weight,
+      //       targets: value.targets,
+      //       memo: value.memo,
+      //     },
+      //   ]);
+      // });
     });
   };
 
@@ -239,18 +240,18 @@ const WorkoutRecord = ({navigation, route}) => {
         }}>
         <View
           style={{
-            backgroundColor: isCalender ? '#f5f5f5' : '#fff',
+            backgroundColor: isCalendar ? '#f5f5f5' : '#fff',
             borderRadius: 100,
             width: 73,
             height: 32,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={() => setIsCalender(false)}>
+          <TouchableOpacity onPress={() => setIsCalendar(false)}>
             <Text
               style={{
                 fontSize: 14,
-                color: isCalender ? '#808080' : '#242424',
+                color: isCalendar ? '#808080' : '#242424',
               }}>
               운동기록
             </Text>
@@ -258,25 +259,25 @@ const WorkoutRecord = ({navigation, route}) => {
         </View>
         <View
           style={{
-            backgroundColor: isCalender ? '#fff' : '#f5f5f5',
+            backgroundColor: isCalendar ? '#fff' : '#f5f5f5',
             borderRadius: 100,
             width: 73,
             height: 32,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={() => setIsCalender(true)}>
+          <TouchableOpacity onPress={() => setIsCalendar(true)}>
             <Text
               style={{
                 fontSize: 14,
-                color: isCalender ? '#242424' : '#808080',
+                color: isCalendar ? '#242424' : '#808080',
               }}>
               캘린더
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-      {!isCalender && (
+      {!isCalendar && (
         <ScrollView>
           {workoutList.length > 0 &&
             formattedData.map(value => (
@@ -318,7 +319,7 @@ const WorkoutRecord = ({navigation, route}) => {
           <View style={{height: 90}}></View>
         </ScrollView>
       )}
-      {isCalender && (
+      {isCalendar && (
         <ScrollView>
           <View>
             <Calendar
@@ -345,7 +346,7 @@ const WorkoutRecord = ({navigation, route}) => {
               }}></Calendar>
           </View>
           {selectedWorkout.length > 0 &&
-            selectedDate === selectedWorkout[0].date && (
+            selectedDate === selectedWorkout[0].start_time.split(' ')[0] && (
               <>
                 <View>
                   <Text
