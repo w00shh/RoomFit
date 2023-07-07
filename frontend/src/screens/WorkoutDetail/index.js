@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Platform,
   View,
   ScrollView,
   TouchableOpacity,
@@ -11,13 +12,8 @@ import {
 import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
-import Start from 'react-native-vector-icons/AntDesign';
 import Body from 'react-native-vector-icons/Ionicons';
-import Square from 'react-native-vector-icons/FontAwesome';
-import TutTimer from 'react-native-vector-icons/MaterialCommunityIcons';
-import Back from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-import finalPropsSelectorFactory from 'react-redux/es/connect/selectorFactory';
 import {serverAxios} from '../../utils/commonAxios';
 import RecordItem from '../../components/RecordItem';
 import CustomButton_B from '../../components/CustomButton_B';
@@ -45,7 +41,11 @@ const WorkoutDetail = ({navigation, route}) => {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <View style={{flexDirection: 'column'}}>
+        <View
+          style={{
+            flexDirection: 'column',
+            alignItems: Platform.OS === 'ios' ? 'center' : 'flex-start',
+          }}>
           <Text
             style={{
               color: 'black',

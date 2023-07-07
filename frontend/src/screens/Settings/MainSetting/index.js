@@ -1,16 +1,14 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
-  Modal,
   Switch,
-  Image,
   Dimensions,
   SafeAreaView,
+  Platform,
 } from 'react-native';
-import {serverAxios} from '../../../utils/commonAxios';
 import styles from './styles';
 import {WithLocalSvg} from 'react-native-svg';
 import Profile from '../../../assets/images/normalProfile.svg';
@@ -98,8 +96,18 @@ const MainSetting = ({navigation}) => {
                 value={isAssist}
                 style={{
                   transform: [
-                    {scaleX: 1.2 * height_ratio},
-                    {scaleY: 1.2 * width_ratio},
+                    {
+                      scaleX:
+                        Platform.OS === 'ios'
+                          ? 0.8 * height_ratio
+                          : 1.2 * height_ratio,
+                    },
+                    {
+                      scaleY:
+                        Platform.OS === 'ios'
+                          ? 0.8 * width_ratio
+                          : 1.2 * width_ratio,
+                    },
                   ],
                 }}
               />
@@ -126,7 +134,20 @@ const MainSetting = ({navigation}) => {
                 onValueChange={toggleSwitch2}
                 value={isLock}
                 style={{
-                  transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+                  transform: [
+                    {
+                      scaleX:
+                        Platform.OS === 'ios'
+                          ? 0.8 * height_ratio
+                          : 1.2 * height_ratio,
+                    },
+                    {
+                      scaleY:
+                        Platform.OS === 'ios'
+                          ? 0.8 * width_ratio
+                          : 1.2 * width_ratio,
+                    },
+                  ],
                 }}
               />
             </View>

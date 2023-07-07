@@ -12,6 +12,7 @@ import {
   FlatList,
   TextInput,
   Dimensions,
+  Platform,
 } from 'react-native';
 import CustomButton_W from '../../components/CustomButton_W';
 import Check from 'react-native-vector-icons/AntDesign';
@@ -26,16 +27,11 @@ import Start from 'react-native-vector-icons/AntDesign';
 import Square from 'react-native-vector-icons/FontAwesome';
 import TutTimer from 'react-native-vector-icons/MaterialCommunityIcons';
 import Setting from 'react-native-vector-icons/Ionicons';
-import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import Left from 'react-native-vector-icons/Entypo';
 import Right from 'react-native-vector-icons/AntDesign';
-import Swiper from 'react-native-swiper';
 import styles from './styles';
-import OnOff from '../../components/Switch';
 import CustomButton_B from '../../components/CustomButton_B';
-import WorkoutTitle from '../../components/WorkoutTitle';
-import AddMotion from '../AddMotion';
 import WorkoutItem from '../../components/WorkoutItem';
 import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
@@ -1222,11 +1218,20 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </Modal>
-          <Text style={styles.pauseTitle}>운동 설정</Text>
+          <View
+            style={{
+              paddingHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
+            }}>
+            <Text style={styles.pauseTitle}>운동 설정</Text>
+          </View>
           <View style={styles.settings}>
             <View style={styles.settingContainer}>
               <Text style={styles.settingText}>스마트 어시스트</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
                 <Text
                   style={{
                     color: isAssist ? '#5252fa' : '#fff',
@@ -1241,7 +1246,20 @@ export const WorkoutStart = ({navigation, route}) => {
                   onValueChange={toggleSwitch}
                   value={isAssist}
                   style={{
-                    transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+                    transform: [
+                      {
+                        scaleX:
+                          Platform.OS === 'ios'
+                            ? 0.8 * height_ratio
+                            : 1.2 * height_ratio,
+                      },
+                      {
+                        scaleY:
+                          Platform.OS === 'ios'
+                            ? 0.8 * width_ratio
+                            : 1.2 * width_ratio,
+                      },
+                    ],
                   }}
                 />
               </View>
@@ -1265,7 +1283,20 @@ export const WorkoutStart = ({navigation, route}) => {
                   onValueChange={toggleSwitch2}
                   value={isLock}
                   style={{
-                    transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+                    transform: [
+                      {
+                        scaleX:
+                          Platform.OS === 'ios'
+                            ? 0.8 * height_ratio
+                            : 1.2 * height_ratio,
+                      },
+                      {
+                        scaleY:
+                          Platform.OS === 'ios'
+                            ? 0.8 * width_ratio
+                            : 1.2 * width_ratio,
+                      },
+                    ],
                   }}
                 />
               </View>
