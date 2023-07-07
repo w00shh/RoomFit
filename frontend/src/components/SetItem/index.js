@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Check from 'react-native-vector-icons/Entypo';
@@ -112,14 +113,14 @@ const SetItem = props => {
       </View>
       {/* <Text>isDoing: {String(props.isDoing)}</Text>
       <Text>isDone: {String(props.isDone)}</Text> */}
-      <View style={styles.itemBox}>
-        <Text style={styles.modeText}>
-          {props.motionList[props.target_motion_id].sets[props.set_id].mode}
-        </Text>
-        <TouchableOpacity onPress={handleModeSelectPress}>
+      <TouchableWithoutFeedback onPress={handleModeSelectPress}>
+        <View style={styles.itemBox}>
+          <Text style={styles.modeText}>
+            {props.motionList[props.target_motion_id].sets[props.set_id].mode}
+          </Text>
           <Icon name="chevron-down" size={16} color="#808080"></Icon>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
       {props.isExercising && (
         <View style={styles.keyBox}>
           {props.isDone ? (

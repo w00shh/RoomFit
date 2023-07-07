@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     paddingHorizontal: 8 * width_ratio,
   },
-
   keyBox: {
     flex: 1,
     height: 40 * height_ratio,
