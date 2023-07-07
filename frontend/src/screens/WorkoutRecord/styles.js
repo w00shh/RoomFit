@@ -29,6 +29,83 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f5f5f5',
     width: 370 * width_ratio,
   },
+
+  grayCircle: {
+    width: 48 * width_ratio,
+    height: 48 * width_ratio,
+
+    backgroundColor: '#f5f5f5',
+    borderRadius: 24,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  RgrayCircle: {
+    width: 48 * width_ratio,
+    height: 48 * width_ratio,
+
+    backgroundColor: '#f5f5f5',
+    borderRadius: 24,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    marginLeft: 60 * width_ratio,
+  },
+
+  pauseMotionTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+  },
+
+  statusText: {
+    fontSize: 48,
+    fontWeight: '400',
+    color: '#242424',
+  },
+
+  targetText: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#808080',
+    marginBottom: 10 * height_ratio,
+  },
+
+  statusText2: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+  },
+
+  yoyakText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+  },
+
+  puaseSubtitle: {
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#808080',
+  },
+
+  puaseSubcontent: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#242424',
+  },
+
+  targetText: {
+    fontSize: 14,
+    color: '#808080',
+  },
+  percentText: {
+    fontSize: 16,
+    color: '#242424',
+    fontWeight: '700',
+  },
 });
 
 export default styles;

@@ -28,6 +28,9 @@ import {store} from './src/redux/store.ts';
 import AppProvider from './src/contexts/AppProvider.js';
 import RestingTime from './src/screens/Settings/RestingTime/index.js';
 import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
+import {LogBox} from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
