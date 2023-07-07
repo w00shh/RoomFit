@@ -9,22 +9,19 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const RestingTime = ({navigation, route}) => {
   const restTime = [
-    {time: 10, selsected: false},
+    {time: 15, selsected: false},
     {time: 20, selsected: false},
     {time: 30, selsected: false},
     {time: 40, selsected: false},
     {time: 50, selsected: false},
     {time: 60, selsected: false},
-    {time: 70, selsected: false},
-    {time: 80, selsected: false},
+    {time: 75, selsected: false},
     {time: 90, selsected: false},
-    {time: 100, selsected: false},
-    {time: 110, selsected: false},
     {time: 120, selsected: false},
-    {time: 130, selsected: false},
+    {time: 150, selsected: false},
   ];
 
-  const calTime = time => {
+  const calcTime = time => {
     const min = Math.floor(time / 60);
     const sec = time % 60;
     if (time < 60) {
