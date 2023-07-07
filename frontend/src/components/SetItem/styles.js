@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
   },
 
   titleItem: {
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   keyText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
     textAlign: 'center',
   },
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 
   valueText: {
     flex: 3,
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
     textAlign: 'center',
   },
@@ -73,11 +73,11 @@ const styles = StyleSheet.create({
   },
 
   unitText: {
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
     color: '#acacac',
   },
   modeText: {
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
     color: '#242424',
   },
   modeTitleContainer: {
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },

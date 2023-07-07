@@ -2,7 +2,7 @@ import * as React from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Linking} from 'react-native';
+import {Linking, Dimensions} from 'react-native';
 import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
 import Register from './src/screens/Register/index.js';
@@ -30,7 +30,8 @@ import RestingTime from './src/screens/Settings/RestingTime/index.js';
 import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 export const AppContext = React.createContext({
   state: {
@@ -175,7 +176,7 @@ const App = () => {
                 title: '내 루틴',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
                 headerShadowVisible: false,
               }}></Stack.Screen>
@@ -211,7 +212,7 @@ const App = () => {
                 title: '동작 선택',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
                 headerShadowVisible: false,
               }}></Stack.Screen>

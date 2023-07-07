@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   koreanText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#242424',
   },
   englishText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#808080',
   },
   setInfoContainer: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
   aiCoachingText: {
     color: '#fff',
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     marginRight: 2 * width_ratio,
   },
   rightIcon: {

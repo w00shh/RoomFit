@@ -21,7 +21,10 @@ const RoutineBox = props => {
         </View>
       </View>
       <TouchableOpacity onPress={props.onPress}>
-        <Right name="right" size={20} style={styles.rightIcon}></Right>
+        <Right
+          name="right"
+          size={20 * height_ratio}
+          style={styles.rightIcon}></Right>
       </TouchableOpacity>
     </View>
   );

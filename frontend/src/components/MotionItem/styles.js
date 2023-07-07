@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
   },
 
   koreanText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#242424',
   },
   englishText: {
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
     color: '#808080',
   },
 });

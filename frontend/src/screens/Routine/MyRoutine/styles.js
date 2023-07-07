@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     marginVertical: 24 * height_ratio,
   },
   makeRoutineText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#5252fa',
   },
   deleteRoutineContainer: {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginVertical: 24 * height_ratio,
   },
   deleteRoutineText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: 'white',
   },
   routineContainer: {
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
   titleText: {
     color: '#242424',
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
     marginLeft: 16 * width_ratio,
     marginBottom: 4 * height_ratio,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 
   targetText: {
     color: '#808080',
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
     fontWeight: '400',
   },
 

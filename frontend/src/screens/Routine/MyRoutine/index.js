@@ -26,7 +26,7 @@ const MyRoutine = ({navigation}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 10 * width_ratio,
               marginRight: 10 * width_ratio,
@@ -46,7 +46,7 @@ const MyRoutine = ({navigation}) => {
             setIsEdit(!isEdit);
           }}
           style={{marginRight: 14}}>
-          <Text style={{color: '#242424', fontSize: 14}}>
+          <Text style={{color: '#242424', fontSize: 14 * height_ratio}}>
             {isEdit ? '취소' : '편집'}
           </Text>
         </TouchableOpacity>

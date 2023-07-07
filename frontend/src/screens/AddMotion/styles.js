@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   },
 
   recommendedText: {
+    fontSize: 14 * height_ratio,
     alignSelf: 'flex-start',
     color: '#808080',
     marginVertical: 16 * height_ratio,

@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
 
   statusText: {
     color: '#808080',
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     fontWeight: '400',
   },
 
   connectText: {
     color: '#242424',
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
   },
 
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 
   connect: {
     color: '#242424',
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
   },
 

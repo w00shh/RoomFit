@@ -34,7 +34,10 @@ const RecordItem = props => {
       <View>
         <TouchableOpacity style={styles.aiCoachingContainer}>
           <Text style={styles.aiCoachingText}>AI 코칭</Text>
-          <Right name="right" size={16} style={styles.rightIcon}></Right>
+          <Right
+            name="right"
+            size={16 * height_ratio}
+            style={styles.rightIcon}></Right>
         </TouchableOpacity>
       </View>
     </View>

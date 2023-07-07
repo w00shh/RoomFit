@@ -134,7 +134,10 @@ const RoutineDetail = ({navigation, route}) => {
             handleBackButton();
             //navigation.reset({routes: [{name: 'MyRoutine'}]});
           }}>
-          <Back name="arrow-back" color={'#242424'} size={25} style={{}}></Back>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25 * height_ratio}></Back>
         </TouchableOpacity>
       ),
 
@@ -144,7 +147,7 @@ const RoutineDetail = ({navigation, route}) => {
             style={{
               marginHorizontal: 6 * width_ratio,
               color: 'black',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
             {routineName}
@@ -153,7 +156,7 @@ const RoutineDetail = ({navigation, route}) => {
             onPress={() => {
               setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
             }}>
-            <Edit name="edit" size={16} color="#808080"></Edit>
+            <Edit name="edit" size={16 * height_ratio} color="#808080"></Edit>
           </TouchableOpacity>
         </>
       ),
@@ -163,7 +166,7 @@ const RoutineDetail = ({navigation, route}) => {
           onPress={() => {
             handleSaveRoutine();
           }}>
-          <Text>저장</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>저장</Text>
         </TouchableOpacity>
       ),
     });

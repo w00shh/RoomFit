@@ -1,8 +1,11 @@
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import WorkoutTitle from '../WorkoutTitle';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import SetItem from '../SetItem';
+
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutItem = props => {
   const handleMotionDeletePress = motion_index => {
@@ -80,9 +83,9 @@ const WorkoutItem = props => {
           <Icon
             style={styles.icon}
             name="trash"
-            size={12}
+            size={12 * height_ratio}
             color="#808080"></Icon>
-          <Text>동작 삭제</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>동작 삭제</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -96,9 +99,9 @@ const WorkoutItem = props => {
           <Icon
             style={styles.icon}
             name="minus"
-            size={12}
+            size={12 * height_ratio}
             color="#808080"></Icon>
-          <Text>세트 삭제</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>세트 삭제</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -109,9 +112,9 @@ const WorkoutItem = props => {
           <Icon
             style={styles.icon}
             name="plus"
-            size={12}
+            size={12 * height_ratio}
             color="#808080"></Icon>
-          <Text>세트 추가</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>세트 추가</Text>
         </TouchableOpacity>
       </View>
     </View>

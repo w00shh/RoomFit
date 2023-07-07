@@ -34,13 +34,13 @@ const RecentExercise = props => {
           <Timer
             name="timer"
             color={'#41b1ca'}
-            size={20}
+            size={20 * height_ratio}
             style={{marginLeft: 12 * width_ratio}}></Timer>
           <Text style={styles.exerciseInformation}>{value.total_time}</Text>
           <Lightning
             name="lightning-bolt"
             color={'#fbcb22'}
-            size={20}
+            size={20 * height_ratio}
             style={{marginLeft: 12 * width_ratio}}></Lightning>
 
           <Text style={styles.exerciseInformation}>
@@ -49,7 +49,7 @@ const RecentExercise = props => {
           <Fire
             name="fire"
             color={'#fc7d36'}
-            size={20}
+            size={20 * height_ratio}
             style={{marginLeft: 12 * width_ratio}}></Fire>
           <Text style={styles.exerciseInformation}>10,000 Kcal</Text>
         </View>

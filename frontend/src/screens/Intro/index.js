@@ -76,7 +76,7 @@ const Intro = ({navigation}) => {
       <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}
         style={styles.Apple_Button}>
-        <Icon name="apple" size={20} color="white"></Icon>
+        <Icon name="apple" size={20 * height_ratio} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
       {/* <TouchableOpacity
@@ -86,7 +86,7 @@ const Intro = ({navigation}) => {
           );
         }}
         style={styles.Kakao_Button}>
-        <Kakao name="chatbubble" size={20} color="black"></Kakao>
+        <Kakao name="chatbubble" size={20  * height_ratio} color="black"></Kakao>
         <Text style={styles.Button_Text2}> Kakao로 시작하기</Text>
       </TouchableOpacity> */}
       <TouchableOpacity
@@ -96,7 +96,7 @@ const Intro = ({navigation}) => {
             `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/google-auth`,
           )
         }>
-        <Icon name="google" size={20} color="white"></Icon>
+        <Icon name="google" size={20 * height_ratio} color="white"></Icon>
         <Text style={styles.Button_Text}> Google로 시작하기</Text>
       </TouchableOpacity>
 
@@ -108,7 +108,7 @@ const Intro = ({navigation}) => {
             })
           }
           style={{marginRight: 20 * width_ratio}}>
-          <Text>이메일로 로그인</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>이메일로 로그인</Text>
         </TouchableOpacity>
         <Image
           style={styles.divider}
@@ -116,7 +116,7 @@ const Intro = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}
           style={{marginLeft: 20 * width_ratio}}>
-          <Text>이메일로 회원가입</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>이메일로 회원가입</Text>
         </TouchableOpacity>
       </View>
     </View>

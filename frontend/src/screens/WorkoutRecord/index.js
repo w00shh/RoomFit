@@ -381,15 +381,24 @@ const WorkoutRecord = ({navigation, route}) => {
         <TouchableOpacity
           style={{marginLeft: 45 * width_ratio}}
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
-          <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
+          <Dumbbell
+            name="dumbbell"
+            size={20 * height_ratio}
+            color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.push('WorkoutRecord')}>
-          <Board name="clipboard-check" size={20} color={'#fff'}></Board>
+          <Board
+            name="clipboard-check"
+            size={20 * height_ratio}
+            color={'#fff'}></Board>
         </TouchableOpacity>
         <TouchableOpacity
           style={{marginRight: 45 * width_ratio}}
           onPress={() => navigation.navigate('MainSetting')}>
-          <Setting name="settings" size={20} color={'#dfdfdf'}></Setting>
+          <Setting
+            name="settings"
+            size={20 * height_ratio}
+            color={'#dfdfdf'}></Setting>
         </TouchableOpacity>
       </View>
     </View>

@@ -3,7 +3,6 @@ import styles from './styles';
 import {
   Text,
   TextInput,
-  TouchableOpacity,
   View,
   Dimensions,
   TouchableWithoutFeedback,
@@ -59,20 +58,55 @@ const SetItem = props => {
   return props.isKey ? (
     <View style={styles.setContainer}>
       <View style={styles.titleKey}>
-        <Text style={{fontSize: props.isExercising ? 12 : 14}}>세트</Text>
+        <Text
+          style={{
+            fontSize: props.isExercising
+              ? 12 * height_ratio
+              : 14 * height_ratio,
+          }}>
+          세트
+        </Text>
       </View>
       <View style={styles.titleItem}>
-        <Text style={{fontSize: props.isExercising ? 12 : 14}}>무게</Text>
+        <Text
+          style={{
+            fontSize: props.isExercising
+              ? 12 * height_ratio
+              : 14 * height_ratio,
+          }}>
+          무게
+        </Text>
       </View>
       <View style={styles.titleItem}>
-        <Text style={{fontSize: props.isExercising ? 12 : 14}}>Reps</Text>
+        <Text
+          style={{
+            fontSize: props.isExercising
+              ? 12 * height_ratio
+              : 14 * height_ratio,
+          }}>
+          Reps
+        </Text>
       </View>
       <View style={styles.titleItem}>
-        <Text style={{fontSize: props.isExercising ? 12 : 14}}>하중모드</Text>
+        <Text
+          style={{
+            fontSize: props.isExercising
+              ? 12 * height_ratio
+              : 14 * height_ratio,
+          }}>
+          하중모드
+        </Text>
       </View>
       {props.isExercising && (
         <View style={styles.titleKey}>
-          <Text style={{fontSize: props.isExercising ? 12 : 14}}>완료</Text>
+          <Text
+            style={{
+              fontSize: props.isExercising
+                ? 12 * height_ratio
+                : 14 * height_ratio,
+            }}>
+            완료
+          </Text>
         </View>
       )}
     </View>
@@ -82,7 +116,7 @@ const SetItem = props => {
         props.isDoing
           ? {
               ...styles.setContainer,
-              borderWidth: 1,
+              borderWidth: 1 * height_ratio,
               borderColor: '#242424',
               borderRadius: 8,
             }
@@ -118,15 +152,24 @@ const SetItem = props => {
           <Text style={styles.modeText}>
             {props.motionList[props.target_motion_id].sets[props.set_id].mode}
           </Text>
-          <Icon name="chevron-down" size={16} color="#808080"></Icon>
+          <Icon
+            name="chevron-down"
+            size={16 * height_ratio}
+            color="#808080"></Icon>
         </View>
       </TouchableWithoutFeedback>
       {props.isExercising && (
         <View style={styles.keyBox}>
           {props.isDone ? (
-            <Check name="check" size={16} color="#5252fa"></Check>
+            <Check
+              name="check"
+              size={16 * height_ratio}
+              color="#5252fa"></Check>
           ) : (
-            <Check name="check" size={16} color="#dfdfdf"></Check>
+            <Check
+              name="check"
+              size={16 * height_ratio}
+              color="#dfdfdf"></Check>
           )}
         </View>
       )}

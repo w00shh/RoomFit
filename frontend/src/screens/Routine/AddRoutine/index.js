@@ -167,7 +167,7 @@ const AddRoutine = ({navigation, route}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 10 * width_ratio,
               marginRight: 10 * width_ratio,
@@ -180,7 +180,7 @@ const AddRoutine = ({navigation, route}) => {
             style={{
               marginHorizontal: 6 * width_ratio,
               color: 'black',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
             {routineName}
@@ -189,7 +189,7 @@ const AddRoutine = ({navigation, route}) => {
             onPress={() => {
               setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
             }}>
-            <Icon name="edit" size={16} color="#808080"></Icon>
+            <Icon name="edit" size={16 * height_ratio} color="#808080"></Icon>
           </TouchableOpacity>
         </>
       ),
@@ -199,7 +199,7 @@ const AddRoutine = ({navigation, route}) => {
           onPress={() => {
             saveRoutine();
           }}>
-          <Text>저장</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>저장</Text>
         </TouchableOpacity>
       ),
     });
@@ -329,10 +329,18 @@ const AddRoutine = ({navigation, route}) => {
         <View style={styles.modalNameContainer}>
           <View style={styles.askSaveContainer}>
             <Text style={styles.titleText}>루틴 생성 취소</Text>
-            <Text style={{marginTop: 17}}>저장하지 않고 나가게되면</Text>
-            <Text>데이터는 저장되지 않습니다.</Text>
+            <Text
+              style={{
+                marginTop: 17 * height_ratio,
+                fontSize: 14 * height_ratio,
+              }}>
+              저장하지 않고 나가게되면
+            </Text>
+            <Text style={{fontSize: 14 * height_ratio}}>
+              데이터는 저장되지 않습니다.
+            </Text>
             <View style={{flexDirection: 'row', marginTop: 13 * height_ratio}}>
-              <View style={{marginRight: 5}}>
+              <View style={{marginRight: 5 * width_ratio}}>
                 <CustomButton_W
                   width={126 * width_ratio}
                   onPress={() => {
@@ -342,7 +350,7 @@ const AddRoutine = ({navigation, route}) => {
                   }}
                   content="취소"></CustomButton_W>
               </View>
-              <View style={{marginLeft: 5}}>
+              <View style={{marginLeft: 5 * width_ratio}}>
                 <CustomButton_B
                   width={126 * width_ratio}
                   onPress={() => saveRoutine()}
@@ -363,6 +371,7 @@ const AddRoutine = ({navigation, route}) => {
             </View>
             <View style={styles.inputContainer}>
               <TextInput
+                style={{fontSize: 14 * height_ratio}}
                 onChangeText={text => {
                   setRoutineName(text);
                 }}
@@ -388,6 +397,7 @@ const AddRoutine = ({navigation, route}) => {
             </View>
             <View style={styles.inputContainer}>
               <TextInput
+                style={{fontSize: 14 * height_ratio}}
                 onChangeText={text => {
                   setRoutineName(text);
                 }}

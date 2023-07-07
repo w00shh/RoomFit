@@ -14,7 +14,7 @@ const MotionTitle = props => {
         </View>
       </View>
       <TouchableOpacity style={styles.iconContainer}>
-        <Icon name="grip-lines" size={12} color="#808080"></Icon>
+        <Icon name="grip-lines" size={12 * height_ratio} color="#808080"></Icon>
       </TouchableOpacity>
     </View>
   );

@@ -37,7 +37,6 @@ const PasswordFind = ({navigation}) => {
         console.log(e);
       });
   };
-  const handleMailResendPress = async () => {};
 
   useEffect(() => {
     handlePasswordFindDisabled();

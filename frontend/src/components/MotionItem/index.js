@@ -51,7 +51,7 @@ const MotionItem = props => {
             }
             props.setMotionList(updatedMotionList);
           }}>
-          <Icon name="star" size={20} color="#fbcb22"></Icon>
+          <Icon name="star" size={20 * height_ratio} color="#fbcb22"></Icon>
         </TouchableWithoutFeedback>
       ) : (
         <TouchableWithoutFeedback
@@ -87,7 +87,7 @@ const MotionItem = props => {
             }
             props.setMotionList(updatedMotionList);
           }}>
-          <Icon name="staro" size={20}></Icon>
+          <Icon name="staro" size={20 * height_ratio}></Icon>
         </TouchableWithoutFeedback>
       )}
 
@@ -101,14 +101,14 @@ const MotionItem = props => {
       <View style={styles.nameContainer}>
         <Text
           style={{
-            fontSize: 14,
+            fontSize: 14 * height_ratio,
             color: props.selected ? '#5252fa' : '#242424',
           }}>
           {props.motion.motion_name}
         </Text>
         <Text
           style={{
-            fontSize: 14,
+            fontSize: 14 * height_ratio,
             color: props.selected ? '#5252fa' : '#808080',
           }}>
           {props.motion.motion_name}

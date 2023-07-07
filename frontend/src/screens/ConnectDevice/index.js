@@ -43,7 +43,7 @@ const ConnectDevice = ({navigation}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 0 * width_ratio,
               marginRight: 10 * width_ratio,
