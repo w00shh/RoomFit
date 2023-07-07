@@ -28,6 +28,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const [workedDay, setworkedDay] = useState([]);
   const [markedDates, setMarkedDates] = useState({});
   const [selectedWorkout, setSelectedWorkout] = useState([]);
+
   const markDates = () => {
     const updateMarkedDates = {};
 
@@ -77,7 +78,6 @@ const WorkoutRecord = ({navigation, route}) => {
       })
       .catch(e => console.log(e));
   };
-  useEffect(() => {}, [recentRoutine]);
 
   const groupDataByDate = () => {
     const groupedData = workoutList.reduce((acc, exercise) => {
@@ -301,8 +301,14 @@ const WorkoutRecord = ({navigation, route}) => {
                           selectedDate: selectedDate,
                           workout_id: values.workout_id,
                           title: values.title,
-                          start_time: values.start_time,
-                          end_time: values.end_time,
+                          start_time:
+                            values.start_time.split(' ')[1].split(':')[0] +
+                            ':' +
+                            values.start_time.split(' ')[1].split(':')[0],
+                          end_time:
+                            values.end_time.split(' ')[1].split(':')[0] +
+                            ':' +
+                            values.end_time.split(' ')[1].split(':')[0],
                           targets: values.targets,
                           total_time: values.total_time,
                           total_weight: values.total_weight,
@@ -367,8 +373,14 @@ const WorkoutRecord = ({navigation, route}) => {
                           selectedDate: selectedDate,
                           workout_id: value.workout_id,
                           title: value.title,
-                          start_time: value.start_time,
-                          end_time: value.end_time,
+                          start_time:
+                            value.start_time.split(' ')[1].split(':')[0] +
+                            ':' +
+                            value.start_time.split(' ')[1].split(':')[0],
+                          end_time:
+                            value.end_time.split(' ')[1].split(':')[0] +
+                            ':' +
+                            value.end_time.split(' ')[1].split(':')[0],
                           targets: value.targets,
                           total_time: value.total_time,
                           total_weight: value.total_weight,

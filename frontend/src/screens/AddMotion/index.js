@@ -47,20 +47,18 @@ const AddMotion = ({navigation, route}) => {
     await serverAxios
       .post('/motion/search', body)
       .then(res => {
-        setMotionList([]);
-        res.data.map((value, key) => {
-          setMotionList(currentMotionList => [
-            ...currentMotionList,
-            {
-              isMotionDone: false,
-              isMotionDoing: false,
-              isFavorite: value.isFav,
-              motion_id: value.motion_id,
-              motionName: value.motion_name,
-              imageUrl: value.imageUrl,
-            },
-          ]);
-        });
+        setMotionList(res.data);
+        // res.data.map((value, key) => {
+        //   setMotionList(currentMotionList => [
+        //     ...currentMotionList,
+        //     {
+        //       isFavorite: value.isFav,
+        //       motion_id: value.motion_id,
+        //       motionName: value.motion_name,
+        //       imageUrl: value.imageUrl,
+        //     },
+        //   ]);
+        // });
       })
       .catch(e => {
         console.log(e);

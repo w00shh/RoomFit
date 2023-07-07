@@ -97,7 +97,10 @@ const MainSetting = ({navigation}) => {
                 onValueChange={toggleSwitch}
                 value={isAssist}
                 style={{
-                  transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+                  transform: [
+                    {scaleX: 1.2 * height_ratio},
+                    {scaleY: 1.2 * width_ratio},
+                  ],
                 }}
               />
             </View>
