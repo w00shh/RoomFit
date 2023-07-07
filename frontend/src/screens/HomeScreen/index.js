@@ -119,29 +119,30 @@ const HomeScreen = ({navigation}) => {
     await serverAxios
       .post('/workout/brief/recent', body)
       .then(res => {
-        res.data.map((value, key) => {
-          setRecentRoutine(currentRecentRoutine => [
-            ...currentRecentRoutine,
-            {
-              recentInedx: key,
-              workout_id: value.workout_id,
-              title: value.title,
-              date: value.start_time.split(' ')[0],
-              start_time:
-                value.start_time.split(' ')[1].split(':')[0] +
-                ':' +
-                value.start_time.split(' ')[1].split(':')[1],
-              end_time:
-                value.end_time.split(' ')[1].split(':')[0] +
-                ':' +
-                value.end_time.split(' ')[1].split(':')[1],
-              total_time: value.total_time,
-              total_weight: value.total_weight,
-              targets: value.targets,
-              memo: value.memo,
-            },
-          ]);
-        });
+        setRecentRoutine(res.data);
+        // res.data.map((value, key) => {
+        //   setRecentRoutine(currentRecentRoutine => [
+        //     ...currentRecentRoutine,
+        //     {
+        //       recentInedx: key,
+        //       workout_id: value.workout_id,
+        //       title: value.title,
+        //       date: value.start_time.split(' ')[0],
+        //       start_time:
+        //         value.start_time.split(' ')[1].split(':')[0] +
+        //         ':' +
+        //         value.start_time.split(' ')[1].split(':')[1],
+        //       end_time:
+        //         value.end_time.split(' ')[1].split(':')[0] +
+        //         ':' +
+        //         value.end_time.split(' ')[1].split(':')[1],
+        //       total_time: value.total_time,
+        //       total_weight: value.total_weight,
+        //       targets: value.targets,
+        //       memo: value.memo,
+        //     },
+        //   ]);
+        // });
       })
       .catch(e => console.log(e));
   };
@@ -152,26 +153,6 @@ const HomeScreen = ({navigation}) => {
       setRecentDay(start_arr[0]);
     }
   }, [recentRoutine]);
-
-  const PERFORMED = [
-    {
-      date: '2023.06.01',
-      data: [
-        {
-          title: '상체 뽀개기',
-          target: ['어깨', '어깨', '이두', '삼두'],
-          time: ['오후 1:30', '오후 3:00'],
-          information: ['01:30:20', '1205', '654'],
-        },
-        {
-          title: '하체 위주',
-          target: ['하체', '유산소'],
-          time: ['오후 1:30', '오후 3:00'],
-          information: ['01:30:20', '1205', '654'],
-        },
-      ],
-    },
-  ];
 
   return (
     <SafeAreaView style={styles.pageContainer}>
@@ -275,7 +256,7 @@ const HomeScreen = ({navigation}) => {
                 style={{
                   marginTop: 12 * height_ratio,
                 }}>
-                {recentRoutine[0].date}
+                {recentRoutine[0].start_time.split(' ')[0]}
               </Text>
               {recentRoutine.map((value, key) => (
                 <TouchableOpacity
@@ -284,8 +265,14 @@ const HomeScreen = ({navigation}) => {
                     navigation.navigate('WorkoutDetail', {
                       workout_id: value.workout_id,
                       title: value.title,
-                      start_time: value.start_time,
-                      end_time: value.end_time,
+                      start_time:
+                        value.start_time.split(' ')[1].split(':')[0] +
+                        ':' +
+                        value.start_time.split(' ')[1].split(':')[0],
+                      end_time:
+                        value.end_time.split(' ')[1].split(':')[0] +
+                        ':' +
+                        value.end_time.split(' ')[1].split(':')[0],
                       targets: value.targets,
                       total_time: value.total_time,
                       total_weight: value.total_weight,
