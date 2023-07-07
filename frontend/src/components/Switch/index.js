@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import {Switch} from 'react-native';
+import {Switch, Dimensions} from 'react-native';
+
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const OnOff = props => {
   const [isEnabled, setIsEnabled] = useState(props.isEnabled);
@@ -12,7 +15,16 @@ const OnOff = props => {
       onValueChange={toggleSwitch}
       value={isEnabled}
       style={{
-        transform: [{scaleX: 1.2}, {scaleY: 1.2}],
+        transform: [
+          {
+            scaleX:
+              Platform.OS === 'ios' ? 0.8 * height_ratio : 1.2 * height_ratio,
+          },
+          {
+            scaleY:
+              Platform.OS === 'ios' ? 0.8 * width_ratio : 1.2 * width_ratio,
+          },
+        ],
         marginRight: props.marginRight,
       }}
     />

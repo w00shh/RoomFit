@@ -128,7 +128,7 @@ const ConnectDevice = ({navigation}) => {
       )}
       <View style={styles.connectExplain}>
         <Text style={styles.statusText}>탐색된 기기</Text>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <OnOff></OnOff>
           <Text>룸핏만 보기</Text>
         </View>

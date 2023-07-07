@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import XX from 'react-native-vector-icons/Feather';
+import Back from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../utils/commonAxios';
 
 const width_ratio = Dimensions.get('screen').width / 390;
@@ -143,6 +144,21 @@ const AddMotion = ({navigation, route}) => {
 
   useEffect(() => {
     navigation.setOptions({
+      // headerLeft: () => (
+      //   <TouchableOpacity
+      //     onPress={() => {
+
+      //     }}>
+      //     <Back
+      //       name="arrow-back"
+      //       color={'#242424'}
+      //       size={25}
+      //       style={{
+      //         marginLeft: 0 * width_ratio,
+      //         marginRight: 10 * width_ratio,
+      //       }}></Back>
+      //   </TouchableOpacity>
+      // ),
       headerRight: () => (
         <TouchableOpacity>
           <Text>+ 커스텀 동작</Text>
