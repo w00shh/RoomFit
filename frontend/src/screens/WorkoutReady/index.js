@@ -77,9 +77,9 @@ const WorkoutReady = ({navigation, route}) => {
         {
           isMotionDone: false,
           isMotionDoing: false,
-          isFavorite: route.params.displaySelected[i].isFavorite,
+          isFav: route.params.displaySelected[i].isFav,
           motion_id: route.params.displaySelected[i].motion_id,
-          motionName: route.params.displaySelected[i].motionName,
+          motion_name: route.params.displaySelected[i].motion_name,
           imageUrl: route.params.displaySelected[i].imageUrl,
           sets: [
             {

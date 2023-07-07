@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     height: 8,
   },
 
-  motionName: {
+  motion_name: {
     marginTop: 25 * height_ratio,
     color: '#242424',
     fontSize: 20,

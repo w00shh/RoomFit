@@ -14,9 +14,9 @@ import Back from 'react-native-vector-icons/Ionicons';
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
-const RestingTime = ({navigation, route}) => {
-  const [temprestSet, setTempRestSet] = useState();
-  const restTime = [
+const PowerSaving = ({navigation, route}) => {
+  const [tempPowerSaving, setTempPowerSaving] = useState();
+  const powerSave = [
     {time: 15, selsected: false},
     {time: 20, selsected: false},
     {time: 30, selsected: false},
@@ -80,7 +80,7 @@ const RestingTime = ({navigation, route}) => {
         {restTime.map((value, key) => (
           <TouchableOpacity
             key={key}
-            onPress={() => setTempRestSet(value.time)}>
+            onPress={() => setTempPowerSaving(value.time)}>
             <View
               style={{
                 flexDirection: 'row',
@@ -91,7 +91,8 @@ const RestingTime = ({navigation, route}) => {
                 <Text
                   style={{
                     fontSize: 16,
-                    color: value.time === temprestSet ? '#5252fa' : '#242424',
+                    color:
+                      value.time === tempPowerSaving ? '#5252fa' : '#242424',
                   }}>
                   {calcTime(value.time)}
                 </Text>
@@ -99,7 +100,7 @@ const RestingTime = ({navigation, route}) => {
                   name="check"
                   size={20}
                   color={
-                    value.time === temprestSet ? '#5252fa' : 'white'
+                    value.time === tempPowerSaving ? '#5252fa' : 'white'
                   }></Check>
               </View>
             </View>
@@ -110,4 +111,4 @@ const RestingTime = ({navigation, route}) => {
   );
 };
 
-export default RestingTime;
+export default PowerSaving;

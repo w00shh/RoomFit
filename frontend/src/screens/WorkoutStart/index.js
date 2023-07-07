@@ -134,9 +134,9 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: true,
-            isFavorite: route.params.displaySelected[0].isFavorite,
+            isFav: route.params.displaySelected[0].isFav,
             motion_id: route.params.displaySelected[0].motion_id,
-            motionName: route.params.displaySelected[0].motionName,
+            motion_name: route.params.displaySelected[0].motion_name,
             imageUrl: route.params.displaySelected[0].imageUrl,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
@@ -149,9 +149,9 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
-            isFavorite: route.params.displaySelected[0].isFavorite,
+            isFav: route.params.displaySelected[0].isFav,
             motion_id: route.params.displaySelected[0].motion_id,
-            motionName: route.params.displaySelected[0].motionName,
+            motion_name: route.params.displaySelected[0].motion_name,
             imageUrl: route.params.displaySelected[0].imageUrl,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
@@ -165,9 +165,9 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
-            isFavorite: route.params.displaySelected[i].isFavorite,
+            isFav: route.params.displaySelected[i].isFav,
             motion_id: route.params.displaySelected[i].motion_id,
-            motionName: route.params.displaySelected[i].motionName,
+            motion_name: route.params.displaySelected[i].motion_name,
             imageUrl: route.params.displaySelected[i].imageUrl,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
@@ -814,8 +814,8 @@ export const WorkoutStart = ({navigation, route}) => {
             style={styles.devider}></Image>
 
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.motionName}>
-              {motionList[m_index].motionName}
+            <Text style={styles.motion_name}>
+              {motionList[m_index].motion_name}
             </Text>
             <View style={{flexDirection: 'row'}}>
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
@@ -975,7 +975,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
               <View style={{marginLeft: 8 * width_ratio}}>
                 <Text style={styles.pauseMotionTitle}>
-                  {motionList[m_index].motionName}
+                  {motionList[m_index].motion_name}
                 </Text>
                 <View style={{flexDirection: 'row'}}>
                   <View

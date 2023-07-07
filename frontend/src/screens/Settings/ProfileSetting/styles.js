@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
   },
   appContainer: {
     width: 358 * width_ratio,
-    height: 444 * height_ratio,
     backgroundColor: '#f5f5f5',
     borderRadius: 12,
     paddingVertical: 16 * height_ratio,
