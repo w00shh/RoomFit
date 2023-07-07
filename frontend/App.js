@@ -27,6 +27,7 @@ import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
 import AppProvider from './src/contexts/AppProvider.js';
 import RestingTime from './src/screens/Settings/RestingTime/index.js';
+import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -278,6 +279,13 @@ const App = () => {
             <Stack.Screen
               name="RestingTime"
               component={RestingTime}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="PowerSaving"
+              component={PowerSaving}
               options={{
                 headerShadowVisible: false,
                 headerBackVisible: false,
