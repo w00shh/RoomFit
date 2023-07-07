@@ -10,6 +10,7 @@ import styles from './styles.js';
 import Input from '../../components/Input/index.js';
 import CustomButton_B from '../../components/CustomButton_B/index.js';
 import {serverAxios} from '../../utils/commonAxios.js';
+import Back from 'react-native-vector-icons/Ionicons';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -124,6 +125,26 @@ const Register = ({navigation}) => {
       setRegisterDisablbed(true);
     }
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25}
+            style={{
+              marginLeft: 0 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
 
   useEffect(() => {
     handleRegisterDisabled();

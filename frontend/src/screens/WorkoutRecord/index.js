@@ -1,5 +1,11 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
@@ -9,6 +15,9 @@ import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
+
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutRecord = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
@@ -350,7 +359,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
       <View style={styles.navigator}>
         <TouchableOpacity
-          style={{marginLeft: 45}}
+          style={{marginLeft: 45 * width_ratio}}
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
           <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
@@ -358,7 +367,7 @@ const WorkoutRecord = ({navigation, route}) => {
           <Board name="clipboard-check" size={20} color={'#fff'}></Board>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{marginRight: 45}}
+          style={{marginRight: 45 * width_ratio}}
           onPress={() => navigation.navigate('MainSetting')}>
           <Setting name="settings" size={20} color={'#dfdfdf'}></Setting>
         </TouchableOpacity>
