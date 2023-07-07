@@ -11,9 +11,16 @@ import {
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
+import {WithLocalSvg} from 'react-native-svg';
+import TempPeople from '../../assets/images/img_sample1.svg';
+import Profile from '../../assets/images/normalProfile.svg';
 import moment from 'moment';
 import Setting from 'react-native-vector-icons/Ionicons';
 import Board from 'react-native-vector-icons/MaterialCommunityIcons';
+import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
+import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
+import Body from 'react-native-vector-icons/Ionicons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
@@ -39,6 +46,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const [workedDay, setworkedDay] = useState([]);
   const [markedDates, setMarkedDates] = useState({});
   const [selectedWorkout, setSelectedWorkout] = useState([]);
+  const [period, setPeriod] = useState(7);
 
   const markDates = () => {
     const updateMarkedDates = {};
@@ -366,13 +374,247 @@ const WorkoutRecord = ({navigation, route}) => {
       {!isLeft && (
         <SafeAreaView>
           <ScrollView>
-            <Text>ss</Text>
-            <Image
-              source={require('../../assets/images/devider.png')}
-              style={{
-                width: 390 * width_ratio,
-                height: 8 * height_ratio,
-              }}></Image>
+            <View style={{alignItems: 'center'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  borderRadius: 100,
+                  backgroundColor: '#f5f5f5',
+                  width: 312,
+                  height: 40,
+                  marginTop: 24,
+                }}>
+                <TouchableOpacity onPress={() => setPeriod(7)}>
+                  <View
+                    style={{
+                      backgroundColor: period === 7 ? '#fff' : '#f5f5f',
+                      borderRadius: 100,
+                      width: 43 * width_ratio,
+                      height: 32 * height_ratio,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: period === 7 ? '#242424' : '#808080',
+                      }}>
+                      1주
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setPeriod(30)}>
+                  <View
+                    style={{
+                      backgroundColor: period === 30 ? '#fff' : '#f5f5f',
+                      borderRadius: 100,
+                      width: 43 * width_ratio,
+                      height: 32 * height_ratio,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: period === 30 ? '#242424' : '#808080',
+                      }}>
+                      1개월
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setPeriod(90)}>
+                  <View
+                    style={{
+                      backgroundColor: period === 90 ? '#fff' : '#f5f5f',
+                      borderRadius: 100,
+                      width: 43 * width_ratio,
+                      height: 32 * height_ratio,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: period === 90 ? '#242424' : '#808080',
+                      }}>
+                      3개월
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setPeriod(180)}>
+                  <View
+                    style={{
+                      backgroundColor: period === 180 ? '#fff' : '#f5f5f',
+                      borderRadius: 100,
+                      width: 43 * width_ratio,
+                      height: 32 * height_ratio,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: period === 180 ? '#242424' : '#808080',
+                      }}>
+                      6개월
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setPeriod(365)}>
+                  <View
+                    style={{
+                      backgroundColor: period === 365 ? '#fff' : '#f5f5f5',
+                      borderRadius: 100,
+                      width: 43 * width_ratio,
+                      height: 32 * height_ratio,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: period === 365 ? '#242424' : '#808080',
+                      }}>
+                      1년
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setIsCalendar(1000)}>
+                  <View
+                    style={{
+                      backgroundColor: period === 1000 ? '#fff' : '#f5f5f',
+                      borderRadius: 100,
+                      width: 43 * width_ratio,
+                      height: 32 * height_ratio,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginRight: 4 * width_ratio,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: period === 1000 ? '#242424' : '#808080',
+                      }}>
+                      전체
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={{height: 16}}></View>
+              <View style={{alignItems: 'center'}}>
+                <WithLocalSvg
+                  width={200 * width_ratio}
+                  height={200 * height_ratio}
+                  asset={TempPeople}></WithLocalSvg>
+                <View style={{flexDirection: 'row', gap: 24 * height_ratio}}>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>가슴</Text>
+                    <Text style={styles.percentText}>35%</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>어깨</Text>
+                    <Text style={styles.percentText}>25%</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>하체</Text>
+                    <Text style={styles.percentText}>22%</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>등</Text>
+                    <Text style={styles.percentText}>10%</Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>코어</Text>
+                    <Text style={styles.percentText}>8%</Text>
+                  </View>
+                </View>
+              </View>
+              <Image
+                source={require('../../assets/images/devider.png')}
+                style={{
+                  width: 390 * width_ratio,
+                  height: 8 * height_ratio,
+                  marginBottom: 24 * height_ratio,
+                  marginTop: 16 * height_ratio,
+                }}></Image>
+              <Text style={styles.yoyakText}>운동 통계</Text>
+              <View style={{marginTop: 24 * height_ratio}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <View
+                    style={{flexDirection: 'row', width: 145 * width_ratio}}>
+                    <View style={styles.grayCircle}>
+                      <Timer name="timer" color="#41b1ca" size={23}></Timer>
+                    </View>
+                    <View style={{marginLeft: 8 * width_ratio}}>
+                      <Text style={styles.puaseSubtitle}>
+                        누적 전체 운동시간
+                      </Text>
+                      <Text style={styles.puaseSubcontent}>sss</Text>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={styles.RgrayCircle}>
+                      <Timer name="timer" color="#9f76e1" size={23}></Timer>
+                    </View>
+
+                    <View style={{marginLeft: 8 * width_ratio}}>
+                      <Text style={styles.puaseSubtitle}>
+                        누적 유효 수행시간
+                      </Text>
+                      <Text style={styles.puaseSubcontent}>tut</Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginTop: 20 * height_ratio,
+                    justifyContent: 'flex-start',
+                  }}>
+                  <View
+                    style={{flexDirection: 'row', width: 145 * width_ratio}}>
+                    <View style={styles.grayCircle}>
+                      <Lightning
+                        name="lightning-bolt"
+                        color="#fbcb22"
+                        size={23}></Lightning>
+                    </View>
+                    <View style={{marginLeft: 8 * width_ratio}}>
+                      <Text style={styles.puaseSubtitle}>볼륨</Text>
+                      <Text style={styles.puaseSubcontent}>sss</Text>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={styles.RgrayCircle}>
+                      <Fire name="fire" color="#fc7d36" size={23}></Fire>
+                    </View>
+
+                    <View style={{marginLeft: 8 * width_ratio}}>
+                      <Text style={styles.puaseSubtitle}>칼로리</Text>
+                      <Text style={styles.puaseSubcontent}>10000</Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{flexDirection: 'row', marginTop: 24 * height_ratio}}>
+                  <View style={styles.grayCircle}>
+                    <Body name="body" color="#3aa84c" size={23}></Body>
+                  </View>
+
+                  <View style={{marginLeft: 8 * width_ratio}}>
+                    <Text style={styles.puaseSubtitle}>운동 횟수</Text>
+                    <Text style={styles.pauseMotionTitle}>sss</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
           </ScrollView>
         </SafeAreaView>
       )}
@@ -386,11 +628,16 @@ const WorkoutRecord = ({navigation, route}) => {
             size={20 * height_ratio}
             color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
+<<<<<<< HEAD
         <TouchableOpacity onPress={() => navigation.push('WorkoutRecord')}>
           <Board
             name="clipboard-check"
             size={20 * height_ratio}
             color={'#fff'}></Board>
+=======
+        <TouchableOpacity>
+          <Board name="clipboard-check" size={20} color={'#fff'}></Board>
+>>>>>>> 6a2da3f62b3aaa6ec1987e3aa15b0ce7cc239ca0
         </TouchableOpacity>
         <TouchableOpacity
           style={{marginRight: 45 * width_ratio}}
