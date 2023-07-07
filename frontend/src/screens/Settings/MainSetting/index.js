@@ -70,7 +70,8 @@ const MainSetting = ({navigation}) => {
             <Text style={styles.contentText}>기기 연결</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText2}>Roomfit 1</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ConnectDevice')}>
                 <Right
                   name="right"
                   size={18}

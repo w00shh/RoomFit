@@ -20,6 +20,8 @@ import WorkoutDetail from './src/screens/WorkoutDetail/index.js';
 import MainSetting from './src/screens/Settings/MainSetting/index.js';
 import ProfileSetting from './src/screens/Settings/ProfileSetting/index.js';
 import PasswordSetting from './src/screens/Settings/PasswordSetting/index.js';
+import HeightWeight from './src/screens/Settings/HeightWeight/index.js';
+import BodyFat from './src/screens/Settings/BodyFat/index.js';
 import Splash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
@@ -267,6 +269,20 @@ const App = () => {
             <Stack.Screen
               name="PasswordSetting"
               component={PasswordSetting}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="HeightWeight"
+              component={HeightWeight}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="BodyFat"
+              component={BodyFat}
               options={{
                 headerShadowVisible: false,
                 headerBackVisible: false,

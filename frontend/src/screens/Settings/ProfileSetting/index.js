@@ -147,7 +147,8 @@ const ProfileSetting = ({navigation}) => {
             <Text style={styles.contentText}>키/몸무게</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText3}>180cm / 70kg</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('HeightWeight')}>
                 <Right
                   name="right"
                   size={18}
@@ -173,7 +174,7 @@ const ProfileSetting = ({navigation}) => {
             <Text style={styles.contentText}>체지방률</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText3}>15%</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('BodyFat')}>
                 <Right
                   name="right"
                   size={18}
