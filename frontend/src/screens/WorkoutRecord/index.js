@@ -18,6 +18,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const [isLeft, setIsLeft] = useState(true);
   const [isCalender, setIsCalender] = useState(route.params.isCalendar);
   const [recentRoutine, setRecentRoutine] = useState([]);
+  const [workoutList, setWorkoutList] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
     route.params.selectedDate ? route.params.selectedDate : null,
   );
@@ -49,38 +50,39 @@ const WorkoutRecord = ({navigation, route}) => {
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {
-        res.data.map((value, key) => {
-          setRecentRoutine(currentRecentRoutine => [
-            ...currentRecentRoutine,
-            {
-              recentInedx: key,
-              workout_id: value.workout_id,
-              title: value.title,
-              date: value.start_time.split(' ')[0],
-              start_time:
-                value.start_time.split(' ')[1].split(':')[0] +
-                ':' +
-                value.start_time.split(' ')[1].split(':')[1],
-              end_time:
-                value.end_time.split(' ')[1].split(':')[0] +
-                ':' +
-                value.end_time.split(' ')[1].split(':')[1],
-              total_time: value.total_time,
-              total_weight: value.total_weight,
-              targets: value.targets,
-              memo: value.memo,
-            },
-          ]);
-        });
+        setWorkoutList(res.data);
+        // res.data.map((value, key) => {
+        //   setRecentRoutine(currentRecentRoutine => [
+        //     ...currentRecentRoutine,
+        //     {
+        //       recentInedx: key,
+        //       workout_id: value.workout_id,
+        //       title: value.title,
+        //       date: value.start_time.split(' ')[0],
+        //       start_time:
+        //         value.start_time.split(' ')[1].split(':')[0] +
+        //         ':' +
+        //         value.start_time.split(' ')[1].split(':')[1],
+        //       end_time:
+        //         value.end_time.split(' ')[1].split(':')[0] +
+        //         ':' +
+        //         value.end_time.split(' ')[1].split(':')[1],
+        //       total_time: value.total_time,
+        //       total_weight: value.total_weight,
+        //       targets: value.targets,
+        //       memo: value.memo,
+        //     },
+        //   ]);
+        // });
       })
       .catch(e => console.log(e));
   };
   useEffect(() => {}, [recentRoutine]);
 
   const groupDataByDate = () => {
-    const groupedData = recentRoutine.reduce((acc, exercise) => {
+    const groupedData = workoutList.reduce((acc, exercise) => {
       const {date, ...exerciseInfo} = exercise;
-      if (!acc[date]) {
+      if (!acc[date.split(' ')[0]]) {
         acc[date] = [];
       }
       acc[date].push(exerciseInfo);
@@ -276,7 +278,7 @@ const WorkoutRecord = ({navigation, route}) => {
       </View>
       {!isCalender && (
         <ScrollView>
-          {recentRoutine.length > 0 &&
+          {workoutList.length > 0 &&
             formattedData.map(value => (
               <View key={value.date}>
                 <View>

@@ -77,9 +77,8 @@ const ConnectDevice = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginHorizontal: 16 * width_ratio,
           marginTop: 30 * height_ratio,
-          width: 350 * width_ratio,
+          width: 358 * width_ratio,
           height: 30 * height_ratio,
           marginBottom: 10 * height_ratio,
         }}>

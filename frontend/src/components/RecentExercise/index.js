@@ -16,13 +16,19 @@ const RecentExercise = props => {
         <Text style={styles.titleText}>{value.title}</Text>
         <View style={styles.targetContainer}>
           <Text style={styles.timeText}>
-            {value.start_time} - {value.end_time}
+            {value.start_time.split(' ')[1].split(':')[0] +
+              ':' +
+              value.start_time.split(' ')[1].split(':')[0]}{' '}
+            -{' '}
+            {value.end_time.split(' ')[1].split(':')[0] +
+              ':' +
+              value.end_time.split(' ')[1].split(':')[0]}
           </Text>
           <Image
             style={{marginLeft: 5 * width_ratio, marginRight: 5 * width_ratio}}
             source={require('../../assets/images/divider.png')}></Image>
 
-          <Text style={styles.targetText}>{value.targets}</Text>
+          <Text style={styles.targetText}>{value.targets.join(', ')}</Text>
         </View>
         <View style={{flexDirection: 'row', marginTop: 17.5 * height_ratio}}>
           <Timer

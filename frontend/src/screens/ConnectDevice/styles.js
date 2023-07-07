@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
 
   devider: {
     marginTop: 12 * height_ratio,
-    height: 2 * height_ratio,
+    height: 1 * height_ratio,
+    width: 358 * width_ratio,
   },
 
   deviceName: {
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   reloadIcon: {
-    marginRight: 16 * width_ratio,
+    marginRight: 5 * width_ratio,
     marginTop: 5 * height_ratio,
     fontWeight: '900',
   },
