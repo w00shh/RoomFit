@@ -33,7 +33,10 @@ const WorkoutRecord = ({navigation, route}) => {
     const updateMarkedDates = {};
 
     workedDay.forEach(date => {
-      updateMarkedDates[date.start_time] = {marked: true, dotColor: '#5252fa'};
+      updateMarkedDates[date.start_time.split(' ')[0]] = {
+        marked: true,
+        dotColor: '#5252fa',
+      };
     });
 
     setMarkedDates(updateMarkedDates);
@@ -52,29 +55,6 @@ const WorkoutRecord = ({navigation, route}) => {
       .post('/workout/brief', body)
       .then(res => {
         setWorkoutList(res.data);
-        // res.data.map((value, key) => {
-        //   setRecentRoutine(currentRecentRoutine => [
-        //     ...currentRecentRoutine,
-        //     {
-        //       recentInedx: key,
-        //       workout_id: value.workout_id,
-        //       title: value.title,
-        //       date: value.start_time.split(' ')[0],
-        //       start_time:
-        //         value.start_time.split(' ')[1].split(':')[0] +
-        //         ':' +
-        //         value.start_time.split(' ')[1].split(':')[1],
-        //       end_time:
-        //         value.end_time.split(' ')[1].split(':')[0] +
-        //         ':' +
-        //         value.end_time.split(' ')[1].split(':')[1],
-        //       total_time: value.total_time,
-        //       total_weight: value.total_weight,
-        //       targets: value.targets,
-        //       memo: value.memo,
-        //     },
-        //   ]);
-        // });
       })
       .catch(e => console.log(e));
   };
@@ -122,28 +102,6 @@ const WorkoutRecord = ({navigation, route}) => {
     };
     await serverAxios.post('workout/calender/date', body).then(res => {
       setSelectedWorkout(res.data);
-      // res.data.map((value, key) => {
-      //   setSelectedWorkout(currentSelectedWorkout => [
-      //     ...currentSelectedWorkout,
-      //     {
-      //       workout_id: value.workout_id,
-      //       title: value.title,
-      //       date: value.start_time.split(' ')[0],
-      //       start_time:
-      //         value.start_time.split(' ')[1].split(':')[0] +
-      //         ':' +
-      //         value.start_time.split(' ')[1].split(':')[1],
-      //       end_time:
-      //         value.end_time.split(' ')[1].split(':')[0] +
-      //         ':' +
-      //         value.end_time.split(' ')[1].split(':')[1],
-      //       total_time: value.total_time,
-      //       total_weight: value.total_weight,
-      //       targets: value.targets,
-      //       memo: value.memo,
-      //     },
-      //   ]);
-      // });
     });
   };
 
@@ -155,15 +113,7 @@ const WorkoutRecord = ({navigation, route}) => {
     await serverAxios
       .post('/workout/calender/month', body)
       .then(res => {
-        setworkedDay([]);
-        res.data.map((value, key) => {
-          setworkedDay(currentWorkedDay => [
-            ...currentWorkedDay,
-            {
-              start_time: value.start_time.split(' ')[0],
-            },
-          ]);
-        });
+        setworkedDay(res.data);
       })
       .catch(e => {
         console.log(e);
