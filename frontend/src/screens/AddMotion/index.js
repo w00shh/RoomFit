@@ -53,9 +53,9 @@ const AddMotion = ({navigation, route}) => {
         //   setMotionList(currentMotionList => [
         //     ...currentMotionList,
         //     {
-        //       isFavorite: value.isFav,
+        //       isFav: value.isFav,
         //       motion_id: value.motion_id,
-        //       motionName: value.motion_name,
+        //       motion_name: value.motion_name,
         //       imageUrl: value.imageUrl,
         //     },
         //   ]);
@@ -77,9 +77,9 @@ const AddMotion = ({navigation, route}) => {
         displaySelected.set(motion.motion_id, {
           isMotionDone: false,
           isMotionDoing: false,
-          isFavorite: motion.isFavorite,
+          isFav: motion.isFav,
           motion_id: motion.motion_id,
-          motionName: motion.motionName,
+          motion_name: motion.motion_name,
           imageUrl: motion.imageUrl,
         });
       setSelected(newSelected);
@@ -123,19 +123,20 @@ const AddMotion = ({navigation, route}) => {
     await serverAxios
       .post('/motion', body)
       .then(res => {
-        res.data.map((value, key) => {
-          setMotionList(currentMotionList => [
-            ...currentMotionList,
-            {
-              isMotionDone: false,
-              isMotionDoing: false,
-              isFavorite: value.isFav,
-              motion_id: value.motion_id,
-              motionName: value.motion_name,
-              imageUrl: value.imageUrl,
-            },
-          ]);
-        });
+        setMotionList(res.data);
+        // res.data.map((value, key) => {
+        //   setMotionList(currentMotionList => [
+        //     ...currentMotionList,
+        //     {
+        //       isMotionDone: false,
+        //       isMotionDoing: false,
+        //       isFav: value.isFav,
+        //       motion_id: value.motion_id,
+        //       motion_name: value.motion_name,
+        //       imageUrl: value.imageUrl,
+        //     },
+        //   ]);
+        // });
       })
       .catch(e => {
         console.log(e);
@@ -210,9 +211,9 @@ const AddMotion = ({navigation, route}) => {
               key={key}
               style={{
                 width:
-                  getTextWidth(value.motionName) * width_ratio >
+                  getTextWidth(value.motion_name) * width_ratio >
                   84 * width_ratio
-                    ? getTextWidth(value.motionName) * width_ratio
+                    ? getTextWidth(value.motion_name) * width_ratio
                     : 84 * width_ratio,
                 height: 32 * height_ratio,
                 backgroundColor: '#242424',
@@ -223,7 +224,7 @@ const AddMotion = ({navigation, route}) => {
                 marginLeft: 8 * width_ratio,
                 marginTop: 7 * height_ratio,
               }}>
-              <Text style={styles.selectMotionText}>{value.motionName}</Text>
+              <Text style={styles.selectMotionText}>{value.motion_name}</Text>
               <TouchableOpacity onPress={() => deleteSelected(value.motion_id)}>
                 <XX name="x" color={'white'} size={15}></XX>
               </TouchableOpacity>

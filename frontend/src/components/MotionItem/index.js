@@ -16,13 +16,13 @@ const height_ratio = Dimensions.get('screen').height / 844;
 const MotionItem = props => {
   return (
     <View style={styles.motionContainer}>
-      {props.motion.isFavorite ? (
+      {props.motion.isFav ? (
         <TouchableWithoutFeedback
           onPress={async () => {
             updatedMotionList = [...props.motionList];
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
-            ].isFavorite = !props.motion.isFavorite;
+            ].isFav = !props.motion.isFav;
 
             const body = {
               user_id: 'user1',
@@ -31,7 +31,7 @@ const MotionItem = props => {
             if (
               updatedMotionList[
                 updatedMotionList.findIndex(item => item === props.motion)
-              ].isFavorite
+              ].isFav
             ) {
               /* 즐겨찾기 추가 API 호출 */
               await serverAxios
@@ -59,7 +59,7 @@ const MotionItem = props => {
             updatedMotionList = [...props.motionList];
             updatedMotionList[
               updatedMotionList.findIndex(item => item === props.motion)
-            ].isFavorite = !props.motion.isFavorite;
+            ].isFav = !props.motion.isFav;
             const body = {
               user_id: 'user1',
               motion_id: props.motion.motion_id,
@@ -67,7 +67,7 @@ const MotionItem = props => {
             if (
               updatedMotionList[
                 updatedMotionList.findIndex(item => item === props.motion)
-              ].isFavorite
+              ].isFav
             ) {
               /* 즐겨찾기 추가 API 호출 */
               await serverAxios
@@ -104,14 +104,14 @@ const MotionItem = props => {
             fontSize: 14,
             color: props.selected ? '#5252fa' : '#242424',
           }}>
-          {props.motion.motionName}
+          {props.motion.motion_name}
         </Text>
         <Text
           style={{
             fontSize: 14,
             color: props.selected ? '#5252fa' : '#808080',
           }}>
-          {props.motion.motionName}
+          {props.motion.motion_name}
         </Text>
       </View>
     </View>
