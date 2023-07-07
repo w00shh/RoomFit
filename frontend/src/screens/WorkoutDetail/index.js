@@ -17,6 +17,7 @@ import {serverAxios} from '../../utils/commonAxios';
 import RecordItem from '../../components/RecordItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import CustomButton_W from '../../components/CustomButton_W';
+import Back from 'react-native-vector-icons/Ionicons';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -39,6 +40,21 @@ const WorkoutDetail = ({navigation, route}) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back
+            name="arrow-back"
+            color={'#242424'}
+            size={25 * height_ratio}
+            style={{
+              marginLeft: 0 * width_ratio,
+              marginRight: 10 * width_ratio,
+            }}></Back>
+        </TouchableOpacity>
+      ),
       headerTitle: () => (
         <View
           style={{

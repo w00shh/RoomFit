@@ -258,6 +258,7 @@ const App = () => {
               component={WorkoutDetail}
               options={{
                 headerShadowVisible: false,
+                headerBackVisible: false,
               }}></Stack.Screen>
             <Stack.Screen
               name="MainSetting"
@@ -298,6 +299,12 @@ const App = () => {
               name="HeightWeight"
               component={HeightWeight}
               options={{
+                headerTitleStyle: {
+                  title: '키/몸무게',
+                  color: '#242424',
+                  fontSize: 16 * height_ratio,
+                  fontWeight: '700',
+                },
                 headerShadowVisible: false,
                 headerBackVisible: false,
               }}></Stack.Screen>
