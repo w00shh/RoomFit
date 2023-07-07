@@ -114,125 +114,137 @@ const WorkoutDetail = ({navigation, route}) => {
   };
   return (
     <View style={styles.pageContainer}>
-      <Modal
-        visible={isWorkoutDeleteModalVisible}
-        transparent={true}
-        animationType="fade">
-        <View style={styles.modalContainer}>
-          <View style={styles.workoutDeleteContainer}>
-            <View style={styles.modalTopContainer}></View>
-            <View style={styles.textContainer}>
-              <Text style={styles.titleText}>운동 기록 삭제</Text>
-              <View style={styles.descriptionContainer}>
-                <Text>운동 기록을 삭제하시겠습니까?</Text>
-                <Text>삭제 후에는 복구할 수 없습니다.</Text>
+      <ScrollView>
+        <Modal
+          visible={isWorkoutDeleteModalVisible}
+          transparent={true}
+          animationType="fade">
+          <View style={styles.modalContainer}>
+            <View style={styles.workoutDeleteContainer}>
+              <View style={styles.modalTopContainer}></View>
+              <View style={styles.textContainer}>
+                <Text style={styles.titleText}>운동 기록 삭제</Text>
+                <View style={styles.descriptionContainer}>
+                  <Text>운동 기록을 삭제하시겠습니까?</Text>
+                  <Text>삭제 후에는 복구할 수 없습니다.</Text>
+                </View>
+              </View>
+              <View style={styles.buttonContainer}>
+                <CustomButton_W
+                  width={126 * width_ratio}
+                  onPress={() => {
+                    setIsWorkoutDeleteModalVisible(false);
+                  }}
+                  content="취소"></CustomButton_W>
+                <CustomButton_B
+                  width={126 * width_ratio}
+                  onPress={() => {
+                    deleteRecord();
+                  }}
+                  content="삭제"></CustomButton_B>
               </View>
             </View>
-            <View style={styles.buttonContainer}>
-              <CustomButton_W
-                width={126 * width_ratio}
-                onPress={() => {
-                  setIsWorkoutDeleteModalVisible(false);
-                }}
-                content="취소"></CustomButton_W>
-              <CustomButton_B
-                width={126 * width_ratio}
-                onPress={() => {
-                  deleteRecord();
-                }}
-                content="삭제"></CustomButton_B>
-            </View>
           </View>
-        </View>
-      </Modal>
-      <Text style={styles.yoyakText}>운동 요약</Text>
-      <View style={{marginTop: 24 * height_ratio}}>
-        <View style={{flexDirection: 'row'}}>
-          <View style={styles.grayCircle}>
-            <Body name="body" color="#3aa84c" size={23}></Body>
-          </View>
-
-          <View style={{marginLeft: 8 * width_ratio}}>
-            <Text style={styles.pauseSubtitle}>운동 부위</Text>
-            <Text style={styles.pauseMotionTitle}>
-              {route.params.targets.join(', ')}
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginTop: 20 * height_ratio,
-            justifyContent: 'flex-start',
-          }}>
-          <View style={{flexDirection: 'row', width: 145 * width_ratio}}>
+        </Modal>
+        <Text style={styles.yoyakText}>운동 요약</Text>
+        <View style={{marginTop: 24 * height_ratio}}>
+          <View style={{flexDirection: 'row'}}>
             <View style={styles.grayCircle}>
-              <Timer name="timer" color="#41b1ca" size={23}></Timer>
+              <Body name="body" color="#3aa84c" size={23 * height_ratio}></Body>
             </View>
+
             <View style={{marginLeft: 8 * width_ratio}}>
-              <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
-              <Text style={styles.pauseSubcontent}>
-                {route.params.total_time}
+              <Text style={styles.pauseSubtitle}>운동 부위</Text>
+              <Text style={styles.pauseMotionTitle}>
+                {route.params.targets.join(', ')}
               </Text>
             </View>
           </View>
-          <View style={{flexDirection: 'row'}}>
-            <View style={styles.RgrayCircle}>
-              <Timer name="timer" color="#9f76e1" size={23}></Timer>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 20 * height_ratio,
+              justifyContent: 'flex-start',
+            }}>
+            <View style={{flexDirection: 'row', width: 145 * width_ratio}}>
+              <View style={styles.grayCircle}>
+                <Timer
+                  name="timer"
+                  color="#41b1ca"
+                  size={23 * height_ratio}></Timer>
+              </View>
+              <View style={{marginLeft: 8 * width_ratio}}>
+                <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
+                <Text style={styles.pauseSubcontent}>
+                  {route.params.total_time}
+                </Text>
+              </View>
             </View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={styles.RgrayCircle}>
+                <Timer name="timer" color="#9f76e1" size={23}></Timer>
+              </View>
 
-            <View style={{marginLeft: 8 * width_ratio}}>
-              <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
-              <Text style={styles.pauseSubcontent}>tut</Text>
+              <View style={{marginLeft: 8 * width_ratio}}>
+                <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
+                <Text style={styles.pauseSubcontent}>tut</Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginTop: 20 * height_ratio,
-            justifyContent: 'flex-start',
-          }}>
-          <View style={{flexDirection: 'row', width: 145 * width_ratio}}>
-            <View style={styles.grayCircle}>
-              <Lightning
-                name="lightning-bolt"
-                color="#fbcb22"
-                size={23}></Lightning>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 20 * height_ratio,
+              justifyContent: 'flex-start',
+            }}>
+            <View style={{flexDirection: 'row', width: 145 * width_ratio}}>
+              <View style={styles.grayCircle}>
+                <Lightning
+                  name="lightning-bolt"
+                  color="#fbcb22"
+                  size={23 * height_ratio}></Lightning>
+              </View>
+              <View style={{marginLeft: 8 * width_ratio}}>
+                <Text style={styles.pauseSubtitle}>볼륨</Text>
+                <Text style={styles.pauseSubcontent}>
+                  {route.params.total_weight}
+                </Text>
+              </View>
             </View>
-            <View style={{marginLeft: 8 * width_ratio}}>
-              <Text style={styles.pauseSubtitle}>볼륨</Text>
-              <Text style={styles.pauseSubcontent}>
-                {route.params.total_weight}
-              </Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <View style={styles.RgrayCircle}>
-              <Fire name="fire" color="#fc7d36" size={23}></Fire>
-            </View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={styles.RgrayCircle}>
+                <Fire
+                  name="fire"
+                  color="#fc7d36"
+                  size={23 * height_ratio}></Fire>
+              </View>
 
-            <View style={{marginLeft: 8 * width_ratio}}>
-              <Text style={styles.pauseSubtitle}>칼로리</Text>
-              <Text style={styles.pauseSubcontent}>10000</Text>
+              <View style={{marginLeft: 8 * width_ratio}}>
+                <Text style={styles.pauseSubtitle}>칼로리</Text>
+                <Text style={styles.pauseSubcontent}>10000</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.memoContainer}>
-          <Text>{route.params.memo}</Text>
+
+        <View style={{alignItems: 'center'}}>
+          <View style={styles.memoContainer}>
+            {route.params.memo.length > 0 ? (
+              <Text>{route.params.memo}</Text>
+            ) : (
+              <Text>작성하신 메모가 없습니다.</Text>
+            )}
+          </View>
         </View>
-      </View>
-      <View style={{marginTop: 40 * height_ratio, alignSelf: 'stretch'}}>
-        <Text style={styles.yoyakText}>운동 상세</Text>
-        <ScrollView>
+
+        <View style={{marginTop: 40 * height_ratio, alignSelf: 'stretch'}}>
+          <Text style={styles.yoyakText}>운동 상세</Text>
           {workoutList &&
             workoutList.map((value, key) => (
               <RecordItem key={key} record={value}></RecordItem>
             ))}
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };

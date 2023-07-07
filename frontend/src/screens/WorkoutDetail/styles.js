@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16 * height_ratio,
     borderRadius: 8,
     marginTop: 24 * height_ratio,
-    height: 74 * height_ratio,
   },
 });
 
