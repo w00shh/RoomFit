@@ -88,7 +88,7 @@ const SetItem = props => {
           : styles.setContainer
       }>
       <View style={styles.keyBox}>
-        <Text style={styles.valueText}>{props.set_id + 1}</Text>
+        <Text style={styles.keyText}>{props.set_id + 1}</Text>
       </View>
       <View style={styles.itemBox}>
         <TextInput
@@ -106,7 +106,9 @@ const SetItem = props => {
           placeholder={String(props.reps)}
           defaultValue={props.reps !== 1 ? String(props.reps) : null}
           onChangeText={handleRepsChange}></TextInput>
-        <Text style={styles.unitText}>회</Text>
+        <View style={styles.unitContainer}>
+          <Text style={styles.unitText}>회</Text>
+        </View>
       </View>
       {/* <Text>isDoing: {String(props.isDoing)}</Text>
       <Text>isDone: {String(props.isDone)}</Text> */}

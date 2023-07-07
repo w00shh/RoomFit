@@ -45,6 +45,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8 * width_ratio,
     backgroundColor: '#f5f5f5',
   },
+  keyText: {
+    fontSize: 16,
+    color: '#242424',
+    textAlign: 'center',
+  },
   itemBox: {
     flex: 2,
     height: 40 * height_ratio,
@@ -59,15 +64,18 @@ const styles = StyleSheet.create({
   },
 
   valueText: {
+    flex: 3,
     fontSize: 16,
     color: '#242424',
+    textAlign: 'center',
+  },
+  unitContainer: {
+    flex: 1,
   },
 
   unitText: {
     fontSize: 12,
     color: '#acacac',
-    marginVertical: 4 * height_ratio,
-    marginHorizontal: 4 * width_ratio,
   },
   modeText: {
     fontSize: 12,
