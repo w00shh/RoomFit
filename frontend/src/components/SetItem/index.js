@@ -24,21 +24,30 @@ const SetItem = props => {
   const handleModeSelectPress = () => {
     appcontext.actions.setTargetmotionindex(props.target_motion_id);
     appcontext.actions.setTargetsetindex(props.set_id);
-
     props.setIsModalVisible(true);
   };
 
   const handleWeightChange = text => {
     const parsedWeight = parseInt(text);
     if (!isNaN(parsedWeight)) {
-      setWeight(parsedWeight);
+      if (parsedWeight < 0) {
+        setWeight(0);
+      } else if (parsedWeight > 200) {
+        setWeight(200);
+      } else {
+        setWeight(parsedWeight);
+      }
     }
   };
 
   const handleRepsChange = text => {
     const parsedReps = parseInt(text);
     if (!isNaN(parsedReps)) {
-      setReps(parsedReps);
+      if (parsedReps < 1) {
+        setReps(1);
+      } else {
+        setReps(parsedReps);
+      }
     }
   };
 
@@ -128,24 +137,30 @@ const SetItem = props => {
       <View style={styles.itemBox}>
         <TextInput
           style={styles.valueText}
-          keyboardType="number-pad"
-          placeholder={String(props.weight)}
-          defaultValue={props.weight !== 0 ? String(props.weight) : null}
+          inputMode="numeric"
+          keyboardType="numeric"
+          placeholder={String(weight)}
+          placeholderTextColor={'#242424'}
+          value={weight ? String(weight) : ''}
+          //defaultValue={props.weight !== 0 ? String(props.weight) : null}
           onChangeText={handleWeightChange}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
       <View style={styles.itemBox}>
         <TextInput
           style={styles.valueText}
-          keyboardType="number-pad"
-          placeholder={String(props.reps)}
-          defaultValue={props.reps !== 1 ? String(props.reps) : null}
+          inputMode="numeric"
+          keyboardType="numeric"
+          placeholder={String(reps)}
+          placeholderTextColor={'#242424'}
+          value={reps === null ? '' : String(reps)}
+          //defaultValue={props.reps !== 1 ? String(props.reps) : null}
           onChangeText={handleRepsChange}></TextInput>
         <View style={styles.unitContainer}>
           <Text style={styles.unitText}>회</Text>
         </View>
       </View>
-      {/* <Text>isDoing: {String(props.isDoing)}</Text>
+      {/* <Text>isDoing: {String(props.isDoing)}</Text>-=
       <Text>isDone: {String(props.isDone)}</Text> */}
       <TouchableWithoutFeedback onPress={handleModeSelectPress}>
         <View style={styles.itemBox}>

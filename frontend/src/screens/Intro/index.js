@@ -50,7 +50,7 @@ const Intro = ({navigation}) => {
 
     handleDeepLink();
 
-    // 딥 링크 이벤트 리스너 해제
+    // // 딥 링크 이벤트 리스너 해제
     // return () => {
     //   Linking.removeEventListener('url', handleUrl);
     // };

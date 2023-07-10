@@ -63,6 +63,7 @@ const App = () => {
               name="Splash"
               component={Splash}
               options={{
+                gestureEnabled: false,
                 headerShown: false,
                 transitionConfig: () => ({
                   transitionSpec: {
@@ -87,7 +88,7 @@ const App = () => {
             <Stack.Screen
               name="Intro"
               component={Intro}
-              options={{headerShown: false}}
+              options={{gestureEnabled: false, headerShown: false}}
             />
             <Stack.Screen
               name="Login"
@@ -206,6 +207,7 @@ const App = () => {
               name="WorkoutStart"
               component={WorkoutStart}
               options={{
+                gestureEnabled: false,
                 headerShown: false,
               }}></Stack.Screen>
             <Stack.Screen
