@@ -67,7 +67,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
   //time 관련 변수 :
   const [TUT, setTUT] = useState(route.params.TUT);
-  const [isTut, setIsTus] = useState(true);
+  const [isTut, setIsTuT] = useState(true);
   const [time, setTime] = useState('');
   const [elapsedTime, setElapsedTime] = useState(route.params.elapsedTime);
 
@@ -87,15 +87,15 @@ export const WorkoutStart = ({navigation, route}) => {
   const [modalVisible3, setModalVisible3] = useState(false);
   const [temprestSet, setTempRestSet] = useState('');
   const [temprestMotion, setTempRestMotion] = useState('');
-  const [restSet, setRestSet] = useState(30);
-  const [restMotion, setRestMotion] = useState(60);
+  const [restSet, setRestSet] = useState(appcontext.state.userSetTime);
+  const [restMotion, setRestMotion] = useState(appcontext.state.userMotionTime);
 
   // resting 관련 변수
-  const [isResting, setIsResting] = useState(false);
+  const [isResting, setIsResting] = useState(route.params.isResting);
   const [isRestingModal, setIsRestingModal] = useState(false);
   const [isStopResting, setIsStopResting] = useState(false);
   const [isMotionDone, setIsMotionDone] = useState(false);
-  const [restTimer, setRestTimer] = useState(restSet);
+  const [restTimer, setRestTimer] = useState(route.params.restTimer);
   const [nextMotionModal, setNextMotionModal] = useState(false);
 
   // motionList 수정 관련 변수 :
@@ -246,7 +246,7 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const setRestTime = () => {
-    setRestSet(temprestSet);
+    appcontext.actions.setUserSetTime(temprestSet);
     setModalVisible2(false);
   };
 
@@ -256,7 +256,7 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const MotionRestTime = () => {
-    setRestMotion(temprestMotion);
+    appcontext.actions.setUserMotionTime(temprestMotion);
     setModalVisible3(false);
   };
 
@@ -400,25 +400,34 @@ export const WorkoutStart = ({navigation, route}) => {
 
     if (!isPaused && !workoutDone) {
       intervalId = setInterval(() => {
-        setElapsedTime(prevElapsedTime => prevElapsedTime + 1);
+        setElapsedTime(prevElapsedTime => {
+          const updatedTime = prevElapsedTime + 1;
+          return updatedTime;
+        });
       }, 1000); // 1초마다 증가
     }
 
-    if (isTut && !workoutDone) {
+    if (!isPaused && !workoutDone) {
       intervalId2 = setInterval(() => {
-        setTUT(prevTuttime => prevTuttime + 1);
+        setTUT(prevTuT => {
+          const updatedTUT = prevTuT + 1;
+          return updatedTUT;
+        });
       }, 1000);
     }
 
     if (isResting && !isStopResting) {
       intervalId3 = setInterval(() => {
-        setRestTimer(prevrestTime => prevrestTime - 1);
-        if (restTimer <= 0) {
-          setNextMotionModal(true);
-          setIsResting(false);
-          setIsRestingModal(false);
-          setRestTimer(restSet);
-        }
+        setRestTimer(prevrestTime => {
+          const updatedRestTimer = prevrestTime - 1;
+          if (updatedRestTimer <= 0) {
+            setNextMotionModal(true);
+            setIsResting(false);
+            setIsRestingModal(false);
+            return restSet;
+          }
+          return updatedRestTimer;
+        });
       }, 1000);
     }
 
@@ -467,6 +476,7 @@ export const WorkoutStart = ({navigation, route}) => {
     setMotionList(updatedMotionList);
     if (s_index + 1 < motionList[m_index].sets.length) {
       //set 종료시
+      setRestTimer(appcontext.state.userSetTime);
       setIsResting(true);
       setIsRestingModal(true);
       updatedMotionList = [...motionList];
@@ -477,6 +487,8 @@ export const WorkoutStart = ({navigation, route}) => {
       motionList[m_index + 1]
     ) {
       // 동작 종료시
+      console.log(appcontext.state.userMotionTime);
+      setRestTimer(appcontext.state.userMotionTime);
       setIsResting(true);
       setIsRestingModal(true);
       setIsMotionDone(true);
@@ -489,8 +501,6 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].sets[s_index].isDoing = false;
       setMotionList(updatedMotionList);
-
-      setRestTimer(restMotion);
     } else {
       // 운동 종료시
       updatedMotionList = [...motionList];
@@ -515,7 +525,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const goNextMotion = () => {
     setIsResting(false);
     setIsRestingModal(false);
-    setRestTimer(restSet);
+
     setIsStopResting(false);
     if (s_index + 1 < motionList[m_index].sets.length) {
       setSIndex(s_index + 1);
@@ -535,14 +545,13 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList = [...motionList];
       updatedMotionList[m_index + 1].sets[0].isDoing = true;
       setMotionList(updatedMotionList);
-      setRestTimer(restMotion);
     }
   };
 
   const endSetting = () => {
     setIsPaused(false);
     setPressSetting(false);
-    setRestTimer(restSet);
+    // setRestTimer(restSet);
   };
   return (
     <SafeAreaView style={styles.pageContainer}>
@@ -1346,7 +1355,7 @@ export const WorkoutStart = ({navigation, route}) => {
               <Text style={styles.settingText}>세트간 휴식시간</Text>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Text style={{fontSize: 14 * height_ratio}}>
-                  {calTime(restSet)}
+                  {calTime(appcontext.state.userSetTime)}
                 </Text>
                 <TouchableOpacity onPress={() => setModalVisible2(true)}>
                   <Right
@@ -1363,7 +1372,7 @@ export const WorkoutStart = ({navigation, route}) => {
               <Text style={styles.settingText}>동작간 휴식시간</Text>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Text style={{fontSize: 14 * height_ratio}}>
-                  {calTime(restMotion)}
+                  {calTime(appcontext.state.userMotionTime)}
                 </Text>
                 <TouchableOpacity onPress={() => setModalVisible3(true)}>
                   <Right
@@ -1476,6 +1485,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     TUT: TUT,
                     m_index: m_index,
                     s_index: s_index,
+                    isResting: isResting,
+                    restTimer: restTimer,
                   });
                 }}></CustomButton_W>
             </View>

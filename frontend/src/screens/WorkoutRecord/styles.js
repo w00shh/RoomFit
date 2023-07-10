@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   Calendar: {
     borderBottomWidth: 8,
     borderBottomColor: '#f5f5f5',
-    width: 370 * width_ratio,
   },
 
   grayCircle: {

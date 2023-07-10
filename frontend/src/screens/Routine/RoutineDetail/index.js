@@ -287,6 +287,8 @@ const RoutineDetail = ({navigation, route}) => {
         isPaused: false,
         isPausedPage: false,
         isModifyMotion: false,
+        isResting: false,
+        restTimer: appcontext.state.userSetTime,
       });
     }
   }, [workoutId]);

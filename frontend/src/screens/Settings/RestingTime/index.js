@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   Dimensions,
   Text,
@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import styles from './styles';
-
+import {AppContext} from '../../../contexts/AppProvider';
 import Check from 'react-native-vector-icons/AntDesign';
 import Back from 'react-native-vector-icons/Ionicons';
 
@@ -17,6 +17,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const RestingTime = ({navigation, route}) => {
   const [temprestSet, setTempRestSet] = useState();
+  const appcontext = useContext(AppContext);
   const restTime = [
     {time: 15, selsected: false},
     {time: 20, selsected: false},
@@ -41,9 +42,11 @@ const RestingTime = ({navigation, route}) => {
       return `${min}분 ${sec}초`;
     }
   };
+
   const handleBackButton = () => {
     navigation.reset({routes: [{name: 'MainSetting'}]});
   };
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -75,13 +78,22 @@ const RestingTime = ({navigation, route}) => {
       ),
     });
   }, []);
+
+  const handleSaveRestTime = time => {
+    if (route.params.title === '세트') appcontext.actions.setUserSetTime(time);
+    else if (route.params.title === '동작')
+      appcontext.actions.setUserMotionTime(time);
+  };
   return (
     <View style={styles.pageContainer}>
       <ScrollView style={{marginTop: 16 * height_ratio}}>
         {restTime.map((value, key) => (
           <TouchableOpacity
             key={key}
-            onPress={() => setTempRestSet(value.time)}>
+            onPress={() => {
+              setTempRestSet(value.time);
+              handleSaveRestTime(value.time);
+            }}>
             <View
               style={{
                 flexDirection: 'row',

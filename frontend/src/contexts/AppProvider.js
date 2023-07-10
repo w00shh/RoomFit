@@ -7,6 +7,8 @@ const AppProvider = ({children}) => {
   const [userid, setUserid] = useState('');
   const [usernickname, setUsernickname] = useState('');
   const [useremail, setUseremail] = useState('');
+  const [userSetTime, setUserSetTime] = useState(30);
+  const [userMotionTime, setUserMotionTime] = useState(60);
   const [targetmotionindex, setTargetmotionindex] = useState(0);
   const [targetsetindex, setTargetsetindex] = useState(0);
 
@@ -16,6 +18,8 @@ const AppProvider = ({children}) => {
       userid,
       usernickname,
       useremail,
+      userSetTime,
+      userMotionTime,
       targetmotionindex,
       targetsetindex,
     },
@@ -24,6 +28,8 @@ const AppProvider = ({children}) => {
       setUserid,
       setUsernickname,
       setUseremail,
+      setUserSetTime,
+      setUserMotionTime,
       setTargetmotionindex,
       setTargetsetindex,
     },
