@@ -124,7 +124,7 @@ const RoutineDetail = ({navigation, route}) => {
   };
 
   const handleBackButton = () => {
-    navigation.reset({routes: [{name: 'HomeScreen'}]});
+    navigation.reset({routes: [{name: 'MyRoutine'}]});
   };
   useEffect(() => {
     navigation.setOptions({
