@@ -59,7 +59,6 @@ const WorkoutItem = props => {
             set_id={key}
             motionList={props.motionList}
             setMotionList={props.setMotionList}
-            modeList={props.modeList}
             setSelectedMode={props.setSelectedMode}
             isKey={false}
             isExercising={props.isExercising}

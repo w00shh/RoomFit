@@ -27,12 +27,12 @@ const SetItem = props => {
     appcontext.actions.setTargetmotionindex(props.target_motion_id);
     appcontext.actions.setTargetsetindex(props.set_id);
 
-    for (let i = 0; i < props.modeList.length; i++) {
+    for (let i = 0; i < appcontext.state.modeList.length; i++) {
       if (
         props.motionList[props.target_motion_id].sets[props.set_id].mode ===
-        props.modeList[i].modeName
+        appcontext.state.modeList[i].modeName
       ) {
-        props.setSelectedMode(props.modeList[i]);
+        props.setSelectedMode(appcontext.state.modeList[i]);
         break;
       }
     }
