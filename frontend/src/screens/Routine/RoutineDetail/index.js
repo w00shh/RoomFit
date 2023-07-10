@@ -381,7 +381,9 @@ const RoutineDetail = ({navigation, route}) => {
               setIsModalVisible={setIsModalVisible}
               motion={value}
               motionList={motionList}
-              setMotionList={setMotionList}></WorkoutItem>
+              setMotionList={setMotionList}
+              modeList={modeList}
+              setSelectedMode={setSelectedMode}></WorkoutItem>
           ))}
       </ScrollView>
 
