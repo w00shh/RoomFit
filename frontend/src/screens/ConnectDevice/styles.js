@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 
   deviceName: {
     color: '#242424',
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
   },
 

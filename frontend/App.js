@@ -2,7 +2,7 @@ import * as React from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Linking, Dimensions} from 'react-native';
+import {Linking, Dimensions, Platform} from 'react-native';
 import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
 import Register from './src/screens/Register/index.js';
@@ -54,37 +54,6 @@ export const AppContext = React.createContext({
 });
 
 const App = () => {
-  React.useEffect(() => {
-    const handleDeepLink = async () => {
-      // 앱이 최초로 실행되었을 때 딥 링크 처리
-      const initialUrl = await Linking.getInitialURL();
-      if (initialUrl) {
-        handleUrl(initialUrl);
-      }
-
-      // 딥 링크 이벤트 리스너 등록
-      Linking.addEventListener('url', handleUrl);
-    };
-
-    const handleUrl = url => {
-      const sep_url = url.url.split('auth?')[1];
-      const params = {};
-      sep_url.split('/').forEach(pair => {
-        const [key, value] = pair.split('=');
-        params[key] = value;
-      });
-      const json = JSON.stringify(params);
-      console.log(params);
-    };
-
-    handleDeepLink();
-
-    // 딥 링크 이벤트 리스너 해제
-    return () => {
-      Linking.removeEventListener('url', handleUrl);
-    };
-  }, []);
-
   return (
     <Provider store={store}>
       <AppProvider>
@@ -155,7 +124,7 @@ const App = () => {
                 headerBackVisible: false,
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 20,
+                  fontSize: 20 * height_ratio,
                 },
               }}
             />
@@ -168,7 +137,7 @@ const App = () => {
                 headerShadowVisible: false,
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
               }}
             />
@@ -190,7 +159,7 @@ const App = () => {
                 title: '새로운 루틴',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
                 headerBackVisible: false,
                 headerShadowVisible: false,
@@ -202,7 +171,7 @@ const App = () => {
                 title: '루틴 상세',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
                 headerBackVisible: false,
                 headerShadowVisible: false,
@@ -226,8 +195,8 @@ const App = () => {
                 title: '운동',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 20,
-                  marginLeft: 20,
+                  fontSize: 20 * height_ratio,
+                  marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
                 },
                 headerBackVisible: false,
                 headerShadowVisible: false,
@@ -247,8 +216,8 @@ const App = () => {
                 animation: 'none',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 28,
-                  marginLeft: 20,
+                  fontSize: 28 * height_ratio,
+                  marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
                 },
                 headerShadowVisible: false,
                 headerBackVisible: false,

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     gap: 8 * width_ratio,
   },
   valueText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#242424',
   },
   unitText: {

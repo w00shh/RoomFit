@@ -57,7 +57,7 @@ const ConnectDevice = ({navigation}) => {
               marginRight: 10 * width_ratio,
               marginTop: 5 * height_ratio,
               fontWeight: '700',
-              fontSize: 15,
+              fontSize: 15 * height_ratio,
             }}>
             새로고침
           </Text>
@@ -67,7 +67,7 @@ const ConnectDevice = ({navigation}) => {
             }}>
             <Reload
               name="reload1"
-              size={25}
+              size={25 * height_ratio}
               color="#242424"
               style={styles.reloadIcon}></Reload>
           </TouchableOpacity>

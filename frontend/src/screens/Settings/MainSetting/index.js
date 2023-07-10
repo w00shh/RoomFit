@@ -53,7 +53,7 @@ const MainSetting = ({navigation}) => {
                 name="right"
                 size={20 * height_ratio}
                 style={styles.rightIcon}
-                color="#242424"></Right>
+                color={'#242424'}></Right>
             </TouchableOpacity>
           </View>
           <View>
@@ -76,7 +76,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -172,7 +172,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -188,7 +188,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -202,7 +202,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -218,7 +218,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -231,7 +231,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -244,7 +244,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -256,7 +256,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -268,7 +268,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -283,7 +283,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -295,7 +295,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -307,7 +307,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
@@ -319,7 +319,7 @@ const MainSetting = ({navigation}) => {
                   name="right"
                   size={18 * height_ratio}
                   style={styles.rightIcon}
-                  color="#242424"></Right>
+                  color={'#242424'}></Right>
               </TouchableOpacity>
             </View>
           </View>
