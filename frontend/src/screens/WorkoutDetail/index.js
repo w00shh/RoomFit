@@ -69,7 +69,7 @@ const WorkoutDetail = ({navigation, route}) => {
             }}>
             {route.params.title}
           </Text>
-          <Text>
+          <Text style={{fontSize: 14 * height_ratio}}>
             {route.params.start_time} - {route.params.end_time}
           </Text>
         </View>
@@ -79,7 +79,9 @@ const WorkoutDetail = ({navigation, route}) => {
           onPress={() => {
             setIsWorkoutDeleteModalVisible(true);
           }}>
-          <Text style={{color: '#242424'}}>기록삭제</Text>
+          <Text style={{color: '#242424', fontSize: 14 * height_ratio}}>
+            기록삭제
+          </Text>
         </TouchableOpacity>
       ),
     });
