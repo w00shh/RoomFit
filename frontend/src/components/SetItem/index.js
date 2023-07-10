@@ -16,6 +16,8 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const SetItem = props => {
   const appcontext = useContext(AppContext);
+  const [isWeightEmpty, setIsWeightEmpty] = useState(false);
+  const [isRepsEmpty, setIsRepsEmpty] = useState(false);
   const [weight, setWeight] = useState(props.weight);
   const [reps, setReps] = useState(props.reps);
   const [isDoing, setIsDoing] = useState(props.isDoing);
@@ -28,25 +30,37 @@ const SetItem = props => {
   };
 
   const handleWeightChange = text => {
-    const parsedWeight = parseInt(text);
-    if (!isNaN(parsedWeight)) {
-      if (parsedWeight < 0) {
-        setWeight(0);
-      } else if (parsedWeight > 200) {
-        setWeight(200);
-      } else {
-        setWeight(parsedWeight);
+    if (text === '') {
+      setIsWeightEmpty(true);
+      setWeight(0);
+    } else {
+      setIsWeightEmpty(false);
+      const parsedWeight = parseInt(text);
+      if (!isNaN(parsedWeight)) {
+        if (parsedWeight < 0) {
+          setWeight(0);
+        } else if (parsedWeight > 200) {
+          setWeight(200);
+        } else {
+          setWeight(parsedWeight);
+        }
       }
     }
   };
 
   const handleRepsChange = text => {
-    const parsedReps = parseInt(text);
-    if (!isNaN(parsedReps)) {
-      if (parsedReps < 1) {
-        setReps(1);
-      } else {
-        setReps(parsedReps);
+    if (text === '') {
+      setIsRepsEmpty(true);
+      setReps(1);
+    } else {
+      setIsRepsEmpty(false);
+      const parsedReps = parseInt(text);
+      if (!isNaN(parsedReps)) {
+        if (parsedReps < 1) {
+          setReps(1);
+        } else {
+          setReps(parsedReps);
+        }
       }
     }
   };
@@ -139,10 +153,7 @@ const SetItem = props => {
           style={styles.valueText}
           inputMode="numeric"
           keyboardType="numeric"
-          placeholder={String(weight)}
-          placeholderTextColor={'#242424'}
-          value={weight ? String(weight) : ''}
-          //defaultValue={props.weight !== 0 ? String(props.weight) : null}
+          value={isWeightEmpty ? '' : String(weight)}
           onChangeText={handleWeightChange}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
@@ -151,10 +162,7 @@ const SetItem = props => {
           style={styles.valueText}
           inputMode="numeric"
           keyboardType="numeric"
-          placeholder={String(reps)}
-          placeholderTextColor={'#242424'}
-          value={reps === null ? '' : String(reps)}
-          //defaultValue={props.reps !== 1 ? String(props.reps) : null}
+          value={isRepsEmpty ? '' : String(reps)}
           onChangeText={handleRepsChange}></TextInput>
         <View style={styles.unitContainer}>
           <Text style={styles.unitText}>회</Text>
