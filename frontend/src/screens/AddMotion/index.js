@@ -18,6 +18,7 @@ import {serverAxios} from '../../utils/commonAxios';
 //svg
 import Back from '../../assets/svg/buttons/single/back.svg';
 import Search from '../../assets/svg/buttons/single/search.svg';
+import X from '../../assets/svg/buttons/single/x.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -157,7 +158,7 @@ const AddMotion = ({navigation, route}) => {
   }, [selectedLength]);
 
   return (
-    <View style={styles.pageContainer}>
+    <View style={[styles.pageContainer, {alignItems: 'flex-start'}]}>
       <View style={styles.searchContainer}>
         <Search height={16 * height_ratio} width={16 * width_ratio} />
         <TextInput
@@ -170,41 +171,37 @@ const AddMotion = ({navigation, route}) => {
       {displaySelected.size === 0 && (
         <Text style={styles.recommendedText}>추천 운동</Text>
       )}
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          alignSelf: 'flex-start',
-          marginTop: 16 * height_ratio,
-          marginLeft: 4 * width_ratio,
-          marginBottom: 5 * height_ratio,
-        }}>
-        {displaySelected &&
-          Array.from(displaySelected.values()).map((value, key) => (
-            <View
-              key={key}
-              style={{
-                width:
-                  getTextWidth(value.motion_name) * width_ratio >
-                  84 * width_ratio
-                    ? getTextWidth(value.motion_name) * width_ratio
-                    : 84 * width_ratio,
-                height: 32 * height_ratio,
-                backgroundColor: '#242424',
-                borderRadius: 8,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-                marginLeft: 8 * width_ratio,
-                marginTop: 7 * height_ratio,
-              }}>
-              <Text style={styles.selectMotionText}>{value.motion_name}</Text>
-              <TouchableOpacity onPress={() => deleteSelected(value.motion_id)}>
-                <XX name="x" color={'white'} size={15 * height_ratio}></XX>
-              </TouchableOpacity>
-            </View>
-          ))}
-      </View>
+      {
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: 8 * width_ratio,
+            marginVertical: 24 * height_ratio,
+          }}>
+          {displaySelected &&
+            Array.from(displaySelected.values()).map((value, key) => (
+              <View
+                key={key}
+                style={{
+                  paddingHorizontal: 12 * width_ratio,
+                  height: 32 * height_ratio,
+                  backgroundColor: '#242424',
+                  borderRadius: 8,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 2 * width_ratio,
+                }}>
+                <Text style={styles.selectMotionText}>{value.motion_name}</Text>
+                <TouchableOpacity
+                  onPress={() => deleteSelected(value.motion_id)}>
+                  <X height={24 * height_ratio} width={24 * width_ratio} />
+                </TouchableOpacity>
+              </View>
+            ))}
+        </View>
+      }
       <FlatList
         data={motionList}
         renderItem={({item, index}) => {
