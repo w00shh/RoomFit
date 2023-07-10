@@ -15,8 +15,6 @@ import {WithLocalSvg} from 'react-native-svg';
 import TempPeople from '../../assets/images/img_sample1.svg';
 import Profile from '../../assets/images/normalProfile.svg';
 import moment from 'moment';
-import Setting from 'react-native-vector-icons/Ionicons';
-import Board from 'react-native-vector-icons/MaterialCommunityIcons';
 import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,6 +22,11 @@ import Body from 'react-native-vector-icons/Ionicons';
 import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
+
+//svg
+import Workout from '../../assets/svg/buttons/default/workout.svg';
+import History from '../../assets/svg/buttons/active/history.svg';
+import Setting from '../../assets/svg/buttons/default/setting.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -646,26 +649,14 @@ const WorkoutRecord = ({navigation, route}) => {
 
       <View style={styles.navigator}>
         <TouchableOpacity
-          style={{marginLeft: 45 * width_ratio}}
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
-          <Dumbbell
-            name="dumbbell"
-            size={20 * height_ratio}
-            color={'#dfdfdf'}></Dumbbell>
+          <Workout height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Board
-            name="clipboard-check"
-            size={20 * height_ratio}
-            color={'#fff'}></Board>
+          <History height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{marginRight: 45 * width_ratio}}
-          onPress={() => navigation.navigate('MainSetting')}>
-          <Setting
-            name="settings"
-            size={20 * height_ratio}
-            color={'#dfdfdf'}></Setting>
+        <TouchableOpacity onPress={() => navigation.navigate('MainSetting')}>
+          <Setting height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       </View>
     </View>

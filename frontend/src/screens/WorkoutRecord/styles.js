@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#000000',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
     borderRadius: 100,
     width: 358 * width_ratio,
