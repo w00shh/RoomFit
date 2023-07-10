@@ -12,8 +12,12 @@ import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import XX from 'react-native-vector-icons/Feather';
-import Back from 'react-native-vector-icons/Ionicons';
+// import Back from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../utils/commonAxios';
+
+//svg
+import Back from '../../assets/svg/buttons/single/back.svg';
+import Search from '../../assets/svg/buttons/single/search.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -126,14 +130,7 @@ const AddMotion = ({navigation, route}) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
 
@@ -162,7 +159,7 @@ const AddMotion = ({navigation, route}) => {
   return (
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
-        <Icon name="search" size={16 * height_ratio} color="#808080"></Icon>
+        <Search height={16 * height_ratio} width={16 * width_ratio} />
         <TextInput
           style={{marginLeft: 12 * width_ratio, fontSize: 14 * height_ratio}}
           onChangeText={handleMotionSearchChange}
@@ -210,17 +207,32 @@ const AddMotion = ({navigation, route}) => {
       </View>
       <FlatList
         data={motionList}
-        renderItem={({item}) => (
-          <Item
-            motion={item}
-            selected={!!selected.get(item.motion_id)}
-            onSelect={onSelect}></Item>
-        )}
+        renderItem={({item, index}) => {
+          const isEnd = index === motionList.length - 1;
+          return (
+            <>
+              <Item
+                motion={item}
+                selected={!!selected.get(item.motion_id)}
+                onSelect={onSelect}></Item>
+              {!isEnd && (
+                <View
+                  style={{
+                    height: 1 * height_ratio,
+                    width: '100%',
+                    backgroundColor: '#F5F5F5',
+                    marginVertical: 16 * height_ratio,
+                  }}
+                />
+              )}
+            </>
+          );
+        }}
         keyExtractor={item => item.motion_id}
         extraData={selected}></FlatList>
 
       <CustomButton_B
-        width={358}
+        width={358 * width_ratio}
         content={selectedLength + ' 개 동작 추가하기'}
         disabled={isDisabled}
         onPress={

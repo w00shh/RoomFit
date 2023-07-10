@@ -25,7 +25,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const HomeScreen = ({navigation}) => {
   const appcontext = useContext(AppContext);
-  const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
+  const connectedDevice = true;
   const [existRoutine, setExistRoutine] = useState(false);
   const [isExercised, setIsExercised] = useState(true);
   const [routine, setRoutine] = useState([]);

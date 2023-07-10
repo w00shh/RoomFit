@@ -10,6 +10,10 @@ import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {serverAxios} from '../../utils/commonAxios';
 
+//svg
+import Star_A from '../../assets/svg/buttons/active/star.svg';
+import Star_D from '../../assets/svg/buttons/default/star.svg';
+
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
@@ -51,7 +55,7 @@ const MotionItem = props => {
             }
             props.setMotionList(updatedMotionList);
           }}>
-          <Icon name="star" size={20 * height_ratio} color="#fbcb22"></Icon>
+          <Star_A height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableWithoutFeedback>
       ) : (
         <TouchableWithoutFeedback
@@ -87,7 +91,7 @@ const MotionItem = props => {
             }
             props.setMotionList(updatedMotionList);
           }}>
-          <Icon name="staro" size={20 * height_ratio}></Icon>
+          <Star_D height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableWithoutFeedback>
       )}
 
