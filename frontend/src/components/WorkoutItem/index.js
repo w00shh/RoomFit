@@ -92,7 +92,8 @@ const WorkoutItem = props => {
           style={styles.button}
           disabled={
             props.motionList[props.motion_index].isMotionDone ||
-            props.motionList[props.motion_index].isMotionDoing
+            props.motionList[props.motion_index].doingSetIndex + 1 ===
+              props.motionList[props.motion_index].sets.length
           }
           onPress={() => {
             handleSetDeletePress(props.motion_index);
