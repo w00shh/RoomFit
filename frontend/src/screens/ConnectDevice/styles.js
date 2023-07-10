@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     width: 63 * width_ratio,
     height: 36 * height_ratio,
     borderColor: '#dfdfdf',
-    borderWidth: 1,
+    borderWidth: 1 * height_ratio,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     width: 95 * width_ratio,
     height: 36 * height_ratio,
     borderColor: '#dfdfdf',
-    borderWidth: 1,
+    borderWidth: 1 * height_ratio,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
 
   battery: {
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
     fontWeight: '400',
     color: '#808080',
   },
