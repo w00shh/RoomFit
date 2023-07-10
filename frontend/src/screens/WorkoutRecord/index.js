@@ -47,6 +47,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const [markedDates, setMarkedDates] = useState({});
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
+  const [periodWorkout, setPeriodWorkout] = useState();
 
   const markDates = () => {
     const updateMarkedDates = {};
@@ -151,6 +152,11 @@ const WorkoutRecord = ({navigation, route}) => {
     const body = {
       user_id: 'user1',
     };
+    const url = '/workout/stat/' + period;
+    await serverAxios.post(url, body).then(res => {
+      console.log(res.data);
+      setPeriodWorkout(res.data);
+    });
   };
 
   return (
@@ -524,23 +530,33 @@ const WorkoutRecord = ({navigation, route}) => {
                 <View style={{flexDirection: 'row', gap: 24 * height_ratio}}>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>가슴</Text>
-                    <Text style={styles.percentText}>35%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.chest}%
+                    </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>어깨</Text>
-                    <Text style={styles.percentText}>25%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.shoulder}%
+                    </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>하체</Text>
-                    <Text style={styles.percentText}>22%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.leg}%
+                    </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>등</Text>
-                    <Text style={styles.percentText}>10%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.back}%
+                    </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>코어</Text>
-                    <Text style={styles.percentText}>8%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.core}%
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -571,7 +587,9 @@ const WorkoutRecord = ({navigation, route}) => {
                       <Text style={styles.pauseSubtitle}>
                         누적 전체 운동시간
                       </Text>
-                      <Text style={styles.pauseSubcontent}>sss</Text>
+                      <Text style={styles.pauseSubcontent}>
+                        {periodWorkout.total_time}
+                      </Text>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row'}}>
@@ -586,7 +604,9 @@ const WorkoutRecord = ({navigation, route}) => {
                       <Text style={styles.pauseSubtitle}>
                         누적 유효 수행시간
                       </Text>
-                      <Text style={styles.pauseSubcontent}>tut</Text>
+                      <Text style={styles.pauseSubcontent}>
+                        {periodWorkout.tut}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -606,7 +626,9 @@ const WorkoutRecord = ({navigation, route}) => {
                     </View>
                     <View style={{marginLeft: 8 * width_ratio}}>
                       <Text style={styles.pauseSubtitle}>볼륨</Text>
-                      <Text style={styles.pauseSubcontent}>sss</Text>
+                      <Text style={styles.pauseSubcontent}>
+                        {periodWorkout.total_weight}
+                      </Text>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row'}}>
@@ -634,7 +656,9 @@ const WorkoutRecord = ({navigation, route}) => {
 
                   <View style={{marginLeft: 8 * width_ratio}}>
                     <Text style={styles.pauseSubtitle}>운동 횟수</Text>
-                    <Text style={styles.pauseMotionTitle}>sss</Text>
+                    <Text style={styles.pauseMotionTitle}>
+                      {periodWorkout.count}
+                    </Text>
                   </View>
                 </View>
               </View>

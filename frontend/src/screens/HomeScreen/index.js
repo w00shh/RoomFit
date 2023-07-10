@@ -17,6 +17,7 @@ import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {useAppSelector} from '../../redux/store';
 import {AppContext} from '../../contexts/AppProvider';
+import {BackHandler} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -34,6 +35,19 @@ const HomeScreen = ({navigation}) => {
   const [isSetting, setIsSetting] = useState(false);
   const [routineId, setRoutineId] = useState();
   const [routineReady, setRoutineReady] = useState(false);
+
+  useEffect(() => {
+    const handleBackButton = () => {
+      // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
+      return true;
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, []);
 
   useEffect(() => {
     if (routineId) {
