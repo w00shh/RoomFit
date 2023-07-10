@@ -266,6 +266,8 @@ const AddMotion = ({navigation, route}) => {
                       isPaused: true,
                       isPausedPage: false,
                       isModifyMotion: true,
+                      isResting: route.params.isResting,
+                      restTimer: route.params.restTimer,
                     })
                   : navigation.push('WorkoutReady', {
                       selectedMotionKeys: selectedMotionKeys,

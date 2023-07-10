@@ -299,7 +299,7 @@ const WorkoutRecord = ({navigation, route}) => {
             </ScrollView>
           )}
           {isCalendar && (
-            <ScrollView>
+            <ScrollView style={{width: 358 * width_ratio}}>
               <View>
                 <Calendar
                   style={styles.Calendar}
@@ -366,7 +366,7 @@ const WorkoutRecord = ({navigation, route}) => {
                         </TouchableOpacity>
                       ))}
                     </View>
-                    <View style={{height: 90 * height_ratio}}></View>
+                    <View style={{height: 150 * height_ratio}}></View>
                   </>
                 )}
             </ScrollView>
@@ -642,7 +642,7 @@ const WorkoutRecord = ({navigation, route}) => {
             size={20 * height_ratio}
             color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.push('WorkoutRecord')}>
+        <TouchableOpacity>
           <Board
             name="clipboard-check"
             size={20 * height_ratio}
