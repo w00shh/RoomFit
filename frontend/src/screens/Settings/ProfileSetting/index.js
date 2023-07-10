@@ -4,15 +4,13 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Modal,
-  Switch,
-  Image,
   Dimensions,
   SafeAreaView,
   TextInput,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
-import {serverAxios} from '../../../utils/commonAxios';
+
 import styles from './styles';
 import {WithLocalSvg} from 'react-native-svg';
 import Profile from '../../../assets/images/normalProfile.svg';
@@ -26,13 +24,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const ProfileSetting = ({navigation}) => {
   const appcontext = useContext(AppContext);
-  const [isAssist, setIsAssist] = useState(true);
-  const [isLock, setIsLock] = useState(false);
-  const toggleSwitch = () => setIsAssist(previousState => !previousState);
-  const toggleSwitch2 = () => setIsLock(previousState => !previousState);
-  const [Nickname, onChangeText] = React.useState(
-    appcontext.state.usernickname,
-  );
+  const [Nickname, onChangeText] = useState(appcontext.state.usernickname);
 
   useEffect(() => {
     navigation.setOptions({
@@ -40,15 +32,14 @@ const ProfileSetting = ({navigation}) => {
         <TouchableOpacity
           onPress={() => {
             handleBackButton();
-            //navigation.reset({routes: [{name: 'MyRoutine'}]});
           }}>
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
+              marginRight: Platform.OS === 'ios' ? 0 : 10 * width_ratio,
             }}></Back>
         </TouchableOpacity>
       ),
@@ -56,9 +47,9 @@ const ProfileSetting = ({navigation}) => {
         <>
           <Text
             style={{
-              marginHorizontal: 6 * width_ratio,
+              marginHorizontal: Platform.OS === 'ios' ? 0 : 6 * width_ratio,
               color: '#242424',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
             프로필 설정
@@ -67,7 +58,7 @@ const ProfileSetting = ({navigation}) => {
       ),
       headerRight: () => (
         <TouchableOpacity>
-          <Text>저장</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>저장</Text>
         </TouchableOpacity>
       ),
     });
@@ -131,7 +122,7 @@ const ProfileSetting = ({navigation}) => {
                 onPress={() => navigation.navigate('PasswordSetting')}>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
                   color={'#242424'}></Right>
               </TouchableOpacity>
@@ -151,7 +142,7 @@ const ProfileSetting = ({navigation}) => {
                 onPress={() => navigation.navigate('HeightWeight')}>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
                   color={'#242424'}></Right>
               </TouchableOpacity>
@@ -164,7 +155,7 @@ const ProfileSetting = ({navigation}) => {
               <TouchableOpacity>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
                   color={'#242424'}></Right>
               </TouchableOpacity>
@@ -177,7 +168,7 @@ const ProfileSetting = ({navigation}) => {
               <TouchableOpacity onPress={() => navigation.navigate('BodyFat')}>
                 <Right
                   name="right"
-                  size={18}
+                  size={18 * height_ratio}
                   style={styles.rightIcon}
                   color={'#242424'}></Right>
               </TouchableOpacity>

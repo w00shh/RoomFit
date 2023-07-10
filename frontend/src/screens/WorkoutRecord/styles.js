@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   Calendar: {
     borderBottomWidth: 8,
     borderBottomColor: '#f5f5f5',
-    width: 370 * width_ratio,
   },
 
   grayCircle: {
@@ -61,48 +60,48 @@ const styles = StyleSheet.create({
   },
 
   statusText: {
-    fontSize: 48,
+    fontSize: 48 * height_ratio,
     fontWeight: '400',
     color: '#242424',
   },
 
   targetText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
     color: '#808080',
     marginBottom: 10 * height_ratio,
   },
 
   statusText2: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
 
   yoyakText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
 
-  puaseSubtitle: {
-    fontSize: 12,
+  pauseSubtitle: {
+    fontSize: 12 * height_ratio,
     fontWeight: '400',
     color: '#808080',
   },
 
-  puaseSubcontent: {
-    fontSize: 16,
+  pauseSubcontent: {
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
 
   targetText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#808080',
   },
   percentText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
     fontWeight: '700',
   },

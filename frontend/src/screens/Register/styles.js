@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 20 * height_ratio,
   },
   toLogin: {
     flexDirection: 'row',
@@ -28,12 +28,12 @@ const styles = StyleSheet.create({
   },
   questionText: {
     marginHorizontal: 4 * width_ratio,
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#808080',
   },
   loginText: {
     marginHorizontal: 4 * width_ratio,
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#242424',
   },
 });

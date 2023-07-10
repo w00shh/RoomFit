@@ -30,26 +30,26 @@ const styles = StyleSheet.create({
   },
 
   statusText: {
-    fontSize: 48,
+    fontSize: 48 * height_ratio,
     fontWeight: '400',
     color: '#242424',
   },
 
   targetText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
     color: '#808080',
     marginBottom: 10 * height_ratio,
   },
 
   statusText2: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
 
   targetText2: {
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
     fontWeight: '400',
     color: '#808080',
     marginBottom: 1,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
 
   CText: {
     fontWeight: '400',
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     textAlign: 'center',
     color: '#242424',
   },
@@ -114,35 +114,35 @@ const styles = StyleSheet.create({
   },
   CText3: {
     fontWeight: '400',
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     textAlign: 'center',
     color: '#fff',
   },
   timer: {
-    fontSize: 48,
+    fontSize: 48 * height_ratio,
     color: '#242424',
   },
 
   pauseTitle: {
-    fontSize: 28,
+    fontSize: 28 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
 
   pauseMotionTitle: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
     color: '#242424',
   },
 
-  puaseSubtitle: {
-    fontSize: 12,
+  pauseSubtitle: {
+    fontSize: 12 * height_ratio,
     fontWeight: '400',
     color: '#808080',
   },
 
-  puaseSubcontent: {
-    fontSize: 16,
+  pauseSubcontent: {
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
 
   tutText: {
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 20 * height_ratio,
     color: '#808080',
   },
 
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
 
   settingText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '400',
     color: '#242424',
   },
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
@@ -285,11 +285,11 @@ const styles = StyleSheet.create({
   },
 
   modeText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
   },
   descriptionText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#acacac',
   },
   modeButtonContainer: {
@@ -331,20 +331,20 @@ const styles = StyleSheet.create({
   },
 
   restingTitle: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
     marginTop: 30 * height_ratio,
   },
 
   restingTimer: {
-    fontSize: 48,
+    fontSize: 48 * height_ratio,
     color: '#242424',
     marginTop: 16 * height_ratio,
   },
 
   plusminus: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
   },
 
@@ -375,6 +375,7 @@ const styles = StyleSheet.create({
   },
 
   titleInput: {
+    fontSize: 14 * height_ratio,
     backgroundColor: '#f5f5f5',
     width: 264 * width_ratio,
     height: 56 * height_ratio,
@@ -384,6 +385,7 @@ const styles = StyleSheet.create({
   },
 
   memoInput: {
+    fontSize: 14 * height_ratio,
     backgroundColor: '#f5f5f5',
     width: 264 * width_ratio,
     height: 110 * height_ratio,
@@ -392,7 +394,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   motionTitle: {
-    fontSize: 28,
+    fontSize: 28 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
@@ -421,7 +423,7 @@ const styles = StyleSheet.create({
   },
 
   titleText5: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
@@ -439,11 +441,11 @@ const styles = StyleSheet.create({
   },
 
   modeText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
   },
   descriptionText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#acacac',
   },
   modeButtonContainer5: {

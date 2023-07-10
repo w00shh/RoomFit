@@ -43,7 +43,7 @@ const ConnectDevice = ({navigation}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 0 * width_ratio,
               marginRight: 10 * width_ratio,
@@ -57,7 +57,7 @@ const ConnectDevice = ({navigation}) => {
               marginRight: 10 * width_ratio,
               marginTop: 5 * height_ratio,
               fontWeight: '700',
-              fontSize: 15,
+              fontSize: 15 * height_ratio,
             }}>
             새로고침
           </Text>
@@ -67,7 +67,7 @@ const ConnectDevice = ({navigation}) => {
             }}>
             <Reload
               name="reload1"
-              size={25}
+              size={25 * height_ratio}
               color="#242424"
               style={styles.reloadIcon}></Reload>
           </TouchableOpacity>
@@ -145,7 +145,7 @@ const ConnectDevice = ({navigation}) => {
         <Text style={styles.statusText}>탐색된 기기</Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <OnOff></OnOff>
-          <Text>룸핏만 보기</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>룸핏만 보기</Text>
         </View>
       </View>
 

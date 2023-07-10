@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
   },
 
   modeText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
   },
   descriptionText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#acacac',
   },
   modeButtonContainer: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginVertical: 120 * height_ratio,
   },
   newRoutineText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#808080',
   },
   addMotionContainer: {
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   addMotionText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#5252fa',
   },
   routineNameContainer: {
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
 
   titleText: {
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
   },
 
   inputContainer: {
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   routineNameInput: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
   },
   confirmButton: {
     alignItems: 'center',
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
 
   confirmText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: 'white',
   },
 
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5252fa',
   },
   addText: {
+    fontSize: 14 * height_ratio,
     color: 'white',
   },
   startButton: {
@@ -178,6 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   startText: {
+    fontSize: 14 * height_ratio,
     color: '#52525fa',
   },
 });

@@ -22,11 +22,11 @@ const WorkoutTitle = props => {
         </View>
         <View style={styles.nameContainer}>
           <Text style={styles.koreanText}>{props.motion.motion_name}</Text>
-          <Text style={styles.englishText}>가동 범위: 50cm~90cm</Text>
+          <Text style={styles.rangeText}>가동 범위: 50cm~90cm</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.iconContainer}>
-        <Icon name="grip-lines" size={12} color="#808080"></Icon>
+        <Icon name="grip-lines" size={12 * height_ratio} color="#808080"></Icon>
       </TouchableOpacity>
     </View>
   );

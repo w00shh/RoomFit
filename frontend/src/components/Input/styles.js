@@ -1,13 +1,12 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
-const width_ratio = Dimensions.get('screen').width / 390;
-const height_ratio = Dimensions.get('screen').height / 844;
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'column',
     width: 358 * width_ratio,
-
     paddingTop: 8 * height_ratio,
     marginVertical: 8 * height_ratio,
     paddingHorizontal: 16 * width_ratio,
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
 
   label: {
     color: '#808080',
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
   },
 
   inputBox: {

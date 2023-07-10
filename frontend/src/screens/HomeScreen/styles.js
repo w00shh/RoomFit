@@ -2,8 +2,6 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
-const standard_w = 390;
-const standard_h = 797;
 
 const styles = StyleSheet.create({
   pageContainer: {
@@ -20,7 +18,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     backgroundColor: '#f5f5f5',
-
     width: 358 * width_ratio,
     height: 168 * height_ratio,
     borderRadius: 24,
@@ -28,14 +25,14 @@ const styles = StyleSheet.create({
   },
 
   noConnectionText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '500',
     color: '#242424',
     marginTop: 24 * height_ratio,
   },
 
   noConnectionText2: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     fontWeight: '400',
     color: '#808080',
     marginTop: 3 * height_ratio,
@@ -48,7 +45,7 @@ const styles = StyleSheet.create({
   subtitleText: {
     alignSelf: 'flex-start',
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 20 * height_ratio,
 
     color: '#242424',
 
@@ -69,13 +66,13 @@ const styles = StyleSheet.create({
   },
 
   noRoutineText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     fontWeight: '400',
     color: '#808080',
   },
 
   noRoutineText2: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     fontWeight: '400',
     color: '#808080',
     marginTop: 3 * height_ratio,

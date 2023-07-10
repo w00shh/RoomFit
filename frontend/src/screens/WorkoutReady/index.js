@@ -60,7 +60,7 @@ const WorkoutReady = ({navigation, route}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 10 * width_ratio,
               marginRight: 10 * width_ratio,
@@ -157,6 +157,8 @@ const WorkoutReady = ({navigation, route}) => {
         isPaused: false,
         isPausedPage: false,
         isModifyMotion: false,
+        isResting: false,
+        restTimer: appcontext.state.userSetTimer,
       });
     }
   }, [workoutId]);
@@ -221,7 +223,9 @@ const WorkoutReady = ({navigation, route}) => {
               setIsModalVisible={setIsModalVisible}
               motion={value}
               motionList={motionList}
-              setMotionList={setMotionList}></WorkoutItem>
+              setMotionList={setMotionList}
+              modeList={modeList}
+              setSelectedMode={setSelectedMode}></WorkoutItem>
           ))}
       </ScrollView>
 

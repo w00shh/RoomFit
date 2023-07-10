@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16 * width_ratio,
     marginTop: 16 * height_ratio,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
   },
   placeholder: {
     position: 'absolute',
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     right: 20 * width_ratio,
   },
   placeholderText: {
-    fontSize: 12,
+    fontSize: 12 * height_ratio,
     color: '#808080',
   },
 });

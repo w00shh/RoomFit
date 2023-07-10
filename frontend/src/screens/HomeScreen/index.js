@@ -60,21 +60,6 @@ const HomeScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    // navigation.setOptions({
-    //   headerTitle: () => (
-    //     <View>
-    //       <Text
-    //         style={{
-    //           fontSize: 28,
-    //           fontWeight: '700',
-    //           color: '#242424',
-    //           marginLeft: 10 * width_ratio,
-    //         }}>
-    //         운동
-    //       </Text>
-    //     </View>
-    //   ),
-    // });
     getMyRoutine();
     getRecentWorkout();
   }, []);
@@ -111,29 +96,6 @@ const HomeScreen = ({navigation}) => {
       .post('/workout/brief/recent', body)
       .then(res => {
         setRecentRoutine(res.data);
-        // res.data.map((value, key) => {
-        //   setRecentRoutine(currentRecentRoutine => [
-        //     ...currentRecentRoutine,
-        //     {
-        //       recentInedx: key,
-        //       workout_id: value.workout_id,
-        //       title: value.title,
-        //       date: value.start_time.split(' ')[0],
-        //       start_time:
-        //         value.start_time.split(' ')[1].split(':')[0] +
-        //         ':' +
-        //         value.start_time.split(' ')[1].split(':')[1],
-        //       end_time:
-        //         value.end_time.split(' ')[1].split(':')[0] +
-        //         ':' +
-        //         value.end_time.split(' ')[1].split(':')[1],
-        //       total_time: value.total_time,
-        //       total_weight: value.total_weight,
-        //       targets: value.targets,
-        //       memo: value.memo,
-        //     },
-        //   ]);
-        // });
       })
       .catch(e => console.log(e));
   };
@@ -158,7 +120,7 @@ const HomeScreen = ({navigation}) => {
               style={styles.connectButton}
               content="기기 연결"
               disabled={false}
-              width={326}
+              width={326 * width_ratio}
               onPress={() =>
                 navigation.navigate('ConnectDevice')
               }></CustomButton_B>
@@ -170,7 +132,7 @@ const HomeScreen = ({navigation}) => {
               style={styles.connectButton}
               content="빠른 운동 시작"
               disabled={false}
-              width={326}
+              width={326 * width_ratio}
               onPress={() =>
                 navigation.navigate('AddMotion', {isRoutine: false})
               }></CustomButton_B>
@@ -186,7 +148,7 @@ const HomeScreen = ({navigation}) => {
           <TouchableOpacity
             style={styles.allRoutine}
             onPress={() => navigation.navigate('MyRoutine')}>
-            <Text>전체보기</Text>
+            <Text style={{fontSize: 14 * height_ratio}}>전체보기</Text>
           </TouchableOpacity>
         </View>
 
@@ -199,7 +161,7 @@ const HomeScreen = ({navigation}) => {
             <TouchableOpacity
               style={styles.makeRoutineButton}
               onPress={handleMakeRoutinePress}>
-              <Text>루틴 만들기</Text>
+              <Text style={{fontSize: 14 * height_ratio}}>루틴 만들기</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -245,6 +207,7 @@ const HomeScreen = ({navigation}) => {
             <View>
               <Text
                 style={{
+                  fontSize: 14 * height_ratio,
                   marginTop: 12 * height_ratio,
                 }}>
                 {recentRoutine[0].start_time.split(' ')[0]}
@@ -276,7 +239,7 @@ const HomeScreen = ({navigation}) => {
                 </TouchableOpacity>
               ))}
             </View>
-            <View style={{height: 90}}></View>
+            <View style={{height: 90 * height_ratio}}></View>
           </View>
         )}
       </ScrollView>
@@ -284,7 +247,7 @@ const HomeScreen = ({navigation}) => {
         <TouchableOpacity style={{marginLeft: 45 * width_ratio}}>
           <Dumbbell
             name="dumbbell"
-            size={20}
+            size={20 * height_ratio}
             color={isExercise ? '#fff' : '#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
         <TouchableOpacity
@@ -293,7 +256,7 @@ const HomeScreen = ({navigation}) => {
           }>
           <Board
             name="clipboard-check"
-            size={20}
+            size={20 * height_ratio}
             color={isRecord ? '#fff' : '#dfdfdf'}></Board>
         </TouchableOpacity>
         <TouchableOpacity
@@ -301,7 +264,7 @@ const HomeScreen = ({navigation}) => {
           onPress={() => navigation.navigate('MainSetting')}>
           <Setting
             name="settings"
-            size={20}
+            size={20 * height_ratio}
             color={isSetting ? '#fff' : '#dfdfdf'}></Setting>
         </TouchableOpacity>
       </View>

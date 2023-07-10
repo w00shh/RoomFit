@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 20 * height_ratio,
   },
 
   selectionContainer: {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
 
   selectionText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#242424',
   },
 
@@ -48,13 +48,13 @@ const styles = StyleSheet.create({
     marginVertical: 200 * height_ratio,
   },
   questionText: {
-    marginHorizontal: 4,
-    fontSize: 14,
+    marginHorizontal: 4 * width_ratio,
+    fontSize: 14 * height_ratio,
     color: '#808080',
   },
   registerText: {
     marginHorizontal: 4,
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#242424',
   },
 });

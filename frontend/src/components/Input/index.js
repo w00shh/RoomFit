@@ -18,7 +18,7 @@ const Input = props => {
         props.isCertificationNumberVisible
           ? {
               ...styles.inputContainer,
-              borderWidth: 1,
+              borderWidth: 1 * height_ratio,
               borderColor: '#5252fa',
             }
           : styles.inputContainer
@@ -31,7 +31,10 @@ const Input = props => {
       <View style={styles.inputBox}>
         <TextInput
           style={{
-            width: props.isCertification && 225 * width_ratio,
+            width: props.isCertification
+              ? 225 * width_ratio
+              : 326 * width_ratio,
+            fontSize: 14 * height_ratio,
           }}
           onChangeText={props.onChangeText}
           placeholder={props.placeholder}
@@ -42,14 +45,16 @@ const Input = props => {
           editable={!props.isCertificated}></TextInput>
         {props.isCertification &&
           (props.isCertificated ? (
-            <Text style={{color: '#5252fa'}}>인증완료</Text>
+            <Text style={{color: '#5252fa', fontSize: 14 * height_ratio}}>
+              인증완료
+            </Text>
           ) : (
             <TouchableOpacity
               style={{
                 paddingHorizontal: 5 * width_ratio,
                 paddingVertical: 5 * height_ratio,
                 borderRadius: 8,
-                borderWidth: props.disabled ? 0 : 0.5,
+                borderWidth: props.disabled ? 0 : 0.5 * height_ratio,
                 borderColor: '#5252fa',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -59,6 +64,7 @@ const Input = props => {
               <Text
                 style={{
                   color: props.disabled ? '#dfdfdf' : '#5252fa',
+                  fontSize: 14 * height_ratio,
                 }}>
                 {props.certificationContent}
               </Text>

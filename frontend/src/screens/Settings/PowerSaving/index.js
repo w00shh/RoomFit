@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 
@@ -53,10 +54,10 @@ const PowerSaving = ({navigation, route}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
+              marginRight: Platform.OS === 'ios' ? 0 : 10 * width_ratio,
             }}></Back>
         </TouchableOpacity>
       ),
@@ -65,7 +66,7 @@ const PowerSaving = ({navigation, route}) => {
           <Text
             style={{
               color: '#242424',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
             절전모드
@@ -76,13 +77,17 @@ const PowerSaving = ({navigation, route}) => {
   }, []);
   return (
     <View style={styles.pageContainer}>
-      <View style={{width: 358 * width_ratio}}>
-        <Text style={{fontSize: 14, color: '#808080'}}>
+      <View
+        style={{
+          width: 358 * width_ratio,
+          marginVertical: 8 * height_ratio,
+        }}>
+        <Text style={{fontSize: 14 * height_ratio, color: '#808080'}}>
           설정한 시간동안 움직임이 감지되지 않으면 운동 종료로 인식하고
           절전모드로 들어갑니다.
         </Text>
       </View>
-      <ScrollView style={{height: 500 * height_ratio, marginTop: 16}}>
+      <ScrollView>
         {powerSave.map((value, key) => (
           <TouchableOpacity
             key={key}
@@ -90,13 +95,13 @@ const PowerSaving = ({navigation, route}) => {
             <View
               style={{
                 flexDirection: 'row',
-
                 height: 56 * height_ratio,
+                marginVertical: 8 * height_ratio,
               }}>
               <View style={styles.restContainer}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: 16 * height_ratio,
                     color:
                       value.time === tempPowerSaving ? '#5252fa' : '#242424',
                   }}>
@@ -104,7 +109,7 @@ const PowerSaving = ({navigation, route}) => {
                 </Text>
                 <Check
                   name="check"
-                  size={20}
+                  size={20 * height_ratio}
                   color={
                     value.time === tempPowerSaving ? '#5252fa' : 'white'
                   }></Check>

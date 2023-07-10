@@ -3,7 +3,6 @@ import styles from './styles';
 import {
   Text,
   TextInput,
-  TouchableOpacity,
   View,
   Dimensions,
   TouchableWithoutFeedback,
@@ -17,6 +16,8 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const SetItem = props => {
   const appcontext = useContext(AppContext);
+  const [isWeightEmpty, setIsWeightEmpty] = useState(false);
+  const [isRepsEmpty, setIsRepsEmpty] = useState(false);
   const [weight, setWeight] = useState(props.weight);
   const [reps, setReps] = useState(props.reps);
   const [isDoing, setIsDoing] = useState(props.isDoing);
@@ -26,20 +27,52 @@ const SetItem = props => {
     appcontext.actions.setTargetmotionindex(props.target_motion_id);
     appcontext.actions.setTargetsetindex(props.set_id);
 
+    for (let i = 0; i < props.modeList.length; i++) {
+      if (
+        props.motionList[props.target_motion_id].sets[props.set_id].mode ===
+        props.modeList[i].modeName
+      ) {
+        props.setSelectedMode(props.modeList[i]);
+        break;
+      }
+    }
+
     props.setIsModalVisible(true);
   };
 
   const handleWeightChange = text => {
-    const parsedWeight = parseInt(text);
-    if (!isNaN(parsedWeight)) {
-      setWeight(parsedWeight);
+    if (text === '') {
+      setIsWeightEmpty(true);
+      setWeight(0);
+    } else {
+      setIsWeightEmpty(false);
+      const parsedWeight = parseInt(text);
+      if (!isNaN(parsedWeight)) {
+        if (parsedWeight < 0) {
+          setWeight(0);
+        } else if (parsedWeight > 200) {
+          setWeight(200);
+        } else {
+          setWeight(parsedWeight);
+        }
+      }
     }
   };
 
   const handleRepsChange = text => {
-    const parsedReps = parseInt(text);
-    if (!isNaN(parsedReps)) {
-      setReps(parsedReps);
+    if (text === '') {
+      setIsRepsEmpty(true);
+      setReps(1);
+    } else {
+      setIsRepsEmpty(false);
+      const parsedReps = parseInt(text);
+      if (!isNaN(parsedReps)) {
+        if (parsedReps < 1) {
+          setReps(1);
+        } else {
+          setReps(parsedReps);
+        }
+      }
     }
   };
 
@@ -59,20 +92,55 @@ const SetItem = props => {
   return props.isKey ? (
     <View style={styles.setContainer}>
       <View style={styles.titleKey}>
-        <Text style={{fontSize: props.isExercising ? 12 : 14}}>세트</Text>
+        <Text
+          style={{
+            fontSize: props.isExercising
+              ? 12 * height_ratio
+              : 14 * height_ratio,
+          }}>
+          세트
+        </Text>
       </View>
       <View style={styles.titleItem}>
-        <Text style={{fontSize: props.isExercising ? 12 : 14}}>무게</Text>
+        <Text
+          style={{
+            fontSize: props.isExercising
+              ? 12 * height_ratio
+              : 14 * height_ratio,
+          }}>
+          무게
+        </Text>
       </View>
       <View style={styles.titleItem}>
-        <Text style={{fontSize: props.isExercising ? 12 : 14}}>Reps</Text>
+        <Text
+          style={{
+            fontSize: props.isExercising
+              ? 12 * height_ratio
+              : 14 * height_ratio,
+          }}>
+          Reps
+        </Text>
       </View>
       <View style={styles.titleItem}>
-        <Text style={{fontSize: props.isExercising ? 12 : 14}}>하중모드</Text>
+        <Text
+          style={{
+            fontSize: props.isExercising
+              ? 12 * height_ratio
+              : 14 * height_ratio,
+          }}>
+          하중모드
+        </Text>
       </View>
       {props.isExercising && (
         <View style={styles.titleKey}>
-          <Text style={{fontSize: props.isExercising ? 12 : 14}}>완료</Text>
+          <Text
+            style={{
+              fontSize: props.isExercising
+                ? 12 * height_ratio
+                : 14 * height_ratio,
+            }}>
+            완료
+          </Text>
         </View>
       )}
     </View>
@@ -82,7 +150,7 @@ const SetItem = props => {
         props.isDoing
           ? {
               ...styles.setContainer,
-              borderWidth: 1,
+              borderWidth: 1 * height_ratio,
               borderColor: '#242424',
               borderRadius: 8,
             }
@@ -94,39 +162,48 @@ const SetItem = props => {
       <View style={styles.itemBox}>
         <TextInput
           style={styles.valueText}
-          keyboardType="number-pad"
-          placeholder={String(props.weight)}
-          defaultValue={props.weight !== 0 ? String(props.weight) : null}
+          inputMode="numeric"
+          keyboardType="numeric"
+          value={isWeightEmpty ? '' : String(weight)}
           onChangeText={handleWeightChange}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
       <View style={styles.itemBox}>
         <TextInput
           style={styles.valueText}
-          keyboardType="number-pad"
-          placeholder={String(props.reps)}
-          defaultValue={props.reps !== 1 ? String(props.reps) : null}
+          inputMode="numeric"
+          keyboardType="numeric"
+          value={isRepsEmpty ? '' : String(reps)}
           onChangeText={handleRepsChange}></TextInput>
         <View style={styles.unitContainer}>
           <Text style={styles.unitText}>회</Text>
         </View>
       </View>
-      {/* <Text>isDoing: {String(props.isDoing)}</Text>
+      {/* <Text>isDoing: {String(props.isDoing)}</Text>-=
       <Text>isDone: {String(props.isDone)}</Text> */}
       <TouchableWithoutFeedback onPress={handleModeSelectPress}>
         <View style={styles.itemBox}>
           <Text style={styles.modeText}>
             {props.motionList[props.target_motion_id].sets[props.set_id].mode}
           </Text>
-          <Icon name="chevron-down" size={16} color="#808080"></Icon>
+          <Icon
+            name="chevron-down"
+            size={16 * height_ratio}
+            color="#808080"></Icon>
         </View>
       </TouchableWithoutFeedback>
       {props.isExercising && (
         <View style={styles.keyBox}>
           {props.isDone ? (
-            <Check name="check" size={16} color="#5252fa"></Check>
+            <Check
+              name="check"
+              size={16 * height_ratio}
+              color="#5252fa"></Check>
           ) : (
-            <Check name="check" size={16} color="#dfdfdf"></Check>
+            <Check
+              name="check"
+              size={16 * height_ratio}
+              color="#dfdfdf"></Check>
           )}
         </View>
       )}

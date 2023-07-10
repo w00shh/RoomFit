@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 20 * height_ratio,
   },
 
   customerServiceCenterContainer: {
@@ -55,10 +55,12 @@ const styles = StyleSheet.create({
   },
 
   descriptionText: {
+    fontSize: 14 * height_ratio,
     color: '#808080',
     marginRight: 4 * width_ratio,
   },
   customerServiceCenterText: {
+    fontSize: 14 * height_ratio,
     color: '#242424',
     marginLeft: 4 * width_ratio,
   },

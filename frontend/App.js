@@ -2,7 +2,7 @@ import * as React from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Linking} from 'react-native';
+import {Linking, Dimensions, Platform} from 'react-native';
 import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
 import Register from './src/screens/Register/index.js';
@@ -33,7 +33,8 @@ LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const width_ratio = Dimensions.get('screen').width / 390;
+const height_ratio = Dimensions.get('screen').height / 844;
 
 export const AppContext = React.createContext({
   state: {
@@ -53,37 +54,6 @@ export const AppContext = React.createContext({
 });
 
 const App = () => {
-  React.useEffect(() => {
-    const handleDeepLink = async () => {
-      // 앱이 최초로 실행되었을 때 딥 링크 처리
-      const initialUrl = await Linking.getInitialURL();
-      if (initialUrl) {
-        handleUrl(initialUrl);
-      }
-
-      // 딥 링크 이벤트 리스너 등록
-      Linking.addEventListener('url', handleUrl);
-    };
-
-    const handleUrl = url => {
-      const sep_url = url.url.split('auth?')[1];
-      const params = {};
-      sep_url.split('/').forEach(pair => {
-        const [key, value] = pair.split('=');
-        params[key] = value;
-      });
-      const json = JSON.stringify(params);
-      console.log(params);
-    };
-
-    handleDeepLink();
-
-    // 딥 링크 이벤트 리스너 해제
-    return () => {
-      Linking.removeEventListener('url', handleUrl);
-    };
-  }, []);
-
   return (
     <Provider store={store}>
       <AppProvider>
@@ -93,6 +63,7 @@ const App = () => {
               name="Splash"
               component={Splash}
               options={{
+                gestureEnabled: false,
                 headerShown: false,
                 transitionConfig: () => ({
                   transitionSpec: {
@@ -117,7 +88,7 @@ const App = () => {
             <Stack.Screen
               name="Intro"
               component={Intro}
-              options={{headerShown: false}}
+              options={{gestureEnabled: false, headerShown: false}}
             />
             <Stack.Screen
               name="Login"
@@ -154,7 +125,7 @@ const App = () => {
                 headerBackVisible: false,
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 20,
+                  fontSize: 20 * height_ratio,
                 },
               }}
             />
@@ -167,7 +138,7 @@ const App = () => {
                 headerShadowVisible: false,
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
               }}
             />
@@ -178,7 +149,7 @@ const App = () => {
                 title: '내 루틴',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
                 headerShadowVisible: false,
               }}></Stack.Screen>
@@ -189,7 +160,7 @@ const App = () => {
                 title: '새로운 루틴',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
                 headerBackVisible: false,
                 headerShadowVisible: false,
@@ -201,7 +172,7 @@ const App = () => {
                 title: '루틴 상세',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
                 headerBackVisible: false,
                 headerShadowVisible: false,
@@ -214,7 +185,7 @@ const App = () => {
                 title: '동작 선택',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 16,
+                  fontSize: 16 * height_ratio,
                 },
                 headerShadowVisible: false,
               }}></Stack.Screen>
@@ -225,8 +196,8 @@ const App = () => {
                 title: '운동',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 20,
-                  marginLeft: 20,
+                  fontSize: 20 * height_ratio,
+                  marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
                 },
                 headerBackVisible: false,
                 headerShadowVisible: false,
@@ -236,6 +207,7 @@ const App = () => {
               name="WorkoutStart"
               component={WorkoutStart}
               options={{
+                gestureEnabled: false,
                 headerShown: false,
               }}></Stack.Screen>
             <Stack.Screen
@@ -246,8 +218,8 @@ const App = () => {
                 animation: 'none',
                 headerTitleStyle: {
                   fontWeight: '700',
-                  fontSize: 28,
-                  marginLeft: 20,
+                  fontSize: 28 * height_ratio,
+                  marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
                 },
                 headerShadowVisible: false,
                 headerBackVisible: false,
@@ -257,6 +229,7 @@ const App = () => {
               component={WorkoutDetail}
               options={{
                 headerShadowVisible: false,
+                headerBackVisible: false,
               }}></Stack.Screen>
             <Stack.Screen
               name="MainSetting"
@@ -297,6 +270,12 @@ const App = () => {
               name="HeightWeight"
               component={HeightWeight}
               options={{
+                headerTitleStyle: {
+                  title: '키/몸무게',
+                  color: '#242424',
+                  fontSize: 16 * height_ratio,
+                  fontWeight: '700',
+                },
                 headerShadowVisible: false,
                 headerBackVisible: false,
               }}></Stack.Screen>

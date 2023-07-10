@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
   },
 
   modeText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
   },
   descriptionText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#acacac',
   },
   modeButtonContainer: {
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5252fa',
   },
   addText: {
+    fontSize: 14 * height_ratio,
     color: 'white',
   },
   startButton: {
@@ -100,6 +101,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   startText: {
+    fontSize: 14 * height_ratio,
     color: '#52525fa',
   },
 });

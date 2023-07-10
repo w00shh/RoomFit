@@ -49,17 +49,6 @@ const AddMotion = ({navigation, route}) => {
       .post('/motion/search', body)
       .then(res => {
         setMotionList(res.data);
-        // res.data.map((value, key) => {
-        //   setMotionList(currentMotionList => [
-        //     ...currentMotionList,
-        //     {
-        //       isFav: value.isFav,
-        //       motion_id: value.motion_id,
-        //       motion_name: value.motion_name,
-        //       imageUrl: value.imageUrl,
-        //     },
-        //   ]);
-        // });
       })
       .catch(e => {
         console.log(e);
@@ -124,19 +113,6 @@ const AddMotion = ({navigation, route}) => {
       .post('/motion', body)
       .then(res => {
         setMotionList(res.data);
-        // res.data.map((value, key) => {
-        //   setMotionList(currentMotionList => [
-        //     ...currentMotionList,
-        //     {
-        //       isMotionDone: false,
-        //       isMotionDoing: false,
-        //       isFav: value.isFav,
-        //       motion_id: value.motion_id,
-        //       motion_name: value.motion_name,
-        //       imageUrl: value.imageUrl,
-        //     },
-        //   ]);
-        // });
       })
       .catch(e => {
         console.log(e);
@@ -153,16 +129,17 @@ const AddMotion = ({navigation, route}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 0 * width_ratio,
               marginRight: 10 * width_ratio,
             }}></Back>
         </TouchableOpacity>
       ),
+
       headerRight: () => (
         <TouchableOpacity>
-          <Text>+ 커스텀 동작</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>+ 커스텀 동작</Text>
         </TouchableOpacity>
       ),
     });
@@ -185,9 +162,9 @@ const AddMotion = ({navigation, route}) => {
   return (
     <View style={styles.pageContainer}>
       <View style={styles.searchContainer}>
-        <Icon name="search" size={16} color="#808080"></Icon>
+        <Icon name="search" size={16 * height_ratio} color="#808080"></Icon>
         <TextInput
-          style={{marginLeft: 12}}
+          style={{marginLeft: 12 * width_ratio, fontSize: 14 * height_ratio}}
           onChangeText={handleMotionSearchChange}
           placeholder="동작을 검색해보세요"
           inputMode="text"></TextInput>
@@ -226,7 +203,7 @@ const AddMotion = ({navigation, route}) => {
               }}>
               <Text style={styles.selectMotionText}>{value.motion_name}</Text>
               <TouchableOpacity onPress={() => deleteSelected(value.motion_id)}>
-                <XX name="x" color={'white'} size={15}></XX>
+                <XX name="x" color={'white'} size={15 * height_ratio}></XX>
               </TouchableOpacity>
             </View>
           ))}
@@ -289,6 +266,8 @@ const AddMotion = ({navigation, route}) => {
                       isPaused: true,
                       isPausedPage: false,
                       isModifyMotion: true,
+                      isResting: route.params.isResting,
+                      restTimer: route.params.restTimer,
                     })
                   : navigation.push('WorkoutReady', {
                       selectedMotionKeys: selectedMotionKeys,

@@ -68,13 +68,13 @@ const styles = StyleSheet.create({
 
   Button_Text: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '500',
   },
 
   Button_Text2: {
     color: 'black',
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '500',
   },
 

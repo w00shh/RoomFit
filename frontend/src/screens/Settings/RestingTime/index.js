@@ -1,13 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   Dimensions,
   Text,
   TouchableOpacity,
   View,
   ScrollView,
+  Platform,
 } from 'react-native';
 import styles from './styles';
-
+import {AppContext} from '../../../contexts/AppProvider';
 import Check from 'react-native-vector-icons/AntDesign';
 import Back from 'react-native-vector-icons/Ionicons';
 
@@ -16,6 +17,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const RestingTime = ({navigation, route}) => {
   const [temprestSet, setTempRestSet] = useState();
+  const appcontext = useContext(AppContext);
   const restTime = [
     {time: 15, selsected: false},
     {time: 20, selsected: false},
@@ -40,9 +42,11 @@ const RestingTime = ({navigation, route}) => {
       return `${min}분 ${sec}초`;
     }
   };
+
   const handleBackButton = () => {
     navigation.reset({routes: [{name: 'MainSetting'}]});
   };
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -53,10 +57,10 @@ const RestingTime = ({navigation, route}) => {
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
+              marginRight: Platform.OS === 'ios' ? 0 : 10 * width_ratio,
             }}></Back>
         </TouchableOpacity>
       ),
@@ -65,7 +69,7 @@ const RestingTime = ({navigation, route}) => {
           <Text
             style={{
               color: '#242424',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
             {route.params.title}간 휴식시간
@@ -74,30 +78,38 @@ const RestingTime = ({navigation, route}) => {
       ),
     });
   }, []);
+
+  const handleSaveRestTime = time => {
+    if (route.params.title === '세트') appcontext.actions.setUserSetTime(time);
+    else if (route.params.title === '동작')
+      appcontext.actions.setUserMotionTime(time);
+  };
   return (
     <View style={styles.pageContainer}>
-      <ScrollView style={{height: 500 * height_ratio, marginTop: 16}}>
+      <ScrollView style={{marginTop: 16 * height_ratio}}>
         {restTime.map((value, key) => (
           <TouchableOpacity
             key={key}
-            onPress={() => setTempRestSet(value.time)}>
+            onPress={() => {
+              setTempRestSet(value.time);
+              handleSaveRestTime(value.time);
+            }}>
             <View
               style={{
                 flexDirection: 'row',
-
                 height: 56 * height_ratio,
               }}>
               <View style={styles.restContainer}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: 16 * height_ratio,
                     color: value.time === temprestSet ? '#5252fa' : '#242424',
                   }}>
                   {calcTime(value.time)}
                 </Text>
                 <Check
                   name="check"
-                  size={20}
+                  size={20 * height_ratio}
                   color={
                     value.time === temprestSet ? '#5252fa' : 'white'
                   }></Check>

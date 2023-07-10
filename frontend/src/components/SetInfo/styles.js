@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     gap: 2 * width_ratio,
   },
   setNumberText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#808080',
   },
   setDetailContainer: {
@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
     gap: 8 * width_ratio,
   },
   valueText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#242424',
   },
   unitText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#808080',
   },
 });

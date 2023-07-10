@@ -13,12 +13,26 @@ import Kakao from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import {AppContext} from '../../contexts/AppProvider';
 import {WithLocalSvg} from 'react-native-svg';
+import {BackHandler} from 'react-native';
 import Imgintro from '../../assets/images/img_intro.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const Intro = ({navigation}) => {
+  useEffect(() => {
+    const handleBackButton = () => {
+      // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
+      return true;
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, []);
+
   appcontext = useContext(AppContext);
   useEffect(() => {
     const handleDeepLink = async () => {
@@ -50,7 +64,7 @@ const Intro = ({navigation}) => {
 
     handleDeepLink();
 
-    // 딥 링크 이벤트 리스너 해제
+    // // 딥 링크 이벤트 리스너 해제
     // return () => {
     //   Linking.removeEventListener('url', handleUrl);
     // };
@@ -76,7 +90,7 @@ const Intro = ({navigation}) => {
       <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}
         style={styles.Apple_Button}>
-        <Icon name="apple" size={20} color="white"></Icon>
+        <Icon name="apple" size={20 * height_ratio} color="white"></Icon>
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
       {/* <TouchableOpacity
@@ -86,7 +100,7 @@ const Intro = ({navigation}) => {
           );
         }}
         style={styles.Kakao_Button}>
-        <Kakao name="chatbubble" size={20} color="black"></Kakao>
+        <Kakao name="chatbubble" size={20  * height_ratio} color="black"></Kakao>
         <Text style={styles.Button_Text2}> Kakao로 시작하기</Text>
       </TouchableOpacity> */}
       <TouchableOpacity
@@ -96,7 +110,7 @@ const Intro = ({navigation}) => {
             `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/google-auth`,
           )
         }>
-        <Icon name="google" size={20} color="white"></Icon>
+        <Icon name="google" size={20 * height_ratio} color="white"></Icon>
         <Text style={styles.Button_Text}> Google로 시작하기</Text>
       </TouchableOpacity>
 
@@ -108,7 +122,7 @@ const Intro = ({navigation}) => {
             })
           }
           style={{marginRight: 20 * width_ratio}}>
-          <Text>이메일로 로그인</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>이메일로 로그인</Text>
         </TouchableOpacity>
         <Image
           style={styles.divider}
@@ -116,7 +130,7 @@ const Intro = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}
           style={{marginLeft: 20 * width_ratio}}>
-          <Text>이메일로 회원가입</Text>
+          <Text style={{fontSize: 14 * height_ratio}}>이메일로 회원가입</Text>
         </TouchableOpacity>
       </View>
     </View>

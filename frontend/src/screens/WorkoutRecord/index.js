@@ -143,6 +143,16 @@ const WorkoutRecord = ({navigation, route}) => {
     markDates();
   }, [workedDay]);
 
+  useEffect(() => {
+    getPeriodWorkout();
+  }, [period]);
+
+  const getPeriodWorkout = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+  };
+
   return (
     <View style={styles.pageContainer}>
       <View
@@ -155,15 +165,15 @@ const WorkoutRecord = ({navigation, route}) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            wdith: 179,
-            height: 50,
+            width: 179 * width_ratio,
+            height: 50 * height_ratio,
             borderBottomColor: isLeft ? '#242424' : '#f5f5f5',
-            borderBottomWidth: 2,
+            borderBottomWidth: 2 * height_ratio,
           }}>
           <Text
             style={{
               fontWeight: isLeft ? '700' : '400',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               color: isLeft ? '#242424' : '#808080',
             }}>
             운동추세
@@ -176,15 +186,15 @@ const WorkoutRecord = ({navigation, route}) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            width: 179,
-            height: 50,
+            width: 179 * width_ratio,
+            height: 50 * height_ratio,
             borderBottomColor: isLeft ? '#f5f5f5' : '#242424',
-            borderBottomWidth: 2,
+            borderBottomWidth: 2 * height_ratio,
           }}>
           <Text
             style={{
               fontWeight: isLeft ? '400' : '700',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               color: isLeft ? '#808080' : '#242424',
             }}>
             통계
@@ -205,23 +215,23 @@ const WorkoutRecord = ({navigation, route}) => {
               alignItems: 'center',
               borderRadius: 100,
               backgroundColor: '#f5f5f5',
-              width: 156,
-              height: 40,
-              marginTop: 24,
+              width: 156 * width_ratio,
+              height: 40 * height_ratio,
+              marginTop: 24 * height_ratio,
             }}>
             <View
               style={{
                 backgroundColor: isCalendar ? '#f5f5f5' : '#fff',
                 borderRadius: 100,
-                width: 73,
-                height: 32,
+                width: 73 * width_ratio,
+                height: 32 * height_ratio,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               <TouchableOpacity onPress={() => setIsCalendar(false)}>
                 <Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 14 * height_ratio,
                     color: isCalendar ? '#808080' : '#242424',
                   }}>
                   운동기록
@@ -232,15 +242,15 @@ const WorkoutRecord = ({navigation, route}) => {
               style={{
                 backgroundColor: isCalendar ? '#fff' : '#f5f5f5',
                 borderRadius: 100,
-                width: 73,
-                height: 32,
+                width: 73 * width_ratio,
+                height: 32 * height_ratio,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               <TouchableOpacity onPress={() => setIsCalendar(true)}>
                 <Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 14 * height_ratio,
                     color: isCalendar ? '#242424' : '#808080',
                   }}>
                   캘린더
@@ -248,16 +258,18 @@ const WorkoutRecord = ({navigation, route}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{height: 16}}></View>
+          <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
             <ScrollView>
               {workoutList.length > 0 &&
                 formattedData.map(value => (
-                  <View key={value.date} style={{marginBottom: 40}}>
+                  <View
+                    key={value.date}
+                    style={{marginBottom: 40 * height_ratio}}>
                     <View>
                       <Text
                         style={{
-                          fontSize: 16,
+                          fontSize: 16 * height_ratio,
                           fontWeight: '700',
                           color: '#242424',
                         }}>
@@ -293,11 +305,11 @@ const WorkoutRecord = ({navigation, route}) => {
                     </View>
                   </View>
                 ))}
-              <View style={{height: 50}}></View>
+              <View style={{height: 50 * height_ratio}}></View>
             </ScrollView>
           )}
           {isCalendar && (
-            <ScrollView>
+            <ScrollView style={{width: 358 * width_ratio}}>
               <View>
                 <Calendar
                   style={styles.Calendar}
@@ -329,8 +341,8 @@ const WorkoutRecord = ({navigation, route}) => {
                     <View>
                       <Text
                         style={{
-                          marginTop: 10,
-                          fontSize: 16,
+                          marginTop: 10 * height_ratio,
+                          fontSize: 16 * height_ratio,
                           fontWeight: '700',
                           color: '#242424',
                         }}>
@@ -364,7 +376,7 @@ const WorkoutRecord = ({navigation, route}) => {
                         </TouchableOpacity>
                       ))}
                     </View>
-                    <View style={{height: 90}}></View>
+                    <View style={{height: 150 * height_ratio}}></View>
                   </>
                 )}
             </ScrollView>
@@ -382,14 +394,14 @@ const WorkoutRecord = ({navigation, route}) => {
                   alignItems: 'center',
                   borderRadius: 100,
                   backgroundColor: '#f5f5f5',
-                  width: 312,
-                  height: 40,
-                  marginTop: 24,
+                  width: 312 * width_ratio,
+                  height: 40 * height_ratio,
+                  marginTop: 24 * height_ratio,
                 }}>
                 <TouchableOpacity onPress={() => setPeriod(7)}>
                   <View
                     style={{
-                      backgroundColor: period === 7 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 7 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
@@ -399,7 +411,7 @@ const WorkoutRecord = ({navigation, route}) => {
                     }}>
                     <Text
                       style={{
-                        fontSize: 14,
+                        fontSize: 14 * height_ratio,
                         color: period === 7 ? '#242424' : '#808080',
                       }}>
                       1주
@@ -409,7 +421,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 <TouchableOpacity onPress={() => setPeriod(30)}>
                   <View
                     style={{
-                      backgroundColor: period === 30 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 30 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
@@ -418,7 +430,7 @@ const WorkoutRecord = ({navigation, route}) => {
                     }}>
                     <Text
                       style={{
-                        fontSize: 14,
+                        fontSize: 14 * height_ratio,
                         color: period === 30 ? '#242424' : '#808080',
                       }}>
                       1개월
@@ -428,7 +440,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 <TouchableOpacity onPress={() => setPeriod(90)}>
                   <View
                     style={{
-                      backgroundColor: period === 90 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 90 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
@@ -437,7 +449,7 @@ const WorkoutRecord = ({navigation, route}) => {
                     }}>
                     <Text
                       style={{
-                        fontSize: 14,
+                        fontSize: 14 * height_ratio,
                         color: period === 90 ? '#242424' : '#808080',
                       }}>
                       3개월
@@ -447,7 +459,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 <TouchableOpacity onPress={() => setPeriod(180)}>
                   <View
                     style={{
-                      backgroundColor: period === 180 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 180 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
@@ -456,7 +468,7 @@ const WorkoutRecord = ({navigation, route}) => {
                     }}>
                     <Text
                       style={{
-                        fontSize: 14,
+                        fontSize: 14 * height_ratio,
                         color: period === 180 ? '#242424' : '#808080',
                       }}>
                       6개월
@@ -475,27 +487,27 @@ const WorkoutRecord = ({navigation, route}) => {
                     }}>
                     <Text
                       style={{
-                        fontSize: 14,
+                        fontSize: 14 * height_ratio,
                         color: period === 365 ? '#242424' : '#808080',
                       }}>
                       1년
                     </Text>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setIsCalendar(1000)}>
+                <TouchableOpacity onPress={() => setPeriod(1000)}>
                   <View
                     style={{
-                      backgroundColor: period === 1000 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 1000 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      marginRight: 4 * width_ratio,
+                      marginRight: 4,
                     }}>
                     <Text
                       style={{
-                        fontSize: 14,
+                        fontSize: 14 * height_ratio,
                         color: period === 1000 ? '#242424' : '#808080',
                       }}>
                       전체
@@ -550,25 +562,31 @@ const WorkoutRecord = ({navigation, route}) => {
                   <View
                     style={{flexDirection: 'row', width: 145 * width_ratio}}>
                     <View style={styles.grayCircle}>
-                      <Timer name="timer" color="#41b1ca" size={23}></Timer>
+                      <Timer
+                        name="timer"
+                        color="#41b1ca"
+                        size={23 * height_ratio}></Timer>
                     </View>
                     <View style={{marginLeft: 8 * width_ratio}}>
-                      <Text style={styles.puaseSubtitle}>
+                      <Text style={styles.pauseSubtitle}>
                         누적 전체 운동시간
                       </Text>
-                      <Text style={styles.puaseSubcontent}>sss</Text>
+                      <Text style={styles.pauseSubcontent}>sss</Text>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row'}}>
                     <View style={styles.RgrayCircle}>
-                      <Timer name="timer" color="#9f76e1" size={23}></Timer>
+                      <Timer
+                        name="timer"
+                        color="#9f76e1"
+                        size={23 * height_ratio}></Timer>
                     </View>
 
                     <View style={{marginLeft: 8 * width_ratio}}>
-                      <Text style={styles.puaseSubtitle}>
+                      <Text style={styles.pauseSubtitle}>
                         누적 유효 수행시간
                       </Text>
-                      <Text style={styles.puaseSubcontent}>tut</Text>
+                      <Text style={styles.pauseSubcontent}>tut</Text>
                     </View>
                   </View>
                 </View>
@@ -584,37 +602,44 @@ const WorkoutRecord = ({navigation, route}) => {
                       <Lightning
                         name="lightning-bolt"
                         color="#fbcb22"
-                        size={23}></Lightning>
+                        size={23 * height_ratio}></Lightning>
                     </View>
                     <View style={{marginLeft: 8 * width_ratio}}>
-                      <Text style={styles.puaseSubtitle}>볼륨</Text>
-                      <Text style={styles.puaseSubcontent}>sss</Text>
+                      <Text style={styles.pauseSubtitle}>볼륨</Text>
+                      <Text style={styles.pauseSubcontent}>sss</Text>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row'}}>
                     <View style={styles.RgrayCircle}>
-                      <Fire name="fire" color="#fc7d36" size={23}></Fire>
+                      <Fire
+                        name="fire"
+                        color="#fc7d36"
+                        size={23 * height_ratio}></Fire>
                     </View>
 
                     <View style={{marginLeft: 8 * width_ratio}}>
-                      <Text style={styles.puaseSubtitle}>칼로리</Text>
-                      <Text style={styles.puaseSubcontent}>10000</Text>
+                      <Text style={styles.pauseSubtitle}>칼로리</Text>
+                      <Text style={styles.pauseSubcontent}>10000</Text>
                     </View>
                   </View>
                 </View>
                 <View
                   style={{flexDirection: 'row', marginTop: 24 * height_ratio}}>
                   <View style={styles.grayCircle}>
-                    <Body name="body" color="#3aa84c" size={23}></Body>
+                    <Body
+                      name="body"
+                      color="#3aa84c"
+                      size={23 * height_ratio}></Body>
                   </View>
 
                   <View style={{marginLeft: 8 * width_ratio}}>
-                    <Text style={styles.puaseSubtitle}>운동 횟수</Text>
+                    <Text style={styles.pauseSubtitle}>운동 횟수</Text>
                     <Text style={styles.pauseMotionTitle}>sss</Text>
                   </View>
                 </View>
               </View>
             </View>
+            <View style={{height: 150 * height_ratio}}></View>
           </ScrollView>
         </SafeAreaView>
       )}
@@ -623,15 +648,24 @@ const WorkoutRecord = ({navigation, route}) => {
         <TouchableOpacity
           style={{marginLeft: 45 * width_ratio}}
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
-          <Dumbbell name="dumbbell" size={20} color={'#dfdfdf'}></Dumbbell>
+          <Dumbbell
+            name="dumbbell"
+            size={20 * height_ratio}
+            color={'#dfdfdf'}></Dumbbell>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Board name="clipboard-check" size={20} color={'#fff'}></Board>
+          <Board
+            name="clipboard-check"
+            size={20 * height_ratio}
+            color={'#fff'}></Board>
         </TouchableOpacity>
         <TouchableOpacity
           style={{marginRight: 45 * width_ratio}}
           onPress={() => navigation.navigate('MainSetting')}>
-          <Setting name="settings" size={20} color={'#dfdfdf'}></Setting>
+          <Setting
+            name="settings"
+            size={20 * height_ratio}
+            color={'#dfdfdf'}></Setting>
         </TouchableOpacity>
       </View>
     </View>

@@ -2,21 +2,15 @@ import React, {useEffect, useState, useContext} from 'react';
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
-  Modal,
-  Switch,
-  Image,
   Dimensions,
   SafeAreaView,
   TextInput,
-  TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import {serverAxios} from '../../../utils/commonAxios';
 import styles from './styles';
-import {WithLocalSvg} from 'react-native-svg';
 import Back from 'react-native-vector-icons/Ionicons';
-import {AppContext} from '../../../contexts/AppProvider';
 import CustomButton_B from '../../../components/CustomButton_B';
 
 const width_ratio = Dimensions.get('screen').width / 390;
@@ -35,15 +29,14 @@ const PasswordSetting = ({navigation}) => {
         <TouchableOpacity
           onPress={() => {
             handleBackButton();
-            //navigation.reset({routes: [{name: 'MyRoutine'}]});
           }}>
           <Back
             name="arrow-back"
             color={'#242424'}
-            size={25}
+            size={25 * height_ratio}
             style={{
               marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
+              marginRight: Platform.OS === 'ios' ? 0 : 10 * width_ratio,
             }}></Back>
         </TouchableOpacity>
       ),
@@ -51,9 +44,9 @@ const PasswordSetting = ({navigation}) => {
         <>
           <Text
             style={{
-              marginHorizontal: 6 * width_ratio,
+              marginHorizontal: Platform.OS === 'ios' ? 0 : 6 * width_ratio,
               color: '#242424',
-              fontSize: 16,
+              fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
             비밀번호 수정
