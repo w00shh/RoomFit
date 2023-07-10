@@ -41,29 +41,6 @@ const RoutineDetail = ({navigation, route}) => {
     modeDescription: '설명',
   });
 
-  const modeList = [
-    {
-      modeName: '기본',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '고무밴드',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드1',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드2',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드3',
-      modeDescription: '설명',
-    },
-  ];
-
   function Item({mode}) {
     return (
       <TouchableOpacity
@@ -184,6 +161,7 @@ const RoutineDetail = ({navigation, route}) => {
             {
               isMotionDone: false,
               isMotionDoing: false,
+              doingSetIndex: 0,
               isFav: value.isFav,
               motion_id: value.motion_id,
               motion_name: value.motion_name,
@@ -210,6 +188,7 @@ const RoutineDetail = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
+            doingSetIndex: 0,
             isFav: route.params.displaySelected[i].isFav,
             motion_id: route.params.displaySelected[i].motion_id,
             motion_name: route.params.displaySelected[i].motion_name,
@@ -344,7 +323,7 @@ const RoutineDetail = ({navigation, route}) => {
             </View>
             <View>
               <FlatList
-                data={modeList}
+                data={appcontext.state.modeList}
                 renderItem={({item}) => <Item mode={item}></Item>}
                 keyExtractor={item => item.modeName}></FlatList>
             </View>
@@ -382,7 +361,6 @@ const RoutineDetail = ({navigation, route}) => {
               motion={value}
               motionList={motionList}
               setMotionList={setMotionList}
-              modeList={modeList}
               setSelectedMode={setSelectedMode}></WorkoutItem>
           ))}
       </ScrollView>

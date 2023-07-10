@@ -66,6 +66,8 @@ const AddMotion = ({navigation, route}) => {
         displaySelected.set(motion.motion_id, {
           isMotionDone: false,
           isMotionDoing: false,
+          doingSetIndex: 0,
+
           isFav: motion.isFav,
           motion_id: motion.motion_id,
           motion_name: motion.motion_name,

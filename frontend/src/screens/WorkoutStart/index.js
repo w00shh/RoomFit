@@ -144,6 +144,7 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: true,
+            doingSetIndex: 0,
             isFav: route.params.displaySelected[0].isFav,
             motion_id: route.params.displaySelected[0].motion_id,
             motion_name: route.params.displaySelected[0].motion_name,
@@ -159,6 +160,7 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
+            doingSetIndex: 0,
             isFav: route.params.displaySelected[0].isFav,
             motion_id: route.params.displaySelected[0].motion_id,
             motion_name: route.params.displaySelected[0].motion_name,
@@ -175,6 +177,7 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
+            doingSetIndex: 0,
             isFav: route.params.displaySelected[i].isFav,
             motion_id: route.params.displaySelected[i].motion_id,
             motion_name: route.params.displaySelected[i].motion_name,
@@ -190,6 +193,7 @@ export const WorkoutStart = ({navigation, route}) => {
       let updatedMotionList = [...motionList];
       if (!route.params.isAddMotion) {
         updatedMotionList[m_index].isMotionDoing = true;
+        updatedMotionList[m_index].doingSetIndex = 0;
         updatedMotionList[m_index].sets[0].isDoing = true;
         setMotionList(updatedMotionList);
       }
@@ -229,29 +233,6 @@ export const WorkoutStart = ({navigation, route}) => {
     {time: 110, selsected: false},
     {time: 120, selsected: false},
     {time: 130, selsected: false},
-  ];
-
-  const modeList = [
-    {
-      modeName: '기본',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '고무밴드',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드1',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드2',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드3',
-      modeDescription: '설명',
-    },
   ];
 
   const setTempRestTime = time => {
@@ -513,6 +494,7 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList[m_index].isMotionDoing = false;
       setMotionList(updatedMotionList);
       updatedMotionList = [...motionList];
+      updatedMotionList[m_index].doingSetIndex = s_index + 1;
       updatedMotionList[m_index].sets[s_index].isDoing = false;
       setMotionList(updatedMotionList);
     } else {
@@ -523,6 +505,7 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDoing = false;
       updatedMotionList = [...motionList];
+      updatedMotionList[m_index].doingSetIndex = s_index + 1;
       updatedMotionList[m_index].sets[s_index].isDoing = false;
       setMotionList(updatedMotionList);
       setMotionList(updatedMotionList);
@@ -544,6 +527,7 @@ export const WorkoutStart = ({navigation, route}) => {
     if (s_index + 1 < motionList[m_index].sets.length) {
       setSIndex(s_index + 1);
       let updatedMotionList = [...motionList];
+      updatedMotionList[m_index].doingSetIndex = s_index + 1;
       updatedMotionList[m_index].sets[s_index + 1].isDoing = true;
       setMotionList(updatedMotionList);
     } else if (
@@ -1439,7 +1423,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 </View>
                 <View>
                   <FlatList
-                    data={modeList}
+                    data={appcontext.state.modeList}
                     renderItem={({item}) => <Item mode={item}></Item>}
                     keyExtractor={item => item.modeName}></FlatList>
                 </View>
@@ -1478,7 +1462,6 @@ export const WorkoutStart = ({navigation, route}) => {
                 setIsModalVisible={setIsModalVisible}
                 motionList={motionList}
                 setMotionList={setMotionList}
-                modeList={modeList}
                 setSelectedMode={setSelectedMode}></WorkoutItem>
             ))}
           </ScrollView>
