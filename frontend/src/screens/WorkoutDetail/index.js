@@ -230,9 +230,13 @@ const WorkoutDetail = ({navigation, route}) => {
         <View style={{alignItems: 'center'}}>
           <View style={styles.memoContainer}>
             {route.params.memo.length > 0 ? (
-              <Text>{route.params.memo}</Text>
+              <Text style={{fontSize: 14 * height_ratio}}>
+                {route.params.memo}
+              </Text>
             ) : (
-              <Text>작성하신 메모가 없습니다.</Text>
+              <Text style={{fontSize: 14 * height_ratio}}>
+                작성하신 메모가 없습니다.
+              </Text>
             )}
           </View>
         </View>
