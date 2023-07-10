@@ -7,8 +7,6 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import Board from 'react-native-vector-icons/MaterialCommunityIcons';
-import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import CustomButton_B from '../../components/CustomButton_B';
 import RecentExercise from '../../components/RecentExercise';
 import RoutineBox from '../../components/Routine';
