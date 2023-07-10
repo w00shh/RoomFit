@@ -13,12 +13,26 @@ import Kakao from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import {AppContext} from '../../contexts/AppProvider';
 import {WithLocalSvg} from 'react-native-svg';
+import {BackHandler} from 'react-native';
 import Imgintro from '../../assets/images/img_intro.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const Intro = ({navigation}) => {
+  useEffect(() => {
+    const handleBackButton = () => {
+      // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
+      return true;
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, []);
+
   appcontext = useContext(AppContext);
   useEffect(() => {
     const handleDeepLink = async () => {

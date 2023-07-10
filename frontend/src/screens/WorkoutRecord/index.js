@@ -143,6 +143,16 @@ const WorkoutRecord = ({navigation, route}) => {
     markDates();
   }, [workedDay]);
 
+  useEffect(() => {
+    getPeriodWorkout();
+  }, [period]);
+
+  const getPeriodWorkout = async () => {
+    const body = {
+      user_id: 'user1',
+    };
+  };
+
   return (
     <View style={styles.pageContainer}>
       <View
@@ -391,7 +401,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 <TouchableOpacity onPress={() => setPeriod(7)}>
                   <View
                     style={{
-                      backgroundColor: period === 7 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 7 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
@@ -411,7 +421,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 <TouchableOpacity onPress={() => setPeriod(30)}>
                   <View
                     style={{
-                      backgroundColor: period === 30 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 30 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
@@ -430,7 +440,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 <TouchableOpacity onPress={() => setPeriod(90)}>
                   <View
                     style={{
-                      backgroundColor: period === 90 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 90 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
@@ -449,7 +459,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 <TouchableOpacity onPress={() => setPeriod(180)}>
                   <View
                     style={{
-                      backgroundColor: period === 180 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 180 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
@@ -484,16 +494,16 @@ const WorkoutRecord = ({navigation, route}) => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setIsCalendar(1000)}>
+                <TouchableOpacity onPress={() => setPeriod(1000)}>
                   <View
                     style={{
-                      backgroundColor: period === 1000 ? '#fff' : '#f5f5f',
+                      backgroundColor: period === 1000 ? '#fff' : '#f5f5f5',
                       borderRadius: 100,
                       width: 43 * width_ratio,
                       height: 32 * height_ratio,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      marginRight: 4 * width_ratio,
+                      marginRight: 4,
                     }}>
                     <Text
                       style={{
@@ -629,6 +639,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 </View>
               </View>
             </View>
+            <View style={{height: 150 * height_ratio}}></View>
           </ScrollView>
         </SafeAreaView>
       )}

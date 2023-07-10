@@ -36,6 +36,7 @@ import WorkoutItem from '../../components/WorkoutItem';
 import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {AppContext} from '../../contexts/AppProvider';
+import {BackHandler} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -109,6 +110,19 @@ export const WorkoutStart = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+
+  useEffect(() => {
+    const handleBackButton = () => {
+      // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
+      return true;
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, []);
 
   useEffect(() => {
     if (motionList.length === 0) {
