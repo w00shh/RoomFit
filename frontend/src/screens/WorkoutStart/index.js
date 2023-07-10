@@ -1463,7 +1463,9 @@ export const WorkoutStart = ({navigation, route}) => {
                 isExercising={true}
                 setIsModalVisible={setIsModalVisible}
                 motionList={motionList}
-                setMotionList={setMotionList}></WorkoutItem>
+                setMotionList={setMotionList}
+                modeList={modeList}
+                setSelectedMode={setSelectedMode}></WorkoutItem>
             ))}
           </ScrollView>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>

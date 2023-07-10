@@ -26,6 +26,17 @@ const SetItem = props => {
   const handleModeSelectPress = () => {
     appcontext.actions.setTargetmotionindex(props.target_motion_id);
     appcontext.actions.setTargetsetindex(props.set_id);
+
+    for (let i = 0; i < props.modeList.length; i++) {
+      if (
+        props.motionList[props.target_motion_id].sets[props.set_id].mode ===
+        props.modeList[i].modeName
+      ) {
+        props.setSelectedMode(props.modeList[i]);
+        break;
+      }
+    }
+
     props.setIsModalVisible(true);
   };
 

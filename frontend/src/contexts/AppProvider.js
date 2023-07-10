@@ -3,6 +3,28 @@ import React, {useState, createContext} from 'react';
 export const AppContext = createContext();
 
 const AppProvider = ({children}) => {
+  const modeList = [
+    {
+      modeName: '기본',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '고무밴드',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드1',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드2',
+      modeDescription: '설명',
+    },
+    {
+      modeName: '모드3',
+      modeDescription: '설명',
+    },
+  ];
   const [isLogin, setIsLogin] = useState(false);
   const [userid, setUserid] = useState('');
   const [usernickname, setUsernickname] = useState('');
@@ -14,6 +36,7 @@ const AppProvider = ({children}) => {
 
   const value = {
     state: {
+      modeList,
       isLogin,
       userid,
       usernickname,
