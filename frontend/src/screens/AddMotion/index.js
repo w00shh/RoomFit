@@ -67,7 +67,6 @@ const AddMotion = ({navigation, route}) => {
           isMotionDone: false,
           isMotionDoing: false,
           doingSetIndex: 0,
-
           isFav: motion.isFav,
           motion_id: motion.motion_id,
           motion_name: motion.motion_name,

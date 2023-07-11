@@ -17,7 +17,6 @@ import {serverAxios} from '../../../utils/commonAxios';
 import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
 import {AppContext} from '../../../contexts/AppProvider';
-import DraggableFlatList from 'react-native-draggable-flatlist';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -364,7 +363,7 @@ const RoutineDetail = ({navigation, route}) => {
         </View>
       </Modal>
 
-      {/* <ScrollView style={{height: 450 * height_ratio}}>
+      <ScrollView style={{height: 450 * height_ratio}}>
         {motionList[0] &&
           motionList.map((value, key) => (
             <WorkoutItem
@@ -379,16 +378,16 @@ const RoutineDetail = ({navigation, route}) => {
               setMotionList={setMotionList}
               setSelectedMode={setSelectedMode}></WorkoutItem>
           ))}
-      </ScrollView> */}
+      </ScrollView>
 
-      <View>
+      {/* <View>
         <DraggableFlatList
           data={motionList}
           renderItem={renderItem}
           keyExtractor={(item, index) => String(index)}
           onDragEnd={({data}) => setMotionList(data)}
         />
-      </View>
+      </View> */}
 
       <View style={styles.buttonContainer}>
         <View style={styles.buttonSection}>
