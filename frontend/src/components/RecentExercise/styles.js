@@ -6,8 +6,8 @@ const height_ratio = Dimensions.get('screen').height / 844;
 const styles = StyleSheet.create({
   performedContainer: {
     marginTop: 16 * height_ratio,
+    paddingLeft: 16 * width_ratio,
     flexDirection: 'column',
-    alignItems: 'flex-start',
 
     backgroundColor: '#f5f5f5',
 
@@ -18,35 +18,31 @@ const styles = StyleSheet.create({
 
   targetContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    gap: 5 * width_ratio,
+    alignItems: 'center',
   },
 
   timeText: {
     color: '#808080',
     fontSize: 12 * height_ratio,
     fontWeight: '400',
-    marginLeft: 16 * width_ratio,
-    marginTop: 2 * height_ratio,
   },
 
   targetText: {
     color: '#808080',
     fontSize: 12 * height_ratio,
     fontWeight: '400',
-    marginTop: 2 * height_ratio,
   },
 
   titleText: {
     color: '#242424',
     fontSize: 16 * height_ratio,
     fontWeight: '400',
-    marginLeft: 16 * width_ratio,
     marginBottom: 4 * height_ratio,
     marginTop: 16 * height_ratio,
   },
 
   exerciseInformation: {
-    marginLeft: 6 * width_ratio,
     fontSize: 14 * height_ratio,
     fontWeight: '400',
     color: '#242424',

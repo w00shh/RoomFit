@@ -6,17 +6,13 @@ const height_ratio = Dimensions.get('screen').height / 844;
 const styles = StyleSheet.create({
   setContainer: {
     flexDirection: 'row',
-    alignItems: 'space-between',
+    gap: 8 * width_ratio,
   },
 
   titleKey: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 4 * height_ratio,
-    marginHorizontal: 4 * width_ratio,
-    paddingVertical: 0,
-    paddingHorizontal: 8 * width_ratio,
   },
 
   titleText: {
@@ -28,20 +24,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 4 * height_ratio,
-    marginHorizontal: 4 * width_ratio,
-    paddingVertical: 0,
-    paddingHorizontal: 8 * width_ratio,
   },
   keyBox: {
-    flex: 1,
+    width: 48 * width_ratio,
     height: 40 * height_ratio,
+    borderRadius: 4 * height_ratio,
+
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 4 * height_ratio,
-    marginHorizontal: 4 * width_ratio,
-    paddingVertical: 0,
-    paddingHorizontal: 8 * width_ratio,
     backgroundColor: '#f5f5f5',
   },
   keyText: {
@@ -50,15 +40,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   itemBox: {
-    flex: 2,
-    height: 40 * height_ratio,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginVertical: 4 * height_ratio,
-    marginHorizontal: 4 * width_ratio,
-    paddingVertical: 0,
-    paddingHorizontal: 8 * width_ratio,
+
+    paddingHorizontal: 12 * width_ratio,
+
+    height: 40 * height_ratio,
+    borderRadius: 4 * height_ratio,
+
     backgroundColor: '#f5f5f5',
   },
 

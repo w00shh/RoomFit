@@ -286,6 +286,21 @@ const RoutineDetail = ({navigation, route}) => {
       });
   };
 
+  const renderItem = ({item, index, drag}) => {
+    return (
+      <WorkoutItem
+        motion_index={key}
+        key={key}
+        id={value.motion_id}
+        motion={value}
+        isExercising={false}
+        setIsModalVisible={setIsModalVisible}
+        motion={value}
+        motionList={motionList}
+        setMotionList={setMotionList}
+        setSelectedMode={setSelectedMode}></WorkoutItem>
+    );
+  };
   return (
     <View style={styles.pageContainer}>
       <Modal
@@ -364,6 +379,15 @@ const RoutineDetail = ({navigation, route}) => {
               setSelectedMode={setSelectedMode}></WorkoutItem>
           ))}
       </ScrollView>
+
+      {/* <View>
+        <DraggableFlatList
+          data={motionList}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => String(index)}
+          onDragEnd={({data}) => setMotionList(data)}
+        />
+      </View> */}
 
       <View style={styles.buttonContainer}>
         <View style={styles.buttonSection}>

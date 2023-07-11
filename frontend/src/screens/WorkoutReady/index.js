@@ -12,9 +12,12 @@ import styles from './styles';
 import WorkoutItem from '../../components/WorkoutItem/';
 import CustomButton_W from '../../components/CustomButton_W';
 import CustomButton_B from '../../components/CustomButton_B';
-import Back from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
+import {Divder} from '../../components/divider';
+
+//svg
+import Back from '../../assets/svg/buttons/single/back.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -34,14 +37,7 @@ const WorkoutReady = ({navigation, route}) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 10 * width_ratio,
-              marginRight: 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio}></Back>
         </TouchableOpacity>
       ),
     });
@@ -190,6 +186,7 @@ const WorkoutReady = ({navigation, route}) => {
         </View>
       </Modal>
 
+<<<<<<< HEAD
       <ScrollView style={{height: 450 * height_ratio}}>
         {motionList &&
           motionList.map((value, key) => (
@@ -205,6 +202,29 @@ const WorkoutReady = ({navigation, route}) => {
               setSelectedMode={setSelectedMode}></WorkoutItem>
           ))}
       </ScrollView>
+=======
+      <FlatList
+        data={motionList}
+        style={{height: 450 * height_ratio}}
+        renderItem={({item, index}) => {
+          const isEnd = index === motionList.length - 1;
+          return (
+            <>
+              <WorkoutItem
+                motion_index={index}
+                id={item.motion_id}
+                isExercising={false}
+                setIsModalVisible={setIsModalVisible}
+                motion={item}
+                motionList={motionList}
+                setMotionList={setMotionList}
+                modeList={modeList}
+                setSelectedMode={setSelectedMode}></WorkoutItem>
+              {!isEnd && <Divder height_ratio={height_ratio} />}
+            </>
+          );
+        }}></FlatList>
+>>>>>>> ae59806da03b45b966ff73e07417e85698c17330
 
       <View style={styles.buttonContainer}>
         <View style={styles.buttonSection}>

@@ -11,6 +11,9 @@ import Icon from 'react-native-vector-icons/Feather';
 import Check from 'react-native-vector-icons/Entypo';
 import {AppContext} from '../../contexts/AppProvider';
 
+//svg
+import Drop from '../../assets/svg/buttons/single/drop.svg';
+
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
@@ -182,14 +185,19 @@ const SetItem = props => {
       {/* <Text>isDoing: {String(props.isDoing)}</Text>-=
       <Text>isDone: {String(props.isDone)}</Text> */}
       <TouchableWithoutFeedback onPress={handleModeSelectPress}>
-        <View style={styles.itemBox}>
+        <View
+          style={[
+            styles.itemBox,
+            {
+              gap: 4 * width_ratio,
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          ]}>
           <Text style={styles.modeText}>
             {props.motionList[props.target_motion_id].sets[props.set_id].mode}
           </Text>
-          <Icon
-            name="chevron-down"
-            size={16 * height_ratio}
-            color="#808080"></Icon>
+          <Drop height={16 * height_ratio} width={16 * width_ratio} />
         </View>
       </TouchableWithoutFeedback>
       {props.isExercising && (

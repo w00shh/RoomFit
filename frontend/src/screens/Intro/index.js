@@ -12,9 +12,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Kakao from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import {AppContext} from '../../contexts/AppProvider';
-import {WithLocalSvg} from 'react-native-svg';
 import {BackHandler} from 'react-native';
-import Imgintro from '../../assets/images/img_intro.svg';
+
+//svg
+import Intro_Img from '../../assets/svg/img/intro.svg';
+import Logo from '../../assets/svg/img/logo.svg';
+import Apple from '../../assets/svg/icons/apple.svg';
+import Google from '../../assets/svg/icons/google.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -79,18 +83,17 @@ const Intro = ({navigation}) => {
         style={{
           marginTop:
             Platform.OS === 'ios' ? 64 * height_ratio : 32 * height_ratio,
-          width: 320 * width_ratio,
-          height: 352 * height_ratio,
-        }}>
-        <Image source={require('../../assets/images/img_intro.png')}></Image>
-      </View>
-      <Image
+        }}></View>
+      <Intro_Img height={352 * height_ratio} width={320 * width_ratio} />
+      <Logo
         style={styles.mainLogo}
-        source={require('../../assets/images/img_logo_roomfit.png')}></Image>
+        height={80 * height_ratio}
+        width={232 * width_ratio}
+      />
       <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}
         style={styles.Apple_Button}>
-        <Icon name="apple" size={20 * height_ratio} color="white"></Icon>
+        <Apple height={24 * height_ratio} width={24 * width_ratio} />
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity>
       {/* <TouchableOpacity
@@ -110,7 +113,7 @@ const Intro = ({navigation}) => {
             `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/google-auth`,
           )
         }>
-        <Icon name="google" size={20 * height_ratio} color="white"></Icon>
+        <Google height={24 * height_ratio} width={24 * width_ratio} />
         <Text style={styles.Button_Text}> Google로 시작하기</Text>
       </TouchableOpacity>
 

@@ -12,8 +12,14 @@ import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import XX from 'react-native-vector-icons/Feather';
-import Back from 'react-native-vector-icons/Ionicons';
+// import Back from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../utils/commonAxios';
+
+//svg
+import Back from '../../assets/svg/buttons/single/back.svg';
+import Search from '../../assets/svg/buttons/single/search.svg';
+import X from '../../assets/svg/buttons/single/x.svg';
+import {Divder} from '../../components/divider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -67,7 +73,6 @@ const AddMotion = ({navigation, route}) => {
           isMotionDone: false,
           isMotionDoing: false,
           doingSetIndex: 0,
-
           isFav: motion.isFav,
           motion_id: motion.motion_id,
           motion_name: motion.motion_name,
@@ -128,14 +133,7 @@ const AddMotion = ({navigation, route}) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
 
@@ -162,9 +160,9 @@ const AddMotion = ({navigation, route}) => {
   }, [selectedLength]);
 
   return (
-    <View style={styles.pageContainer}>
+    <View style={[styles.pageContainer, {alignItems: 'flex-start'}]}>
       <View style={styles.searchContainer}>
-        <Icon name="search" size={16 * height_ratio} color="#808080"></Icon>
+        <Search height={16 * height_ratio} width={16 * width_ratio} />
         <TextInput
           style={{marginLeft: 12 * width_ratio, fontSize: 14 * height_ratio}}
           onChangeText={handleMotionSearchChange}
@@ -175,54 +173,56 @@ const AddMotion = ({navigation, route}) => {
       {displaySelected.size === 0 && (
         <Text style={styles.recommendedText}>추천 운동</Text>
       )}
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          alignSelf: 'flex-start',
-          marginTop: 16 * height_ratio,
-          marginLeft: 4 * width_ratio,
-          marginBottom: 5 * height_ratio,
-        }}>
-        {displaySelected &&
-          Array.from(displaySelected.values()).map((value, key) => (
-            <View
-              key={key}
-              style={{
-                width:
-                  getTextWidth(value.motion_name) * width_ratio >
-                  84 * width_ratio
-                    ? getTextWidth(value.motion_name) * width_ratio
-                    : 84 * width_ratio,
-                height: 32 * height_ratio,
-                backgroundColor: '#242424',
-                borderRadius: 8,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-                marginLeft: 8 * width_ratio,
-                marginTop: 7 * height_ratio,
-              }}>
-              <Text style={styles.selectMotionText}>{value.motion_name}</Text>
-              <TouchableOpacity onPress={() => deleteSelected(value.motion_id)}>
-                <XX name="x" color={'white'} size={15 * height_ratio}></XX>
-              </TouchableOpacity>
-            </View>
-          ))}
-      </View>
+      {
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: 8 * width_ratio,
+            marginVertical: 24 * height_ratio,
+          }}>
+          {displaySelected &&
+            Array.from(displaySelected.values()).map((value, key) => (
+              <View
+                key={key}
+                style={{
+                  paddingHorizontal: 12,
+                  height: 32 * height_ratio,
+                  backgroundColor: '#242424',
+                  borderRadius: 8,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 2 * width_ratio,
+                }}>
+                <Text style={styles.selectMotionText}>{value.motion_name}</Text>
+                <TouchableOpacity
+                  onPress={() => deleteSelected(value.motion_id)}>
+                  <X height={24 * height_ratio} width={24 * width_ratio} />
+                </TouchableOpacity>
+              </View>
+            ))}
+        </View>
+      }
       <FlatList
         data={motionList}
-        renderItem={({item}) => (
-          <Item
-            motion={item}
-            selected={!!selected.get(item.motion_id)}
-            onSelect={onSelect}></Item>
-        )}
+        renderItem={({item, index}) => {
+          const isEnd = index === motionList.length - 1;
+          return (
+            <>
+              <Item
+                motion={item}
+                selected={!!selected.get(item.motion_id)}
+                onSelect={onSelect}></Item>
+              {!isEnd && <Divder height_ratio={height_ratio} />}
+            </>
+          );
+        }}
         keyExtractor={item => item.motion_id}
         extraData={selected}></FlatList>
 
       <CustomButton_B
-        width={358}
+        width={358 * width_ratio}
         content={selectedLength + ' 개 동작 추가하기'}
         disabled={isDisabled}
         onPress={

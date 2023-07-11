@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
 
   selectMotionText: {
-    fontSize: 13,
+    fontSize: 13 * height_ratio,
     color: '#ffffff',
   },
 });

@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     width: 358 * width_ratio,
     height: 48 * height_ratio,
     padding: 0,
-    marginVertical: 16 * height_ratio,
   },
 
   imageContainer: {
