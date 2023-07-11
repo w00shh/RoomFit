@@ -19,6 +19,7 @@ import {serverAxios} from '../../utils/commonAxios';
 import Back from '../../assets/svg/buttons/single/back.svg';
 import Search from '../../assets/svg/buttons/single/search.svg';
 import X from '../../assets/svg/buttons/single/x.svg';
+import {Divder} from '../../components/divider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -184,7 +185,7 @@ const AddMotion = ({navigation, route}) => {
               <View
                 key={key}
                 style={{
-                  paddingHorizontal: 12 * width_ratio,
+                  paddingHorizontal: 12,
                   height: 32 * height_ratio,
                   backgroundColor: '#242424',
                   borderRadius: 8,
@@ -212,16 +213,7 @@ const AddMotion = ({navigation, route}) => {
                 motion={item}
                 selected={!!selected.get(item.motion_id)}
                 onSelect={onSelect}></Item>
-              {!isEnd && (
-                <View
-                  style={{
-                    height: 1 * height_ratio,
-                    width: '100%',
-                    backgroundColor: '#F5F5F5',
-                    marginVertical: 16 * height_ratio,
-                  }}
-                />
-              )}
+              {!isEnd && <Divder height_ratio={height_ratio} />}
             </>
           );
         }}

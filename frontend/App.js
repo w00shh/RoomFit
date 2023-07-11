@@ -58,7 +58,7 @@ const App = () => {
     <Provider store={store}>
       <AppProvider>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
             <Stack.Screen
               name="Splash"
               component={Splash}

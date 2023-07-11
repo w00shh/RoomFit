@@ -4,6 +4,11 @@ import styles from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import SetItem from '../SetItem';
 
+//svg
+import Bin from '../../assets/svg/buttons/single/bin.svg';
+import Minus from '../../assets/svg/buttons/single/minus.svg';
+import Plus from '../../assets/svg/buttons/single/plus.svg';
+
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
@@ -45,32 +50,38 @@ const WorkoutItem = props => {
         {String(props.motionList[props.motion_index].isMotionDoing)}
       </Text> */}
       <WorkoutTitle motion={props.motion}></WorkoutTitle>
-      <SetItem
-        isKey={true}
-        isExercising={props.isExercising}
-        setIsModalVisible={props.setIsModalVisible}></SetItem>
-      {props.motionList[props.motion_index].sets &&
-        props.motionList[props.motion_index].sets.map((value, key) => (
-          <SetItem
-            key={key}
-            motion_id={props.motion_index}
-            target_motion_id={props.motion_index}
-            set={value}
-            set_id={key}
-            motionList={props.motionList}
-            setMotionList={props.setMotionList}
-            modeList={props.modeList}
-            setSelectedMode={props.setSelectedMode}
-            isKey={false}
-            isExercising={props.isExercising}
-            setIsModalVisible={props.setIsModalVisible}
-            motion={props.motion}
-            weight={value.weight}
-            reps={value.reps}
-            mode={value.mode}
-            isDoing={value.isDoing}
-            isDone={value.isDone}></SetItem>
-        ))}
+      <View
+        style={{
+          flexDirection: 'column',
+          gap: 8 * height_ratio,
+        }}>
+        <SetItem
+          isKey={true}
+          isExercising={props.isExercising}
+          setIsModalVisible={props.setIsModalVisible}></SetItem>
+        {props.motionList[props.motion_index].sets &&
+          props.motionList[props.motion_index].sets.map((value, key) => (
+            <SetItem
+              key={key}
+              motion_id={props.motion_index}
+              target_motion_id={props.motion_index}
+              set={value}
+              set_id={key}
+              motionList={props.motionList}
+              setMotionList={props.setMotionList}
+              modeList={props.modeList}
+              setSelectedMode={props.setSelectedMode}
+              isKey={false}
+              isExercising={props.isExercising}
+              setIsModalVisible={props.setIsModalVisible}
+              motion={props.motion}
+              weight={value.weight}
+              reps={value.reps}
+              mode={value.mode}
+              isDoing={value.isDoing}
+              isDone={value.isDone}></SetItem>
+          ))}
+      </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -82,12 +93,14 @@ const WorkoutItem = props => {
           onPress={() => {
             handleMotionDeletePress(props.motion_index);
           }}>
-          <Icon
-            style={styles.icon}
-            name="trash"
-            size={12 * height_ratio}
-            color="#808080"></Icon>
-          <Text style={{fontSize: 14 * height_ratio}}>동작 삭제</Text>
+          <Bin height={16 * height_ratio} width={16 * width_ratio} />
+          <Text
+            style={{
+              fontSize: 14 * height_ratio,
+              lineHeight: 21 * height_ratio,
+            }}>
+            동작 삭제
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -98,12 +111,14 @@ const WorkoutItem = props => {
           onPress={() => {
             handleSetDeletePress(props.motion_index);
           }}>
-          <Icon
-            style={styles.icon}
-            name="minus"
-            size={12 * height_ratio}
-            color="#808080"></Icon>
-          <Text style={{fontSize: 14 * height_ratio}}>세트 삭제</Text>
+          <Minus height={16 * height_ratio} width={16 * width_ratio} />
+          <Text
+            style={{
+              fontSize: 14 * height_ratio,
+              lineHeight: 21 * height_ratio,
+            }}>
+            세트 삭제
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -111,12 +126,14 @@ const WorkoutItem = props => {
           onPress={() => {
             handleSetAddPress(props.motion_index);
           }}>
-          <Icon
-            style={styles.icon}
-            name="plus"
-            size={12 * height_ratio}
-            color="#808080"></Icon>
-          <Text style={{fontSize: 14 * height_ratio}}>세트 추가</Text>
+          <Plus height={16 * height_ratio} width={16 * width_ratio} />
+          <Text
+            style={{
+              fontSize: 14 * height_ratio,
+              lineHeight: 21 * height_ratio,
+            }}>
+            세트 추가
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
