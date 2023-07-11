@@ -1,7 +1,10 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import styles from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+
+//svg
+import Handle from '../../assets/svg/buttons/single/handle.svg';
+import Drop from '../../assets/svg/buttons/single/drop.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -22,11 +25,19 @@ const WorkoutTitle = props => {
         </View>
         <View style={styles.nameContainer}>
           <Text style={styles.koreanText}>{props.motion.motion_name}</Text>
-          <Text style={styles.rangeText}>가동 범위: 50cm~90cm</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 2 * width_ratio,
+            }}>
+            <Text style={styles.rangeText}>가동 범위: 50cm~90cm</Text>
+            <Drop height={16 * height_ratio} width={16 * width_ratio} />
+          </View>
         </View>
       </View>
       <TouchableOpacity style={styles.iconContainer}>
-        <Icon name="grip-lines" size={12 * height_ratio} color="#808080"></Icon>
+        <Handle height={16 * height_ratio} width={16 * width_ratio} />
       </TouchableOpacity>
     </View>
   );
