@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, View, Image} from 'react-native';
+import {useEffect} from 'react';
+import {View, Image} from 'react-native';
 
-const Splash = ({navigation}) => {
+const IntroSplash = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate('Intro');
     }, 1500);
-  });
+  }, []);
 
   return (
     <View
@@ -25,4 +25,4 @@ const Splash = ({navigation}) => {
   );
 };
 
-export default Splash;
+export default IntroSplash;

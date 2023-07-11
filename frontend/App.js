@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Linking, Dimensions, Platform} from 'react-native';
 import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
@@ -22,13 +21,14 @@ import ProfileSetting from './src/screens/Settings/ProfileSetting/index.js';
 import PasswordSetting from './src/screens/Settings/PasswordSetting/index.js';
 import HeightWeight from './src/screens/Settings/HeightWeight/index.js';
 import BodyFat from './src/screens/Settings/BodyFat/index.js';
-import Splash from './src/screens/Intro/splash.js';
+import IntroSplash from './src/screens/Intro/splash.js';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
 import AppProvider from './src/contexts/AppProvider.js';
 import RestingTime from './src/screens/Settings/RestingTime/index.js';
 import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
 import {LogBox} from 'react-native';
+import WorkoutStartSplash from './src/screens/WorkoutStart/splash.js';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -60,29 +60,11 @@ const App = () => {
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
             <Stack.Screen
-              name="Splash"
-              component={Splash}
+              name="IntroSplash"
+              component={IntroSplash}
               options={{
                 gestureEnabled: false,
                 headerShown: false,
-                transitionConfig: () => ({
-                  transitionSpec: {
-                    duration: 500, // 애니메이션 지속 시간 설정
-                  },
-                  screenInterpolator: sceneProps => {
-                    // 애니메이션을 커스터마이즈할 수 있는 함수
-                    // 예시: 페이드 애니메이션
-                    const {position, layout, scene} = sceneProps;
-                    const {index} = scene;
-
-                    const opacity = position.interpolate({
-                      inputRange: [index - 1, index, index + 1],
-                      outputRange: [0, 1, 0],
-                    });
-
-                    return {opacity};
-                  },
-                }),
               }}
             />
             <Stack.Screen
@@ -203,6 +185,14 @@ const App = () => {
                 headerShadowVisible: false,
               }}></Stack.Screen>
 
+            <Stack.Screen
+              name="WorkoutStartSplash"
+              component={WorkoutStartSplash}
+              options={{
+                gestureEnabled: false,
+                headerShown: false,
+              }}
+            />
             <Stack.Screen
               name="WorkoutStart"
               component={WorkoutStart}

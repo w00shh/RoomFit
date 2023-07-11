@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 16 * width_ratio,
+    paddingVertical: 16 * height_ratio,
     paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },

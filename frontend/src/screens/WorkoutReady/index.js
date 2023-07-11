@@ -119,7 +119,7 @@ const WorkoutReady = ({navigation, route}) => {
 
   useEffect(() => {
     if (workoutId) {
-      navigation.navigate('WorkoutStart', {
+      navigation.navigate('WorkoutStartSplash', {
         isQuickWorkout: true,
         workout_id: workoutId,
         isAddMotion: false,
