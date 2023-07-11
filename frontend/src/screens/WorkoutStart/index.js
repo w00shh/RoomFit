@@ -14,13 +14,14 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
 import CustomButton_W from '../../components/CustomButton_W';
 import Check from 'react-native-vector-icons/AntDesign';
 import Plus from 'react-native-vector-icons/AntDesign';
 import Minus from 'react-native-vector-icons/AntDesign';
 import Pause from 'react-native-vector-icons/AntDesign';
 import Body from 'react-native-vector-icons/Ionicons';
-import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
+import Timers from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 import Start from 'react-native-vector-icons/AntDesign';
@@ -71,6 +72,9 @@ export const WorkoutStart = ({navigation, route}) => {
   const [isTut, setIsTuT] = useState(true);
   const [time, setTime] = useState('');
   const [elapsedTime, setElapsedTime] = useState(route.params.elapsedTime);
+  const [timerValue, setTimerValue] = useState(100);
+  const [isRunning, setIsRunning] = useState(false);
+  const [resetStopwatch, setResetStopwatch] = useState(false);
 
   //pause 화면 관련 변수 :
   const [isPausedPage, setIsPausedPage] = useState(route.params.isPausedPage);
@@ -234,6 +238,14 @@ export const WorkoutStart = ({navigation, route}) => {
     {time: 120, selsected: false},
     {time: 130, selsected: false},
   ];
+
+  const formatTimes = time => {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
+
+    return `${hours}h ${minutes}m ${seconds}s`;
+  };
 
   const setTempRestTime = time => {
     setTempRestSet(time);
@@ -1048,10 +1060,10 @@ export const WorkoutStart = ({navigation, route}) => {
               }}>
               <View style={{flexDirection: 'row', width: 120 * width_ratio}}>
                 <View style={styles.grayCircle}>
-                  <Timer
+                  <Timers
                     name="timer"
                     color="#41b1ca"
-                    size={23 * height_ratio}></Timer>
+                    size={23 * height_ratio}></Timers>
                 </View>
                 <View style={{marginLeft: 8 * width_ratio}}>
                   <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
@@ -1060,10 +1072,10 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={styles.RgrayCircle}>
-                  <Timer
+                  <Timers
                     name="timer"
                     color="#41b1ca"
-                    size={23 * height_ratio}></Timer>
+                    size={23 * height_ratio}></Timers>
                 </View>
 
                 <View style={{marginLeft: 8 * width_ratio}}>

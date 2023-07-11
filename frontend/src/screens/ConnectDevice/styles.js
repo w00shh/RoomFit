@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 19 * height_ratio,
-    marginHorizontal: 16 * width_ratio,
     marginBottom: 47 * height_ratio,
   },
 
