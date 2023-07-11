@@ -16,7 +16,6 @@ const RoutineBox = props => {
         <View
           style={{
             flexDirection: 'row',
-            marginLeft: 16 * width_ratio,
             gap: 4 * width_ratio,
             alignItems: 'center',
           }}>

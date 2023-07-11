@@ -111,7 +111,7 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.pageContainer}>
-      <ScrollView style={{marginVertical: 16 * height_ratio}}>
+      <ScrollView style={{marginBottom: 32 * height_ratio}}>
         {!connectedDevice && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
@@ -140,61 +140,65 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={styles.subtitleText}>내 루틴</Text>
-          <TouchableOpacity
-            style={styles.allRoutine}
-            onPress={() => navigation.navigate('MyRoutine')}>
-            <Text style={{fontSize: 14 * height_ratio}}>전체보기</Text>
-          </TouchableOpacity>
-        </View>
+        <View style={{marginBottom: 32 * height_ratio}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
 
-        {!existRoutine && routineReady && (
-          <View style={styles.routineContainer}>
-            <Text style={styles.noRoutineText}>생성된 루틴이 없습니다.</Text>
-            <Text style={styles.noConnectionText2}>
-              루틴을 정해서 나만의 운동 패턴을 만들어보세요!
-            </Text>
+              marginBottom: 16 * height_ratio,
+            }}>
+            <Text style={styles.subtitleText}>내 루틴</Text>
             <TouchableOpacity
-              style={styles.makeRoutineButton}
-              onPress={handleMakeRoutinePress}>
-              <Text style={{fontSize: 14 * height_ratio}}>루틴 만들기</Text>
+              style={styles.allRoutine}
+              onPress={() => navigation.navigate('MyRoutine')}>
+              <Text style={{fontSize: 14 * height_ratio}}>전체보기</Text>
             </TouchableOpacity>
           </View>
-        )}
-        {routine[0] && routineReady && (
-          <View>
-            <RoutineBox
-              title={routine[0].routine_name}
-              targets={routine[0].major_targets}
-              numEx={routine[0].motion_count}
-              onPress={() => {
-                navigation.push('RoutineDetail', {
-                  isRoutineDetail: true,
-                  routine_id: routine[0].routine_id,
-                  routineName: routine[0].routine_name,
-                });
-              }}></RoutineBox>
-            {routine[1] && (
+
+          {!existRoutine && routineReady && (
+            <View style={styles.routineContainer}>
+              <Text style={styles.noRoutineText}>생성된 루틴이 없습니다.</Text>
+              <Text style={styles.noConnectionText2}>
+                루틴을 정해서 나만의 운동 패턴을 만들어보세요!
+              </Text>
+              <TouchableOpacity
+                style={styles.makeRoutineButton}
+                onPress={handleMakeRoutinePress}>
+                <Text style={{fontSize: 14 * height_ratio}}>루틴 만들기</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {routine[0] && routineReady && (
+            <View style={{gap: 12 * height_ratio}}>
               <RoutineBox
-                title={routine[1].routine_name}
-                targets={routine[1].major_targets}
-                numEx={routine[1].motion_count}
+                title={routine[0].routine_name}
+                targets={routine[0].major_targets}
+                numEx={routine[0].motion_count}
                 onPress={() => {
                   navigation.push('RoutineDetail', {
                     isRoutineDetail: true,
-                    routine_id: routine[1].routine_id,
-                    routineName: routine[1].routine_name,
+                    routine_id: routine[0].routine_id,
+                    routineName: routine[0].routine_name,
                   });
                 }}></RoutineBox>
-            )}
-          </View>
-        )}
+              {routine[1] && (
+                <RoutineBox
+                  title={routine[1].routine_name}
+                  targets={routine[1].major_targets}
+                  numEx={routine[1].motion_count}
+                  onPress={() => {
+                    navigation.push('RoutineDetail', {
+                      isRoutineDetail: true,
+                      routine_id: routine[1].routine_id,
+                      routineName: routine[1].routine_name,
+                    });
+                  }}></RoutineBox>
+              )}
+            </View>
+          )}
+        </View>
 
         <Text style={styles.subtitleText}>최근 수행한 운동</Text>
         {recentRoutine.length === 0 && (

@@ -5,11 +5,13 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const styles = StyleSheet.create({
   routineContainer: {
-    marginTop: 16 * height_ratio,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#f5f5f5',
+
+    paddingHorizontal: 16 * width_ratio,
+    paddingVertical: 16 * height_ratio,
 
     width: 358 * width_ratio,
     height: 74 * height_ratio,
@@ -20,8 +22,6 @@ const styles = StyleSheet.create({
     color: '#242424',
     fontSize: 16 * height_ratio,
     fontWeight: '400',
-    marginLeft: 16 * width_ratio,
-    marginBottom: 4 * height_ratio,
   },
 
   targetText: {
