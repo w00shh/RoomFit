@@ -323,7 +323,6 @@ const styles = StyleSheet.create({
 
   restingContainer: {
     width: 296 * width_ratio,
-    height: 296 * height_ratio,
     flexDirection: 'column',
     backgroundColor: 'white',
     alignItems: 'center',

@@ -163,7 +163,9 @@ const MainSetting = ({navigation}) => {
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>세트간 휴식시간</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.contentText2}>30초</Text>
+              <Text style={styles.contentText2}>
+                {appcontext.state.userSetTime}초
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('RestingTime', {title: '세트'});
@@ -179,7 +181,9 @@ const MainSetting = ({navigation}) => {
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>동작간 휴식시간</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.contentText2}>30초</Text>
+              <Text style={styles.contentText2}>
+                {appcontext.state.userMotionTime}초
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('RestingTime', {title: '동작'});
@@ -195,7 +199,9 @@ const MainSetting = ({navigation}) => {
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>절전 모드</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.contentText2}>5분</Text>
+              <Text style={styles.contentText2}>
+                {appcontext.state.powerSaving}분
+              </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate('PowerSaving')}>
                 <Right

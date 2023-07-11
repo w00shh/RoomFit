@@ -112,7 +112,9 @@ const ProfileSetting = ({navigation}) => {
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>생년월일</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.contentText2}>2002.10.07</Text>
+              <Text style={styles.contentText2}>
+                {appcontext.state.userBirth}
+              </Text>
             </View>
           </View>
           <View style={styles.contentContainer}>
@@ -131,13 +133,18 @@ const ProfileSetting = ({navigation}) => {
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>성별</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.contentText2}>남성</Text>
+              <Text style={styles.contentText2}>
+                {appcontext.state.userGender ? '남성' : '여성'}
+              </Text>
             </View>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>키/몸무게</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.contentText3}>180cm / 70kg</Text>
+              <Text style={styles.contentText3}>
+                {appcontext.state.userHWeight.split('/')[0]}cm /{' '}
+                {appcontext.state.userHWeight.split('/')[1]}kg
+              </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate('HeightWeight')}>
                 <Right
@@ -151,7 +158,9 @@ const ProfileSetting = ({navigation}) => {
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>운동경력</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.contentText3}>3개월 이하</Text>
+              <Text style={styles.contentText3}>
+                {appcontext.state.userWorkoutCareer}
+              </Text>
               <TouchableOpacity>
                 <Right
                   name="right"
@@ -164,7 +173,9 @@ const ProfileSetting = ({navigation}) => {
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>체지방률</Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={styles.contentText3}>15%</Text>
+              <Text style={styles.contentText3}>
+                {appcontext.state.userBodyFat}%
+              </Text>
               <TouchableOpacity onPress={() => navigation.navigate('BodyFat')}>
                 <Right
                   name="right"

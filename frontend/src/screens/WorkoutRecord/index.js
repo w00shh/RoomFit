@@ -133,6 +133,7 @@ const WorkoutRecord = ({navigation, route}) => {
     await serverAxios
       .post('/workout/calender/month', body)
       .then(res => {
+        console.log(res.data);
         setworkedDay(res.data);
       })
       .catch(e => {
@@ -626,9 +627,17 @@ const WorkoutRecord = ({navigation, route}) => {
                     </View>
                     <View style={{marginLeft: 8 * width_ratio}}>
                       <Text style={styles.pauseSubtitle}>볼륨</Text>
-                      <Text style={styles.pauseSubcontent}>
-                        {periodWorkout.total_weight}
-                      </Text>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        <Text style={styles.pauseSubcontent}>
+                          {periodWorkout.total_weight}
+                        </Text>
+                        <Text
+                          style={{...styles.pauseSubtitle, marginBottom: 2}}>
+                          {' '}
+                          kg
+                        </Text>
+                      </View>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row'}}>
@@ -641,7 +650,15 @@ const WorkoutRecord = ({navigation, route}) => {
 
                     <View style={{marginLeft: 8 * width_ratio}}>
                       <Text style={styles.pauseSubtitle}>칼로리</Text>
-                      <Text style={styles.pauseSubcontent}>10000</Text>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        <Text style={styles.pauseSubcontent}>10000</Text>
+                        <Text
+                          style={{...styles.pauseSubtitle, marginBottom: 2}}>
+                          {' '}
+                          Kcal
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -656,9 +673,16 @@ const WorkoutRecord = ({navigation, route}) => {
 
                   <View style={{marginLeft: 8 * width_ratio}}>
                     <Text style={styles.pauseSubtitle}>운동 횟수</Text>
-                    <Text style={styles.pauseMotionTitle}>
-                      {periodWorkout.count}
-                    </Text>
+                    <View
+                      style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                      <Text style={styles.pauseMotionTitle}>
+                        {periodWorkout.count}
+                      </Text>
+                      <Text style={{...styles.pauseSubtitle, marginBottom: 2}}>
+                        {' '}
+                        일
+                      </Text>
+                    </View>
                   </View>
                 </View>
               </View>
