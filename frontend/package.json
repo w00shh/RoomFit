@@ -27,12 +27,8 @@
     "react-native-calendars": "^1.1299.0",
     "react-native-chart-kit": "^6.12.0",
     "react-native-config": "^1.5.1",
-<<<<<<< HEAD
-    "react-native-lightning-modal": "^2.0.1",
-=======
     "react-native-draggable-flatlist": "^4.0.1",
     "react-native-gesture-handler": "^2.12.0",
->>>>>>> c6473fccf908dd89dd2375be8f65a68d839abe5a
     "react-native-modal": "^13.0.1",
     "react-native-permissions": "^3.8.1",
     "react-native-reanimated": "^3.3.0",
