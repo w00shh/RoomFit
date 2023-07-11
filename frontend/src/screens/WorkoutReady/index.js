@@ -201,7 +201,6 @@ const WorkoutReady = ({navigation, route}) => {
                 motion={item}
                 motionList={motionList}
                 setMotionList={setMotionList}
-                modeList={modeList}
                 setSelectedMode={setSelectedMode}></WorkoutItem>
               {!isEnd && <Divder height_ratio={height_ratio} />}
             </>
