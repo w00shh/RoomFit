@@ -186,23 +186,6 @@ const WorkoutReady = ({navigation, route}) => {
         </View>
       </Modal>
 
-<<<<<<< HEAD
-      <ScrollView style={{height: 450 * height_ratio}}>
-        {motionList &&
-          motionList.map((value, key) => (
-            <WorkoutItem
-              key={key}
-              motion_index={key}
-              id={value.motion_id}
-              isExercising={false}
-              setIsModalVisible={setIsModalVisible}
-              motion={value}
-              motionList={motionList}
-              setMotionList={setMotionList}
-              setSelectedMode={setSelectedMode}></WorkoutItem>
-          ))}
-      </ScrollView>
-=======
       <FlatList
         data={motionList}
         style={{height: 450 * height_ratio}}
@@ -224,7 +207,6 @@ const WorkoutReady = ({navigation, route}) => {
             </>
           );
         }}></FlatList>
->>>>>>> ae59806da03b45b966ff73e07417e85698c17330
 
       <View style={styles.buttonContainer}>
         <View style={styles.buttonSection}>

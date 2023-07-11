@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {WithLocalSvg} from 'react-native-svg';
-import Profile from '../../../assets/images/normalProfile.svg';
+import Profile from '../../../assets/svg/normalProfile.svg';
 import Right from 'react-native-vector-icons/AntDesign';
 import {AppContext} from '../../../contexts/AppProvider';
 
@@ -34,11 +34,7 @@ const MainSetting = ({navigation}) => {
       <ScrollView>
         <View style={styles.profileContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <WithLocalSvg
-              width={64 * width_ratio}
-              height={64 * height_ratio}
-              asset={Profile}
-            />
+            <Profile width={64 * width_ratio} height={64 * height_ratio} />
             <TouchableOpacity
               style={{flexDirection: 'row', alignItems: 'center'}}
               onPress={() => navigation.navigate('ProfileSetting')}>

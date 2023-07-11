@@ -12,8 +12,7 @@ import {
 } from 'react-native';
 
 import styles from './styles';
-import {WithLocalSvg} from 'react-native-svg';
-import Profile from '../../../assets/images/normalProfile.svg';
+import Profile from '../../../assets/svg/normalProfile.svg';
 import Camera from '../../../assets/images/camera.svg';
 import Right from 'react-native-vector-icons/AntDesign';
 import Back from 'react-native-vector-icons/Ionicons';
@@ -77,16 +76,11 @@ const ProfileSetting = ({navigation}) => {
       <ScrollView>
         <View style={styles.profileContainer}>
           <View>
-            <WithLocalSvg
-              width={64 * width_ratio}
-              height={64 * height_ratio}
-              asset={Profile}
-            />
+            <Profile width={64 * width_ratio} height={64 * height_ratio} />
             <TouchableWithoutFeedback>
-              <WithLocalSvg
+              <Camera
                 width={25 * width_ratio}
                 height={25 * height_ratio}
-                asset={Camera}
                 style={{position: 'absolute', bottom: 0, right: 0}}
               />
             </TouchableWithoutFeedback>

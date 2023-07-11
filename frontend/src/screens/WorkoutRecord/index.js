@@ -21,6 +21,7 @@ import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 import Body from 'react-native-vector-icons/Ionicons';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
+import Sample from '../../assets/svg/img_sample1.svg';
 
 //svg
 import Workout from '../../assets/svg/buttons/default/workout.svg';
@@ -526,10 +527,9 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
               <View style={{height: 16}}></View>
               <View style={{alignItems: 'center'}}>
-                <WithLocalSvg
+                <Sample
                   width={200 * width_ratio}
-                  height={200 * height_ratio}
-                  asset={TempPeople}></WithLocalSvg>
+                  height={200 * height_ratio}></Sample>
                 <View style={{flexDirection: 'row', gap: 24 * height_ratio}}>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>가슴</Text>
