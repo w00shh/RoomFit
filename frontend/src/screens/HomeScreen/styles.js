@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
     color: '#242424',
 
-    marginTop: 20 * height_ratio,
+    // marginTop: 20 * height_ratio,
   },
 
   routineContainer: {
@@ -96,9 +96,7 @@ const styles = StyleSheet.create({
     marginVertical: 24 * height_ratio,
   },
 
-  allRoutine: {
-    marginTop: 32 * height_ratio,
-  },
+  allRoutine: {},
   navigator: {
     position: 'absolute',
     backgroundColor: '#000000',

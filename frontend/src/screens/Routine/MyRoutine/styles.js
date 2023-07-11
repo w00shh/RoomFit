@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingVertical: 16 * height_ratio,
-    paddingHorizontal: 16 * width_ratio,
+
     backgroundColor: 'white',
+    gap: 12 * height_ratio,
   },
   makeRoutineContainer: {
     width: 358 * width_ratio,
@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: '#dfdfdf',
     borderRadius: 8,
-
-    marginVertical: 24 * height_ratio,
   },
   makeRoutineText: {
     fontSize: 14 * height_ratio,
@@ -43,24 +41,24 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   routineContainer: {
-    marginTop: 16 * height_ratio,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+
+    paddingHorizontal: 16 * width_ratio,
+    paddingVertical: 16 * height_ratio,
+
     backgroundColor: '#f5f5f5',
 
     width: 318 * width_ratio,
     height: 74 * height_ratio,
     borderRadius: 8,
-    marginLeft: 8 * width_ratio,
   },
 
   titleText: {
     color: '#242424',
     fontSize: 16 * height_ratio,
     fontWeight: '400',
-    marginLeft: 16 * width_ratio,
-    marginBottom: 4 * height_ratio,
   },
 
   targetText: {

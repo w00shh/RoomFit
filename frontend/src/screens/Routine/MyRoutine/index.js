@@ -4,9 +4,12 @@ import styles from './styles';
 import {Text} from 'react-native';
 import {serverAxios} from '../../../utils/commonAxios';
 import RoutineBox from '../../../components/Routine';
-import Check from 'react-native-vector-icons/AntDesign';
-import Right from 'react-native-vector-icons/AntDesign';
-import Back from 'react-native-vector-icons/Ionicons';
+
+//svg
+import Back from '../../../assets/svg/buttons/single/back.svg';
+import Handle from '../../../assets/svg/buttons/single/handle.svg';
+import Checkbox_D from '../../../assets/svg/buttons/default/checkbox.svg';
+import Checkbox_A from '../../../assets/svg/buttons/active/checkbox.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -23,14 +26,7 @@ const MyRoutine = ({navigation}) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 10 * width_ratio,
-              marginRight: 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
     });
@@ -44,8 +40,7 @@ const MyRoutine = ({navigation}) => {
           disabled={isEditDisabled}
           onPress={() => {
             setIsEdit(!isEdit);
-          }}
-          style={{marginRight: 14}}>
+          }}>
           <Text style={{color: '#242424', fontSize: 14 * height_ratio}}>
             {isEdit ? '취소' : '편집'}
           </Text>
@@ -162,49 +157,49 @@ const MyRoutine = ({navigation}) => {
             key={key}
             style={{
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              gap: 16 * width_ratio,
+              // justifyContent: 'space-between',
               alignItems: 'center',
             }}>
             <TouchableOpacity onPress={() => onSelect(value.routine_id)}>
-              <View
-                style={{
-                  backgroundColor: selected.get(value.routine_id)
-                    ? selected.get(value.routine_id).isSelec
-                      ? '#5252fa'
-                      : '#dfdfdf'
-                    : '#dfdfdf',
-
-                  width: 24 * width_ratio,
-                  height: 24 * height_ratio,
-                  borderRadius: 4,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginTop: 16 * height_ratio,
-                  marginRight: 8 * width_ratio,
-                }}>
-                <Check name="check" color="#fff"></Check>
-              </View>
+              {selected.get(value.routine_id) &&
+              selected.get(value.routine_id).isSelec ? (
+                <Checkbox_A
+                  height={24 * height_ratio}
+                  width={24 * width_ratio}
+                />
+              ) : (
+                <Checkbox_D
+                  height={24 * height_ratio}
+                  width={24 * width_ratio}
+                />
+              )}
             </TouchableOpacity>
             <View style={styles.routineContainer}>
               <View style={{flexDirection: 'column'}}>
                 <Text style={styles.titleText}>{value.routine_name}</Text>
                 <View
-                  style={{flexDirection: 'row', marginLeft: 16 * width_ratio}}>
+                  style={{
+                    flexDirection: 'row',
+                    gap: 4 * width_ratio,
+                    alignItems: 'center',
+                  }}>
                   <Text style={styles.targetText}>{value.major_targets}</Text>
-
-                  <Image
+                  <View
                     style={{
-                      marginLeft: 4 * width_ratio,
-                      marginRight: 8 * width_ratio,
+                      width: 1 * width_ratio,
+                      height: 12 * height_ratio,
+                      backgroundColor: '#DFDFDF',
+                      borderRadius: 100,
                     }}
-                    source={require('../../../assets/images/divider.png')}></Image>
+                  />
                   <Text style={styles.targetText}>
                     {value.motion_count}개의 운동
                   </Text>
                 </View>
               </View>
               <TouchableOpacity>
-                <Right name="right" size={20} style={styles.rightIcon}></Right>
+                <Handle height={16 * height_ratio} width={16 * width_ratio} />
               </TouchableOpacity>
             </View>
           </View>
