@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
+    alignSelf: 'flex-start',
   },
 
   pauseSubtitle: {

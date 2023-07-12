@@ -6,6 +6,7 @@ import CustomButton_B from '../../components/CustomButton_B';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
 import Back from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -47,6 +48,14 @@ const Login = ({navigation, route}) => {
     }
   };
 
+  const saveLogin = async userId => {
+    try {
+      await AsyncStorage.setItem('isLogin', userId);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     handleLoginDisabled();
   }, [email, password]);
@@ -61,17 +70,43 @@ const Login = ({navigation, route}) => {
       .put('/account/login', body)
       .then(res => {
         console.log(res.data);
+        if (res.data.success) {
+          getUserInfo();
+          appcontext.actions.setIsLogin(res.data.success);
+          appcontext.actions.setUserid(res.data.user_id);
+          appcontext.actions.setUseremail(res.data.email);
 
-        appcontext.actions.setIsLogin(res.data.success);
-        appcontext.actions.setUserid(res.data.user_id);
-        appcontext.actions.setUsernickname(res.data.user_name);
-        appcontext.actions.setUseremail(res.data.email);
+          saveLogin(res.data.user_id);
+        }
 
         navigation.reset({routes: [{name: 'HomeScreen'}]});
       })
       .catch(e => {
         console.log(e);
       });
+  };
+
+  const getUserInfo = async () => {
+    await serverAxios
+      .get('/account/user-info?user_id=' + appcontext.state.userid)
+      .then(res => {
+        console.log(res.data);
+        if (res.data.user_name)
+          appcontext.actions.setUsernickname(res.data.user_name);
+        if (res.data.birth) appcontext.actions.setUserBirth(res.data.birth);
+        if (res.data.gender) appcontext.actions.setUserGender(res.data.gender);
+        if (res.data.height) appcontext.actions.setUserHeight(res.data.height);
+        if (res.data.weight) appcontext.actions.setUserWeight(res.data.weight);
+        if (res.data.body_fat)
+          appcontext.actions.setUserBodyFat(res.data.body_fat);
+        if (res.data.set_break)
+          appcontext.actions.setUserSetTime(res.data.set_break);
+        if (res.data.motion_break)
+          appcontext.actions.setUserMotionTime(res.data.motion_break);
+        if (res.data.experience)
+          appcontext.actions.setUserWorkoutCareer(res.data.experience);
+      })
+      .catch(e => console.log(e));
   };
 
   const handleselectionIdFindPress = () => {};

@@ -7,15 +7,21 @@ import {
   SafeAreaView,
   TextInput,
   Platform,
+  Keyboard,
 } from 'react-native';
 import styles from './styles';
 import Back from 'react-native-vector-icons/Ionicons';
 import {AppContext} from '../../../contexts/AppProvider';
+import {serverAxios} from '../../../utils/commonAxios';
+import CustomButton_B from '../../../components/CustomButton_B';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const BodyFat = ({navigation}) => {
+  const appcontext = useContext(AppContext);
+  const [saveDisable, setSaveDisable] = useState(false);
+  const [tempBodyFat, setTempBodyFat] = useState(appcontext.state.userBodyFat);
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -49,17 +55,49 @@ const BodyFat = ({navigation}) => {
   }, []);
 
   const handleBackButton = () => {
+    appcontext.actions.setUserBodyFat(tempBodyFat);
     navigation.navigate('ProfileSetting');
+  };
+
+  useEffect(() => {
+    if (appcontext.state.userBodyFat <= 0) {
+      setSaveDisable(true);
+    } else setSaveDisable(false);
+  }, [appcontext.state.userBodyFat]);
+
+  handleSaveButton = async () => {
+    const body = {
+      user_id: appcontext.state.userid,
+      body_fat: appcontext.state.userBodyFat,
+    };
+    await serverAxios.put('/account/update', body).then(res => {
+      console.log(appcontext.state.userBodyFat);
+      if (res.data.success === 1) {
+        navigation.navigate('ProfileSetting');
+      }
+    });
   };
 
   return (
     <SafeAreaView style={styles.pageContainer}>
       <View style={{flexDirection: 'row'}}>
-        <TextInput style={styles.inputContainer} value="15"></TextInput>
+        <TextInput
+          style={styles.inputContainer}
+          value={String(appcontext.state.userBodyFat)}
+          placeholderTextColor={'#acacac'}
+          onChangeText={text => appcontext.actions.setUserBodyFat(text)}
+          keyboardType="numeric"></TextInput>
         <View pointerEvents="none" style={styles.placeholder}>
-          <Text style={styles.placeholderText}>%</Text>
+          <Text style={styles.placeholderText}>
+            {appcontext.state.userBodyFat ? '%' : ''}
+          </Text>
         </View>
       </View>
+      <CustomButton_B
+        width={358 * width_ratio}
+        content="저장"
+        disabled={saveDisable}
+        onPress={() => handleSaveButton()}></CustomButton_B>
     </SafeAreaView>
   );
 };

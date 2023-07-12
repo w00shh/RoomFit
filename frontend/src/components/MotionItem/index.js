@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Text,
   TouchableWithoutFeedback,
@@ -9,6 +9,7 @@ import {
 import styles from './styles';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {serverAxios} from '../../utils/commonAxios';
+import {AppContext} from '../../contexts/AppProvider';
 
 //svg
 import Star_A from '../../assets/svg/buttons/active/star.svg';
@@ -18,6 +19,7 @@ const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const MotionItem = props => {
+  const appcontext = useContext(AppContext);
   return (
     <View style={styles.motionContainer}>
       {props.motion.isFav ? (
@@ -29,7 +31,7 @@ const MotionItem = props => {
             ].isFav = !props.motion.isFav;
 
             const body = {
-              user_id: 'user1',
+              user_id: appcontext.state.userid,
               motion_id: props.motion.motion_id,
             };
             if (
@@ -65,7 +67,7 @@ const MotionItem = props => {
               updatedMotionList.findIndex(item => item === props.motion)
             ].isFav = !props.motion.isFav;
             const body = {
-              user_id: 'user1',
+              user_id: appcontext.state.usrid,
               motion_id: props.motion.motion_id,
             };
             if (
@@ -96,11 +98,11 @@ const MotionItem = props => {
       )}
 
       <View style={styles.imageContainer}>
-        <Image
+        {/* <Image
           source={{
             uri: props.motion.imageUrl,
           }}
-          style={{width: 48 * width_ratio, height: 48 * height_ratio}}></Image>
+          style={{width: 48 * width_ratio, height: 48 * height_ratio}}></Image> */}
       </View>
       <View style={styles.nameContainer}>
         <Text

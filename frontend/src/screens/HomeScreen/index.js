@@ -14,6 +14,7 @@ import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {useAppSelector} from '../../redux/store';
 import {AppContext} from '../../contexts/AppProvider';
+import {BackHandler} from 'react-native';
 
 //svg
 import Workout from '../../assets/svg/buttons/active/workout.svg';
@@ -38,6 +39,19 @@ const HomeScreen = ({navigation}) => {
   const [routineReady, setRoutineReady] = useState(false);
 
   useEffect(() => {
+    const handleBackButton = () => {
+      // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
+      return true;
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    };
+  }, []);
+
+  useEffect(() => {
     if (routineId) {
       navigation.navigate('AddRoutine', {
         isMotionAdded: false,
@@ -49,7 +63,7 @@ const HomeScreen = ({navigation}) => {
 
   const handleMakeRoutinePress = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/routine', body)
@@ -69,7 +83,7 @@ const HomeScreen = ({navigation}) => {
   const getMyRoutine = async () => {
     setRoutine([]);
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
       isHome: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
@@ -92,7 +106,7 @@ const HomeScreen = ({navigation}) => {
 
   const getRecentWorkout = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/workout/brief/recent', body)

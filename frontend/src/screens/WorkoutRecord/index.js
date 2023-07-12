@@ -11,7 +11,7 @@ import {
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
-import {WithLocalSvg} from 'react-native-svg';
+
 import TempPeople from '../../assets/images/img_sample1.svg';
 import Profile from '../../assets/images/normalProfile.svg';
 import moment from 'moment';
@@ -21,6 +21,7 @@ import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 import Body from 'react-native-vector-icons/Ionicons';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
+import Sample from '../../assets/svg/img_sample1.svg';
 
 //svg
 import Workout from '../../assets/svg/buttons/default/workout.svg';
@@ -49,6 +50,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const [markedDates, setMarkedDates] = useState({});
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
+  const [periodWorkout, setPeriodWorkout] = useState();
 
   const markDates = () => {
     const updateMarkedDates = {};
@@ -70,7 +72,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
   const getBreifWorkout = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/workout/brief', body)
@@ -118,7 +120,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
   getDaybreifWorkout = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
       date: selectedDate,
     };
     await serverAxios.post('workout/calender/date', body).then(res => {
@@ -128,12 +130,13 @@ const WorkoutRecord = ({navigation, route}) => {
 
   getMonthWorkoutDay = async () => {
     const body = {
-      user_id: 'user1', //Appcontext.state.userid
+      user_id: appcontext.state.userid, //Appcontext.state.userid
       month: selectedMonth,
     };
     await serverAxios
       .post('/workout/calender/month', body)
       .then(res => {
+        console.log(res.data);
         setworkedDay(res.data);
       })
       .catch(e => {
@@ -151,8 +154,13 @@ const WorkoutRecord = ({navigation, route}) => {
 
   const getPeriodWorkout = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
+    const url = '/workout/stat/' + period;
+    await serverAxios.post(url, body).then(res => {
+      console.log(res.data);
+      setPeriodWorkout(res.data);
+    });
   };
 
   return (
@@ -519,30 +527,39 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
               <View style={{height: 16}}></View>
               <View style={{alignItems: 'center'}}>
-                <WithLocalSvg
+                <Sample
                   width={200 * width_ratio}
-                  height={200 * height_ratio}
-                  asset={TempPeople}></WithLocalSvg>
+                  height={200 * height_ratio}></Sample>
                 <View style={{flexDirection: 'row', gap: 24 * height_ratio}}>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>가슴</Text>
-                    <Text style={styles.percentText}>35%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.chest}%
+                    </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>어깨</Text>
-                    <Text style={styles.percentText}>25%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.shoulder}%
+                    </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>하체</Text>
-                    <Text style={styles.percentText}>22%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.leg}%
+                    </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>등</Text>
-                    <Text style={styles.percentText}>10%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.back}%
+                    </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>코어</Text>
-                    <Text style={styles.percentText}>8%</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.core}%
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -573,7 +590,9 @@ const WorkoutRecord = ({navigation, route}) => {
                       <Text style={styles.pauseSubtitle}>
                         누적 전체 운동시간
                       </Text>
-                      <Text style={styles.pauseSubcontent}>sss</Text>
+                      <Text style={styles.pauseSubcontent}>
+                        {periodWorkout.total_time}
+                      </Text>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row'}}>
@@ -588,7 +607,9 @@ const WorkoutRecord = ({navigation, route}) => {
                       <Text style={styles.pauseSubtitle}>
                         누적 유효 수행시간
                       </Text>
-                      <Text style={styles.pauseSubcontent}>tut</Text>
+                      <Text style={styles.pauseSubcontent}>
+                        {periodWorkout.tut}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -608,7 +629,17 @@ const WorkoutRecord = ({navigation, route}) => {
                     </View>
                     <View style={{marginLeft: 8 * width_ratio}}>
                       <Text style={styles.pauseSubtitle}>볼륨</Text>
-                      <Text style={styles.pauseSubcontent}>sss</Text>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        <Text style={styles.pauseSubcontent}>
+                          {periodWorkout.total_weight}
+                        </Text>
+                        <Text
+                          style={{...styles.pauseSubtitle, marginBottom: 2}}>
+                          {' '}
+                          kg
+                        </Text>
+                      </View>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row'}}>
@@ -621,7 +652,15 @@ const WorkoutRecord = ({navigation, route}) => {
 
                     <View style={{marginLeft: 8 * width_ratio}}>
                       <Text style={styles.pauseSubtitle}>칼로리</Text>
-                      <Text style={styles.pauseSubcontent}>10000</Text>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        <Text style={styles.pauseSubcontent}>10000</Text>
+                        <Text
+                          style={{...styles.pauseSubtitle, marginBottom: 2}}>
+                          {' '}
+                          Kcal
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -636,7 +675,16 @@ const WorkoutRecord = ({navigation, route}) => {
 
                   <View style={{marginLeft: 8 * width_ratio}}>
                     <Text style={styles.pauseSubtitle}>운동 횟수</Text>
-                    <Text style={styles.pauseMotionTitle}>sss</Text>
+                    <View
+                      style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                      <Text style={styles.pauseMotionTitle}>
+                        {periodWorkout.count}
+                      </Text>
+                      <Text style={{...styles.pauseSubtitle, marginBottom: 2}}>
+                        {' '}
+                        일
+                      </Text>
+                    </View>
                   </View>
                 </View>
               </View>

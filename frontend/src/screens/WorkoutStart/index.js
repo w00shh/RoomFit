@@ -14,13 +14,14 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
 import CustomButton_W from '../../components/CustomButton_W';
 import Check from 'react-native-vector-icons/AntDesign';
 import Plus from 'react-native-vector-icons/AntDesign';
 import Minus from 'react-native-vector-icons/AntDesign';
 import Pause from 'react-native-vector-icons/AntDesign';
 import Body from 'react-native-vector-icons/Ionicons';
-import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
+import Timers from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 import Start from 'react-native-vector-icons/AntDesign';
@@ -37,6 +38,7 @@ import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {AppContext} from '../../contexts/AppProvider';
 import {BackHandler} from 'react-native';
+import {all} from 'axios';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -71,6 +73,9 @@ export const WorkoutStart = ({navigation, route}) => {
   const [isTut, setIsTuT] = useState(true);
   const [time, setTime] = useState('');
   const [elapsedTime, setElapsedTime] = useState(route.params.elapsedTime);
+  const [timerValue, setTimerValue] = useState(100);
+  const [isRunning, setIsRunning] = useState(false);
+  const [resetStopwatch, setResetStopwatch] = useState(false);
 
   //pause 화면 관련 변수 :
   const [isPausedPage, setIsPausedPage] = useState(route.params.isPausedPage);
@@ -139,11 +144,13 @@ export const WorkoutStart = ({navigation, route}) => {
 
     if (route.params.displaySelected) {
       if (route.params.isAddedMotionDone) {
+        /*동작 완료 후 동작 추가 시*/
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
             isMotionDone: false,
             isMotionDoing: true,
+            doingSetIndex: 0,
             isFav: route.params.displaySelected[0].isFav,
             motion_id: route.params.displaySelected[0].motion_id,
             motion_name: route.params.displaySelected[0].motion_name,
@@ -154,11 +161,13 @@ export const WorkoutStart = ({navigation, route}) => {
           },
         ]);
       } else {
+        /* 운동 수행 중에 동작 추가 시*/
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
             isMotionDone: false,
             isMotionDoing: false,
+            doingSetIndex: 0,
             isFav: route.params.displaySelected[0].isFav,
             motion_id: route.params.displaySelected[0].motion_id,
             motion_name: route.params.displaySelected[0].motion_name,
@@ -175,6 +184,7 @@ export const WorkoutStart = ({navigation, route}) => {
           {
             isMotionDone: false,
             isMotionDoing: false,
+            doingSetIndex: 0,
             isFav: route.params.displaySelected[i].isFav,
             motion_id: route.params.displaySelected[i].motion_id,
             motion_name: route.params.displaySelected[i].motion_name,
@@ -190,10 +200,10 @@ export const WorkoutStart = ({navigation, route}) => {
       let updatedMotionList = [...motionList];
       if (!route.params.isAddMotion) {
         updatedMotionList[m_index].isMotionDoing = true;
+        updatedMotionList[m_index].doingSetIndex = 0;
         updatedMotionList[m_index].sets[0].isDoing = true;
         setMotionList(updatedMotionList);
       }
-      getRecordId(0);
     }
   }, []);
 
@@ -231,32 +241,16 @@ export const WorkoutStart = ({navigation, route}) => {
     {time: 130, selsected: false},
   ];
 
-  const modeList = [
-    {
-      modeName: '기본',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '고무밴드',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드1',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드2',
-      modeDescription: '설명',
-    },
-    {
-      modeName: '모드3',
-      modeDescription: '설명',
-    },
-  ];
+  const formatTimes = time => {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
+
+    return `${hours}h ${minutes}m ${seconds}s`;
+  };
 
   const setTempRestTime = time => {
     setTempRestSet(time);
-    console.log(time);
   };
 
   const setRestTime = () => {
@@ -266,7 +260,6 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const MotionTempRestTime = time => {
     setTempRestMotion(time);
-    console.log(time);
   };
 
   const MotionRestTime = () => {
@@ -311,9 +304,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
           await serverAxios
             .post('/routine/save', body)
-            .then(res => {
-              console.log(res.data);
-            })
+            .then(res => {})
             .catch(e => {
               console.log(e);
             });
@@ -333,7 +324,7 @@ export const WorkoutStart = ({navigation, route}) => {
     await serverAxios
       .post('/workout/record', body)
       .then(res => {
-        console.log(res.data.record_id);
+        console.log(res.data);
         setRecordId(res.data.record_id);
       })
       .catch(e => {
@@ -342,13 +333,6 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const setCompletePost = async () => {
-    console.log([
-      recordId,
-      s_index + 1,
-      motionList[m_index].sets[s_index].weight,
-      motionList[m_index].sets[s_index].reps,
-      motionList[m_index].sets[s_index].mode,
-    ]);
     const body = {
       record_id: recordId,
       set_no: s_index + 1,
@@ -366,7 +350,6 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const saveWorkoutRecord = async () => {
-    console.log(formatTime(TUT));
     const body = {
       workout_id: workoutId,
       tut: formatTime(TUT),
@@ -482,8 +465,14 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    if (recordId && (isResting || workoutDone)) {
+      setCompletePost();
+    }
+  }, [recordId]);
+
   const setComplete = () => {
-    setCompletePost();
+    getRecordId(m_index);
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
     updatedMotionList[m_index].sets[s_index].isDone = true;
@@ -501,7 +490,6 @@ export const WorkoutStart = ({navigation, route}) => {
       motionList[m_index + 1]
     ) {
       // 동작 종료시
-      console.log(appcontext.state.userMotionTime);
       setRestTimer(appcontext.state.userMotionTime);
       setIsResting(true);
       setIsRestingModal(true);
@@ -513,6 +501,7 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList[m_index].isMotionDoing = false;
       setMotionList(updatedMotionList);
       updatedMotionList = [...motionList];
+      updatedMotionList[m_index].doingSetIndex = s_index + 1;
       updatedMotionList[m_index].sets[s_index].isDoing = false;
       setMotionList(updatedMotionList);
     } else {
@@ -523,6 +512,7 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList = [...motionList];
       updatedMotionList[m_index].isMotionDoing = false;
       updatedMotionList = [...motionList];
+      updatedMotionList[m_index].doingSetIndex = s_index + 1;
       updatedMotionList[m_index].sets[s_index].isDoing = false;
       setMotionList(updatedMotionList);
       setMotionList(updatedMotionList);
@@ -544,13 +534,13 @@ export const WorkoutStart = ({navigation, route}) => {
     if (s_index + 1 < motionList[m_index].sets.length) {
       setSIndex(s_index + 1);
       let updatedMotionList = [...motionList];
+      updatedMotionList[m_index].doingSetIndex = s_index + 1;
       updatedMotionList[m_index].sets[s_index + 1].isDoing = true;
       setMotionList(updatedMotionList);
     } else if (
       s_index + 1 === motionList[m_index].sets.length &&
       motionList[m_index + 1]
     ) {
-      getRecordId(m_index + 1);
       setMIndex(m_index + 1);
       setSIndex(0);
       let updatedMotionList = [...motionList];
@@ -1064,10 +1054,10 @@ export const WorkoutStart = ({navigation, route}) => {
               }}>
               <View style={{flexDirection: 'row', width: 120 * width_ratio}}>
                 <View style={styles.grayCircle}>
-                  <Timer
+                  <Timers
                     name="timer"
                     color="#41b1ca"
-                    size={23 * height_ratio}></Timer>
+                    size={23 * height_ratio}></Timers>
                 </View>
                 <View style={{marginLeft: 8 * width_ratio}}>
                   <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
@@ -1076,10 +1066,10 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
               <View style={{flexDirection: 'row'}}>
                 <View style={styles.RgrayCircle}>
-                  <Timer
+                  <Timers
                     name="timer"
                     color="#41b1ca"
-                    size={23 * height_ratio}></Timer>
+                    size={23 * height_ratio}></Timers>
                 </View>
 
                 <View style={{marginLeft: 8 * width_ratio}}>
@@ -1439,7 +1429,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 </View>
                 <View>
                   <FlatList
-                    data={modeList}
+                    data={appcontext.state.modeList}
                     renderItem={({item}) => <Item mode={item}></Item>}
                     keyExtractor={item => item.modeName}></FlatList>
                 </View>
@@ -1478,7 +1468,6 @@ export const WorkoutStart = ({navigation, route}) => {
                 setIsModalVisible={setIsModalVisible}
                 motionList={motionList}
                 setMotionList={setMotionList}
-                modeList={modeList}
                 setSelectedMode={setSelectedMode}></WorkoutItem>
             ))}
           </ScrollView>

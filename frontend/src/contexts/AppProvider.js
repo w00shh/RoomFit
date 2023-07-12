@@ -27,10 +27,19 @@ const AppProvider = ({children}) => {
   ];
   const [isLogin, setIsLogin] = useState(false);
   const [userid, setUserid] = useState('');
-  const [usernickname, setUsernickname] = useState('');
-  const [useremail, setUseremail] = useState('');
+  const [usernickname, setUsernickname] = useState();
+  const [useremail, setUseremail] = useState();
   const [userSetTime, setUserSetTime] = useState(30);
   const [userMotionTime, setUserMotionTime] = useState(60);
+  const [userBirth, setUserBirth] = useState('');
+  const [userGender, setUserGender] = useState();
+  const [userHeight, setUserHeight] = useState();
+  const [userWeight, setUserWeight] = useState();
+  const [userWorkoutCareer, setUserWorkoutCareer] = useState('');
+  const [userBodyFat, setUserBodyFat] = useState();
+  const [powerSaving, setPowerSaving] = useState(7);
+  const [smartSafety, setSmartSaftey] = useState(true);
+  const [smartAssist, setSmartAssist] = useState(true);
   const [targetmotionindex, setTargetmotionindex] = useState(0);
   const [targetsetindex, setTargetsetindex] = useState(0);
 
@@ -43,6 +52,15 @@ const AppProvider = ({children}) => {
       useremail,
       userSetTime,
       userMotionTime,
+      userBirth,
+      userGender,
+      userHeight,
+      userWeight,
+      userWorkoutCareer,
+      userBodyFat,
+      powerSaving,
+      smartSafety,
+      smartAssist,
       targetmotionindex,
       targetsetindex,
     },
@@ -53,6 +71,15 @@ const AppProvider = ({children}) => {
       setUseremail,
       setUserSetTime,
       setUserMotionTime,
+      setUserBirth,
+      setUserGender,
+      setUserHeight,
+      setUserWeight,
+      setUserWorkoutCareer,
+      setUserBodyFat,
+      setPowerSaving,
+      setSmartSaftey,
+      setSmartAssist,
       setTargetmotionindex,
       setTargetsetindex,
     },
