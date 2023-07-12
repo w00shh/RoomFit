@@ -274,7 +274,7 @@ const RoutineDetail = ({navigation, route}) => {
 
   const handleStartWorkoutPress = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/workout', body)

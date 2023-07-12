@@ -16,50 +16,28 @@ import {serverAxios} from '../../../utils/commonAxios';
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
-const RestingTime = ({navigation, route}) => {
-  const [temprestSet, setTempRestSet] = useState();
+const WokroutCareer = ({navigation, route}) => {
+  const [tempCareer, setTempCareer] = useState();
   const appcontext = useContext(AppContext);
-  const restTime = [
-    {time: 15, selsected: false},
-    {time: 20, selsected: false},
-    {time: 30, selsected: false},
-    {time: 40, selsected: false},
-    {time: 50, selsected: false},
-    {time: 60, selsected: false},
-    {time: 75, selsected: false},
-    {time: 90, selsected: false},
-    {time: 120, selsected: false},
-    {time: 150, selsected: false},
+  const Career = [
+    {Career: '경력없음'},
+    {Career: '3개월 이하'},
+    {Career: '3개월~6개월'},
+    {Career: '7개월~12개월'},
+    {Career: '1년 이상'},
+    {Career: '3년 이상'},
+    {Career: '5년 이상'},
+    {Career: '10년 이상'},
   ];
 
-  const calcTime = time => {
-    const min = Math.floor(time / 60);
-    const sec = time % 60;
-    if (time < 60) {
-      return `${time}초`;
-    } else if (time % 60 === 0) {
-      return `${min}분`;
-    } else {
-      return `${min}분 ${sec}초`;
-    }
-  };
-
   const handleBackButton = async () => {
-    if (route.params.title === '세트') {
-      const body = {
-        user_id: appcontext.state.userid,
-        set_break: appcontext.state.userSetTime,
-      };
-      await serverAxios.put('/account/update', body).then(res => {});
-    } else if (route.params.title === '동작') {
-      const body = {
-        user_id: appcontext.state.userid,
-        motion_break: appcontext.state.userMotionTime,
-      };
-      await serverAxios.put('/account/update', body).then(res => {});
-    }
-
-    navigation.navigate('MainSetting');
+    console.log(appcontext.state.userWorkoutCareer);
+    const body = {
+      user_id: appcontext.state.userid,
+      experience: appcontext.state.userWorkoutCareer,
+    };
+    await serverAxios.put('/account/update', body).then(res => {});
+    navigation.navigate('ProfileSetting');
   };
 
   useEffect(() => {
@@ -84,27 +62,25 @@ const RestingTime = ({navigation, route}) => {
               fontSize: 16 * height_ratio,
               fontWeight: '700',
             }}>
-            {route.params.title}간 휴식시간
+            운동경력
           </Text>
         </>
       ),
     });
-  }, [appcontext.state.userSetTime, appcontext.state.userMotionTime]);
+  }, [appcontext.state.userWorkoutCareer]);
 
-  const handleSaveRestTime = time => {
-    if (route.params.title === '세트') appcontext.actions.setUserSetTime(time);
-    else if (route.params.title === '동작')
-      appcontext.actions.setUserMotionTime(time);
+  const handleSaveCareer = Career => {
+    appcontext.actions.setUserWorkoutCareer(Career);
   };
   return (
     <View style={styles.pageContainer}>
       <ScrollView style={{marginTop: 16 * height_ratio}}>
-        {restTime.map((value, key) => (
+        {Career.map((value, key) => (
           <TouchableOpacity
             key={key}
             onPress={() => {
-              setTempRestSet(value.time);
-              handleSaveRestTime(value.time);
+              setTempCareer(value.Career);
+              handleSaveCareer(value.Career);
             }}>
             <View
               style={{
@@ -115,15 +91,15 @@ const RestingTime = ({navigation, route}) => {
                 <Text
                   style={{
                     fontSize: 16 * height_ratio,
-                    color: value.time === temprestSet ? '#5252fa' : '#242424',
+                    color: value.Career === tempCareer ? '#5252fa' : '#242424',
                   }}>
-                  {calcTime(value.time)}
+                  {value.Career}
                 </Text>
                 <Check
                   name="check"
                   size={20 * height_ratio}
                   color={
-                    value.time === temprestSet ? '#5252fa' : 'white'
+                    value.Career === tempCareer ? '#5252fa' : 'white'
                   }></Check>
               </View>
             </View>
@@ -134,4 +110,4 @@ const RestingTime = ({navigation, route}) => {
   );
 };
 
-export default RestingTime;
+export default WokroutCareer;

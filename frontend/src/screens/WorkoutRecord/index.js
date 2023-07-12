@@ -11,7 +11,7 @@ import {
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
-import {WithLocalSvg} from 'react-native-svg';
+
 import TempPeople from '../../assets/images/img_sample1.svg';
 import Profile from '../../assets/images/normalProfile.svg';
 import moment from 'moment';
@@ -72,7 +72,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
   const getBreifWorkout = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/workout/brief', body)
@@ -120,7 +120,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
   getDaybreifWorkout = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
       date: selectedDate,
     };
     await serverAxios.post('workout/calender/date', body).then(res => {
@@ -130,7 +130,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
   getMonthWorkoutDay = async () => {
     const body = {
-      user_id: 'user1', //Appcontext.state.userid
+      user_id: appcontext.state.userid, //Appcontext.state.userid
       month: selectedMonth,
     };
     await serverAxios
@@ -154,7 +154,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
   const getPeriodWorkout = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     const url = '/workout/stat/' + period;
     await serverAxios.post(url, body).then(res => {

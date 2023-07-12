@@ -17,13 +17,16 @@ import Camera from '../../../assets/images/camera.svg';
 import Right from 'react-native-vector-icons/AntDesign';
 import Back from 'react-native-vector-icons/Ionicons';
 import {AppContext} from '../../../contexts/AppProvider';
+import {serverAxios} from '../../../utils/commonAxios';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const ProfileSetting = ({navigation}) => {
   const appcontext = useContext(AppContext);
-  const [Nickname, onChangeText] = useState(appcontext.state.usernickname);
+  const [tempNickname, setTempNickname] = useState(
+    appcontext.state.usernickname,
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -56,20 +59,35 @@ const ProfileSetting = ({navigation}) => {
         </>
       ),
       headerRight: () => (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSaveButton()}>
           <Text style={{fontSize: 14 * height_ratio}}>저장</Text>
         </TouchableOpacity>
       ),
     });
-  }, []);
+  }, [appcontext.state.usernickname]);
 
-  useEffect(() => {
-    appcontext.actions.setUsernickname(Nickname);
-  }, [Nickname]);
+  const handleSaveButton = async () => {
+    console.log(appcontext.state.usernickname);
+    const body = {
+      user_id: appcontext.state.userid,
+      user_name: appcontext.state.usernickname,
+    };
+    await serverAxios.put('/account/update', body).then(res => {
+      console.log(res.data.success);
 
-  handleBackButton = () => {
+      navigation.navigate('MainSetting');
+    });
+  };
+
+  const handleBackButton = () => {
+    appcontext.actions.setUsernickname(tempNickname);
     navigation.reset({routes: [{name: 'MainSetting'}]});
   };
+
+  useEffect(() => {
+    console.log(appcontext.state.usernickname);
+    appcontext.actions.setUsernickname(appcontext.state.usernickname);
+  }, [appcontext.state.usernickname]);
 
   return (
     <SafeAreaView style={styles.pageContainer}>
@@ -90,8 +108,10 @@ const ProfileSetting = ({navigation}) => {
         <View>
           <TextInput
             style={styles.inputContainer}
-            value={Nickname}
-            onChangeText={onChangeText}></TextInput>
+            value={appcontext.state.usernickname}
+            onChangeText={text =>
+              appcontext.actions.setUsernickname(text)
+            }></TextInput>
         </View>
         <Text style={styles.subTitle}>개인 설정</Text>
         <View style={styles.appContainer}>
@@ -136,8 +156,8 @@ const ProfileSetting = ({navigation}) => {
             <Text style={styles.contentText}>키/몸무게</Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={styles.contentText3}>
-                {appcontext.state.userHWeight.split('/')[0]}cm /{' '}
-                {appcontext.state.userHWeight.split('/')[1]}kg
+                {appcontext.state.userHeight} {'cm / '}
+                {appcontext.state.userWeight}kg
               </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate('HeightWeight')}>
@@ -155,7 +175,8 @@ const ProfileSetting = ({navigation}) => {
               <Text style={styles.contentText3}>
                 {appcontext.state.userWorkoutCareer}
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('WorkoutCareer')}>
                 <Right
                   name="right"
                   size={18 * height_ratio}

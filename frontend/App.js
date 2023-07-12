@@ -28,6 +28,7 @@ import {store} from './src/redux/store.ts';
 import AppProvider from './src/contexts/AppProvider.js';
 import RestingTime from './src/screens/Settings/RestingTime/index.js';
 import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
+import WokroutCareer from './src/screens/Settings/WokroutCareer/index.js';
 import {LogBox} from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -282,6 +283,13 @@ const App = () => {
             <Stack.Screen
               name="BodyFat"
               component={BodyFat}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="WorkoutCareer"
+              component={WokroutCareer}
               options={{
                 headerShadowVisible: false,
                 headerBackVisible: false,

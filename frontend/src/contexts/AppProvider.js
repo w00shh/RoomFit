@@ -27,15 +27,16 @@ const AppProvider = ({children}) => {
   ];
   const [isLogin, setIsLogin] = useState(false);
   const [userid, setUserid] = useState('');
-  const [usernickname, setUsernickname] = useState('이연재');
-  const [useremail, setUseremail] = useState('leeyj1007987@g.skku.edu');
+  const [usernickname, setUsernickname] = useState();
+  const [useremail, setUseremail] = useState();
   const [userSetTime, setUserSetTime] = useState(30);
   const [userMotionTime, setUserMotionTime] = useState(60);
-  const [userBirth, setUserBirth] = useState('2002.10.07');
-  const [userGender, setUserGender] = useState(false);
-  const [userHWeight, setUserHWeight] = useState('173/71');
-  const [userWorkoutCareer, setUserWorkoutCareer] = useState('1년 이상');
-  const [userBodyFat, setUserBodyFat] = useState(15);
+  const [userBirth, setUserBirth] = useState('');
+  const [userGender, setUserGender] = useState();
+  const [userHeight, setUserHeight] = useState();
+  const [userWeight, setUserWeight] = useState();
+  const [userWorkoutCareer, setUserWorkoutCareer] = useState('');
+  const [userBodyFat, setUserBodyFat] = useState();
   const [powerSaving, setPowerSaving] = useState(7);
   const [smartSafety, setSmartSaftey] = useState(true);
   const [smartAssist, setSmartAssist] = useState(true);
@@ -53,7 +54,8 @@ const AppProvider = ({children}) => {
       userMotionTime,
       userBirth,
       userGender,
-      userHWeight,
+      userHeight,
+      userWeight,
       userWorkoutCareer,
       userBodyFat,
       powerSaving,
@@ -71,7 +73,8 @@ const AppProvider = ({children}) => {
       setUserMotionTime,
       setUserBirth,
       setUserGender,
-      setUserHWeight,
+      setUserHeight,
+      setUserWeight,
       setUserWorkoutCareer,
       setUserBodyFat,
       setPowerSaving,

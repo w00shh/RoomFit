@@ -63,7 +63,7 @@ const HomeScreen = ({navigation}) => {
 
   const handleMakeRoutinePress = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/routine', body)
@@ -83,7 +83,7 @@ const HomeScreen = ({navigation}) => {
   const getMyRoutine = async () => {
     setRoutine([]);
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
       isHome: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
@@ -106,7 +106,7 @@ const HomeScreen = ({navigation}) => {
 
   const getRecentWorkout = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/workout/brief/recent', body)

@@ -31,6 +31,7 @@ const WorkoutItem = props => {
 
   const handleSetAddPress = id => {
     const updatedMotionList = [...props.motionList];
+    console.log(Array.isArray(updatedMotionList[props.motion_index].sets));
     updatedMotionList[props.motion_index].sets.push({
       weight: 0,
       reps: 1,

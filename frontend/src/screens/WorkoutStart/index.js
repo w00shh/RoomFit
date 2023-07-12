@@ -38,6 +38,7 @@ import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {AppContext} from '../../contexts/AppProvider';
 import {BackHandler} from 'react-native';
+import {all} from 'axios';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -143,6 +144,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
     if (route.params.displaySelected) {
       if (route.params.isAddedMotionDone) {
+        /*동작 완료 후 동작 추가 시*/
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
@@ -159,6 +161,7 @@ export const WorkoutStart = ({navigation, route}) => {
           },
         ]);
       } else {
+        /* 운동 수행 중에 동작 추가 시*/
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
@@ -201,7 +204,6 @@ export const WorkoutStart = ({navigation, route}) => {
         updatedMotionList[m_index].sets[0].isDoing = true;
         setMotionList(updatedMotionList);
       }
-      getRecordId(0);
     }
   }, []);
 
@@ -249,7 +251,6 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const setTempRestTime = time => {
     setTempRestSet(time);
-    console.log(time);
   };
 
   const setRestTime = () => {
@@ -259,7 +260,6 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const MotionTempRestTime = time => {
     setTempRestMotion(time);
-    console.log(time);
   };
 
   const MotionRestTime = () => {
@@ -304,9 +304,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
           await serverAxios
             .post('/routine/save', body)
-            .then(res => {
-              console.log(res.data);
-            })
+            .then(res => {})
             .catch(e => {
               console.log(e);
             });
@@ -326,7 +324,7 @@ export const WorkoutStart = ({navigation, route}) => {
     await serverAxios
       .post('/workout/record', body)
       .then(res => {
-        console.log(res.data.record_id);
+        console.log(res.data);
         setRecordId(res.data.record_id);
       })
       .catch(e => {
@@ -335,13 +333,6 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const setCompletePost = async () => {
-    console.log([
-      recordId,
-      s_index + 1,
-      motionList[m_index].sets[s_index].weight,
-      motionList[m_index].sets[s_index].reps,
-      motionList[m_index].sets[s_index].mode,
-    ]);
     const body = {
       record_id: recordId,
       set_no: s_index + 1,
@@ -359,7 +350,6 @@ export const WorkoutStart = ({navigation, route}) => {
   };
 
   const saveWorkoutRecord = async () => {
-    console.log(formatTime(TUT));
     const body = {
       workout_id: workoutId,
       tut: formatTime(TUT),
@@ -475,8 +465,14 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    if (recordId && (isResting || workoutDone)) {
+      setCompletePost();
+    }
+  }, [recordId]);
+
   const setComplete = () => {
-    setCompletePost();
+    getRecordId(m_index);
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
     updatedMotionList[m_index].sets[s_index].isDone = true;
@@ -494,7 +490,6 @@ export const WorkoutStart = ({navigation, route}) => {
       motionList[m_index + 1]
     ) {
       // 동작 종료시
-      console.log(appcontext.state.userMotionTime);
       setRestTimer(appcontext.state.userMotionTime);
       setIsResting(true);
       setIsRestingModal(true);
@@ -546,7 +541,6 @@ export const WorkoutStart = ({navigation, route}) => {
       s_index + 1 === motionList[m_index].sets.length &&
       motionList[m_index + 1]
     ) {
-      getRecordId(m_index + 1);
       setMIndex(m_index + 1);
       setSIndex(0);
       let updatedMotionList = [...motionList];

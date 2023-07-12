@@ -155,7 +155,7 @@ const SetItem = props => {
               ...styles.setContainer,
               borderWidth: 1 * height_ratio,
               borderColor: '#242424',
-              borderRadius: 8,
+              borderRadius: 4 * height_ratio,
             }
           : styles.setContainer
       }>

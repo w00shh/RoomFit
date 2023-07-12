@@ -9,6 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {serverAxios} from '../../../utils/commonAxios';
+import {AppContext} from '../../../contexts/AppProvider';
 import styles from './styles';
 import Back from 'react-native-vector-icons/Ionicons';
 import CustomButton_B from '../../../components/CustomButton_B';
@@ -17,6 +18,7 @@ const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const PasswordSetting = ({navigation}) => {
+  const appcontext = useContext(AppContext);
   const [currentPW, setCurrentPW] = useState('');
   const [changedPW, setChangedPW] = useState('');
   const [changedPW2, setChangedPW2] = useState('');
@@ -76,7 +78,7 @@ const PasswordSetting = ({navigation}) => {
 
   handleSaveButton = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
       old_password: currentPW,
       new_password: changedPW,
     };

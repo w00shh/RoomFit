@@ -10,10 +10,10 @@ import {
   Platform,
 } from 'react-native';
 import styles from './styles';
-import {WithLocalSvg} from 'react-native-svg';
 import Profile from '../../../assets/svg/normalProfile.svg';
 import Right from 'react-native-vector-icons/AntDesign';
 import {AppContext} from '../../../contexts/AppProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //svg
 import Workout from '../../../assets/svg/buttons/default/workout.svg';
@@ -29,6 +29,21 @@ const MainSetting = ({navigation}) => {
   const [isLock, setIsLock] = useState(false);
   const toggleSwitch = () => setIsAssist(previousState => !previousState);
   const toggleSwitch2 = () => setIsLock(previousState => !previousState);
+
+  const handleLogout = () => {
+    appcontext.actions.setIsLogin(false);
+    saveLogout();
+    navigation.reset({routes: [{name: 'Splash'}]});
+  };
+
+  const saveLogout = async () => {
+    try {
+      await AsyncStorage.setItem('isLogin', '');
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.pageContainer}>
       <ScrollView>
@@ -55,7 +70,9 @@ const MainSetting = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={styles.logoutButton}>
+            <TouchableOpacity
+              style={styles.logoutButton}
+              onPress={() => handleLogout()}>
               <Text style={{fontSize: 16 * height_ratio, color: '#242424'}}>
                 로그아웃
               </Text>
