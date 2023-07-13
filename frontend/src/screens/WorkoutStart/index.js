@@ -43,6 +43,7 @@ import {
   gestureHandlerRootHOC,
 } from 'react-native-gesture-handler';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import MotionRangeModal from '../../components/Modal/MotionRange';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -116,6 +117,8 @@ export const WorkoutStart = ({navigation, route}) => {
 
   // motionList 수정 관련 변수 :
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isMotionRangeModalVisible, setIsMotionRangeModalVisible] =
+    useState(false);
   const [isExercisingDisabled, setIsExercisingDisabled] = useState(false);
 
   const [isModifyMotion, setIsModifyMotion] = useState(
@@ -245,12 +248,15 @@ export const WorkoutStart = ({navigation, route}) => {
         motion_index={item.motion_index}
         id={item.motion_id}
         motion={item}
-        isExercising={false}
+        isExercising={true}
         setIsModalVisible={setIsModalVisible}
         motion={item}
         motionList={motionList}
         setMotionList={setMotionList}
-        setSelectedMode={setSelectedMode}></WorkoutItem>
+        setSelectedMode={setSelectedMode}
+        setIsMotionRangeModalVisible={
+          setIsMotionRangeModalVisible
+        }></WorkoutItem>
     );
   });
 
@@ -1458,6 +1464,11 @@ export const WorkoutStart = ({navigation, route}) => {
       )}
       {!isPausedPage && isModifyMotion && (
         <View>
+          <MotionRangeModal
+            isMotionRangeModalVisible={isMotionRangeModalVisible}
+            setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+            motionList={motionList}
+            setMotionList={setMotionList}></MotionRangeModal>
           <Modal
             visible={isModalVisible}
             transparent={true}

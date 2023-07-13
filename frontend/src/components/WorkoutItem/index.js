@@ -94,7 +94,12 @@ const WorkoutItem = props => {
         backgroundColor: '#fff',
         marginVertical: 16 * height_ratio,
       }}>
-      <WorkoutTitle motion={props.motion} drag={props.drag}></WorkoutTitle>
+      <WorkoutTitle
+        motion={props.motion}
+        drag={props.drag}
+        setIsMotionRangeModalVisible={
+          props.setIsMotionRangeModalVisible
+        }></WorkoutTitle>
       <View
         style={{
           flexDirection: 'column',

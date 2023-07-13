@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
     alignItems: 'stretch',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    borderTopLeftRadius: 24 * height_ratio,
+    borderTopRightRadius: 24 * height_ratio,
   },
 
   modeTitleContainer: {

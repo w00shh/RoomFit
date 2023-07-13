@@ -23,6 +23,7 @@ import {
   gestureHandlerRootHOC,
 } from 'react-native-gesture-handler';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import MotionRangeModal from '../../components/Modal/MotionRange';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -36,6 +37,8 @@ const WorkoutReady = ({navigation, route}) => {
     route.params.motion_index_base,
   );
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isMotionRangeModalVisible, setIsMotionRangeModalVisible] =
+    useState(false);
   const [motionList, setMotionList] = useState([]);
   const [selectedMode, setSelectedMode] = useState({
     modeName: '기본',
@@ -102,7 +105,10 @@ const WorkoutReady = ({navigation, route}) => {
         motion={item}
         motionList={motionList}
         setMotionList={setMotionList}
-        setSelectedMode={setSelectedMode}></WorkoutItem>
+        setSelectedMode={setSelectedMode}
+        setIsMotionRangeModalVisible={
+          setIsMotionRangeModalVisible
+        }></WorkoutItem>
     );
   });
 
@@ -192,6 +198,11 @@ const WorkoutReady = ({navigation, route}) => {
   };
   return (
     <View style={styles.pageContainer}>
+      <MotionRangeModal
+        isMotionRangeModalVisible={isMotionRangeModalVisible}
+        setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+        motionList={motionList}
+        setMotionList={setMotionList}></MotionRangeModal>
       <Modal visible={isModalVisible} transparent={true} animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.modeContainer}>

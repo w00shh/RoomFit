@@ -22,6 +22,7 @@ import {
   GestureHandlerRootView,
   gestureHandlerRootHOC,
 } from 'react-native-gesture-handler';
+import MotionRangeModal from '../../../components/Modal/MotionRange';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -44,6 +45,8 @@ const RoutineDetail = ({navigation, route}) => {
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
     useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isMotionRangeModalVisible, setIsMotionRangeModalVisible] =
+    useState(false);
   const [isSaveDisabled, setIsSaveDisabled] = useState(
     motionList.length === 0 ? true : false,
   );
@@ -321,7 +324,10 @@ const RoutineDetail = ({navigation, route}) => {
         motion={item}
         motionList={motionList}
         setMotionList={setMotionList}
-        setSelectedMode={setSelectedMode}></WorkoutItem>
+        setSelectedMode={setSelectedMode}
+        setIsMotionRangeModalVisible={
+          setIsMotionRangeModalVisible
+        }></WorkoutItem>
     );
   });
 
@@ -353,6 +359,11 @@ const RoutineDetail = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
+      <MotionRangeModal
+        isMotionRangeModalVisible={isMotionRangeModalVisible}
+        setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+        motionList={motionList}
+        setMotionList={setMotionList}></MotionRangeModal>
       <Modal visible={isModalVisible} transparent={true} animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.modeContainer}>

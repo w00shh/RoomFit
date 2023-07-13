@@ -25,7 +25,10 @@ const WorkoutTitle = props => {
         </View>
         <View style={styles.nameContainer}>
           <Text style={styles.koreanText}>{props.motion.motion_name}</Text>
-          <View
+          <TouchableOpacity
+            onPress={() => {
+              props.setIsMotionRangeModalVisible(true);
+            }}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -33,7 +36,7 @@ const WorkoutTitle = props => {
             }}>
             <Text style={styles.rangeText}>가동 범위: 50cm~90cm</Text>
             <Drop height={16 * height_ratio} width={16 * width_ratio} />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       <TouchableOpacity style={styles.iconContainer} onLongPress={props.drag}>

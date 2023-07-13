@@ -22,6 +22,7 @@ import {
   gestureHandlerRootHOC,
 } from 'react-native-gesture-handler';
 import DraggableFlatList from 'react-native-draggable-flatlist';
+import MotionRangeModal from '../../../components/Modal/MotionRange';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
@@ -306,7 +307,10 @@ const AddRoutine = ({navigation, route}) => {
         motion={item}
         motionList={motionList}
         setMotionList={setMotionList}
-        setSelectedMode={setSelectedMode}></WorkoutItem>
+        setSelectedMode={setSelectedMode}
+        setIsMotionRangeModalVisible={
+          setIsMotionRangeModalVisible
+        }></WorkoutItem>
     );
   });
 
@@ -431,6 +435,11 @@ const AddRoutine = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
+      <MotionRangeModal
+        isMotionRangeModalVisible={isMotionRangeModalVisible}
+        setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+        motionList={motionList}
+        setMotionList={setMotionList}></MotionRangeModal>
       <Modal
         visible={isModeModalVisible}
         transparent={true}
