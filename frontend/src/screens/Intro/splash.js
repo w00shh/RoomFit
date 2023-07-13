@@ -7,7 +7,7 @@ import {AppContext} from '../../contexts/AppProvider';
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
-const Splash = ({navigation}) => {
+const IntroSplash = ({navigation}) => {
   const appcontext = useContext(AppContext);
   const [autoLogin, setAutoLogin] = useState(false);
   useEffect(() => {
