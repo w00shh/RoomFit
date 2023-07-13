@@ -303,7 +303,6 @@ const AddRoutine = ({navigation, route}) => {
         id={item.motion_id}
         motion={item}
         isExercising={false}
-        set={set}
         motion={item}
         motionList={motionList}
         setMotionList={setMotionList}
