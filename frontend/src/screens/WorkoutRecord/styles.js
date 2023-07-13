@@ -49,8 +49,6 @@ const styles = StyleSheet.create({
 
     alignItems: 'center',
     justifyContent: 'center',
-
-    marginLeft: 60 * width_ratio,
   },
 
   pauseMotionTitle: {

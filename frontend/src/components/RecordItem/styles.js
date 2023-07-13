@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 16 * height_ratio,
   },
   recordInfoContainer: {
     flexDirection: 'row',

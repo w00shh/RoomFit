@@ -789,6 +789,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   placeholder="운동 기록 이름"></TextInput>
                 <TextInput
                   style={styles.memoInput}
+                  multiline={true}
                   onChangeText={text => setWorkoutMemo(text)}
                   value={workoutMemo}
                   placeholder="추가 메모 남기기 (선택)"></TextInput>

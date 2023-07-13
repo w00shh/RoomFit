@@ -28,6 +28,14 @@ import Workout from '../../assets/svg/buttons/default/workout.svg';
 import History from '../../assets/svg/buttons/active/history.svg';
 import Setting from '../../assets/svg/buttons/default/setting.svg';
 
+import Time from '../../assets/svg/icons/time.svg';
+import Tut from '../../assets/svg/icons/tut.svg';
+import Volume from '../../assets/svg/icons/volume.svg';
+import Calorie from '../../assets/svg/icons/calorie.svg';
+import ICalendar from '../../assets/svg/icons/calendar.svg';
+
+import Question from '../../assets/svg/buttons/single/question.svg';
+
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
@@ -272,10 +280,15 @@ const WorkoutRecord = ({navigation, route}) => {
           {!isCalendar && (
             <ScrollView>
               {workoutList.length > 0 &&
-                formattedData.map(value => (
+                formattedData.map((value, key) => (
                   <View
                     key={value.date}
-                    style={{marginBottom: 40 * height_ratio}}>
+                    style={{
+                      marginBottom:
+                        key !== formattedData.length - 1
+                          ? 24 * height_ratio
+                          : 90 * height_ratio,
+                    }}>
                     <View>
                       <Text
                         style={{
@@ -297,11 +310,11 @@ const WorkoutRecord = ({navigation, route}) => {
                               start_time:
                                 values.start_time.split(' ')[1].split(':')[0] +
                                 ':' +
-                                values.start_time.split(' ')[1].split(':')[0],
+                                values.start_time.split(' ')[1].split(':')[1],
                               end_time:
                                 values.end_time.split(' ')[1].split(':')[0] +
                                 ':' +
-                                values.end_time.split(' ')[1].split(':')[0],
+                                values.end_time.split(' ')[1].split(':')[1],
                               targets: values.targets,
                               total_time: values.total_time,
                               total_weight: values.total_weight,
@@ -370,11 +383,11 @@ const WorkoutRecord = ({navigation, route}) => {
                               start_time:
                                 value.start_time.split(' ')[1].split(':')[0] +
                                 ':' +
-                                value.start_time.split(' ')[1].split(':')[0],
+                                value.start_time.split(' ')[1].split(':')[1],
                               end_time:
                                 value.end_time.split(' ')[1].split(':')[0] +
                                 ':' +
-                                value.end_time.split(' ')[1].split(':')[0],
+                                value.end_time.split(' ')[1].split(':')[1],
                               targets: value.targets,
                               total_time: value.total_time,
                               total_weight: value.total_weight,
@@ -563,50 +576,79 @@ const WorkoutRecord = ({navigation, route}) => {
                   </View>
                 </View>
               </View>
-              <Image
-                source={require('../../assets/images/devider.png')}
+              <View
                 style={{
-                  width: 390 * width_ratio,
                   height: 8 * height_ratio,
-                  marginBottom: 24 * height_ratio,
+                  width: '100%',
+
+                  backgroundColor: '#F5F5F5',
                   marginTop: 16 * height_ratio,
-                }}></Image>
+                  marginBottom: 24 * height_ratio,
+                }}
+              />
               <Text style={styles.yoyakText}>운동 통계</Text>
-              <View style={{marginTop: 24 * height_ratio}}>
+              <View
+                style={{marginTop: 24 * height_ratio, gap: 24 * height_ratio}}>
                 <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
+                    gap: 11 * width_ratio,
                   }}>
                   <View
-                    style={{flexDirection: 'row', width: 145 * width_ratio}}>
+                    style={{
+                      flexDirection: 'row',
+                      width:
+                        (Dimensions.get('screen').width - 32 * width_ratio) /
+                          2 -
+                        11 * width_ratio,
+                      gap: 8 * width_ratio,
+                      alignItems: 'center',
+                    }}>
                     <View style={styles.grayCircle}>
-                      <Timer
-                        name="timer"
-                        color="#41b1ca"
-                        size={23 * height_ratio}></Timer>
+                      <Time
+                        height={24 * height_ratio}
+                        width={24 * width_ratio}
+                      />
                     </View>
-                    <View style={{marginLeft: 8 * width_ratio}}>
-                      <Text style={styles.pauseSubtitle}>
-                        누적 전체 운동시간
-                      </Text>
+                    <View>
+                      <Text style={styles.pauseSubtitle}>누적 운동시간</Text>
                       <Text style={styles.pauseSubcontent}>
                         {periodWorkout.total_time}
                       </Text>
                     </View>
                   </View>
-                  <View style={{flexDirection: 'row'}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      gap: 8 * width_ratio,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
                     <View style={styles.RgrayCircle}>
-                      <Timer
-                        name="timer"
-                        color="#9f76e1"
-                        size={23 * height_ratio}></Timer>
+                      <Tut
+                        height={24 * height_ratio}
+                        width={24 * width_ratio}
+                      />
                     </View>
+                    <View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          gap: 4 * width_ratio,
+                          alignItems: 'center',
+                        }}>
+                        <Text style={styles.pauseSubtitle}>
+                          누적 유효 수행시간
+                        </Text>
+                        <TouchableOpacity>
+                          <Question
+                            height={16 * height_ratio}
+                            width={16 * width_ratio}
+                          />
+                        </TouchableOpacity>
+                      </View>
 
-                    <View style={{marginLeft: 8 * width_ratio}}>
-                      <Text style={styles.pauseSubtitle}>
-                        누적 유효 수행시간
-                      </Text>
                       <Text style={styles.pauseSubcontent}>
                         {periodWorkout.tut}
                       </Text>
@@ -616,74 +658,92 @@ const WorkoutRecord = ({navigation, route}) => {
                 <View
                   style={{
                     flexDirection: 'row',
-                    marginTop: 20 * height_ratio,
                     justifyContent: 'flex-start',
+                    gap: 11 * width_ratio,
                   }}>
                   <View
-                    style={{flexDirection: 'row', width: 145 * width_ratio}}>
+                    style={{
+                      flexDirection: 'row',
+                      width:
+                        (Dimensions.get('screen').width - 32 * width_ratio) /
+                          2 -
+                        11 * width_ratio,
+                      gap: 8 * width_ratio,
+                      alignItems: 'center',
+                    }}>
                     <View style={styles.grayCircle}>
-                      <Lightning
-                        name="lightning-bolt"
-                        color="#fbcb22"
-                        size={23 * height_ratio}></Lightning>
+                      <Volume
+                        height={24 * height_ratio}
+                        width={24 * width_ratio}
+                      />
                     </View>
-                    <View style={{marginLeft: 8 * width_ratio}}>
+                    <View>
                       <Text style={styles.pauseSubtitle}>볼륨</Text>
                       <View
-                        style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'baseline',
+                          gap: 2 * width_ratio,
+                        }}>
                         <Text style={styles.pauseSubcontent}>
                           {periodWorkout.total_weight}
                         </Text>
-                        <Text
-                          style={{...styles.pauseSubtitle, marginBottom: 2}}>
-                          {' '}
-                          kg
-                        </Text>
+                        <Text style={{...styles.pauseSubtitle}}>kg</Text>
                       </View>
                     </View>
                   </View>
-                  <View style={{flexDirection: 'row'}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      gap: 8 * width_ratio,
+                      alignItems: 'center',
+                    }}>
                     <View style={styles.RgrayCircle}>
-                      <Fire
-                        name="fire"
-                        color="#fc7d36"
-                        size={23 * height_ratio}></Fire>
+                      <Calorie
+                        height={24 * height_ratio}
+                        width={24 * width_ratio}
+                      />
                     </View>
 
-                    <View style={{marginLeft: 8 * width_ratio}}>
+                    <View>
                       <Text style={styles.pauseSubtitle}>칼로리</Text>
                       <View
-                        style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'baseline',
+                          gap: 2 * width_ratio,
+                        }}>
                         <Text style={styles.pauseSubcontent}>10000</Text>
-                        <Text
-                          style={{...styles.pauseSubtitle, marginBottom: 2}}>
-                          {' '}
-                          Kcal
-                        </Text>
+                        <Text style={{...styles.pauseSubtitle}}>Kcal</Text>
                       </View>
                     </View>
                   </View>
                 </View>
                 <View
-                  style={{flexDirection: 'row', marginTop: 24 * height_ratio}}>
+                  style={{
+                    flexDirection: 'row',
+                    gap: 8 * width_ratio,
+                    alignItems: 'center',
+                  }}>
                   <View style={styles.grayCircle}>
-                    <Body
-                      name="body"
-                      color="#3aa84c"
-                      size={23 * height_ratio}></Body>
+                    <ICalendar
+                      height={24 * height_ratio}
+                      width={24 * width_ratio}
+                    />
                   </View>
 
-                  <View style={{marginLeft: 8 * width_ratio}}>
+                  <View>
                     <Text style={styles.pauseSubtitle}>운동 횟수</Text>
                     <View
-                      style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'baseline',
+                        gap: 2 * width_ratio,
+                      }}>
                       <Text style={styles.pauseMotionTitle}>
                         {periodWorkout.count}
                       </Text>
-                      <Text style={{...styles.pauseSubtitle, marginBottom: 2}}>
-                        {' '}
-                        일
-                      </Text>
+                      <Text style={{...styles.pauseSubtitle}}>일</Text>
                     </View>
                   </View>
                 </View>

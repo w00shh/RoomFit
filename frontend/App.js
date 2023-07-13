@@ -2,7 +2,7 @@ import * as React from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Linking, Dimensions, Platform} from 'react-native';
+import {Linking, Dimensions, Platform, View, Text} from 'react-native';
 import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
 import Register from './src/screens/Register/index.js';
@@ -220,8 +220,20 @@ const App = () => {
                 headerTitleStyle: {
                   fontWeight: '700',
                   fontSize: 28 * height_ratio,
-                  marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
+                  // marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
                 },
+                headerTitle: props => (
+                  <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Text
+                      style={{
+                        fontSize: 28 * height_ratio,
+                        fontWeight: 700,
+                        color: '#242424',
+                      }}>
+                      {props.children}
+                    </Text>
+                  </View>
+                ),
                 headerShadowVisible: false,
                 headerBackVisible: false,
               }}></Stack.Screen>
@@ -231,6 +243,7 @@ const App = () => {
               options={{
                 headerShadowVisible: false,
                 headerBackVisible: false,
+                headerTitleAlign: 'center',
               }}></Stack.Screen>
             <Stack.Screen
               name="MainSetting"

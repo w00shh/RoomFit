@@ -111,6 +111,7 @@ const HomeScreen = ({navigation}) => {
     await serverAxios
       .post('/workout/brief/recent', body)
       .then(res => {
+        console.log(res.data);
         setRecentRoutine(res.data);
       })
       .catch(e => console.log(e));
@@ -242,11 +243,11 @@ const HomeScreen = ({navigation}) => {
                       start_time:
                         value.start_time.split(' ')[1].split(':')[0] +
                         ':' +
-                        value.start_time.split(' ')[1].split(':')[0],
+                        value.start_time.split(' ')[1].split(':')[1],
                       end_time:
                         value.end_time.split(' ')[1].split(':')[0] +
                         ':' +
-                        value.end_time.split(' ')[1].split(':')[0],
+                        value.end_time.split(' ')[1].split(':')[1],
                       targets: value.targets,
                       total_time: value.total_time,
                       total_weight: value.total_weight,

@@ -8,16 +8,20 @@ import {
   Dimensions,
   Modal,
 } from 'react-native';
-import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
-import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
-import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
-import Body from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import RecordItem from '../../components/RecordItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import CustomButton_W from '../../components/CustomButton_W';
-import Back from 'react-native-vector-icons/Ionicons';
+
+//svg
+import Back from '../../assets/svg/buttons/single/back.svg';
+import Body from '../../assets/svg/icons/body.svg';
+import Time from '../../assets/svg/icons/time.svg';
+import Tut from '../../assets/svg/icons/tut.svg';
+import Calorie from '../../assets/svg/icons/calorie.svg';
+import Volume from '../../assets/svg/icons/volume.svg';
+import {Divder} from '../../components/divider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -45,21 +49,14 @@ const WorkoutDetail = ({navigation, route}) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio}></Back>
         </TouchableOpacity>
       ),
       headerTitle: () => (
         <View
           style={{
             flexDirection: 'column',
-            alignItems: Platform.OS === 'ios' ? 'center' : 'flex-start',
+            alignItems: 'center',
           }}>
           <Text
             style={{
@@ -149,10 +146,10 @@ const WorkoutDetail = ({navigation, route}) => {
           </View>
         </Modal>
         <Text style={styles.yoyakText}>운동 요약</Text>
-        <View style={{marginTop: 24 * height_ratio}}>
+        <View style={{gap: 24 * height_ratio, marginBottom: 24 * height_ratio}}>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.grayCircle}>
-              <Body name="body" color="#3aa84c" size={23 * height_ratio}></Body>
+              <Body height={24 * height_ratio} width={24 * width_ratio} />
             </View>
 
             <View style={{marginLeft: 8 * width_ratio}}>
@@ -165,29 +162,38 @@ const WorkoutDetail = ({navigation, route}) => {
           <View
             style={{
               flexDirection: 'row',
-              marginTop: 20 * height_ratio,
-              justifyContent: 'flex-start',
+              gap: 11 * width_ratio,
             }}>
-            <View style={{flexDirection: 'row', width: 145 * width_ratio}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width:
+                  (Dimensions.get('screen').width - 32 * width_ratio) / 2 -
+                  11 * width_ratio,
+                gap: 8 * width_ratio,
+                alignItems: 'center',
+              }}>
               <View style={styles.grayCircle}>
-                <Timer
-                  name="timer"
-                  color="#41b1ca"
-                  size={23 * height_ratio}></Timer>
+                <Time height={24 * height_ratio} width={24 * width_ratio} />
               </View>
-              <View style={{marginLeft: 8 * width_ratio}}>
+              <View>
                 <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
                 <Text style={styles.pauseSubcontent}>
                   {route.params.total_time}
                 </Text>
               </View>
             </View>
-            <View style={{flexDirection: 'row'}}>
-              <View style={styles.RgrayCircle}>
-                <Timer name="timer" color="#9f76e1" size={23}></Timer>
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: 8 * width_ratio,
+                alignItems: 'center',
+              }}>
+              <View style={styles.grayCircle}>
+                <Tut height={24 * height_ratio} width={24 * width_ratio} />
               </View>
 
-              <View style={{marginLeft: 8 * width_ratio}}>
+              <View>
                 <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
                 <Text style={styles.pauseSubcontent}>tut</Text>
               </View>
@@ -196,32 +202,38 @@ const WorkoutDetail = ({navigation, route}) => {
           <View
             style={{
               flexDirection: 'row',
-              marginTop: 20 * height_ratio,
-              justifyContent: 'flex-start',
+              gap: 11 * width_ratio,
             }}>
-            <View style={{flexDirection: 'row', width: 145 * width_ratio}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width:
+                  (Dimensions.get('screen').width - 32 * width_ratio) / 2 -
+                  11 * width_ratio,
+                gap: 8 * width_ratio,
+                alignItems: 'center',
+              }}>
               <View style={styles.grayCircle}>
-                <Lightning
-                  name="lightning-bolt"
-                  color="#fbcb22"
-                  size={23 * height_ratio}></Lightning>
+                <Volume height={24 * height_ratio} width={24 * width_ratio} />
               </View>
-              <View style={{marginLeft: 8 * width_ratio}}>
+              <View>
                 <Text style={styles.pauseSubtitle}>볼륨</Text>
                 <Text style={styles.pauseSubcontent}>
                   {route.params.total_weight}
                 </Text>
               </View>
             </View>
-            <View style={{flexDirection: 'row'}}>
-              <View style={styles.RgrayCircle}>
-                <Fire
-                  name="fire"
-                  color="#fc7d36"
-                  size={23 * height_ratio}></Fire>
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: 8 * width_ratio,
+                alignItems: 'center',
+              }}>
+              <View style={styles.grayCircle}>
+                <Calorie height={24 * height_ratio} width={24 * width_ratio} />
               </View>
 
-              <View style={{marginLeft: 8 * width_ratio}}>
+              <View>
                 <Text style={styles.pauseSubtitle}>칼로리</Text>
                 <Text style={styles.pauseSubcontent}>10000</Text>
               </View>
@@ -229,7 +241,7 @@ const WorkoutDetail = ({navigation, route}) => {
           </View>
         </View>
 
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', marginBottom: 40 * height_ratio}}>
           <View style={styles.memoContainer}>
             {route.params.memo.length > 0 ? (
               <Text style={{fontSize: 14 * height_ratio}}>
@@ -243,11 +255,16 @@ const WorkoutDetail = ({navigation, route}) => {
           </View>
         </View>
 
-        <View style={{marginTop: 40 * height_ratio, alignSelf: 'stretch'}}>
+        <View style={{alignSelf: 'stretch'}}>
           <Text style={styles.yoyakText}>운동 상세</Text>
           {workoutList &&
             workoutList.map((value, key) => (
-              <RecordItem key={key} record={value}></RecordItem>
+              <>
+                <RecordItem key={key} record={value}></RecordItem>
+                {key !== workoutList.length - 1 && (
+                  <Divder height_ratio={height_ratio} />
+                )}
+              </>
             ))}
         </View>
       </ScrollView>

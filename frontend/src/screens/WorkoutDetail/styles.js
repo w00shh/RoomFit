@@ -67,19 +67,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  RgrayCircle: {
-    width: 48 * width_ratio,
-    height: 48 * width_ratio,
-
-    backgroundColor: '#f5f5f5',
-    borderRadius: 24,
-
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    marginLeft: 60 * width_ratio,
-  },
-
   pauseMotionTitle: {
     fontSize: 16 * height_ratio,
     fontWeight: '700',
@@ -128,6 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
+    marginBottom: 24 * height_ratio,
   },
 
   memoContainer: {
@@ -136,7 +124,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16 * width_ratio,
     paddingVertical: 16 * height_ratio,
     borderRadius: 8,
-    marginTop: 24 * height_ratio,
   },
 });
 
