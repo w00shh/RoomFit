@@ -1,9 +1,8 @@
-import React, {useEffect, useState, useCallback, useContext} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {TouchableOpacity, View, Image, Dimensions} from 'react-native';
 import styles from './styles';
 import {Text} from 'react-native';
 import {serverAxios} from '../../../utils/commonAxios';
-import {AppContext} from '../../../contexts/AppProvider';
 import RoutineBox from '../../../components/Routine';
 
 //svg
@@ -16,7 +15,6 @@ const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const MyRoutine = ({navigation}) => {
-  const appcontext = useContext(AppContext);
   const [routineId, setRoutineId] = useState();
   const [routine, setRoutine] = useState([]);
   const [isEditDisabled, setIsEditDisabled] = useState(false);
@@ -24,19 +22,18 @@ const MyRoutine = ({navigation}) => {
   const [selected, setSelected] = useState(new Map());
 
   useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
-          <Back height={24 * height_ratio} width={24 * width_ratio} />
-        </TouchableOpacity>
-      ),
-    });
     handleGetAllRoutine();
   }, []);
 
   useEffect(() => {
     navigation.setOptions({
+      headerLeft: () =>
+        !isEdit && (
+          <TouchableOpacity
+            onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+            <Back height={24 * height_ratio} width={24 * width_ratio} />
+          </TouchableOpacity>
+        ),
       headerRight: () => (
         <TouchableOpacity
           disabled={isEditDisabled}
@@ -55,7 +52,7 @@ const MyRoutine = ({navigation}) => {
     setRoutine([]);
     setIsEdit(false);
     const body = {
-      user_id: appcontext.state.userid,
+      user_id: 'user1',
       isHome: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
@@ -87,7 +84,7 @@ const MyRoutine = ({navigation}) => {
   //루틴 생성 api 호출
   const handleMakeRoutinePress = async () => {
     const body = {
-      user_id: appcontext.state.userid,
+      user_id: 'user1',
     };
     await serverAxios
       .post('/routine', body)

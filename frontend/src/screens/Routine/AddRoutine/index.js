@@ -44,7 +44,9 @@ const AddRoutine = ({navigation, route}) => {
   const [isRoutineNameConfirm2Disabled, setIsRoutineNameConfirm2Disabled] =
     useState(true);
   const [saveRoutineNameModal, setSaveRotuineNameModal] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModeModalVisible, setIsModeModalVisible] = useState(false);
+  const [isMotionRangeModalVisible, setIsMotionRangeModalVisible] =
+    useState(false);
   const [isSaveDisabled, setIsSaveDisabled] = useState(
     motionList.length === 0 ? true : false,
   );
@@ -87,7 +89,7 @@ const AddRoutine = ({navigation, route}) => {
   };
 
   const handleCancelPress = () => {
-    setIsModalVisible(false);
+    setIsModeModalVisible(false);
   };
 
   const handleSelectPress = () => {
@@ -97,7 +99,7 @@ const AddRoutine = ({navigation, route}) => {
     ].mode = selectedMode.modeName;
     setMotionList(updatedMotionList);
 
-    setIsModalVisible(false);
+    setIsModeModalVisible(false);
   };
 
   const handleSaveRoutine = async () => {
@@ -301,7 +303,7 @@ const AddRoutine = ({navigation, route}) => {
         id={item.motion_id}
         motion={item}
         isExercising={false}
-        setIsModalVisible={setIsModalVisible}
+        set={set}
         motion={item}
         motionList={motionList}
         setMotionList={setMotionList}
@@ -430,7 +432,10 @@ const AddRoutine = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-      <Modal visible={isModalVisible} transparent={true} animationType="fade">
+      <Modal
+        visible={isModeModalVisible}
+        transparent={true}
+        animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.modeContainer}>
             <View style={styles.modeTitleContainer}>

@@ -94,13 +94,6 @@ const WorkoutItem = props => {
         backgroundColor: '#fff',
         marginVertical: 16 * height_ratio,
       }}>
-      {/* <Text>
-        isMotionDone:{String(props.motionList[props.motion_index].isMotionDone)}
-      </Text>
-      <Text>
-        isMotionDoing:
-        {String(props.motionList[props.motion_index].isMotionDoing)}
-      </Text> */}
       <WorkoutTitle motion={props.motion} drag={props.drag}></WorkoutTitle>
       <View
         style={{
