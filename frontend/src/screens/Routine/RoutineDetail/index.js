@@ -17,12 +17,25 @@ import {serverAxios} from '../../../utils/commonAxios';
 import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
 import {AppContext} from '../../../contexts/AppProvider';
+import DraggableFlatList from 'react-native-draggable-flatlist';
+import {
+  GestureHandlerRootView,
+  gestureHandlerRootHOC,
+} from 'react-native-gesture-handler';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const RoutineDetail = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
+
+  const [motionIndexBase, setMotionIndexBase] = useState(
+    route.params.motion_index_base,
+  );
+  const [motionIndexMax, setMotionIndexMax] = useState(
+    route.params.motion_index_base,
+  );
+
   const [motionList, setMotionList] = useState([]);
   const [routineId, setRoutineId] = useState(route.params.routine_id);
   const [workoutId, setWorkoutId] = useState();
@@ -155,10 +168,11 @@ const RoutineDetail = ({navigation, route}) => {
     await serverAxios
       .get(targeturl)
       .then(res => {
-        res.data.motionList.map((value, key) => {
+        res.data.motionList.forEach((value, key) => {
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
+              motion_index: motionIndexBase + key,
               isMotionDone: false,
               isMotionDoing: false,
               doingSetIndex: 0,
@@ -186,6 +200,7 @@ const RoutineDetail = ({navigation, route}) => {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
+            motion_index: motionIndexBase + i,
             isMotionDone: false,
             isMotionDoing: false,
             doingSetIndex: 0,
@@ -214,6 +229,12 @@ const RoutineDetail = ({navigation, route}) => {
     } else {
       setIsSaveDisabled(false);
     }
+
+    motionList.forEach((value, key) => {
+      if (value.motion_index > motionIndexMax) {
+        setMotionIndexMax(value.motion_index);
+      }
+    });
   }, [motionList]);
 
   useEffect(() => {
@@ -247,6 +268,7 @@ const RoutineDetail = ({navigation, route}) => {
       routine_id: routineId,
       routineName: routineName,
       motionList: motionList,
+      motion_index_base: motionIndexMax + 1,
     });
   };
 
@@ -286,21 +308,23 @@ const RoutineDetail = ({navigation, route}) => {
       });
   };
 
-  const renderItem = ({item, index, drag}) => {
+  const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
     return (
       <WorkoutItem
-        motion_index={key}
-        key={key}
-        id={value.motion_id}
-        motion={value}
+        drag={drag}
+        isActive={isActive}
+        motion_index={item.motion_index}
+        id={item.motion_id}
+        motion={item}
         isExercising={false}
         setIsModalVisible={setIsModalVisible}
-        motion={value}
+        motion={item}
         motionList={motionList}
         setMotionList={setMotionList}
         setSelectedMode={setSelectedMode}></WorkoutItem>
     );
-  };
+  });
+
   return (
     <View style={styles.pageContainer}>
       <Modal
@@ -363,31 +387,16 @@ const RoutineDetail = ({navigation, route}) => {
         </View>
       </Modal>
 
-      {/* <ScrollView style={{height: 450 * height_ratio}}>
-        {motionList[0] &&
-          motionList.map((value, key) => (
-            <WorkoutItem
-              motion_index={key}
-              key={key}
-              id={value.motion_id}
-              motion={value}
-              isExercising={false}
-              setIsModalVisible={setIsModalVisible}
-              motion={value}
-              motionList={motionList}
-              setMotionList={setMotionList}
-              setSelectedMode={setSelectedMode}></WorkoutItem>
-          ))}
-      </ScrollView> */}
-
-      <View>
-        <DraggableFlatList
-          data={motionList}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => String(index)}
-          onDragEnd={({data}) => setMotionList(data)}
-        />
-      </View>
+      {motionList[0] && (
+        <GestureHandlerRootView style={{height: 625 * height_ratio}}>
+          <DraggableFlatList
+            data={motionList}
+            renderItem={renderItem}
+            keyExtractor={item => item.motion_index}
+            onDragEnd={({data}) => setMotionList(data)}
+          />
+        </GestureHandlerRootView>
+      )}
 
       <View style={styles.buttonContainer}>
         <View style={styles.buttonSection}>

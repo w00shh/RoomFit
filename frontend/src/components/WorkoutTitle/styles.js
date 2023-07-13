@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 48 * width_ratio,
+    height: 48 * height_ratio,
   },
 });
 

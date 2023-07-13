@@ -16,6 +16,7 @@ const WorkoutStartSplash = ({navigation, route}) => {
     if (second === 1) {
       setTimeout(() => {
         navigation.navigate('WorkoutStart', {
+          motion_index_base: 0,
           isQuickWorkout: route.params.isQuickWorkout,
           workout_id: route.params.workout_id,
           isAddMotion: route.params.isAddMotion,
@@ -30,7 +31,7 @@ const WorkoutStartSplash = ({navigation, route}) => {
           isResting: route.params.isResting,
           restTimer: route.params.restTimer,
         });
-      }, 1000);
+      }, 650);
     }
   }, [second]);
 

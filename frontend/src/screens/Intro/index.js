@@ -99,7 +99,7 @@ const Intro = ({navigation}) => {
       {/* <TouchableOpacity
         onPress={() => {
           Linking.openURL(
-            `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/kakao-auth`,
+            `http://ec2-13-125-92-213.ap-northeast-2.compute.amazonaws.com:4000/account/kakao-auth`,
           );
         }}
         style={styles.Kakao_Button}>
@@ -110,7 +110,7 @@ const Intro = ({navigation}) => {
         style={styles.Google_Button}
         onPress={() =>
           Linking.openURL(
-            `http://ec2-18-119-142-5.us-east-2.compute.amazonaws.com:4000/account/google-auth`,
+            `http://ec2-13-125-92-213.ap-northeast-2.compute.amazonaws.com:4000/account/google-auth`,
           )
         }>
         <Google height={24 * height_ratio} width={24 * width_ratio} />

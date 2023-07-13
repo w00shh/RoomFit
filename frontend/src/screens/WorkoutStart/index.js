@@ -14,7 +14,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import {Stopwatch, Timer} from 'react-native-stopwatch-timer';
+
 import CustomButton_W from '../../components/CustomButton_W';
 import Check from 'react-native-vector-icons/AntDesign';
 import Plus from 'react-native-vector-icons/AntDesign';
@@ -38,11 +38,22 @@ import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {AppContext} from '../../contexts/AppProvider';
 import {BackHandler} from 'react-native';
+import {
+  GestureHandlerRootView,
+  gestureHandlerRootHOC,
+} from 'react-native-gesture-handler';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 export const WorkoutStart = ({navigation, route}) => {
+  const [motionIndexBase, setMotionIndexBase] = useState(
+    route.params.motion_index_base,
+  );
+  const [motionIndexMax, setMotionIndexMax] = useState(
+    route.params.motion_index_base,
+  );
   const appcontext = useContext(AppContext);
   const [isQuickWorkout, setisQuickWorkout] = useState(
     route.params.isQuickWorkout,
@@ -134,6 +145,11 @@ export const WorkoutStart = ({navigation, route}) => {
     } else {
       setIsExercisingDisabled(false);
     }
+    motionList.forEach((value, key) => {
+      if (value.motion_index > motionIndexMax) {
+        setMotionIndexMax(value.motion_index);
+      }
+    });
   }, [motionList]);
 
   useEffect(() => {
@@ -146,6 +162,7 @@ export const WorkoutStart = ({navigation, route}) => {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
+            motion_index: motionIndexBase,
             isMotionDone: false,
             isMotionDoing: true,
             doingSetIndex: 0,
@@ -162,6 +179,7 @@ export const WorkoutStart = ({navigation, route}) => {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
+            motion_index: motionIndexBase,
             isMotionDone: false,
             isMotionDoing: false,
             doingSetIndex: 0,
@@ -179,6 +197,7 @@ export const WorkoutStart = ({navigation, route}) => {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
+            motion_index: motionIndexBase + i,
             isMotionDone: false,
             isMotionDoing: false,
             doingSetIndex: 0,
@@ -206,12 +225,33 @@ export const WorkoutStart = ({navigation, route}) => {
   }, []);
 
   useEffect(() => {
+    console.log(motionList);
+  }, [motionList]);
+
+  useEffect(() => {
     if (workoutTitle.length > 0) {
       setIsSaveWorkoutDisabled(false);
     } else {
       setIsSaveWorkoutDisabled(true);
     }
   }, [workoutTitle]);
+
+  const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
+    return (
+      <WorkoutItem
+        drag={drag}
+        isActive={isActive}
+        motion_index={item.motion_index}
+        id={item.motion_id}
+        motion={item}
+        isExercising={false}
+        setIsModalVisible={setIsModalVisible}
+        motion={item}
+        motionList={motionList}
+        setMotionList={setMotionList}
+        setSelectedMode={setSelectedMode}></WorkoutItem>
+    );
+  });
 
   const modifyingMotion = () => {
     setIsPausedPage(false);
@@ -563,6 +603,7 @@ export const WorkoutStart = ({navigation, route}) => {
     setPressSetting(false);
     // setRestTimer(restSet);
   };
+
   return (
     <SafeAreaView style={styles.pageContainer}>
       {!isPausedPage && !pressSetting && !isModifyMotion && (
@@ -679,6 +720,7 @@ export const WorkoutStart = ({navigation, route}) => {
                       onPress={() => {
                         setWorkoutDoneModal(false);
                         navigation.push('AddMotion', {
+                          motion_index_base: motionIndexMax + 1,
                           isQuickWorkout: isQuickWorkout,
                           workout_id: route.params.workout_id,
                           record_id: recordId,
@@ -733,6 +775,7 @@ export const WorkoutStart = ({navigation, route}) => {
                     onPress={() => {
                       setRoutineDoneModal(false);
                       navigation.push('AddMotion', {
+                        motion_index_base: motionIndexMax + 1,
                         isQuickWorkout: isQuickWorkout,
                         workout_id: route.params.workout_id,
                         record_id: recordId,
@@ -1463,20 +1506,16 @@ export const WorkoutStart = ({navigation, route}) => {
           <View style={{alignSelf: 'flex-start'}}>
             <Text style={styles.motionTitle}>동작</Text>
           </View>
-          <ScrollView>
-            {motionList.map((value, key) => (
-              <WorkoutItem
-                key={key}
-                motion_index={key}
-                id={value.motion_id}
-                motion={value}
-                isExercising={true}
-                setIsModalVisible={setIsModalVisible}
-                motionList={motionList}
-                setMotionList={setMotionList}
-                setSelectedMode={setSelectedMode}></WorkoutItem>
-            ))}
-          </ScrollView>
+
+          <GestureHandlerRootView style={{height: 625 * height_ratio}}>
+            <DraggableFlatList
+              data={motionList}
+              renderItem={renderItem}
+              keyExtractor={item => item.motion_index}
+              onDragEnd={({data}) => setMotionList(data)}
+            />
+          </GestureHandlerRootView>
+
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <View style={{marginRight: 8 * width_ratio}}>
               <CustomButton_W
@@ -1484,6 +1523,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 content="+ 동작 추가"
                 onPress={() => {
                   navigation.push('AddMotion', {
+                    motion_index_base: motionIndexMax + 1,
                     isQuickWorkout: isQuickWorkout,
                     workout_id: route.params.workout_id,
                     record_id: recordId,

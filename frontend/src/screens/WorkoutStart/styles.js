@@ -387,7 +387,6 @@ const styles = StyleSheet.create({
     fontSize: 14 * height_ratio,
     backgroundColor: '#f5f5f5',
     width: 264 * width_ratio,
-    height: 110 * height_ratio,
     marginTop: 18 * height_ratio,
     paddingHorizontal: 12 * width_ratio,
     borderRadius: 8,

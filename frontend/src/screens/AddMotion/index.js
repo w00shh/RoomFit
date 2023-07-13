@@ -231,6 +231,7 @@ const AddMotion = ({navigation, route}) => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
                 route.params.isRoutineDetail
                   ? navigation.push('RoutineDetail', {
+                      motion_index_base: route.params.motion_index_base,
                       isMotionAdded: true,
                       routineName: route.params.routineName,
                       selectedMotionKeys: selectedMotionKeys,
@@ -239,6 +240,7 @@ const AddMotion = ({navigation, route}) => {
                       routine_id: route.params.routine_id,
                     })
                   : navigation.push('AddRoutine', {
+                      motion_index_base: route.params.motion_index_base,
                       isMotionAdded: true,
                       routineName: route.params.routineName,
                       selectedMotionKeys: selectedMotionKeys,
@@ -252,6 +254,7 @@ const AddMotion = ({navigation, route}) => {
 
                 route.params.isExercising
                   ? navigation.push('WorkoutStart', {
+                      motion_index_base: route.params.motion_index_base,
                       isQuickWorkout: route.params.isQuickWorkout,
                       workout_id: route.params.workout_id,
                       record_id: route.params.record_id,
@@ -272,6 +275,7 @@ const AddMotion = ({navigation, route}) => {
                       restTimer: route.params.restTimer,
                     })
                   : navigation.push('WorkoutReady', {
+                      motion_index_base: route.params.motion_index_base,
                       selectedMotionKeys: selectedMotionKeys,
                       motionList: route.params.motionList,
                       displaySelected: Array.from(displaySelected.values()),

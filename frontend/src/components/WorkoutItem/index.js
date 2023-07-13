@@ -14,14 +14,25 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutItem = props => {
   const handleMotionDeletePress = motion_index => {
-    const updatedMotionList = [...props.motionList];
-    updatedMotionList.splice(motion_index, 1);
+    let updatedMotionList = [...props.motionList];
+    updatedMotionList = updatedMotionList.filter(
+      motion => motion.motion_index !== motion_index,
+    );
+    //updatedMotionList.splice(motion_index, 1);
     props.setMotionList(updatedMotionList);
   };
 
   const handleSetDeletePress = motion_index => {
-    const updatedMotionList = [...props.motionList];
-    updatedMotionList[props.motion_index].sets.pop();
+    let updatedMotionList = [...props.motionList];
+
+    //updatedMotionList[ updatedMotionList.findIndex(e => e.motion_index === motion_index)].sets.pop();
+    updatedMotionList[
+      updatedMotionList.findIndex(e => e.motion_index === motion_index)
+    ].sets = [
+      ...updatedMotionList[
+        updatedMotionList.findIndex(e => e.motion_index === motion_index)
+      ].sets.slice(0, -1),
+    ];
     if (updatedMotionList[props.motion_index].sets.length === 0) {
       handleMotionDeletePress(motion_index);
     } else {
@@ -29,19 +40,56 @@ const WorkoutItem = props => {
     }
   };
 
-  const handleSetAddPress = id => {
-    const updatedMotionList = [...props.motionList];
-    updatedMotionList[props.motion_index].sets.push({
-      weight: 0,
-      reps: 1,
-      mode: '기본',
-      isDoing: false,
-      isDone: false,
-    });
+  const handleSetAddPress = motion_index => {
+    let updatedMotionList = [...props.motionList];
+
+    // updatedMotionList[
+    //   updatedMotionList.findIndex(e => e.motion_index === motion_index)
+    // ].sets.push({
+    //   weight: 0,
+    //   reps: 1,
+    //   mode: '기본',
+    //   isDoing: false,
+    //   isDone: false,
+    // });
+
+    updatedMotionList[
+      updatedMotionList.findIndex(e => e.motion_index === motion_index)
+    ].sets = [
+      ...updatedMotionList[
+        updatedMotionList.findIndex(e => e.motion_index === motion_index)
+      ].sets,
+      {
+        weight: 0,
+        reps: 1,
+        mode: '기본',
+        isDoing: false,
+        isDone: false,
+      },
+    ];
+
+    // updatedMotionList[
+    //   updatedMotionList.findIndex(e => e.motion_index === motion_index)
+    // ].sets.push({
+    //   weight: 0,
+    //   reps: 1,
+    //   mode: '기본',
+    //   isDoing: false,
+    //   isDone: false,
+    // });
     props.setMotionList(updatedMotionList);
   };
   return (
-    <View style={styles.workoutItemContainer}>
+    <View
+      style={{
+        flexDirection: 'column',
+        gap: 16 * height_ratio,
+        borderWidth: props.isActive ? 2 * height_ratio : 0,
+        borderRadius: 8 * height_ratio,
+        borderColor: '#dfdfdf',
+        backgroundColor: '#fff',
+        marginVertical: 16 * height_ratio,
+      }}>
       {/* <Text>
         isMotionDone:{String(props.motionList[props.motion_index].isMotionDone)}
       </Text>
@@ -49,7 +97,7 @@ const WorkoutItem = props => {
         isMotionDoing:
         {String(props.motionList[props.motion_index].isMotionDoing)}
       </Text> */}
-      <WorkoutTitle motion={props.motion}></WorkoutTitle>
+      <WorkoutTitle motion={props.motion} drag={props.drag}></WorkoutTitle>
       <View
         style={{
           flexDirection: 'column',
@@ -59,12 +107,20 @@ const WorkoutItem = props => {
           isKey={true}
           isExercising={props.isExercising}
           setIsModalVisible={props.setIsModalVisible}></SetItem>
-        {props.motionList[props.motion_index].sets &&
-          props.motionList[props.motion_index].sets.map((value, key) => (
+        {props.motionList[
+          props.motionList.findIndex(e => e.motion_index === props.motion_index)
+        ].sets &&
+          props.motionList[
+            props.motionList.findIndex(
+              e => e.motion_index === props.motion_index,
+            )
+          ].sets.map((value, key) => (
             <SetItem
               key={key}
               motion_id={props.motion_index}
-              target_motion_id={props.motion_index}
+              target_motion_id={props.motionList.findIndex(
+                e => e.motion_index === props.motion_index,
+              )}
               set={value}
               set_id={key}
               motionList={props.motionList}
@@ -85,8 +141,16 @@ const WorkoutItem = props => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           disabled={
-            props.motionList[props.motion_index].isMotionDone ||
-            props.motionList[props.motion_index].isMotionDoing
+            props.motionList[
+              props.motionList.findIndex(
+                e => e.motion_index === props.motion_index,
+              )
+            ].isMotionDone ||
+            props.motionList[
+              props.motionList.findIndex(
+                e => e.motion_index === props.motion_index,
+              )
+            ].isMotionDoing
           }
           style={styles.button}
           onPress={() => {
@@ -104,10 +168,27 @@ const WorkoutItem = props => {
         <TouchableOpacity
           style={styles.button}
           disabled={
-            props.motionList[props.motion_index].isMotionDone ||
-            (props.motionList[props.motion_index].isMotionDoing &&
-              props.motionList[props.motion_index].doingSetIndex + 1 ===
-                props.motionList[props.motion_index].sets.length)
+            props.motionList[
+              props.motionList.findIndex(
+                e => e.motion_index === props.motion_index,
+              )
+            ].isMotionDone ||
+            (props.motionList[
+              props.motionList.findIndex(
+                e => e.motion_index === props.motion_index,
+              )
+            ].isMotionDoing &&
+              props.motionList[
+                props.motionList.findIndex(
+                  e => e.motion_index === props.motion_index,
+                )
+              ].doingSetIndex +
+                1 ===
+                props.motionList[
+                  props.motionList.findIndex(
+                    e => e.motion_index === props.motion_index,
+                  )
+                ].sets.length)
           }
           onPress={() => {
             handleSetDeletePress(props.motion_index);
@@ -123,7 +204,13 @@ const WorkoutItem = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          disabled={props.motionList[props.motion_index].isMotionDone}
+          disabled={
+            props.motionList[
+              props.motionList.findIndex(
+                e => e.motion_index === props.motion_index,
+              )
+            ].isMotionDone
+          }
           onPress={() => {
             handleSetAddPress(props.motion_index);
           }}>
