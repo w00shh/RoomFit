@@ -39,6 +39,10 @@ const AddRoutine = ({navigation, route}) => {
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
     useState(false);
+  const [isRoutineNameConfirmDisabled, setIsRoutineNameConfirmDisabled] =
+    useState(true);
+  const [isRoutineNameConfirm2Disabled, setIsRoutineNameConfirm2Disabled] =
+    useState(true);
   const [saveRoutineNameModal, setSaveRotuineNameModal] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSaveDisabled, setIsSaveDisabled] = useState(
@@ -192,38 +196,7 @@ const AddRoutine = ({navigation, route}) => {
     });
   }, [isRoutineName, isSaveDisabled, motionList]);
 
-  const getRoutineDetailMotionList = async () => {
-    const targeturl = '/routine/detail/' + route.params.routine_id;
-
-    await serverAxios
-      .get(targeturl)
-      .then(res => {
-        res.data.motionList.map((value, key) => {
-          setMotionList(currentMotionList => [
-            ...currentMotionList,
-            {
-              isMotionDone: false,
-              isMotionDoing: false,
-              doingSetIndex: 0,
-              isFav: value.isFav,
-              motion_id: value.motion_id,
-              motion_name: value.motion_name,
-              imageUrl: value.imageUrl,
-              sets: value.sets,
-            },
-          ]);
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
   useEffect(() => {
-    if (route.params.isRoutineDetail) {
-      getRoutineDetailMotionList();
-    }
-
     if (route.params.isMotionAdded) {
       setMotionList(route.params.motionList);
       setIsSaveDisabled(false);
@@ -387,12 +360,28 @@ const AddRoutine = ({navigation, route}) => {
                 style={{fontSize: 14 * height_ratio}}
                 onChangeText={text => {
                   setRoutineName(text);
+                  if (text.length === 0) {
+                    setIsRoutineNameConfirmDisabled(true);
+                  } else {
+                    setIsRoutineNameConfirmDisabled(false);
+                  }
                 }}
                 placeholder="루틴 이름"
                 inputMode="text"></TextInput>
             </View>
             <TouchableOpacity
-              style={styles.confirmButton}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: isRoutineNameConfirmDisabled
+                  ? '#cbcbfd'
+                  : '#5252fa',
+                width: 264 * width_ratio,
+                height: 56 * height_ratio,
+                borderRadius: 8,
+                padding: 0,
+              }}
+              disabled={isRoutineNameConfirmDisabled}
               onPress={handleConfirmPress}>
               <Text style={styles.confirmText}>확인</Text>
             </TouchableOpacity>
@@ -413,12 +402,28 @@ const AddRoutine = ({navigation, route}) => {
                 style={{fontSize: 14 * height_ratio}}
                 onChangeText={text => {
                   setRoutineName(text);
+                  if (text.length === 0) {
+                    setIsRoutineNameConfirm2Disabled(true);
+                  } else {
+                    setIsRoutineNameConfirm2Disabled(false);
+                  }
                 }}
                 placeholder="루틴 이름"
                 inputMode="text"></TextInput>
             </View>
             <TouchableOpacity
-              style={styles.confirmButton}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: isRoutineNameConfirm2Disabled
+                  ? '#cbcbfd'
+                  : '#5252fa',
+                width: 264 * width_ratio,
+                height: 56 * height_ratio,
+                borderRadius: 8,
+                padding: 0,
+              }}
+              disabled={isRoutineNameConfirm2Disabled}
               onPress={handleConfirmPress2}>
               <Text style={styles.confirmText}>확인</Text>
             </TouchableOpacity>
