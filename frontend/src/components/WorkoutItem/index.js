@@ -33,7 +33,11 @@ const WorkoutItem = props => {
         updatedMotionList.findIndex(e => e.motion_index === motion_index)
       ].sets.slice(0, -1),
     ];
-    if (updatedMotionList[props.motion_index].sets.length === 0) {
+    if (
+      updatedMotionList[
+        updatedMotionList.findIndex(e => e.motion_index === motion_index)
+      ].sets.length === 0
+    ) {
       handleMotionDeletePress(motion_index);
     } else {
       props.setMotionList(updatedMotionList);
