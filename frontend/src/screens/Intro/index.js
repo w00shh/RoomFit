@@ -139,10 +139,10 @@ const Intro = ({navigation}) => {
         <Apple height={24 * height_ratio} width={24 * width_ratio} />
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
       </TouchableOpacity> */}
-      <Button
+      {/* <Button
         title="커뮤니티"
         onPress={() => navigation.navigate('Community')}
-      />
+      /> */}
       <TouchableOpacity
         onPress={() => {
           Linking.openURL(
