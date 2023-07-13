@@ -394,6 +394,7 @@ const RoutineDetail = ({navigation, route}) => {
             renderItem={renderItem}
             keyExtractor={item => item.motion_index}
             onDragEnd={({data}) => setMotionList(data)}
+            showsVerticalScrollIndicator={false}
           />
         </GestureHandlerRootView>
       )}
