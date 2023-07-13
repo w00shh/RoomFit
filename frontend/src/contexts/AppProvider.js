@@ -25,6 +25,16 @@ const AppProvider = ({children}) => {
       modeDescription: '설명',
     },
   ];
+  const muscleList = [
+    '어깨',
+    '등',
+    '가슴',
+    '코어',
+    '하체',
+    '이두',
+    '삼두',
+    '엉덩이',
+  ];
   const [isLogin, setIsLogin] = useState(false);
   const [userid, setUserid] = useState('');
   const [usernickname, setUsernickname] = useState();

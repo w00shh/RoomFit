@@ -36,7 +36,7 @@ const WorkoutTitle = props => {
           </View>
         </View>
       </View>
-      <TouchableOpacity style={styles.iconContainer}>
+      <TouchableOpacity style={styles.iconContainer} onLongPress={props.drag}>
         <Handle height={16 * height_ratio} width={16 * width_ratio} />
       </TouchableOpacity>
     </View>

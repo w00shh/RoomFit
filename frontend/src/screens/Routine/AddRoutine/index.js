@@ -17,12 +17,23 @@ import CustomButton_W from '../../../components/CustomButton_W';
 import CustomButton_B from '../../../components/CustomButton_B';
 import Back from 'react-native-vector-icons/Ionicons';
 import {AppContext} from '../../../contexts/AppProvider';
+import {
+  GestureHandlerRootView,
+  gestureHandlerRootHOC,
+} from 'react-native-gesture-handler';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
 
 const AddRoutine = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
+  const [motionIndexBase, setMotionIndexBase] = useState(
+    route.params.motion_index_base,
+  );
+  const [motionIndexMax, setMotionIndexMax] = useState(
+    route.params.motion_index_base,
+  );
   const [motionList, setMotionList] = useState([]);
   const [routineName, setRoutineName] = useState(route.params.routineName);
   const [isRoutineName, setIsRoutineName] = useState(false);
@@ -34,7 +45,6 @@ const AddRoutine = ({navigation, route}) => {
     motionList.length === 0 ? true : false,
   );
   const [routineId, setRoutineId] = useState(route.params.routine_id);
-  const [saveWithNoname, setSaveWithNoname] = useState(false);
   const [askSaveModal, setAskSaveModal] = useState(false);
 
   const [selectedMode, setSelectedMode] = useState({
@@ -221,6 +231,7 @@ const AddRoutine = ({navigation, route}) => {
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
+            motion_index: motionIndexBase + i,
             isMotionDone: false,
             isMotionDoing: false,
             doingSetIndex: 0,
@@ -249,6 +260,11 @@ const AddRoutine = ({navigation, route}) => {
     } else {
       setIsSaveDisabled(false);
     }
+    motionList.forEach((value, key) => {
+      if (value.motion_index > motionIndexMax) {
+        setMotionIndexMax(value.motion_index);
+      }
+    });
   }, [motionList]);
 
   const handleAddWorkoutMotionPress = () => {
@@ -257,6 +273,7 @@ const AddRoutine = ({navigation, route}) => {
       routineName: routineName,
       motionList: motionList,
       routine_id: routineId,
+      motion_index_base: motionIndexMax + 1,
     });
   };
   const handleConfirmPress = async () => {
@@ -301,6 +318,23 @@ const AddRoutine = ({navigation, route}) => {
     setSaveRotuineNameModal(false);
     navigation.reset({routes: [{name: 'MyRoutine'}]});
   };
+
+  const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
+    return (
+      <WorkoutItem
+        drag={drag}
+        isActive={isActive}
+        motion_index={item.motion_index}
+        id={item.motion_id}
+        motion={item}
+        isExercising={false}
+        setIsModalVisible={setIsModalVisible}
+        motion={item}
+        motionList={motionList}
+        setMotionList={setMotionList}
+        setSelectedMode={setSelectedMode}></WorkoutItem>
+    );
+  });
 
   return (
     <View style={styles.pageContainer}>
@@ -425,22 +459,17 @@ const AddRoutine = ({navigation, route}) => {
         </View>
       </Modal>
       {route.params.isMotionAdded || route.params.isRoutineDetail ? (
-        <ScrollView style={{height: 450 * height_ratio}}>
-          {motionList[0] &&
-            motionList.map((value, key) => (
-              <WorkoutItem
-                key={key}
-                motion_index={key}
-                id={value.motion_id}
-                motion={value}
-                isExercising={false}
-                setIsModalVisible={setIsModalVisible}
-                motion={value}
-                motionList={motionList}
-                setMotionList={setMotionList}
-                setSelectedMode={setSelectedMode}></WorkoutItem>
-            ))}
-        </ScrollView>
+        <GestureHandlerRootView style={{height: 625 * height_ratio}}>
+          {motionList[0] && (
+            <DraggableFlatList
+              data={motionList}
+              renderItem={renderItem}
+              keyExtractor={item => item.motion_index}
+              onDragEnd={({data}) => setMotionList(data)}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </GestureHandlerRootView>
       ) : (
         <>
           <View style={styles.newRoutineContainer}>

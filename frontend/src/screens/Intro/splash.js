@@ -81,4 +81,4 @@ const Splash = ({navigation}) => {
   );
 };
 
-export default Splash;
+export default IntroSplash;

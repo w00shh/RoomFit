@@ -7,10 +7,8 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import Check from 'react-native-vector-icons/Entypo';
 import {AppContext} from '../../contexts/AppProvider';
-
 //svg
 import Drop from '../../assets/svg/buttons/single/drop.svg';
 

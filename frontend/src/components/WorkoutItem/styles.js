@@ -7,6 +7,8 @@ const styles = StyleSheet.create({
   workoutItemContainer: {
     flexDirection: 'column',
     gap: 16 * height_ratio,
+    backgroundColor: '#fff',
+    marginVertical: 16 * height_ratio,
   },
   setListContainer: {
     flexDirection: 'column',

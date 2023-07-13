@@ -18,12 +18,23 @@ import {Divder} from '../../components/divider';
 
 //svg
 import Back from '../../assets/svg/buttons/single/back.svg';
+import {
+  GestureHandlerRootView,
+  gestureHandlerRootHOC,
+} from 'react-native-gesture-handler';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutReady = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
+  const [motionIndexBase, setMotionIndexBase] = useState(
+    route.params.motion_index_base,
+  );
+  const [motionIndexMax, setMotionIndexMax] = useState(
+    route.params.motion_index_base,
+  );
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [motionList, setMotionList] = useState([]);
   const [selectedMode, setSelectedMode] = useState({
@@ -48,6 +59,7 @@ const WorkoutReady = ({navigation, route}) => {
       setMotionList(currentMotionList => [
         ...currentMotionList,
         {
+          motion_index: motionIndexBase + i,
           isMotionDone: false,
           isMotionDoing: false,
           doingSetIndex: 0,
@@ -68,6 +80,31 @@ const WorkoutReady = ({navigation, route}) => {
       ]);
     }
   }, []);
+
+  useEffect(() => {
+    motionList.forEach((value, key) => {
+      if (value.motion_index > motionIndexMax) {
+        setMotionIndexMax(value.motion_index);
+      }
+    });
+  }, [motionList]);
+
+  const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
+    return (
+      <WorkoutItem
+        drag={drag}
+        isActive={isActive}
+        motion_index={item.motion_index}
+        id={item.motion_id}
+        motion={item}
+        isExercising={false}
+        setIsModalVisible={setIsModalVisible}
+        motion={item}
+        motionList={motionList}
+        setMotionList={setMotionList}
+        setSelectedMode={setSelectedMode}></WorkoutItem>
+    );
+  });
 
   function Item({mode}) {
     return (
@@ -114,12 +151,15 @@ const WorkoutReady = ({navigation, route}) => {
   };
 
   const handleAddMotionPress = () => {
-    navigation.push('AddMotion', {motionList: motionList});
+    navigation.push('AddMotion', {
+      motionList: motionList,
+      motion_index_base: motionIndexMax + 1,
+    });
   };
 
   useEffect(() => {
     if (workoutId) {
-      navigation.navigate('WorkoutStart', {
+      navigation.navigate('WorkoutStartSplash', {
         isQuickWorkout: true,
         workout_id: workoutId,
         isAddMotion: false,
@@ -186,26 +226,15 @@ const WorkoutReady = ({navigation, route}) => {
         </View>
       </Modal>
 
-      <FlatList
-        data={motionList}
-        style={{height: 450 * height_ratio}}
-        renderItem={({item, index}) => {
-          const isEnd = index === motionList.length - 1;
-          return (
-            <>
-              <WorkoutItem
-                motion_index={index}
-                id={item.motion_id}
-                isExercising={false}
-                setIsModalVisible={setIsModalVisible}
-                motion={item}
-                motionList={motionList}
-                setMotionList={setMotionList}
-                setSelectedMode={setSelectedMode}></WorkoutItem>
-              {!isEnd && <Divder height_ratio={height_ratio} />}
-            </>
-          );
-        }}></FlatList>
+      <GestureHandlerRootView style={{height: 625 * height_ratio}}>
+        <DraggableFlatList
+          data={motionList}
+          renderItem={renderItem}
+          keyExtractor={item => item.motion_index}
+          onDragEnd={({data}) => setMotionList(data)}
+          showsVerticalScrollIndicator={false}
+        />
+      </GestureHandlerRootView>
 
       <View style={styles.buttonContainer}>
         <View style={styles.buttonSection}>

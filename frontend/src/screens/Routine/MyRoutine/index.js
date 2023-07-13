@@ -76,6 +76,7 @@ const MyRoutine = ({navigation}) => {
   useEffect(() => {
     if (routineId) {
       navigation.push('AddRoutine', {
+        motion_index_base: 0,
         isMotionAdded: false,
         routineName: '새로운 루틴',
         routine_id: routineId,
@@ -148,6 +149,7 @@ const MyRoutine = ({navigation}) => {
                   isRoutineDetail: true,
                   routine_id: value.routine_id,
                   routineName: value.routine_name,
+                  motion_index_base: 0,
                 });
               }}></RoutineBox>
           </View>

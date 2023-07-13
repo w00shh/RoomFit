@@ -54,6 +54,7 @@ const HomeScreen = ({navigation}) => {
   useEffect(() => {
     if (routineId) {
       navigation.navigate('AddRoutine', {
+        motion_index_base: 0,
         isMotionAdded: false,
         routineName: '새로운 루틴',
         routine_id: routineId,
@@ -151,7 +152,10 @@ const HomeScreen = ({navigation}) => {
               disabled={false}
               width={326 * width_ratio}
               onPress={() =>
-                navigation.navigate('AddMotion', {isRoutine: false})
+                navigation.navigate('AddMotion', {
+                  isRoutine: false,
+                  motion_index_base: 0,
+                })
               }></CustomButton_B>
           </View>
         )}
@@ -196,6 +200,7 @@ const HomeScreen = ({navigation}) => {
                     isRoutineDetail: true,
                     routine_id: routine[0].routine_id,
                     routineName: routine[0].routine_name,
+                    motion_index_base: 0,
                   });
                 }}></RoutineBox>
               {routine[1] && (
@@ -208,6 +213,7 @@ const HomeScreen = ({navigation}) => {
                       isRoutineDetail: true,
                       routine_id: routine[1].routine_id,
                       routineName: routine[1].routine_name,
+                      motion_index_base: 0,
                     });
                   }}></RoutineBox>
               )}
