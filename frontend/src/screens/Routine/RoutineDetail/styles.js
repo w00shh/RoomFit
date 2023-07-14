@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'stretch',
     borderTopLeftRadius: 24 * height_ratio,
-    borderTopRightRadius: 8,
+    borderTopRightRadius: 24 * height_ratio,
   },
 
   modeTitleContainer: {

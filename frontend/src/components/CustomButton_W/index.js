@@ -20,7 +20,7 @@ const CustomButton_W = props => {
         borderColor: '#dfdfdf',
         borderStyle: 'solid',
         marginVertical:
-          props.marginVertical !== null
+          props.marginVertical != null
             ? props.marginVertical
             : 24 * height_ratio,
       }}

@@ -32,6 +32,7 @@ const WorkoutTitle = props => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: 2 * width_ratio,
             }}>
             <Text style={styles.rangeText}>가동 범위: 50cm~90cm</Text>

@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     flex: 4,
     height: 56 * height_ratio,
     backgroundColor: '#f5f5f5',
-
     textAlign: 'center',
     color: '#808080',
     fontSize: 16 * height_ratio,

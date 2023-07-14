@@ -219,7 +219,8 @@ const AddMotion = ({navigation, route}) => {
           );
         }}
         keyExtractor={item => item.motion_id}
-        extraData={selected}></FlatList>
+        extraData={selected}
+        showsVerticalScrollIndicator={false}></FlatList>
 
       <CustomButton_B
         width={358 * width_ratio}

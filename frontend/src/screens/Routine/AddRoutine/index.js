@@ -105,6 +105,7 @@ const AddRoutine = ({navigation, route}) => {
 
   const handleSaveRoutine = async () => {
     const body = {
+      user_id: appcontext.state.userid,
       routine_id: routineId,
       motion_list: motionList,
     };
@@ -281,6 +282,7 @@ const AddRoutine = ({navigation, route}) => {
       });
 
     const body2 = {
+      user_id: appcontext.state.userid,
       routine_id: routineId,
       motion_list: motionList,
     };
@@ -495,7 +497,7 @@ const AddRoutine = ({navigation, route}) => {
               동작을 추가해 나만의 루틴을 만들어보세요.
             </Text>
           </View>
-          <ScrollView></ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}></ScrollView>
         </>
       )}
 

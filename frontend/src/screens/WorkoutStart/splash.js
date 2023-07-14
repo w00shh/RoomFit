@@ -14,24 +14,46 @@ const WorkoutStartSplash = ({navigation, route}) => {
 
   useEffect(() => {
     if (second === 1) {
-      setTimeout(() => {
-        navigation.navigate('WorkoutStart', {
-          motion_index_base: 0,
-          isQuickWorkout: route.params.isQuickWorkout,
-          workout_id: route.params.workout_id,
-          isAddMotion: route.params.isAddMotion,
-          motionList: route.params.motionList,
-          elapsedTime: route.params.elapsedTime,
-          TUT: route.params.TUT,
-          m_index: route.params.m_index,
-          s_index: route.params.s_index,
-          isPaused: route.params.isPaused,
-          isPausedPage: route.params.isPausedPage,
-          isModifyMotion: route.params.isModifyMotion,
-          isResting: route.params.isResting,
-          restTimer: route.params.restTimer,
-        });
-      }, 650);
+      if (route.params.routine_id) {
+        setTimeout(() => {
+          navigation.navigate('WorkoutStart', {
+            motion_index_base: 0,
+            isQuickWorkout: route.params.isQuickWorkout,
+            routine_id: route.params.routine_id,
+            workout_id: route.params.workout_id,
+            isAddMotion: route.params.isAddMotion,
+            motionList: route.params.motionList,
+            elapsedTime: route.params.elapsedTime,
+            TUT: route.params.TUT,
+            m_index: route.params.m_index,
+            s_index: route.params.s_index,
+            isPaused: route.params.isPaused,
+            isPausedPage: route.params.isPausedPage,
+            isModifyMotion: route.params.isModifyMotion,
+            isResting: route.params.isResting,
+            restTimer: route.params.restTimer,
+          });
+        }, 650);
+      } else {
+        setTimeout(() => {
+          navigation.navigate('WorkoutStart', {
+            motion_index_base: 0,
+            isQuickWorkout: route.params.isQuickWorkout,
+            workout_id: route.params.workout_id,
+            isAddMotion: route.params.isAddMotion,
+            motionList: route.params.motionList,
+            elapsedTime: route.params.elapsedTime,
+            TUT: route.params.TUT,
+            m_index: route.params.m_index,
+            s_index: route.params.s_index,
+            isPaused: route.params.isPaused,
+            isPausedPage: route.params.isPausedPage,
+            isModifyMotion: route.params.isModifyMotion,
+            isResting: route.params.isResting,
+            restTimer: route.params.restTimer,
+          });
+        }, 650);
+      }
     }
   }, [second]);
 

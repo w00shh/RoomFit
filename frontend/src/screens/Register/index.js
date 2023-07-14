@@ -178,7 +178,7 @@ const Register = ({navigation}) => {
 
   return (
     <View style={styles.pageContainer}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>이메일로 회원가입</Text>
         </View>

@@ -103,6 +103,7 @@ const RoutineDetail = ({navigation, route}) => {
 
   const handleSaveRoutine = async () => {
     const body = {
+      user_id: appcontext.state.userid,
       routine_id: routineId,
       motion_list: motionList,
     };

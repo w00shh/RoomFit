@@ -343,6 +343,7 @@ export const WorkoutStart = ({navigation, route}) => {
       } else {
         if (saveAddedMotionToRoutine) {
           const body = {
+            user_id: appcontext.state.userid,
             routine_id: route.params.routine_id,
             motion_list: motionList,
           };
@@ -776,9 +777,8 @@ export const WorkoutStart = ({navigation, route}) => {
                       navigation.push('AddMotion', {
                         motion_index_base: motionIndexMax + 1,
                         isQuickWorkout: isQuickWorkout,
-                        workout_id: route.params.workout_id,
                         record_id: recordId,
-                        routine_id: route.params.routine_id,
+                        routine_id: routineId,
                         isRoutine: false,
                         isExercising: true,
                         isAddedMotionDone: true,
@@ -814,7 +814,6 @@ export const WorkoutStart = ({navigation, route}) => {
                 />
                 <View style={{alignSelf: 'stretch'}}>
                   <CustomButton_B
-                    marginVertical={0}
                     onPress={() => writeMemo()}
                     content="운동 완료"></CustomButton_B>
                 </View>
@@ -1165,7 +1164,9 @@ export const WorkoutStart = ({navigation, route}) => {
             source={require('../../assets/images/devider.png')}
             style={styles.devider2}></Image>
 
-          <ScrollView style={{height: 320 * height_ratio}}></ScrollView>
+          <ScrollView
+            style={{height: 320 * height_ratio}}
+            showsVerticalScrollIndicator={false}></ScrollView>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableOpacity
               onPress={() => setWorkoutDoneModal2(true)}
@@ -1207,7 +1208,9 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={styles.modeTitleContainer}>
                   <Text style={styles.titleText}>세트간 휴식시간</Text>
                 </View>
-                <ScrollView style={{height: 500 * height_ratio}}>
+                <ScrollView
+                  style={{height: 500 * height_ratio}}
+                  showsVerticalScrollIndicator={false}>
                   {restTime.map((value, key) => (
                     <TouchableOpacity
                       key={key}
@@ -1266,7 +1269,9 @@ export const WorkoutStart = ({navigation, route}) => {
                 <View style={styles.modeTitleContainer}>
                   <Text style={styles.titleText}>동작간 휴식시간</Text>
                 </View>
-                <ScrollView style={{height: 500 * height_ratio}}>
+                <ScrollView
+                  style={{height: 500 * height_ratio}}
+                  showsVerticalScrollIndicator={false}>
                   {restTime.map((value, key) => (
                     <TouchableOpacity
                       key={key}
@@ -1437,7 +1442,7 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          <ScrollView></ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}></ScrollView>
           <View
             style={{
               flexDirection: 'row',

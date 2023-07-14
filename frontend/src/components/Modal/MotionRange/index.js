@@ -111,6 +111,8 @@ const MotionRangeModal = props => {
                   style={styles.inputContainer}
                   placeholderTextColor={'#acacac'}
                   keyboardType="numeric"
+                  value={String(50)}
+                  editable={false}
                   onChangeText={text => {}}></TextInput>
                 <Text style={styles.placeholderText}>cm</Text>
               </View>
@@ -127,6 +129,8 @@ const MotionRangeModal = props => {
                   style={styles.inputContainer}
                   placeholderTextColor={'#acacac'}
                   keyboardType="numeric"
+                  value={String(90)}
+                  editable={false}
                   onChangeText={text => {}}></TextInput>
                 <Text style={styles.placeholderText}>cm</Text>
               </View>

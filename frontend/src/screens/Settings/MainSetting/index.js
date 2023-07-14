@@ -46,7 +46,7 @@ const MainSetting = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.pageContainer}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.profileContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Profile width={64 * width_ratio} height={64 * height_ratio} />

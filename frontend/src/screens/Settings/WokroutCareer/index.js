@@ -74,7 +74,9 @@ const WokroutCareer = ({navigation, route}) => {
   };
   return (
     <View style={styles.pageContainer}>
-      <ScrollView style={{marginTop: 16 * height_ratio}}>
+      <ScrollView
+        style={{marginTop: 16 * height_ratio}}
+        showsVerticalScrollIndicator={false}>
         {Career.map((value, key) => (
           <TouchableOpacity
             key={key}

@@ -21,7 +21,7 @@ const CustomButton_B = props => {
         padding: 0,
 
         marginVertical:
-          props.marginVertical !== null
+          props.marginVertical != null
             ? props.marginVertical
             : 24 * height_ratio,
       }}

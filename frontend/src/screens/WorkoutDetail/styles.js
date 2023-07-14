@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
+    borderRadius: 16 * height_ratio,
     backgroundColor: '#fff',
   },
 
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 16 * height_ratio,
+    marginVertical: 8 * height_ratio,
   },
 
   titleText: {
@@ -47,8 +48,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 2 * height_ratio,
+    gap: 1 * height_ratio,
   },
+
+  descriptionText: {
+    fontSize: 14,
+    color: '#242424',
+  },
+
   buttonContainer: {
     flexDirection: 'row',
     alignSelf: 'stretch',

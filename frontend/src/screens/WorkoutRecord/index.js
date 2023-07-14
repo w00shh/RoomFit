@@ -278,7 +278,7 @@ const WorkoutRecord = ({navigation, route}) => {
           </View>
           <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               {workoutList.length > 0 &&
                 formattedData.map((value, key) => (
                   <View
@@ -332,7 +332,9 @@ const WorkoutRecord = ({navigation, route}) => {
             </ScrollView>
           )}
           {isCalendar && (
-            <ScrollView style={{width: 358 * width_ratio}}>
+            <ScrollView
+              style={{width: 358 * width_ratio}}
+              showsVerticalScrollIndicator={false}>
               <View>
                 <Calendar
                   style={styles.Calendar}

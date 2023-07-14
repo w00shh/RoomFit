@@ -87,7 +87,7 @@ const PowerSaving = ({navigation, route}) => {
           절전모드로 들어갑니다.
         </Text>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {powerSave.map((value, key) => (
           <TouchableOpacity
             key={key}

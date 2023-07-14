@@ -113,7 +113,7 @@ const WorkoutDetail = ({navigation, route}) => {
   };
   return (
     <View style={styles.pageContainer}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Modal
           visible={isWorkoutDeleteModalVisible}
           transparent={true}
@@ -124,19 +124,25 @@ const WorkoutDetail = ({navigation, route}) => {
               <View style={styles.textContainer}>
                 <Text style={styles.titleText}>운동 기록 삭제</Text>
                 <View style={styles.descriptionContainer}>
-                  <Text>운동 기록을 삭제하시겠습니까?</Text>
-                  <Text>삭제 후에는 복구할 수 없습니다.</Text>
+                  <Text style={styles.descriptionText}>
+                    운동 기록을 삭제하시겠습니까?
+                  </Text>
+                  <Text style={styles.descriptionText}>
+                    삭제 후에는 복구할 수 없습니다.
+                  </Text>
                 </View>
               </View>
               <View style={styles.buttonContainer}>
                 <CustomButton_W
                   width={126 * width_ratio}
+                  marginVertical={0}
                   onPress={() => {
                     setIsWorkoutDeleteModalVisible(false);
                   }}
                   content="취소"></CustomButton_W>
                 <CustomButton_B
                   width={126 * width_ratio}
+                  marginVertical={0}
                   onPress={() => {
                     deleteRecord();
                   }}
