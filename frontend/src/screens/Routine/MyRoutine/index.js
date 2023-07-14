@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useContext} from 'react';
 import {TouchableOpacity, View, Image, Dimensions} from 'react-native';
 import styles from './styles';
 import {Text} from 'react-native';
@@ -10,11 +10,13 @@ import Back from '../../../assets/svg/buttons/single/back.svg';
 import Handle from '../../../assets/svg/buttons/single/handle.svg';
 import Checkbox_D from '../../../assets/svg/buttons/default/checkbox.svg';
 import Checkbox_A from '../../../assets/svg/buttons/active/checkbox.svg';
+import {AppContext} from '../../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const MyRoutine = ({navigation}) => {
+  const appcontext = useContext(AppContext);
   const [routineId, setRoutineId] = useState();
   const [routine, setRoutine] = useState([]);
   const [isEditDisabled, setIsEditDisabled] = useState(false);
@@ -52,7 +54,7 @@ const MyRoutine = ({navigation}) => {
     setRoutine([]);
     setIsEdit(false);
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
       isHome: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
@@ -84,7 +86,7 @@ const MyRoutine = ({navigation}) => {
   //루틴 생성 api 호출
   const handleMakeRoutinePress = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext,
     };
     await serverAxios
       .post('/routine', body)
