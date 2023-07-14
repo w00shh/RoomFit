@@ -179,7 +179,9 @@ const AddMotion = ({navigation, route}) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             flexDirection: 'row',
-            gap: 10 * width_ratio,
+            alignItems: 'center',
+            height: 32 * height_ratio,
+            gap: 8 * width_ratio,
             marginVertical: displaySelected.size !== 0 ? 24 * height_ratio : 0,
           }}>
           {displaySelected &&
