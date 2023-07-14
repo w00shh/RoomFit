@@ -160,16 +160,19 @@ const AddMotion = ({navigation, route}) => {
   }, [selectedLength]);
 
   return (
-    <View style={[styles.pageContainer, {alignItems: 'flex-start'}]}>
+    <View
+      style={[
+        styles.pageContainer,
+        {alignItems: 'flex-start', alignSelf: 'center'},
+      ]}>
       <View style={styles.searchContainer}>
         <Search height={16 * height_ratio} width={16 * width_ratio} />
         <TextInput
-          style={{marginLeft: 12 * width_ratio, fontSize: 14 * height_ratio}}
+          style={{fontSize: 14 * height_ratio}}
           onChangeText={handleMotionSearchChange}
           placeholder="동작을 검색해보세요"
           inputMode="text"></TextInput>
       </View>
-      <View></View>
       {displaySelected.size === 0 && (
         <Text style={styles.recommendedText}>추천 운동</Text>
       )}
@@ -179,10 +182,11 @@ const AddMotion = ({navigation, route}) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             flexDirection: 'row',
-            alignItems: 'center',
-            height: 32 * height_ratio,
+            alignSelf: 'center',
+            height: displaySelected.size !== 0 ? 32 * height_ratio : 0,
             gap: 8 * width_ratio,
             marginVertical: displaySelected.size !== 0 ? 24 * height_ratio : 0,
+            overflow: 'visible',
           }}>
           {displaySelected &&
             Array.from(displaySelected.values()).map((value, key) => (
@@ -195,8 +199,9 @@ const AddMotion = ({navigation, route}) => {
                   borderRadius: 8,
                   flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  justifyContent: 'flex-start',
                   gap: 2 * width_ratio,
+                  overflow: 'visible',
                 }}>
                 <Text style={styles.selectMotionText}>{value.motion_name}</Text>
                 <TouchableOpacity
