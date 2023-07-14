@@ -32,8 +32,7 @@ const styles = StyleSheet.create({
   },
   setInfoContainer: {
     flexDirection: 'column',
-    paddingVertical: 8 * height_ratio,
-    gap: 4 * height_ratio,
+    gap: 8 * height_ratio,
   },
   aiCoachingContainer: {
     flexDirection: 'row',
