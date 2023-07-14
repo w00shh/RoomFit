@@ -8,11 +8,8 @@ import {
   Dimensions,
 } from 'react-native';
 import styles from './styles';
-import Icon from 'react-native-vector-icons/Feather';
 import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
-import XX from 'react-native-vector-icons/Feather';
-// import Back from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../../App';
 
@@ -20,7 +17,7 @@ import {AppContext} from '../../../App';
 import Back from '../../assets/svg/buttons/single/back.svg';
 import Search from '../../assets/svg/buttons/single/search.svg';
 import X from '../../assets/svg/buttons/single/x.svg';
-import {Divder} from '../../components/divider';
+import {Divider} from '../../components/divider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -181,7 +178,7 @@ const AddMotion = ({navigation, route}) => {
             flexDirection: 'row',
             flexWrap: 'wrap',
             gap: 8 * width_ratio,
-            marginVertical: 24 * height_ratio,
+            marginVertical: displaySelected.size !== 0 ? 24 * height_ratio : 0,
           }}>
           {displaySelected &&
             Array.from(displaySelected.values()).map((value, key) => (
@@ -216,7 +213,7 @@ const AddMotion = ({navigation, route}) => {
                 motion={item}
                 selected={!!selected.get(item.motion_id)}
                 onSelect={onSelect}></Item>
-              {!isEnd && <Divder height_ratio={height_ratio} />}
+              {!isEnd && <Divider height_ratio={height_ratio} />}
             </>
           );
         }}
