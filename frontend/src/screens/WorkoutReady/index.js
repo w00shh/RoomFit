@@ -67,6 +67,8 @@ const WorkoutReady = ({navigation, route}) => {
           isMotionDoing: false,
           doingSetIndex: 0,
           isFav: route.params.displaySelected[i].isFav,
+          motion_range_min: route.params.displaySelected[i].motion_range_min,
+          motion_range_max: route.params.displaySelected[i].motion_range_max,
           motion_id: route.params.displaySelected[i].motion_id,
           motion_name: route.params.displaySelected[i].motion_name,
           imageUrl: route.params.displaySelected[i].imageUrl,

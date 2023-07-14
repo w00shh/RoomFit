@@ -77,6 +77,8 @@ const AddMotion = ({navigation, route}) => {
           motion_id: motion.motion_id,
           motion_name: motion.motion_name,
           imageUrl: motion.imageUrl,
+          motion_range_min: motion.motion_range_min,
+          motion_range_max: motion.motion_range_max,
         });
       setSelected(newSelected);
     },

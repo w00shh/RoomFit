@@ -96,6 +96,8 @@ const WorkoutItem = props => {
       }}>
       <WorkoutTitle
         motion={props.motion}
+        motionList={props.motionList}
+        motion_index={props.motion_index}
         drag={props.drag}
         setIsMotionRangeModalVisible={
           props.setIsMotionRangeModalVisible

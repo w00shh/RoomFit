@@ -27,6 +27,8 @@ const styles = StyleSheet.create({
 
   nameContainer: {
     flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
 
   koreanText: {

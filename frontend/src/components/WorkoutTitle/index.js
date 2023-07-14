@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import styles from './styles';
 
 //svg
 import Handle from '../../assets/svg/buttons/single/handle.svg';
 import Drop from '../../assets/svg/buttons/single/drop.svg';
+import {AppContext} from '../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutTitle = props => {
+  const appcontext = useContext(AppContext);
   return (
     <View style={styles.workoutTitleContainer}>
       <View style={styles.descriptionContainer}>
@@ -27,15 +29,43 @@ const WorkoutTitle = props => {
           <Text style={styles.koreanText}>{props.motion.motion_name}</Text>
           <TouchableOpacity
             onPress={() => {
+              appcontext.actions.setTargetmotionindex(
+                props.motionList.findIndex(
+                  e => e.motion_index === props.motion_index,
+                ),
+              );
+              appcontext.actions.setTargetmotionrangemin(
+                props.motionList[
+                  props.motionList.findIndex(
+                    e => e.motion_index === props.motion_index,
+                  )
+                ].motion_range_min,
+              );
+              appcontext.actions.setTargetmotionrangemax(
+                props.motionList[
+                  props.motionList.findIndex(
+                    e => e.motion_index === props.motion_index,
+                  )
+                ].motion_range_max,
+              );
               props.setIsMotionRangeModalVisible(true);
             }}
             style={{
               flexDirection: 'row',
-              alignItems: 'center',
               justifyContent: 'center',
               gap: 2 * width_ratio,
             }}>
-            <Text style={styles.rangeText}>가동 범위: 50cm~90cm</Text>
+            <Text style={styles.rangeText}>
+              가동범위:{' '}
+              {props.motion.motion_range_min !== -1
+                ? props.motion.motion_range_min
+                : ''}
+              cm ~ {''}
+              {props.motion.motion_range_max !== -1
+                ? props.motion.motion_range_max
+                : ''}
+              cm
+            </Text>
             <Drop height={16 * height_ratio} width={16 * width_ratio} />
           </TouchableOpacity>
         </View>

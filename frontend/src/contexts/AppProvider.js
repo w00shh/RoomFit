@@ -52,6 +52,8 @@ const AppProvider = ({children}) => {
   const [smartAssist, setSmartAssist] = useState(true);
   const [targetmotionindex, setTargetmotionindex] = useState(0);
   const [targetsetindex, setTargetsetindex] = useState(0);
+  const [targetmotionrangemin, setTargetmotionrangemin] = useState(-1);
+  const [targetmotionrangemax, setTargetmotionrangemax] = useState(-1);
 
   const value = {
     state: {
@@ -73,6 +75,8 @@ const AppProvider = ({children}) => {
       smartAssist,
       targetmotionindex,
       targetsetindex,
+      targetmotionrangemin,
+      targetmotionrangemax,
     },
     actions: {
       setIsLogin,
@@ -92,6 +96,8 @@ const AppProvider = ({children}) => {
       setSmartAssist,
       setTargetmotionindex,
       setTargetsetindex,
+      setTargetmotionrangemin,
+      setTargetmotionrangemax,
     },
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

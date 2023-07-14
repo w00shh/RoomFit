@@ -13,15 +13,40 @@ import styles from './styles';
 //svg
 import RadioDefault from '../../../assets/svg/buttons/default/radio.svg';
 import RadioActive from '../../../assets/svg/buttons/active/radio.svg';
-import {useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
+import {AppContext} from '../../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const MotionRangeModal = props => {
-  const [isOff, setIsOff] = useState(true);
+  const appcontext = useContext(AppContext);
+  const [isOff, setIsOff] = useState(false);
   const [isAuto, setIsAuto] = useState(false);
-  const [isManual, setIsManual] = useState(false);
+  const [isManual, setIsManual] = useState(true);
+  const [motionRangeMin, setMotionRangeMin] = useState(
+    appcontext.state.targetmotionrangemin === -1
+      ? ''
+      : String(appcontext.state.targetmotionrangemin),
+  );
+  const [motionRangeMax, setMotionRangeMax] = useState(
+    appcontext.state.targetmotionrangemax === -1
+      ? ''
+      : String(appcontext.state.targetmotionrangemax),
+  );
+
+  useEffect(() => {
+    setMotionRangeMin(
+      appcontext.state.targetmotionrangemin === -1
+        ? ''
+        : String(appcontext.state.targetmotionrangemin),
+    );
+    setMotionRangeMax(
+      appcontext.state.targetmotionrangemax === -1
+        ? ''
+        : String(appcontext.state.targetmotionrangemax),
+    );
+  }, [props.isMotionRangeModalVisible]);
 
   const handleOffPress = () => {
     setIsOff(true);
@@ -45,6 +70,12 @@ const MotionRangeModal = props => {
     props.setIsMotionRangeModalVisible(false);
   };
   const handleSelectPress = () => {
+    let updatedMotionList = [...props.motionList];
+    updatedMotionList[appcontext.state.targetmotionindex].motion_range_min =
+      parseInt(motionRangeMin);
+    updatedMotionList[appcontext.state.targetmotionindex].motion_range_max =
+      parseInt(motionRangeMax);
+    props.setMotionList(updatedMotionList);
     props.setIsMotionRangeModalVisible(false);
   };
 
@@ -143,7 +174,10 @@ const MotionRangeModal = props => {
                   style={styles.inputContainer}
                   placeholderTextColor={'#acacac'}
                   keyboardType="numeric"
-                  onChangeText={text => {}}></TextInput>
+                  value={motionRangeMin}
+                  onChangeText={text => {
+                    setMotionRangeMin(text);
+                  }}></TextInput>
                 <Text style={styles.placeholderText}>cm</Text>
               </View>
               <Text
@@ -159,7 +193,10 @@ const MotionRangeModal = props => {
                   style={styles.inputContainer}
                   placeholderTextColor={'#acacac'}
                   keyboardType="numeric"
-                  onChangeText={text => {}}></TextInput>
+                  value={motionRangeMax}
+                  onChangeText={text => {
+                    setMotionRangeMax(text);
+                  }}></TextInput>
                 <Text style={styles.placeholderText}>cm</Text>
               </View>
             </View>
