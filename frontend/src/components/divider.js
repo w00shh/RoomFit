@@ -1,6 +1,6 @@
 import {View} from 'react-native';
 
-export const Divder = props => {
+export const Divider = props => {
   const height_ratio = props.height_ratio || 1;
   return (
     <View
