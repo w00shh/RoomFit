@@ -12,13 +12,7 @@ import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
 
-import TempPeople from '../../assets/images/img_sample1.svg';
-import Profile from '../../assets/images/normalProfile.svg';
 import moment from 'moment';
-import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
-import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
-import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
-import Body from 'react-native-vector-icons/Ionicons';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
 import Sample from '../../assets/svg/img_sample1.svg';
@@ -34,7 +28,7 @@ import Volume from '../../assets/svg/icons/volume.svg';
 import Calorie from '../../assets/svg/icons/calorie.svg';
 import ICalendar from '../../assets/svg/icons/calendar.svg';
 
-import Question from '../../assets/svg/buttons/single/question.svg';
+import {TutBtn, TutModal} from '../../components/Modal/tut_information';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -59,6 +53,8 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
   const [periodWorkout, setPeriodWorkout] = useState();
+
+  const [showTut, setShowTut] = useState(false);
 
   const markDates = () => {
     const updateMarkedDates = {};
@@ -173,6 +169,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
   return (
     <View style={styles.pageContainer}>
+      <TutModal visible={showTut} setShowTut={setShowTut} />
       <View
         style={{
           flexDirection: 'row',
@@ -278,7 +275,7 @@ const WorkoutRecord = ({navigation, route}) => {
           </View>
           <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               {workoutList.length > 0 &&
                 formattedData.map((value, key) => (
                   <View
@@ -332,7 +329,9 @@ const WorkoutRecord = ({navigation, route}) => {
             </ScrollView>
           )}
           {isCalendar && (
-            <ScrollView style={{width: 358 * width_ratio}}>
+            <ScrollView
+              style={{width: 358 * width_ratio}}
+              showsVerticalScrollIndicator={false}>
               <View>
                 <Calendar
                   style={styles.Calendar}
@@ -408,7 +407,7 @@ const WorkoutRecord = ({navigation, route}) => {
       )}
       {!isLeft && (
         <SafeAreaView>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{alignItems: 'center'}}>
               <View
                 style={{
@@ -579,20 +578,27 @@ const WorkoutRecord = ({navigation, route}) => {
               <View
                 style={{
                   height: 8 * height_ratio,
-                  width: '100%',
+                  width: Dimensions.get('window').width,
+
+                  alignSelf: 'center',
 
                   backgroundColor: '#F5F5F5',
                   marginTop: 16 * height_ratio,
                   marginBottom: 24 * height_ratio,
+
+                  overflow: 'visible',
                 }}
               />
               <Text style={styles.yoyakText}>운동 통계</Text>
               <View
-                style={{marginTop: 24 * height_ratio, gap: 24 * height_ratio}}>
+                style={{
+                  marginTop: 24 * height_ratio,
+                  gap: 24 * height_ratio,
+                  alignSelf: 'flex-start',
+                }}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    justifyContent: 'flex-start',
                     gap: 11 * width_ratio,
                   }}>
                   <View
@@ -641,12 +647,11 @@ const WorkoutRecord = ({navigation, route}) => {
                         <Text style={styles.pauseSubtitle}>
                           누적 유효 수행시간
                         </Text>
-                        <TouchableOpacity>
-                          <Question
-                            height={16 * height_ratio}
-                            width={16 * width_ratio}
-                          />
-                        </TouchableOpacity>
+                        <TutBtn
+                          onPress={() => {
+                            setShowTut(true);
+                          }}
+                        />
                       </View>
 
                       <Text style={styles.pauseSubcontent}>
