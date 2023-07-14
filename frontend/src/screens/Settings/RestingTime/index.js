@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {AppContext} from '../../../contexts/AppProvider';
-import Check from 'react-native-vector-icons/AntDesign';
-import Back from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../../utils/commonAxios';
+
+//svg
+import Back from '../../../assets/svg/buttons/single/back.svg';
+import Check from '../../../assets/svg/buttons/active/check.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -66,14 +68,7 @@ const RestingTime = ({navigation, route}) => {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity onPress={() => handleBackButton()}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 0 * width_ratio,
-              marginRight: Platform.OS === 'ios' ? 0 : 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
       headerTitle: () => (
@@ -119,12 +114,10 @@ const RestingTime = ({navigation, route}) => {
                   }}>
                   {calcTime(value.time)}
                 </Text>
-                <Check
-                  name="check"
-                  size={20 * height_ratio}
-                  color={
-                    value.time === temprestSet ? '#5252fa' : 'white'
-                  }></Check>
+
+                {value.time === temprestSet && (
+                  <Check height={16 * height_ratio} width={16 * width_ratio} />
+                )}
               </View>
             </View>
           </TouchableOpacity>
