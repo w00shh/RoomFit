@@ -26,7 +26,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const HomeScreen = ({navigation}) => {
   const appcontext = useContext(AppContext);
-  const connectedDevice = true;
+  const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
   const [existRoutine, setExistRoutine] = useState(false);
   const [isExercised, setIsExercised] = useState(true);
   const [routine, setRoutine] = useState([]);
@@ -128,7 +128,7 @@ const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.pageContainer}>
       <ScrollView style={{marginBottom: 32 * height_ratio}}>
-        {!connectedDevice && (
+        {!true && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
             <Text style={styles.noConnectionText2}>
@@ -144,7 +144,7 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        {connectedDevice && (
+        {true && (
           <View style={{alignItems: 'center'}}>
             <CustomButton_B
               style={styles.connectButton}
