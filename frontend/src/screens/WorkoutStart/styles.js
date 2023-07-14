@@ -6,12 +6,17 @@ const height_ratio = Dimensions.get('screen').height / 844;
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-    flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 16 * height_ratio,
-    paddingHorizontal: 16 * width_ratio,
     backgroundColor: 'white',
   },
+
+  subpageContainer: {
+    width: '100%',
+    height: '100%',
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
+  },
+
   devider: {
     marginTop: 18 * height_ratio,
     height: 8 * height_ratio,
@@ -23,7 +28,6 @@ const styles = StyleSheet.create({
   },
 
   motion_name: {
-    marginTop: 25 * height_ratio,
     color: '#242424',
     fontSize: 20,
     fontWeight: '400',
@@ -69,9 +73,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#dfdfdf',
     borderStyle: 'solid',
-
-    marginTop: 16 * height_ratio,
-    marginRight: 12 * width_ratio,
   },
 
   CButton2: {
@@ -88,8 +89,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#dfdfdf',
     borderStyle: 'solid',
-
-    marginTop: 16 * height_ratio,
   },
 
   CText: {
@@ -108,9 +107,7 @@ const styles = StyleSheet.create({
     width: 358 * width_ratio,
     height: 56 * height_ratio,
 
-    marginTop: 12 * height_ratio,
-    borderRadius: 8,
-    padding: 0,
+    borderRadius: 12 * height_ratio,
   },
   CText3: {
     fontWeight: '400',
@@ -158,19 +155,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  RgrayCircle: {
-    width: 48 * width_ratio,
-    height: 48 * width_ratio,
-
-    backgroundColor: '#f5f5f5',
-    borderRadius: 24,
-
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    marginLeft: 60 * width_ratio,
-  },
-
   endButton: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -181,11 +165,8 @@ const styles = StyleSheet.create({
     width: 171 * width_ratio,
     height: 56 * height_ratio,
 
-    borderRadius: 8,
-    padding: 0,
-
-    marginTop: 16 * height_ratio,
-    marginRight: 16 * width_ratio,
+    borderRadius: 12 * height_ratio,
+    gap: 4 * width_ratio,
   },
 
   restartButton: {
@@ -198,10 +179,8 @@ const styles = StyleSheet.create({
     width: 171 * width_ratio,
     height: 56 * height_ratio,
 
-    borderRadius: 8,
-    padding: 0,
-
-    marginTop: 16 * height_ratio,
+    borderRadius: 12 * height_ratio,
+    gap: 4 * width_ratio,
   },
 
   tutText: {
@@ -218,21 +197,20 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     width: 358 * width_ratio,
     height: 64 * height_ratio,
-    marginTop: 10 * height_ratio,
   },
 
   settings: {
     flexDirection: 'row',
+    gap: 8 * height_ratio,
     alignSelf: 'stretch',
     width: '100%',
   },
 
   settingContainer: {
+    paddingVertical: 16 * height_ratio,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 35 * height_ratio,
-    paddingHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
 
     flex: 1,
   },
@@ -458,15 +436,6 @@ const styles = StyleSheet.create({
   modeButton: {
     flex: 1,
     justifyContent: 'center',
-  },
-  pageContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingVertical: 16 * height_ratio,
-    paddingHorizontal: 16 * width_ratio,
-    backgroundColor: 'white',
   },
   buttonContainer: {
     flex: 1,

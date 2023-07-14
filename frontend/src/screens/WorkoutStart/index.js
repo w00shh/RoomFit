@@ -17,20 +17,7 @@ import {
 
 import CustomButton_W from '../../components/CustomButton_W';
 import Check from 'react-native-vector-icons/AntDesign';
-import Plus from 'react-native-vector-icons/AntDesign';
-import Minus from 'react-native-vector-icons/AntDesign';
-import Pause from 'react-native-vector-icons/AntDesign';
-import Body from 'react-native-vector-icons/Ionicons';
-import Timers from 'react-native-vector-icons/MaterialCommunityIcons';
-import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
-import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
-import Start from 'react-native-vector-icons/AntDesign';
-import Square from 'react-native-vector-icons/FontAwesome';
-import TutTimer from 'react-native-vector-icons/MaterialCommunityIcons';
-import Setting from 'react-native-vector-icons/Ionicons';
-import Dumbbell from 'react-native-vector-icons/FontAwesome5';
 import Left from 'react-native-vector-icons/Entypo';
-import Right from 'react-native-vector-icons/AntDesign';
 import styles from './styles';
 import CustomButton_B from '../../components/CustomButton_B';
 import WorkoutItem from '../../components/WorkoutItem';
@@ -44,8 +31,37 @@ import {
 } from 'react-native-gesture-handler';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 
-const width_ratio = Dimensions.get('screen').width / 390;
-const height_ratio = Dimensions.get('screen').height / 844;
+//svg
+import Tut from '../../assets/svg/icons/tut.svg';
+import Body from '../../assets/svg/icons/body.svg';
+import Time from '../../assets/svg/icons/time.svg';
+import Volume from '../../assets/svg/icons/volume.svg';
+import Calorie from '../../assets/svg/icons/calorie.svg';
+
+import Plus from '../../assets/svg/buttons/single/plus.svg';
+import Minus from '../../assets/svg/buttons/single/minus.svg';
+
+import Workout from '../../assets/svg/buttons/active/workout.svg';
+import Pause from '../../assets/svg/buttons/single/pause.svg';
+import Setting from '../../assets/svg/buttons/active/setting.svg';
+
+import Stop from '../../assets/svg/buttons/single/stop.svg';
+import Play from '../../assets/svg/buttons/single/play.svg';
+
+import Switch_D from '../../assets/svg/buttons/default/switch.svg';
+import Switch_A from '../../assets/svg/buttons/active/switch.svg';
+import Right from '../../assets/svg/buttons/single/arrow/right.svg';
+
+import SLeft from '../../assets/svg/buttons/single/left_small.svg';
+
+//other components
+import {Battery} from '../../components/battery';
+import {useAppSelector} from '../../redux/store';
+
+import {Divider} from '../../components/divider';
+
+const width_ratio = Dimensions.get('window').width / 390;
+const height_ratio = Dimensions.get('window').height / 844;
 
 export const WorkoutStart = ({navigation, route}) => {
   const [motionIndexBase, setMotionIndexBase] = useState(
@@ -125,6 +141,9 @@ export const WorkoutStart = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+
+  //battery
+  const battery = useAppSelector(state => state.ble.battery);
 
   useEffect(() => {
     const handleBackButton = () => {
@@ -239,18 +258,23 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
     return (
-      <WorkoutItem
-        drag={drag}
-        isActive={isActive}
-        motion_index={item.motion_index}
-        id={item.motion_id}
-        motion={item}
-        isExercising={false}
-        setIsModalVisible={setIsModalVisible}
-        motion={item}
-        motionList={motionList}
-        setMotionList={setMotionList}
-        setSelectedMode={setSelectedMode}></WorkoutItem>
+      <>
+        <WorkoutItem
+          drag={drag}
+          isActive={isActive}
+          motion_index={item.motion_index}
+          id={item.motion_id}
+          motion={item}
+          isExercising={true}
+          setIsModalVisible={setIsModalVisible}
+          motion={item}
+          motionList={motionList}
+          setMotionList={setMotionList}
+          setSelectedMode={setSelectedMode}></WorkoutItem>
+        {item !== motionList[motionList.length - 1] && (
+          <Divider height_ratio={height_ratio} />
+        )}
+      </>
     );
   });
 
@@ -600,7 +624,7 @@ export const WorkoutStart = ({navigation, route}) => {
   return (
     <SafeAreaView style={styles.pageContainer}>
       {!isPausedPage && !pressSetting && !isModifyMotion && (
-        <View>
+        <View style={styles.subpageContainer}>
           <Modal
             visible={isRestingModal}
             transparent={true}
@@ -621,9 +645,9 @@ export const WorkoutStart = ({navigation, route}) => {
                       alignItems: 'center',
                     }}>
                     <Minus
-                      name="minus"
-                      size={18 * height_ratio}
-                      color="#808080"></Minus>
+                      height={16 * height_ratio}
+                      width={16 * width_ratio}
+                    />
                     <Text style={styles.plusminus}> 10초</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -633,10 +657,7 @@ export const WorkoutStart = ({navigation, route}) => {
                       flexDirection: 'row',
                       alignItems: 'center',
                     }}>
-                    <Plus
-                      name="plus"
-                      size={18 * height_ratio}
-                      color="#808080"></Plus>
+                    <Plus height={16 * height_ratio} width={16 * width_ratio} />
                     <Text style={styles.plusminus}> 10초</Text>
                   </TouchableOpacity>
                 </View>
@@ -851,32 +872,57 @@ export const WorkoutStart = ({navigation, route}) => {
             </View>
           </Modal>
           <View style={{alignItems: 'center', height: 440 * height_ratio}}>
-            <View>
-              <Text style={styles.timer}>{formatTime(elapsedTime)}</Text>
+            <View style={{width: '100%'}}>
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <TutTimer
-                  name="timer-cog"
-                  size={18 * height_ratio}
-                  color={'#9f76e1'}
-                  style={{marginRight: 10 * width_ratio}}></TutTimer>
+                <View style={{flex: 1}} />
+                <Text style={[styles.timer, {flex: 2, textAlign: 'center'}]}>
+                  {formatTime(elapsedTime)}
+                </Text>
+                <Battery
+                  battery={battery}
+                  style={{
+                    flex: 1,
+                    justifyContent: 'flex-end',
+                  }}
+                />
+              </View>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
+                <Tut height={24 * height_ratio} width={24 * width_ratio} />
                 <Text style={styles.tutText}>{formatTime(TUT)}</Text>
               </View>
             </View>
           </View>
-          <Image
-            source={require('../../assets/images/devider.png')}
-            style={styles.devider}></Image>
+          {/** Divider */}
+          <View
+            style={{
+              height: 8 * height_ratio,
+              width: Dimensions.get('window').width,
 
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.motion_name}>
+              alignSelf: 'center',
+
+              backgroundColor: '#F5F5F5',
+              marginTop: 16 * height_ratio,
+              marginBottom: 32 * height_ratio,
+            }}
+          />
+          <View style={{alignItems: 'center', marginBottom: 32 * height_ratio}}>
+            <Text
+              style={[styles.motion_name, {marginBottom: 4 * height_ratio}]}>
               {motionList[m_index].motion_name}
             </Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', gap: 16 * width_ratio}}>
               <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                 <Text style={styles.statusText}>{s_index + 1}</Text>
                 <Text style={styles.targetText}>
@@ -902,7 +948,13 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 12 * width_ratio,
+              marginBottom: 16 * height_ratio,
+            }}>
             <TouchableOpacity
               onPress={() => {
                 if (motionList[m_index].sets[s_index].weight > 0) {
@@ -942,16 +994,10 @@ export const WorkoutStart = ({navigation, route}) => {
             <TouchableOpacity
               onPress={() => modifyingMotion()}
               style={{marginLeft: 45 * width_ratio}}>
-              <Dumbbell
-                name="dumbbell"
-                size={20 * height_ratio}
-                color={'#fff'}></Dumbbell>
+              <Workout height={24 * height_ratio} width={24 * width_ratio} />
             </TouchableOpacity>
             <TouchableOpacity onPress={pausedModal}>
-              <Pause
-                name="pausecircle"
-                size={20 * height_ratio}
-                color={'#fff'}></Pause>
+              <Pause height={24 * height_ratio} width={24 * width_ratio} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -959,16 +1005,13 @@ export const WorkoutStart = ({navigation, route}) => {
                 setIsPaused(true);
               }}
               style={{marginRight: 45 * width_ratio}}>
-              <Setting
-                name="settings"
-                size={20 * height_ratio}
-                color={'#fff'}></Setting>
+              <Setting height={24 * height_ratio} width={24 * width_ratio} />
             </TouchableOpacity>
           </View>
         </View>
       )}
       {isPausedPage && (
-        <View>
+        <View style={[styles.subpageContainer, {alignItems: 'center'}]}>
           <Modal
             visible={workoutDoneModal2}
             transparent={true}
@@ -1034,31 +1077,26 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </Modal>
-          <View>
-            <Text style={styles.pauseTitle}>일시정지</Text>
-          </View>
-          <View
-            style={{
-              marginLeft: 16 * width_ratio,
-              marginTop: 24 * height_ratio,
-            }}>
-            <View style={{flexDirection: 'row'}}>
+          <View style={{alignSelf: 'stretch', gap: 24 * height_ratio}}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.pauseTitle}>일시정지</Text>
+              <Battery battery={battery} />
+            </View>
+            <View style={{flexDirection: 'row', gap: 8 * width_ratio}}>
               <View style={styles.grayCircle}>
-                <Body
-                  name="body"
-                  color="#3aa84c"
-                  size={23 * height_ratio}></Body>
+                <Body height={24 * height_ratio} width={24 * width_ratio} />
               </View>
-
-              <View style={{marginLeft: 8 * width_ratio}}>
+              <View>
                 <Text style={styles.pauseMotionTitle}>
                   {motionList[m_index].motion_name}
                 </Text>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', gap: 8 * width_ratio}}>
                   <View
                     style={{
                       flexDirection: 'row',
                       alignItems: 'flex-end',
+                      gap: 2 * width_ratio,
                     }}>
                     <Text style={styles.statusText2}>{s_index + 1}</Text>
                     <Text style={styles.targetText2}>/4set</Text>
@@ -1067,17 +1105,18 @@ export const WorkoutStart = ({navigation, route}) => {
                     style={{
                       flexDirection: 'row',
                       alignItems: 'flex-end',
-                      marginHorizontal: 16 * width_ratio,
+                      gap: 2 * width_ratio,
                     }}>
                     <Text style={styles.statusText2}>
                       {motionList[m_index].sets[s_index].weight}
                     </Text>
-                    <Text style={styles.targetText2}> kg</Text>
+                    <Text style={styles.targetText2}>kg</Text>
                   </View>
                   <View
                     style={{
                       flexDirection: 'row',
                       alignItems: 'flex-end',
+                      gap: 2 * width_ratio,
                     }}>
                     <Text style={styles.statusText2}>
                       {motionList[m_index].sets[s_index].reps}
@@ -1092,30 +1131,27 @@ export const WorkoutStart = ({navigation, route}) => {
             <View
               style={{
                 flexDirection: 'row',
-                marginTop: 20 * height_ratio,
                 justifyContent: 'flex-start',
+                gap: 11 * width_ratio,
               }}>
-              <View style={{flexDirection: 'row', width: 120 * width_ratio}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: (Dimensions.get('window').width - 32) / 2,
+                }}>
                 <View style={styles.grayCircle}>
-                  <Timers
-                    name="timer"
-                    color="#41b1ca"
-                    size={23 * height_ratio}></Timers>
+                  <Time height={24 * height_ratio} width={24 * width_ratio} />
                 </View>
                 <View style={{marginLeft: 8 * width_ratio}}>
                   <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
                   <Text style={styles.pauseSubcontent}>{time}</Text>
                 </View>
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <View style={styles.RgrayCircle}>
-                  <Timers
-                    name="timer"
-                    color="#41b1ca"
-                    size={23 * height_ratio}></Timers>
+              <View style={{flexDirection: 'row', gap: 8 * width_ratio}}>
+                <View style={styles.grayCircle}>
+                  <Tut height={24 * height_ratio} width={24 * width_ratio} />
                 </View>
-
-                <View style={{marginLeft: 8 * width_ratio}}>
+                <View>
                   <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
                   <Text style={styles.pauseSubcontent}>{formatTime(TUT)}</Text>
                 </View>
@@ -1124,74 +1160,70 @@ export const WorkoutStart = ({navigation, route}) => {
             <View
               style={{
                 flexDirection: 'row',
-                marginTop: 20 * height_ratio,
                 justifyContent: 'flex-start',
+                gap: 11 * width_ratio,
               }}>
-              <View style={{flexDirection: 'row', width: 120 * width_ratio}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: (Dimensions.get('window').width - 32) / 2,
+                  gap: 8 * width_ratio,
+                }}>
                 <View style={styles.grayCircle}>
-                  <Lightning
-                    name="lightning-bolt"
-                    color="#fbcb22"
-                    size={23 * height_ratio}></Lightning>
+                  <Volume height={24 * height_ratio} width={24 * width_ratio} />
                 </View>
-                <View style={{marginLeft: 8 * width_ratio}}>
+                <View>
                   <Text style={styles.pauseSubtitle}>볼륨</Text>
                   <Text style={styles.pauseSubcontent}>{time}</Text>
                 </View>
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <View style={styles.RgrayCircle}>
-                  <Fire
-                    name="fire"
-                    color="#fc7d36"
-                    size={23 * height_ratio}></Fire>
+              <View style={{flexDirection: 'row', gap: 8 * width_ratio}}>
+                <View style={styles.grayCircle}>
+                  <Calorie
+                    height={24 * height_ratio}
+                    width={24 * width_ratio}
+                  />
                 </View>
-
-                <View style={{marginLeft: 8 * width_ratio}}>
+                <View>
                   <Text style={styles.pauseSubtitle}>칼로리</Text>
                   <Text style={styles.pauseSubcontent}>{time}</Text>
                 </View>
               </View>
             </View>
           </View>
-          <View></View>
-          <Image
-            source={require('../../assets/images/devider.png')}
-            style={styles.devider2}></Image>
+          <View
+            style={{
+              height: 8 * height_ratio,
+              width: Dimensions.get('window').width,
 
+              alignSelf: 'center',
+
+              backgroundColor: '#F5F5F5',
+              marginTop: 16 * height_ratio,
+              marginBottom: 24 * height_ratio,
+
+              overflow: 'visible',
+            }}
+          />
           <ScrollView style={{height: 320 * height_ratio}}></ScrollView>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <View style={{flexDirection: 'row', gap: 16 * width_ratio}}>
             <TouchableOpacity
               onPress={() => setWorkoutDoneModal2(true)}
               style={styles.endButton}>
-              <Square
-                name="square"
-                color={'#fff'}
-                size={15 * height_ratio}
-                style={{
-                  marginRight: 8 * width_ratio,
-                  marginTop: 2 * height_ratio,
-                }}></Square>
+              <Stop height={24 * height_ratio} width={24 * width_ratio} />
               <Text style={styles.CText3}>운동 종료</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.restartButton}
               onPress={pausedModal}>
-              <Start
-                name="caretright"
-                color={'white'}
-                size={17 * height_ratio}
-                style={{
-                  marginRight: 8 * width_ratio,
-                  marginTop: 2 * height_ratio,
-                }}></Start>
+              <Play height={24 * height_ratio} width={24 * width_ratio} />
               <Text style={styles.CText3}>운동 다시 시작</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
       {!isPausedPage && pressSetting && (
-        <View style={{alignSelf: 'flex-start'}}>
+        <View style={styles.subpageContainer}>
           <Modal
             visible={modalVisible2}
             transparent={true}
@@ -1314,9 +1346,13 @@ export const WorkoutStart = ({navigation, route}) => {
           </Modal>
           <View
             style={{
-              paddingHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingVertical: 16 * height_ratio,
             }}>
             <Text style={styles.pauseTitle}>운동 설정</Text>
+            <Battery battery={battery} />
           </View>
           <View style={styles.settings}>
             <View style={styles.settingContainer}>
@@ -1400,35 +1436,28 @@ export const WorkoutStart = ({navigation, route}) => {
           <View style={styles.settings}>
             <View style={styles.settingContainer}>
               <Text style={styles.settingText}>세트간 휴식시간</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => setModalVisible2(true)}
+                style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Text style={{fontSize: 14 * height_ratio}}>
                   {calTime(appcontext.state.userSetTime)}
                 </Text>
-                <TouchableOpacity onPress={() => setModalVisible2(true)}>
-                  <Right
-                    name="right"
-                    size={20 * height_ratio}
-                    color="#242424"
-                    style={{marginLeft: 4 * width_ratio}}></Right>
-                </TouchableOpacity>
-              </View>
+                <Right height={24 * height_ratio} width={24 * width_ratio} />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.settings}>
             <View style={styles.settingContainer}>
               <Text style={styles.settingText}>동작간 휴식시간</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+
+              <TouchableOpacity
+                onPress={() => setModalVisible3(true)}
+                style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Text style={{fontSize: 14 * height_ratio}}>
                   {calTime(appcontext.state.userMotionTime)}
                 </Text>
-                <TouchableOpacity onPress={() => setModalVisible3(true)}>
-                  <Right
-                    name="right"
-                    size={20 * height_ratio}
-                    color="#242424"
-                    style={{marginLeft: 4 * width_ratio}}></Right>
-                </TouchableOpacity>
-              </View>
+                <Right height={24 * height_ratio} width={24 * width_ratio} />
+              </TouchableOpacity>
             </View>
           </View>
           <ScrollView></ScrollView>
@@ -1441,14 +1470,7 @@ export const WorkoutStart = ({navigation, route}) => {
             <TouchableOpacity
               style={styles.CButton3}
               onPress={() => endSetting()}>
-              <Left
-                name="chevron-left"
-                size={15 * height_ratio}
-                color="#fff"
-                style={{
-                  marginRight: 7 * width_ratio,
-                  marginTop: 3 * height_ratio,
-                }}></Left>
+              <SLeft height={16 * height_ratio} width={16 * width_ratio} />
               <Text style={styles.CText3}>
                 휴식중 {formatTime(elapsedTime)}
               </Text>
@@ -1457,7 +1479,7 @@ export const WorkoutStart = ({navigation, route}) => {
         </View>
       )}
       {!isPausedPage && isModifyMotion && (
-        <View>
+        <View style={styles.subpageContainer}>
           <Modal
             visible={isModalVisible}
             transparent={true}
@@ -1497,8 +1519,15 @@ export const WorkoutStart = ({navigation, route}) => {
             </View>
           </Modal>
 
-          <View style={{alignSelf: 'flex-start'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 24 * height_ratio,
+            }}>
             <Text style={styles.motionTitle}>동작</Text>
+            <Battery battery={battery} />
           </View>
 
           <GestureHandlerRootView style={{height: 625 * height_ratio}}>
