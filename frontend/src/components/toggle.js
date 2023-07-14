@@ -1,11 +1,9 @@
 import {
   Dimensions,
-  View,
   Animated,
   Easing,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import {useRef} from 'react';
 
@@ -15,7 +13,6 @@ const height_ratio = Dimensions.get('window').height / 844;
 export const Switch = props => {
   const colorIndex = useRef(new Animated.Value(props.on ? 1 : 0)).current;
   const ellipsePosition = useRef(new Animated.Value(props.on ? 1 : 0)).current;
-  // const ellipseScale = useRef(new Animated.Value(0)).current;
 
   let colors = colorIndex.interpolate({
     inputRange: [0, 1],
@@ -27,40 +24,20 @@ export const Switch = props => {
     outputRange: [0, 44 * width_ratio - 20 * width_ratio - 4 * width_ratio],
   });
 
-  // let scale = ellipseScale.interpolate({
-  //   inputRange: [0, 1],
-  //   outputRange: [20 * width_ratio, 27 * width_ratio],
-  // });
-
   const onChange = () => {
-    Animated.spring(colorIndex, {
-      toValue: !props.on ? 1 : 0,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
-
-    Animated.spring(ellipsePosition, {
-      toValue: !props.on ? 1 : 0,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start();
+    Animated.parallel([
+      Animated.spring(colorIndex, {
+        toValue: !props.on ? 1 : 0,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }),
+      Animated.spring(ellipsePosition, {
+        toValue: !props.on ? 1 : 0,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }),
+    ]).start();
   };
-
-  // const onPressing = () => {
-  //   Animated.spring(ellipseScale, {
-  //     toValue: 1,
-  //     easing: Easing.linear,
-  //     useNativeDriver: false,
-  //   }).start();
-  // };
-
-  // const onLeave = () => {
-  //   Animated.spring(ellipseScale, {
-  //     toValue: 0,
-  //     easing: Easing.linear,
-  //     useNativeDriver: false,
-  //   }).start();
-  // };
 
   return (
     <TouchableWithoutFeedback

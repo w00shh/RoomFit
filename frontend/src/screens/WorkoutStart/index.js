@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 
 import CustomButton_W from '../../components/CustomButton_W';
-import Left from 'react-native-vector-icons/Entypo';
 import styles from './styles';
 import CustomButton_B from '../../components/CustomButton_B';
 import WorkoutItem from '../../components/WorkoutItem';
