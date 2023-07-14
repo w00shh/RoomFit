@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   buttonContainer: {
+    height: 40 * height_ratio,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     gap: 4 * width_ratio,

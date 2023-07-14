@@ -1,7 +1,6 @@
 import {Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import WorkoutTitle from '../WorkoutTitle';
 import styles from './styles';
-import Icon from 'react-native-vector-icons/Feather';
 import SetItem from '../SetItem';
 
 //svg
@@ -88,7 +87,6 @@ const WorkoutItem = props => {
         borderRadius: 8 * height_ratio,
         borderColor: '#dfdfdf',
         backgroundColor: '#fff',
-        marginVertical: 16 * height_ratio,
       }}>
       {/* <Text>
         isMotionDone:{String(props.motionList[props.motion_index].isMotionDone)}
