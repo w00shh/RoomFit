@@ -127,7 +127,9 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.pageContainer}>
-      <ScrollView style={{marginBottom: 32 * height_ratio}}>
+      <ScrollView
+        style={{marginBottom: 32 * height_ratio}}
+        showsVerticalScrollIndicator={false}>
         {!true && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
