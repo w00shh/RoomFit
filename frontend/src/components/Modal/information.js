@@ -6,7 +6,7 @@ import {useEffect} from 'react';
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
 
-export const TutBtn = props => {
+export const Information = props => {
   return (
     <TouchableOpacity onPress={props.onPress}>
       <Question height={16 * height_ratio} width={16 * width_ratio} />

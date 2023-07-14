@@ -6,9 +6,9 @@ import {
   Text,
   View,
   Modal,
-  Switch,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   FlatList,
   TextInput,
   Dimensions,
@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 
 import CustomButton_W from '../../components/CustomButton_W';
-import Check from 'react-native-vector-icons/AntDesign';
 import Left from 'react-native-vector-icons/Entypo';
 import styles from './styles';
 import CustomButton_B from '../../components/CustomButton_B';
@@ -48,17 +47,19 @@ import Setting from '../../assets/svg/buttons/active/setting.svg';
 import Stop from '../../assets/svg/buttons/single/stop.svg';
 import Play from '../../assets/svg/buttons/single/play.svg';
 
-import Switch_D from '../../assets/svg/buttons/default/switch.svg';
-import Switch_A from '../../assets/svg/buttons/active/switch.svg';
 import Right from '../../assets/svg/buttons/single/arrow/right.svg';
 
 import SLeft from '../../assets/svg/buttons/single/left_small.svg';
+
+import Check from '../../assets/svg/buttons/active/check.svg';
 
 //other components
 import {Battery} from '../../components/battery';
 import {useAppSelector} from '../../redux/store';
 
 import {Divider} from '../../components/divider';
+import {Information} from '../../components/Modal/information';
+import {Switch} from '../../components/toggle';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
@@ -1253,12 +1254,12 @@ export const WorkoutStart = ({navigation, route}) => {
                           </Text>
                         </View>
                         <View style={styles.restChecker}>
-                          <Check
-                            name="check"
-                            size={20 * height_ratio}
-                            color={
-                              value.time === temprestSet ? '#5252fa' : 'white'
-                            }></Check>
+                          {value.time === temprestSet && (
+                            <Check
+                              height={16 * height_ratio}
+                              width={16 * width_ratio}
+                            />
+                          )}
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -1312,14 +1313,12 @@ export const WorkoutStart = ({navigation, route}) => {
                           </Text>
                         </View>
                         <View style={styles.restChecker}>
-                          <Check
-                            name="check"
-                            size={20 * height_ratio}
-                            color={
-                              value.time === temprestMotion
-                                ? '#5252fa'
-                                : 'white'
-                            }></Check>
+                          {value.time === temprestMotion && (
+                            <Check
+                              height={16 * height_ratio}
+                              width={16 * width_ratio}
+                            />
+                          )}
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -1349,87 +1348,55 @@ export const WorkoutStart = ({navigation, route}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              paddingVertical: 16 * height_ratio,
+              paddingBottom: 16 * height_ratio,
             }}>
             <Text style={styles.pauseTitle}>운동 설정</Text>
             <Battery battery={battery} />
           </View>
           <View style={styles.settings}>
             <View style={styles.settingContainer}>
-              <Text style={styles.settingText}>스마트 어시스트</Text>
               <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
+                  gap: 4 * width_ratio,
+                }}>
+                <Text style={styles.settingText}>스마트 어시스트</Text>
+                <Information />
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
                 }}>
                 <Text
                   style={{
                     color: isAssist ? '#5252fa' : '#fff',
-                    marginRight: 3 * width_ratio,
                   }}>
                   ON
                 </Text>
-                <Switch
-                  trackColor={{false: '#acacac', true: '#5252fa'}}
-                  thumbColor={'#fff'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch}
-                  value={isAssist}
-                  style={{
-                    transform: [
-                      {
-                        scaleX:
-                          Platform.OS === 'ios'
-                            ? 0.8 * height_ratio
-                            : 1.2 * height_ratio,
-                      },
-                      {
-                        scaleY:
-                          Platform.OS === 'ios'
-                            ? 0.8 * width_ratio
-                            : 1.2 * width_ratio,
-                      },
-                    ],
-                  }}
-                />
+                <Switch on={isAssist} onPress={toggleSwitch} />
               </View>
             </View>
           </View>
           <View style={styles.settings}>
             <View style={styles.settingContainer}>
               <Text style={styles.settingText}>화면잠금</Text>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
                 <Text
                   style={{
                     fontSize: 14 * height_ratio,
                     color: isLock ? '#5252fa' : '#fff',
-                    marginRight: 3 * width_ratio,
                   }}>
                   ON
                 </Text>
-                <Switch
-                  trackColor={{false: '#acacac', true: '#5252fa'}}
-                  thumbColor={'#fff'}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={isLock}
-                  style={{
-                    transform: [
-                      {
-                        scaleX:
-                          Platform.OS === 'ios'
-                            ? 0.8 * height_ratio
-                            : 1.2 * height_ratio,
-                      },
-                      {
-                        scaleY:
-                          Platform.OS === 'ios'
-                            ? 0.8 * width_ratio
-                            : 1.2 * width_ratio,
-                      },
-                    ],
-                  }}
-                />
+                <Switch on={isLock} onPress={toggleSwitch2} />
               </View>
             </View>
           </View>

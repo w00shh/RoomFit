@@ -28,7 +28,7 @@ import Volume from '../../assets/svg/icons/volume.svg';
 import Calorie from '../../assets/svg/icons/calorie.svg';
 import ICalendar from '../../assets/svg/icons/calendar.svg';
 
-import {TutBtn, TutModal} from '../../components/Modal/tut_information';
+import {Information, TutModal} from '../../components/Modal/information';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -647,7 +647,7 @@ const WorkoutRecord = ({navigation, route}) => {
                         <Text style={styles.pauseSubtitle}>
                           누적 유효 수행시간
                         </Text>
-                        <TutBtn
+                        <Information
                           onPress={() => {
                             setShowTut(true);
                           }}
