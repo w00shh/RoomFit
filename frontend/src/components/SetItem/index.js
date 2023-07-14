@@ -11,6 +11,8 @@ import Check from 'react-native-vector-icons/Entypo';
 import {AppContext} from '../../contexts/AppProvider';
 //svg
 import Drop from '../../assets/svg/buttons/single/drop.svg';
+import Check_A from '../../assets/svg/buttons/active/check.svg';
+import Check_D from '../../assets/svg/buttons/default/check.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -201,15 +203,9 @@ const SetItem = props => {
       {props.isExercising && (
         <View style={styles.keyBox}>
           {props.isDone ? (
-            <Check
-              name="check"
-              size={16 * height_ratio}
-              color="#5252fa"></Check>
+            <Check_A height={16 * height_ratio} width={16 * width_ratio} />
           ) : (
-            <Check
-              name="check"
-              size={16 * height_ratio}
-              color="#dfdfdf"></Check>
+            <Check_D height={16 * height_ratio} width={16 * width_ratio} />
           )}
         </View>
       )}

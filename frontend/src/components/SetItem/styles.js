@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center',
   },
 
   titleText: {
@@ -20,12 +21,14 @@ const styles = StyleSheet.create({
   },
 
   titleItem: {
-    flex: 2,
-    flexDirection: 'row',
+    flex: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center',
+    paddingHorizontal: 12 * width_ratio,
   },
   keyBox: {
+    flex: 1,
     width: 48 * width_ratio,
     height: 40 * height_ratio,
     borderRadius: 4 * height_ratio,
@@ -40,7 +43,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   itemBox: {
-    flex: 1,
+    flex: 1.5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
