@@ -10,8 +10,6 @@ import {
   Dimensions,
 } from 'react-native';
 import styles from './styles';
-import Edit from 'react-native-vector-icons/Entypo';
-import Back from 'react-native-vector-icons/Ionicons';
 import WorkoutItem from '../../../components/WorkoutItem';
 import {serverAxios} from '../../../utils/commonAxios';
 import CustomButton_W from '../../../components/CustomButton_W';
@@ -23,6 +21,12 @@ import {
   gestureHandlerRootHOC,
 } from 'react-native-gesture-handler';
 import MotionRangeModal from '../../../components/Modal/MotionRange';
+
+//svg
+import Modify from '../../../assets/svg/buttons/single/modify.svg';
+import Back from '../../../assets/svg/buttons/single/back.svg';
+
+import {Divider} from '../../../components/divider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -128,15 +132,17 @@ const RoutineDetail = ({navigation, route}) => {
             handleBackButton();
             //navigation.reset({routes: [{name: 'MyRoutine'}]});
           }}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
 
       headerTitle: () => (
-        <>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 4 * width_ratio,
+          }}>
           <Text
             style={{
               marginHorizontal: 6 * width_ratio,
@@ -150,9 +156,9 @@ const RoutineDetail = ({navigation, route}) => {
             onPress={() => {
               setIsRoutineNameModalVisible(!isRoutineNameModalVisible);
             }}>
-            <Edit name="edit" size={16 * height_ratio} color="#808080"></Edit>
+            <Modify height={16 * height_ratio} width={16 * width_ratio} />
           </TouchableOpacity>
-        </>
+        </View>
       ),
       headerRight: () => (
         <TouchableOpacity
@@ -318,21 +324,25 @@ const RoutineDetail = ({navigation, route}) => {
 
   const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
     return (
-      <WorkoutItem
-        drag={drag}
-        isActive={isActive}
-        motion_index={item.motion_index}
-        id={item.motion_id}
-        motion={item}
-        isExercising={false}
-        setIsModalVisible={setIsModalVisible}
-        motion={item}
-        motionList={motionList}
-        setMotionList={setMotionList}
-        setSelectedMode={setSelectedMode}
-        setIsMotionRangeModalVisible={
-          setIsMotionRangeModalVisible
-        }></WorkoutItem>
+      <>
+        <WorkoutItem
+          drag={drag}
+          isActive={isActive}
+          motion_index={item.motion_index}
+          id={item.motion_id}
+          motion={item}
+          isExercising={false}
+          setIsModalVisible={setIsModalVisible}
+          motion={item}
+          motionList={motionList}
+          setMotionList={setMotionList}
+          setSelectedMode={setSelectedMode}
+          setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+        />
+        {!isActive && item !== motionList[motionList.length - 1] && (
+          <Divider height_ratio={height_ratio} />
+        )}
+      </>
     );
   });
 

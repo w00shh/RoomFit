@@ -40,16 +40,12 @@ const styles = StyleSheet.create({
     color: '#808080',
   },
   contentContainer: {
-    width: 334 * width_ratio,
-    marginVertical: 16 * height_ratio,
+    paddingVertical: 12 * height_ratio,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   contentContainer2: {
-    width: 334 * width_ratio,
-    marginTop: 16 * height_ratio,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    paddingTop: 16 * height_ratio,
   },
   contentText: {
     fontSize: 16 * height_ratio,
@@ -61,16 +57,17 @@ const styles = StyleSheet.create({
   },
   subcontentText: {
     fontSize: 13 * height_ratio,
+    marginBottom: 8 * height_ratio,
     color: '#808080',
-    marginTop: 5 * height_ratio,
-    marginBottom: 11 * height_ratio,
   },
   gigiContainer: {
     width: 358 * width_ratio,
     backgroundColor: '#f5f5f5',
-    borderRadius: 12,
+    borderRadius: 12 * height_ratio,
     paddingVertical: 16 * height_ratio,
     paddingHorizontal: 16 * width_ratio,
+
+    gap: 8 * height_ratio,
   },
   appContainer: {
     width: 358 * width_ratio,

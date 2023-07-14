@@ -21,7 +21,7 @@ import Time from '../../assets/svg/icons/time.svg';
 import Tut from '../../assets/svg/icons/tut.svg';
 import Calorie from '../../assets/svg/icons/calorie.svg';
 import Volume from '../../assets/svg/icons/volume.svg';
-import {Divder} from '../../components/divider';
+import {Divider} from '../../components/divider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -268,7 +268,7 @@ const WorkoutDetail = ({navigation, route}) => {
               <>
                 <RecordItem key={key} record={value}></RecordItem>
                 {key !== workoutList.length - 1 && (
-                  <Divder height_ratio={height_ratio} />
+                  <Divider height_ratio={height_ratio} />
                 )}
               </>
             ))}

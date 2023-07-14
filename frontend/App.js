@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Dimensions, Platform, View, Text} from 'react-native';
 import Intro from './src/screens/Intro/index.js';
@@ -37,28 +37,19 @@ const Stack = createNativeStackNavigator();
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
-export const AppContext = React.createContext({
-  state: {
-    userid: '',
-    usernickname: '',
-    useremail: '',
-    targetmotionindex: 0,
-    targetsetindex: 0,
+const Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#fff',
   },
-  actions: {
-    setUserid: () => {},
-    setUsernickname: () => {},
-    setUseremail: () => {},
-    setTargetmotionindex: () => {},
-    setTargetsetindex: () => {},
-  },
-});
+};
 
 const App = () => {
   return (
     <Provider store={store}>
       <AppProvider>
-        <NavigationContainer>
+        <NavigationContainer theme={Theme}>
           <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
             <Stack.Screen
               name="IntroSplash"

@@ -14,7 +14,7 @@ import CustomButton_W from '../../components/CustomButton_W';
 import CustomButton_B from '../../components/CustomButton_B';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
-import {Divder} from '../../components/divider';
+import {Divider} from '../../components/divider';
 
 //svg
 import Back from '../../assets/svg/buttons/single/back.svg';
@@ -96,21 +96,26 @@ const WorkoutReady = ({navigation, route}) => {
 
   const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
     return (
-      <WorkoutItem
-        drag={drag}
-        isActive={isActive}
-        motion_index={item.motion_index}
-        id={item.motion_id}
-        motion={item}
-        isExercising={false}
-        setIsModalVisible={setIsModalVisible}
-        motion={item}
-        motionList={motionList}
-        setMotionList={setMotionList}
-        setSelectedMode={setSelectedMode}
-        setIsMotionRangeModalVisible={
-          setIsMotionRangeModalVisible
-        }></WorkoutItem>
+      <>
+        <WorkoutItem
+          drag={drag}
+          isActive={isActive}
+          motion_index={item.motion_index}
+          id={item.motion_id}
+          motion={item}
+          isExercising={false}
+          setIsModalVisible={setIsModalVisible}
+          motion={item}
+          motionList={motionList}
+          setMotionList={setMotionList}
+          setSelectedMode={setSelectedMode}
+          setIsMotionRangeModalVisible={
+            setIsMotionRangeModalVisible
+          }></WorkoutItem>
+        {item !== motionList[motionList.length - 1] && !isActive && (
+          <Divider height_ratio={height_ratio} />
+        )}
+      </>
     );
   });
 

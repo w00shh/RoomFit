@@ -9,9 +9,14 @@ import {
   Dimensions,
 } from 'react-native';
 import Reload from 'react-native-vector-icons/AntDesign';
-import Back from 'react-native-vector-icons/Ionicons';
-import OnOff from '../../components/Switch';
 import styles from './styles';
+
+import {Switch} from '../../components/toggle';
+import {Divider} from '../../components/divider';
+
+//svg
+import Back from '../../assets/svg/buttons/single/back.svg';
+import Refresh from '../../assets/svg/buttons/single/refresh.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -28,6 +33,9 @@ import {checkBluetoothPermissions} from '../../redux/BLE/permission';
 const Buffer = require('buffer/').Buffer;
 
 const ConnectDevice = ({navigation}) => {
+  const [onlyRoomFit, setOnlyRoomFit] = useState(false);
+  const toggleSwitch = () => setOnlyRoomFit(previousState => !previousState);
+
   const dispatch = useAppDispatch();
   const discoveredDevices = useAppSelector(state => state.ble.allDevices);
   const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
@@ -40,22 +48,18 @@ const ConnectDevice = ({navigation}) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 8 * width_ratio,
+          }}>
           <Text
             style={{
-              marginRight: 10 * width_ratio,
-              marginTop: 5 * height_ratio,
               fontWeight: '700',
               fontSize: 15 * height_ratio,
             }}>
@@ -65,11 +69,7 @@ const ConnectDevice = ({navigation}) => {
             onPress={() => {
               dispatch(startScanning());
             }}>
-            <Reload
-              name="reload1"
-              size={25 * height_ratio}
-              color="#242424"
-              style={styles.reloadIcon}></Reload>
+            <Refresh height={24 * height_ratio} width={24 * width_ratio} />
           </TouchableOpacity>
         </View>
       ),
@@ -120,9 +120,7 @@ const ConnectDevice = ({navigation}) => {
             <Text style={styles.statusText}>연결된 기기</Text>
           </View>
           <View style={{alignItems: 'center'}}>
-            <Image
-              style={styles.devider}
-              source={require('../../assets/images/devider.png')}></Image>
+            <Divider height_ratio={height_ratio} />
           </View>
           <View style={styles.connectContainer}>
             <View>
@@ -143,8 +141,13 @@ const ConnectDevice = ({navigation}) => {
       )}
       <View style={styles.connectExplain}>
         <Text style={styles.statusText}>탐색된 기기</Text>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <OnOff></OnOff>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 8 * width_ratio,
+          }}>
+          <Switch on={onlyRoomFit} onPress={toggleSwitch} />
           <Text style={{fontSize: 14 * height_ratio}}>룸핏만 보기</Text>
         </View>
       </View>

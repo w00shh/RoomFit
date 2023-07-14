@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 import styles from './styles';
 
-import Check from 'react-native-vector-icons/AntDesign';
-import Back from 'react-native-vector-icons/Ionicons';
+//svg
+import Back from '../../../assets/svg/buttons/single/back.svg';
+import Check from '../../../assets/svg/buttons/active/check.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -51,14 +52,7 @@ const PowerSaving = ({navigation, route}) => {
           onPress={() => {
             handleBackButton();
           }}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 0 * width_ratio,
-              marginRight: Platform.OS === 'ios' ? 0 : 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
       headerTitle: () => (
@@ -96,7 +90,6 @@ const PowerSaving = ({navigation, route}) => {
               style={{
                 flexDirection: 'row',
                 height: 56 * height_ratio,
-                marginVertical: 8 * height_ratio,
               }}>
               <View style={styles.restContainer}>
                 <Text
@@ -107,12 +100,9 @@ const PowerSaving = ({navigation, route}) => {
                   }}>
                   {calcTime(value.time)}
                 </Text>
-                <Check
-                  name="check"
-                  size={20 * height_ratio}
-                  color={
-                    value.time === tempPowerSaving ? '#5252fa' : 'white'
-                  }></Check>
+                {value.time === tempPowerSaving && (
+                  <Check height={16 * height_ratio} width={16 * width_ratio} />
+                )}
               </View>
             </View>
           </TouchableOpacity>
