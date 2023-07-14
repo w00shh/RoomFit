@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {
   FlatList,
   Text,
@@ -18,11 +18,13 @@ import Back from '../../assets/svg/buttons/single/back.svg';
 import Search from '../../assets/svg/buttons/single/search.svg';
 import X from '../../assets/svg/buttons/single/x.svg';
 import {Divider} from '../../components/divider';
+import {AppContext} from '../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const AddMotion = ({navigation, route}) => {
+  const appcontext = useContext(AppContext);
   const [motionList, setMotionList] = useState([]);
   const [motionListMap, setMotionListMap] = useState(new Map());
   let selectedMotionKeys = [];
@@ -46,7 +48,6 @@ const AddMotion = ({navigation, route}) => {
 
   const handleMotionSearchChange = async text => {
     const body = {
-      user_id: 'user1',
       motion_name: text,
     };
     await serverAxios
@@ -114,7 +115,7 @@ const AddMotion = ({navigation, route}) => {
 
   const getMotionList = async () => {
     const body = {
-      user_id: 'user1',
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/motion', body)
