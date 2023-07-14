@@ -67,7 +67,7 @@ const MotionItem = props => {
               updatedMotionList.findIndex(item => item === props.motion)
             ].isFav = !props.motion.isFav;
             const body = {
-              user_id: appcontext.state.usrid,
+              user_id: appcontext.state.userid,
               motion_id: props.motion.motion_id,
             };
             if (

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import styles from './styles';
 import MotionItem from '../../components/MotionItem';
@@ -173,11 +174,12 @@ const AddMotion = ({navigation, route}) => {
         <Text style={styles.recommendedText}>추천 운동</Text>
       )}
       {
-        <View
-          style={{
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
             flexDirection: 'row',
-            flexWrap: 'wrap',
-            gap: 8 * width_ratio,
+            gap: 10 * width_ratio,
             marginVertical: displaySelected.size !== 0 ? 24 * height_ratio : 0,
           }}>
           {displaySelected &&
@@ -185,7 +187,7 @@ const AddMotion = ({navigation, route}) => {
               <View
                 key={key}
                 style={{
-                  paddingHorizontal: 12,
+                  paddingHorizontal: 12 * width_ratio,
                   height: 32 * height_ratio,
                   backgroundColor: '#242424',
                   borderRadius: 8,
@@ -201,7 +203,7 @@ const AddMotion = ({navigation, route}) => {
                 </TouchableOpacity>
               </View>
             ))}
-        </View>
+        </ScrollView>
       }
       <FlatList
         data={motionList}
