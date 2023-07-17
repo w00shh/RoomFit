@@ -548,7 +548,11 @@ export const WorkoutStart = ({navigation, route}) => {
   }, [recordId]);
 
   const setComplete = () => {
-    getRecordId(m_index);
+    if (s_index === 0) {
+      getRecordId(m_index);
+    } else {
+      setCompletePost();
+    }
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
     updatedMotionList[m_index].sets[s_index].isDone = true;

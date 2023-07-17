@@ -86,7 +86,12 @@ const App = () => {
             <Stack.Screen
               name="Register"
               component={Register}
-              options={{headerShown: true, title: ''}}
+              options={{
+                headerShown: true,
+                title: '',
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}
             />
             <Stack.Screen
               name="HomeScreen"

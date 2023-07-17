@@ -5,8 +5,10 @@ import Input from '../../components/Input';
 import CustomButton_B from '../../components/CustomButton_B';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
-import Back from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//svg
+import Back from '../../assets/svg/buttons/single/back.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -24,14 +26,7 @@ const Login = ({navigation, route}) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
     });

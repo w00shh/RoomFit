@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,8 +7,8 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  Animated,
 } from 'react-native';
-import Reload from 'react-native-vector-icons/AntDesign';
 import styles from './styles';
 
 import {Switch} from '../../components/toggle';
@@ -17,6 +17,8 @@ import {Divider} from '../../components/divider';
 //svg
 import Back from '../../assets/svg/buttons/single/back.svg';
 import Refresh from '../../assets/svg/buttons/single/refresh.svg';
+
+import Loading from '../../assets/svg/icons/loading.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -30,16 +32,40 @@ import {connectToDevice, disconnectFromDevice} from '../../redux/BLE/listener';
 import {store, useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {checkBluetoothPermissions} from '../../redux/BLE/permission';
+import {Easing} from 'react-native-reanimated';
 const Buffer = require('buffer/').Buffer;
 
 const ConnectDevice = ({navigation}) => {
   const [onlyRoomFit, setOnlyRoomFit] = useState(false);
   const toggleSwitch = () => setOnlyRoomFit(previousState => !previousState);
 
+  const [isConnecting, setIsConnecting] = useState('');
+  const rotateIndex = useRef(new Animated.Value(0)).current;
+  const rotateValue = rotateIndex.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
   const dispatch = useAppDispatch();
   const discoveredDevices = useAppSelector(state => state.ble.allDevices);
   const connectedDevice = useAppSelector(state => state.ble.connectedDevice);
   const battery = useAppSelector(state => state.ble.battery);
+
+  const startRotating = () => {
+    rotateIndex.setValue(0);
+    Animated.loop(
+      Animated.timing(rotateIndex, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }),
+    ).start();
+  };
+
+  const stopRotating = () => {
+    rotateIndex.stopAnimation();
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -92,20 +118,35 @@ const ConnectDevice = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginTop: 30 * height_ratio,
-          width: 358 * width_ratio,
-          height: 30 * height_ratio,
-          marginBottom: 10 * height_ratio,
+          paddingVertical: 7 * height_ratio,
         }}>
-        <Text style={styles.deviceName}>{device.name}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 12 * width_ratio,
+            alignItems: 'center',
+          }}>
+          <Text style={styles.deviceName}>{device.name}</Text>
+          {isConnecting === device.id && (
+            <Animated.View style={{transform: [{rotate: rotateValue}]}}>
+              <Loading height={16 * height_ratio} width={16 * width_ratio} />
+            </Animated.View>
+          )}
+        </View>
         {
           <TouchableOpacity
             style={styles.connectButton}
             onPress={async () => {
+              setIsConnecting(device.id);
+              startRotating();
               await dispatch(connectToDevice(device));
+              stopRotating();
+              setIsConnecting('');
               dispatch(readDeviceBattery());
             }}>
-            <Text style={styles.connect}>연결</Text>
+            <Text style={styles.connect}>
+              {isConnecting === device.id ? '취소' : '연결'}
+            </Text>
           </TouchableOpacity>
         }
       </View>
@@ -153,11 +194,9 @@ const ConnectDevice = ({navigation}) => {
       </View>
 
       <View style={{alignItems: 'center'}}>
-        <Image
-          style={styles.devider}
-          source={require('../../assets/images/devider.png')}></Image>
+        <Divider height_ratio={height_ratio} />
       </View>
-      <ScrollView>
+      <ScrollView style={{gap: 8 * height_ratio}}>
         {discoveredDevices.map((device, index) => (
           <View key={device.id}>
             <RenderDevices

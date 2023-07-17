@@ -35,7 +35,7 @@ const MainSetting = ({navigation}) => {
   const handleLogout = () => {
     appcontext.actions.setIsLogin(false);
     saveLogout();
-    navigation.reset({routes: [{name: 'Splash'}]});
+    navigation.reset({routes: [{name: 'IntroSplash'}]});
   };
 
   const saveLogout = async () => {

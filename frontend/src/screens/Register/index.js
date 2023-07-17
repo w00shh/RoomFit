@@ -10,7 +10,9 @@ import styles from './styles.js';
 import Input from '../../components/Input/index.js';
 import CustomButton_B from '../../components/CustomButton_B/index.js';
 import {serverAxios} from '../../utils/commonAxios.js';
-import Back from 'react-native-vector-icons/Ionicons';
+
+//svg
+import Back from '../../assets/svg/buttons/single/back.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -133,14 +135,7 @@ const Register = ({navigation}) => {
           onPress={() => {
             navigation.goBack();
           }}>
-          <Back
-            name="arrow-back"
-            color={'#242424'}
-            size={25 * height_ratio}
-            style={{
-              marginLeft: 0 * width_ratio,
-              marginRight: 10 * width_ratio,
-            }}></Back>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
     });

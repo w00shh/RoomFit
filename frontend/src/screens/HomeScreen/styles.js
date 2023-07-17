@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     height: 168 * height_ratio,
     borderRadius: 24,
     paddingVertical: 40 * height_ratio,
+    marginBottom: 32 * height_ratio,
   },
 
   noConnectionText: {
