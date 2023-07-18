@@ -9,9 +9,11 @@ import {
   Button,
   Modal,
   TextInput,
+  Alert,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {serverAxios} from '../../utils/commonAxios';
 
 const width_ratio = Dimensions.get('screen').width / 390;
@@ -70,6 +72,62 @@ const FeedScreen = props => {
   }, []);
 
   const [isPostingModal, setIsPostingModal] = React.useState(false);
+  const [postimageUrl, setpostImageUrl] = React.useState(null);
+
+  const [postContent, setPostContent] = React.useState('');
+  const handleInputChange = inputText => {
+    setPostContent(inputText);
+  };
+
+  const PostFeed = async () => {
+    console.log(postContent);
+    console.log(postimageUrl);
+
+    const formData = new FormData();
+    formData.append('content', postContent);
+    formData.append('image', postimageUrl);
+
+    await serverAxios
+      .post('/community/post-feed', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(res => {
+        console.log(res);
+        Alert.alert('피드 등록 완료!');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const PostImage = async () => {
+    const image = {
+      uri: '',
+      type: '',
+      name: '',
+    };
+
+    await launchImageLibrary({}, res => {
+      if (res.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (res.errorCode) {
+        console.log('ImagePicker Error: ', res.errorCode);
+      } else if (res.assets) {
+        //정상적으로 사진을 반환 받았을 때
+        console.log('ImagePicker res', res);
+        image.name = res.assets[0].fileName;
+        image.type = res.assets[0].type;
+        image.uri =
+          Platform.OS === 'android'
+            ? res.assets[0].uri
+            : res.assets[0].uri.replace('file://', '');
+        setpostImageUrl(image);
+        // setpostImageUrl(image.uri);
+      }
+    });
+  };
 
   return (
     props.feeds && (
@@ -83,8 +141,25 @@ const FeedScreen = props => {
                   setIsPostingModal(false);
                 }}
               />
-              <TextInput multiline={true} style={styles.input} />
-              <Button title="post" />
+              <TextInput
+                onChangeText={handleInputChange}
+                value={postContent}
+                multiline={true}
+                style={styles.input}
+              />
+              <Image source={postimageUrl} style={styles.imageStyle} />
+              <Button
+                title="upload Photo"
+                onPress={() => {
+                  PostImage();
+                }}
+              />
+              <Button
+                title="post"
+                onPress={() => {
+                  PostFeed();
+                }}
+              />
             </View>
           </View>
         </Modal>

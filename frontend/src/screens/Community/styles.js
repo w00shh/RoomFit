@@ -47,6 +47,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#cecece',
     marginTop: 20,
   },
+  imageStyle: {
+    width: Dimensions.get('window').width * 0.8,
+    height: Dimensions.get('window').height * 0.3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default styles;
