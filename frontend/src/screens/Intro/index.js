@@ -133,12 +133,12 @@ const Intro = ({navigation}) => {
         height={80 * height_ratio}
         width={232 * width_ratio}
       />
-      {/* <TouchableOpacity
+      <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}
         style={styles.Apple_Button}>
         <Apple height={24 * height_ratio} width={24 * width_ratio} />
         <Text style={styles.Button_Text}> Apple로 시작하기</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       {/* <Button
         title="커뮤니티"
         onPress={() => navigation.navigate('Community')}
@@ -146,7 +146,7 @@ const Intro = ({navigation}) => {
       <TouchableOpacity
         onPress={() => {
           Linking.openURL(
-            `http://ec2-13-125-92-213.ap-northeast-2.compute.amazonaws.com:4000/account/kakao-auth`,
+            `http://ec2-3-36-196-200.ap-northeast-2.compute.amazonaws.com:4000/account/kakao-auth`,
           );
         }}
         style={styles.Kakao_Button}>
@@ -157,7 +157,7 @@ const Intro = ({navigation}) => {
         style={styles.Google_Button}
         onPress={() =>
           Linking.openURL(
-            `http://ec2-13-125-92-213.ap-northeast-2.compute.amazonaws.com:4000/account/google-auth`,
+            `http://ec2-3-36-196-200.ap-northeast-2.compute.amazonaws.com:4000/account/google-auth`,
           )
         }>
         <Google height={24 * height_ratio} width={24 * width_ratio} />

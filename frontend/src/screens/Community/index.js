@@ -6,6 +6,9 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  Button,
+  Modal,
+  TextInput,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
@@ -14,69 +17,6 @@ import {serverAxios} from '../../utils/commonAxios';
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
-// 하드코딩된 피드 데이터
-// const feeds = [
-//   {
-//     feed_id: '1',
-//     user_name: 'user1',
-//     imageUrl:
-//       'https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTNfMjQy/MDAxNjEwNTMxNzU0NDAw.dnT66RTVTyv0DURLa16orDdxHfYGkWw2fIf-VvkWZl0g.DLOrmXxdYsTEU_PaIgDXLBgvs9W4lWrvcA78aObeo0Mg.JPEG.sb02199/3.jpg?type=w800',
-//     feed_content: '살려줘',
-//     like_count: 10,
-//     comment_nums: 10,
-//     created_at: '2022-08-21',
-//   },
-//   {
-//     feed_id: '2',
-//     user_name: 'user1',
-//     imageUrl:
-//       'https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTNfMjQy/MDAxNjEwNTMxNzU0NDAw.dnT66RTVTyv0DURLa16orDdxHfYGkWw2fIf-VvkWZl0g.DLOrmXxdYsTEU_PaIgDXLBgvs9W4lWrvcA78aObeo0Mg.JPEG.sb02199/3.jpg?type=w800',
-//     feed_content: '살려줘',
-//     like_count: 10,
-//     comment_nums: 10,
-//     created_at: '2022-08-21',
-//   },
-//   {
-//     feed_id: '3',
-//     user_name: 'user1',
-//     imageUrl:
-//       'https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTNfMjQy/MDAxNjEwNTMxNzU0NDAw.dnT66RTVTyv0DURLa16orDdxHfYGkWw2fIf-VvkWZl0g.DLOrmXxdYsTEU_PaIgDXLBgvs9W4lWrvcA78aObeo0Mg.JPEG.sb02199/3.jpg?type=w800',
-//     feed_content: '살려줘',
-//     like_count: 10,
-//     comment_nums: 10,
-//     created_at: '2022-08-21',
-//   },
-//   {
-//     feed_id: '4',
-//     user_name: 'user1',
-//     imageUrl:
-//       'https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTNfMjQy/MDAxNjEwNTMxNzU0NDAw.dnT66RTVTyv0DURLa16orDdxHfYGkWw2fIf-VvkWZl0g.DLOrmXxdYsTEU_PaIgDXLBgvs9W4lWrvcA78aObeo0Mg.JPEG.sb02199/3.jpg?type=w800',
-//     feed_content: '살려줘',
-//     like_count: 10,
-//     comment_nums: 10,
-//     created_at: '2022-08-21',
-//   },
-//   {
-//     feed_id: '5',
-//     user_name: 'user1',
-//     imageUrl:
-//       'https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTNfMjQy/MDAxNjEwNTMxNzU0NDAw.dnT66RTVTyv0DURLa16orDdxHfYGkWw2fIf-VvkWZl0g.DLOrmXxdYsTEU_PaIgDXLBgvs9W4lWrvcA78aObeo0Mg.JPEG.sb02199/3.jpg?type=w800',
-//     feed_content: '살려줘',
-//     like_count: 10,
-//     comment_nums: 10,
-//     created_at: '2022-08-21',
-//   },
-//   {
-//     feed_id: '6',
-//     user_name: 'user1',
-//     imageUrl:
-//       'https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTNfMjQy/MDAxNjEwNTMxNzU0NDAw.dnT66RTVTyv0DURLa16orDdxHfYGkWw2fIf-VvkWZl0g.DLOrmXxdYsTEU_PaIgDXLBgvs9W4lWrvcA78aObeo0Mg.JPEG.sb02199/3.jpg?type=w800',
-//     feed_content: '살려줘',
-//     like_count: 10,
-//     comment_nums: 10,
-//     created_at: '2022-08-21',
-//   },
-// ];
 // 피드 항목 컴포넌트
 const FeedItem = ({
   imageUrl,
@@ -128,9 +68,26 @@ const FeedScreen = props => {
     console.log('test');
     console.log(props.feeds);
   }, []);
+
+  const [isPostingModal, setIsPostingModal] = React.useState(false);
+
   return (
     props.feeds && (
       <View style={styles.container}>
+        <Modal visible={isPostingModal} transparent={true}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Button
+                title="close"
+                onPress={() => {
+                  setIsPostingModal(false);
+                }}
+              />
+              <TextInput multiline={true} style={styles.input} />
+              <Button title="post" />
+            </View>
+          </View>
+        </Modal>
         <ScrollView feed_contentContainerStyle={styles.feedContainer}>
           {props.feeds.map(item => (
             <FeedItem
@@ -144,6 +101,7 @@ const FeedScreen = props => {
             />
           ))}
         </ScrollView>
+        <Button title="post" onPress={() => setIsPostingModal(true)} />
       </View>
     )
   );
