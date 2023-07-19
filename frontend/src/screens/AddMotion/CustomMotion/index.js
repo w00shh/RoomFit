@@ -222,6 +222,12 @@ const CustomMotion = ({navigation}) => {
       .post('/motion/custom', body)
       .then(res => {})
       .catch(e => console.log(e));
+
+    navigation.push('AddMotion', {
+      isRoutine: false,
+      motion_index_base: 0,
+      isCustom: true,
+    });
   };
 
   return (
