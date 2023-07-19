@@ -1,4 +1,4 @@
-import {Modal, Text, View, Dimensions} from 'react-native';
+import {Modal, Text, View, Dimensions, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {useEffect, useState} from 'react';
 import Input from '../../../../components/Input';
@@ -6,6 +6,9 @@ import CustomButton_B from '../../../../components/CustomButton_B';
 import CustomButton_W from '../../../../components/CustomButton_W';
 import CheckMark from 'react-native-vector-icons/Ionicons';
 import {serverAxios} from '../../../../utils/commonAxios';
+
+//svg
+import Back from '../../../../assets/svg/buttons/single/back.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -37,6 +40,19 @@ const PasswordFind = ({navigation}) => {
         console.log(e);
       });
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+      ),
+    });
+  });
 
   useEffect(() => {
     handlePasswordFindDisabled();

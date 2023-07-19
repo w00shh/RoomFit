@@ -139,7 +139,11 @@ const AddMotion = ({navigation, route}) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            if (route.params.isCustom) {
+              navigation.reset({routes: [{name: 'HomeScreen'}]});
+            } else {
+              navigation.goBack();
+            }
           }}>
           <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
@@ -147,7 +151,9 @@ const AddMotion = ({navigation, route}) => {
 
       headerRight: () => (
         <TouchableOpacity onPress={() => navigation.navigate('CustomMotion')}>
-          <Text style={{fontSize: 14 * height_ratio}}>+ 커스텀 동작</Text>
+          <Text style={{fontSize: 14 * height_ratio, color: '#242424'}}>
+            + 커스텀 동작
+          </Text>
         </TouchableOpacity>
       ),
     });
