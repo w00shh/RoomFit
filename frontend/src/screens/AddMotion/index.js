@@ -105,6 +105,9 @@ const AddMotion = ({navigation, route}) => {
     return (
       <TouchableOpacity onPress={() => onSelect(motion)}>
         <MotionItem
+          navigateToMotionDetail={() => {
+            navigation.navigate('MotionDetail');
+          }}
           motion={motion}
           selected={selected}
           motionList={motionList}
@@ -164,7 +167,11 @@ const AddMotion = ({navigation, route}) => {
     <View
       style={[
         styles.pageContainer,
-        {alignItems: 'flex-start', alignSelf: 'center'},
+        {
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          alignSelf: 'center',
+        },
       ]}>
       <View style={styles.searchContainer}>
         <Search height={16 * height_ratio} width={16 * width_ratio} />
@@ -177,7 +184,7 @@ const AddMotion = ({navigation, route}) => {
       {displaySelected.size === 0 && (
         <Text style={styles.recommendedText}>추천 운동</Text>
       )}
-      {
+      {displaySelected.size !== 0 && (
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -212,7 +219,7 @@ const AddMotion = ({navigation, route}) => {
               </View>
             ))}
         </ScrollView>
-      }
+      )}
       <FlatList
         data={motionList}
         renderItem={({item, index}) => {

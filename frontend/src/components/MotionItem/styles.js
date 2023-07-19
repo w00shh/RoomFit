@@ -7,16 +7,21 @@ const styles = StyleSheet.create({
   motionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     width: 358 * width_ratio,
     height: 48 * height_ratio,
+    padding: 0,
+  },
+  leftContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8 * width_ratio,
     padding: 0,
   },
 
   imageContainer: {
     width: 48 * width_ratio,
     height: 48 * height_ratio,
-
-    marginHorizontal: 10 * width_ratio,
   },
 
   nameContainer: {

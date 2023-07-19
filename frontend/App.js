@@ -32,6 +32,7 @@ import WokroutCareer from './src/screens/Settings/WokroutCareer/index.js';
 import {LogBox} from 'react-native';
 import WorkoutStartSplash from './src/screens/WorkoutStart/splash.js';
 import Birthday from './src/screens/Register/Birthday/index.js';
+import MotionDetail from './src/screens/MotionDetail/index.js';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -181,6 +182,19 @@ const App = () => {
                 },
                 headerShadowVisible: false,
               }}></Stack.Screen>
+
+            <Stack.Screen
+              name="MotionDetail"
+              component={MotionDetail}
+              options={{
+                title: '동작 상세',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16 * height_ratio,
+                },
+                headerShadowVisible: false,
+              }}></Stack.Screen>
+
             <Stack.Screen
               name="WorkoutReady"
               component={WorkoutReady}
