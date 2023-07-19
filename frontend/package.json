@@ -28,6 +28,7 @@
     "react-native-calendars": "^1.1299.0",
     "react-native-chart-kit": "^6.12.0",
     "react-native-config": "^1.5.1",
+    "react-native-date-picker": "^4.2.13",
     "react-native-draggable-flatlist": "^4.0.1",
     "react-native-gesture-handler": "^2.12.0",
     "react-native-modal": "^13.0.1",
@@ -47,7 +48,9 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.2.3",
     "redux-thunk": "^2.4.2",
-    "styled-components": "^5.3.10"
+    "styled-components": "^5.3.10",
+    "victory": "^36.6.11",
+    "victory-native": "^36.6.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
