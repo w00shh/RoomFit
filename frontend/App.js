@@ -90,7 +90,12 @@ const App = () => {
             <Stack.Screen
               name="Register"
               component={Register}
-              options={{headerShown: true, title: ''}}
+              options={{
+                headerShown: true,
+                title: '',
+                headerShadowVisible: false,
+                headerBackVisible: false,
+              }}
             />
             <Stack.Screen
               name="Birthday"
@@ -193,6 +198,7 @@ const App = () => {
                   fontWeight: '700',
                   fontSize: 16 * height_ratio,
                 },
+                headerBackVisible: false,
                 headerShadowVisible: false,
               }}></Stack.Screen>
 
