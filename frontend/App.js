@@ -29,6 +29,7 @@ import AppProvider from './src/contexts/AppProvider.js';
 import RestingTime from './src/screens/Settings/RestingTime/index.js';
 import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
 import WokroutCareer from './src/screens/Settings/WokroutCareer/index.js';
+import CustomMotion from './src/screens/AddMotion/CustomMotion/index.js';
 import {LogBox} from 'react-native';
 import WorkoutStartSplash from './src/screens/WorkoutStart/splash.js';
 import Birthday from './src/screens/Register/Birthday/index.js';
@@ -181,6 +182,18 @@ const App = () => {
                 },
                 headerShadowVisible: false,
               }}></Stack.Screen>
+            <Stack.Screen
+              name="CustomMotion"
+              component={CustomMotion}
+              options={{
+                title: '커스텀 동작 생성',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16 * height_ratio,
+                },
+                headerShadowVisible: false,
+              }}></Stack.Screen>
+
             <Stack.Screen
               name="WorkoutReady"
               component={WorkoutReady}

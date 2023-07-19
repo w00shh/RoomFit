@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import styles from './styles';
 
@@ -16,14 +16,14 @@ const WorkoutTitle = props => {
     <View style={styles.workoutTitleContainer}>
       <View style={styles.descriptionContainer}>
         <View style={styles.imageContainer}>
-          {/* <Image
+          <Image
             source={{
               uri: props.motion.imageUrl,
             }}
             style={{
               width: 48 * width_ratio,
               height: 48 * height_ratio,
-            }}></Image> */}
+            }}></Image>
         </View>
         <View style={styles.nameContainer}>
           <Text style={styles.koreanText}>{props.motion.motion_name}</Text>
