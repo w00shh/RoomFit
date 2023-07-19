@@ -92,7 +92,7 @@ const Birthday = ({navigation, route}) => {
                 onDateChange={setDate}
                 customStyles={{
                   dateText: {
-                    fontSize: 16,
+                    fontSize: 16 * height_ratio,
                     fontWeight: '700',
                     margintHorizontal: 10,
                   },

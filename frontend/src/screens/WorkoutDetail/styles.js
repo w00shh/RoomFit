@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
 
   descriptionText: {
-    fontSize: 14,
+    fontSize: 14 * height_ratio,
     color: '#242424',
   },
 

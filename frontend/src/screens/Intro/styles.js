@@ -53,23 +53,29 @@ const styles = StyleSheet.create({
   },
   Google_Button: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    backgroundColor: '#4285f4',
-
+    backgroundColor: '#fff',
     width: 358 * width_ratio,
     height: 56 * height_ratio,
-
+    shadowColor: '#000',
+    // shadowOffset: {width: 0, height: 2},
+    // shadowOpacity: 0.1,
+    // shadowRadius: 2,
+    // elevation: 2, // Android에서 그림자를 표현하기 위해 필요한 속성
     borderRadius: 8,
     padding: 0,
-
+    paddingHorizontal: 8 * width_ratio,
     marginTop: 12 * height_ratio,
+    borderWidth: 0.5 * height_ratio,
+    borderColor: '#4285f4',
   },
 
   Button_Text: {
-    color: 'white',
+    color: '#242424',
     fontSize: 16 * height_ratio,
     fontWeight: '500',
+    flex: 1.3,
   },
 
   Button_Text2: {

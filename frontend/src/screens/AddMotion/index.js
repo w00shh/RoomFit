@@ -106,7 +106,11 @@ const AddMotion = ({navigation, route}) => {
       <TouchableOpacity onPress={() => onSelect(motion)}>
         <MotionItem
           navigateToMotionDetail={() => {
-            navigation.navigate('MotionDetail');
+            navigation.navigate('MotionDetail', {
+              motion: motion,
+              motionList: motionList,
+              setMotionList: setMotionList,
+            });
           }}
           motion={motion}
           selected={selected}

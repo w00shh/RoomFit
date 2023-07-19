@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
 
   pauseMotionTitle: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     fontWeight: '700',
     color: '#242424',
   },

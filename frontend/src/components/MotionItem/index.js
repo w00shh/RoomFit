@@ -131,7 +131,12 @@ const MotionItem = props => {
             {props.motion.motion_name}
           </Text>
         </View>
-        <TouchableOpacity onPress={props.navigateToMotionDetail}>
+        <TouchableOpacity
+          style={{
+            paddingHorizontal: 8 * width_ratio,
+            paddingVertical: 16 * height_ratio,
+          }}
+          onPress={props.navigateToMotionDetail}>
           <Question height={16 * height_ratio} width={16 * width_ratio} />
         </TouchableOpacity>
       </View>

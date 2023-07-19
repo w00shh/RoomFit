@@ -198,6 +198,7 @@ const App = () => {
                   fontWeight: '700',
                   fontSize: 16 * height_ratio,
                 },
+                headerBackVisible: false,
                 headerShadowVisible: false,
               }}></Stack.Screen>
 
