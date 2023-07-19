@@ -112,7 +112,9 @@ const MotionItem = props => {
                 height: 48 * height_ratio,
               }}></Image>
           ) : (
-            <Default></Default>
+            <Default
+              width={48 * width_ratio}
+              height={48 * height_ratio}></Default>
           )}
         </View>
         <View style={styles.nameContainer}>
