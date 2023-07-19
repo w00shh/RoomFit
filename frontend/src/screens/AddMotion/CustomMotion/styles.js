@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    fontSize: 16,
+    fontSize: 16 * height_ratio,
     color: '#242424',
   },
   modalContainer: {
