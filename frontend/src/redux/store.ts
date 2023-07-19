@@ -9,7 +9,6 @@ import bleReducer from './BLE/slice';
 
 const appReducer = combineReducers({
   ble: bleReducer,
-  user: userReducer,
 });
 
 export const store = configureStore({
@@ -24,7 +23,3 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-// const rootReducer = combineReducers({userReducer});
-
-// export const Store = createStore(rootReducer, applyMiddleware(thunk));

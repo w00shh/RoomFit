@@ -4,7 +4,7 @@ import {DeviceReference} from './BLEManager';
 interface BLEState {
   allDevices: DeviceReference[];
   connectedDevice: DeviceReference | null;
-  battery: number | null | undefined;
+  battery: string | null | undefined;
 }
 
 const initialState: BLEState = {
@@ -23,7 +23,7 @@ export type DevicesAction = PayloadAction<DeviceReference>;
 export const startScanning = createAction('bleState/startScanning');
 export const readDeviceBattery = createAction('bleState/readDeviceBattery');
 export const stopScanning = createAction('bleState/stopScanning');
-// export const startListening = createAction('bleState/startListening');
+export const startListening = createAction('bleState/startListening');
 
 // export const connectToDevice = createAction('bleState/connectToDevice');
 // export const disconnectDevice = createAction('bleState/disconnectDevice');
@@ -45,7 +45,8 @@ const bleState = createSlice({
         device => device.id !== action.payload?.id,
       );
     },
-    setBattery: (state, action: PayloadAction<number | null | undefined>) => {
+    setBattery: (state, action: PayloadAction<string | null | undefined>) => {
+      console.log(action.payload);
       state.battery = action.payload;
     },
   },

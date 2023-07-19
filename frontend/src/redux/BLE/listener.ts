@@ -4,6 +4,7 @@ import {
   setConnectedDevice,
   setBattery,
   startScanning,
+  startListening,
   readDeviceBattery,
   stopScanning,
 } from './slice';
@@ -64,12 +65,21 @@ bleMiddleware.startListening({
 // });
 
 bleMiddleware.startListening({
+  actionCreator: startListening,
+  effect: async (_, listenerApi) => {
+    if (store.getState().ble.connectedDevice) {
+      await BLEManager.startStreaming();
+    }
+  },
+});
+
+bleMiddleware.startListening({
   actionCreator: readDeviceBattery,
   effect: async (_, listenerApi) => {
     if (store.getState().ble.connectedDevice) {
       await BLEManager.readBattery()
         .then(res => {
-          listenerApi.dispatch(setBattery(res));
+          listenerApi.dispatch(setBattery(res!));
         })
         .catch(err => {
           listenerApi.dispatch(setBattery(null));

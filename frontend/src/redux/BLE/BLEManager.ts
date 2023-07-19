@@ -1,10 +1,10 @@
 import {NativeModules, NativeEventEmitter, Platform} from 'react-native';
 import BleManager, {Peripheral} from 'react-native-ble-manager';
-import {setConnectedDevice} from './slice';
 import {LogBox} from 'react-native';
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 import {Buffer} from 'buffer';
 import {store} from '../store';
+import {setBattery} from './slice';
 
 export interface DeviceReference {
   name?: string | null;
@@ -111,12 +111,41 @@ class BLEManager {
   //   this.onDisconnectListener.remove();
   // };
 
+  startStreaming = async () => {
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      BleManager.startNotification(
+        id,
+        '10000000-0000-0000-0000-000000000001',
+        '20000000-0000-0000-0000-000000000001',
+      )
+        .then(() => {
+          console.log('Starting notification...');
+        })
+        .catch(err => {
+          console.error('Failed to start notification:', err);
+        });
+
+      this.bleManagerEmitter.addListener(
+        'BleManagerDidUpdateValueForCharacteristic',
+        async (data: any) => {
+          // console.log('New Data', Buffer.from(data.value).toString());
+          store.dispatch(await setBattery(Buffer.from(data.value).toString()));
+          // test(Buffer.from(data.value).toString());
+        },
+      );
+    }
+  };
+
   readBattery = async () => {
     const id = store.getState().ble.connectedDevice?.id;
     if (id) {
-      const battery = await BleManager.read(id, '180f', '2a19');
-      console.log(battery);
-      return battery[0];
+      const battery = await BleManager.read(
+        id,
+        '10000000-0000-0000-0000-000000000001',
+        '20000000-0000-0000-0000-000000000001',
+      );
+      return Buffer.from(battery).toString();
     }
   };
 }
