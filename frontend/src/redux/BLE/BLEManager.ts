@@ -128,9 +128,9 @@ class BLEManager {
 
       this.bleManagerEmitter.addListener(
         'BleManagerDidUpdateValueForCharacteristic',
-        async (data: any) => {
+        (data: any) => {
           // console.log('New Data', Buffer.from(data.value).toString());
-          store.dispatch(await setBattery(Buffer.from(data.value).toString()));
+          store.dispatch(setBattery(Buffer.from(data.value).toString()));
           // test(Buffer.from(data.value).toString());
         },
       );
