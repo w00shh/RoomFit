@@ -86,7 +86,7 @@ const MyRoutine = ({navigation}) => {
   //루틴 생성 api 호출
   const handleMakeRoutinePress = async () => {
     const body = {
-      user_id: appcontext,
+      user_id: appcontext.state.userid,
     };
     await serverAxios
       .post('/routine', body)
