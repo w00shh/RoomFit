@@ -167,7 +167,7 @@ const ConnectDevice = ({navigation}) => {
           <View style={styles.connectContainer}>
             <View>
               <Text style={styles.connectText}>{connectedDevice.name}</Text>
-              {typeof battery == 'number' && (
+              {typeof battery == 'string' && (
                 <Text style={styles.battery}>배터리 {battery}%</Text>
               )}
             </View>
