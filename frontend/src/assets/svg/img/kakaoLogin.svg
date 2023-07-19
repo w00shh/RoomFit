@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #191919;
+        font-family: AppleSDGothicNeo-Medium-KSCpc-EUC-H, 'Apple SD Gothic Neo';
+        font-size: 30px;
+        font-weight: 500;
+        letter-spacing: 0em;
+      }
+
+      .cls-2 {
+        fill: #fee500;
+      }
+
+      .cls-3 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <g id="Large_and_Narrow_600px_X_90px_" data-name="Large and Narrow (600px X 90px)">
+    <rect class="cls-2" width="600" height="90" rx="12" ry="12"/>
+    <path class="cls-3" d="m46,27.97c-9.94,0-18,6.26-18,13.97,0,4.8,3.12,9.03,7.86,11.55l-2,7.33c-.18.65.56,1.16,1.13.79l8.75-5.81c.74.07,1.49.11,2.25.11,9.94,0,18-6.26,18-13.97s-8.06-13.97-18-13.97"/>
+    <text class="cls-1" transform="translate(238.89 56.98)"><tspan x="0" y="0">카카오 로그인</tspan></text>
+  </g>
+</svg>
