@@ -4,16 +4,16 @@ import {
   Text,
   View,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
 import styles from './styles';
 import {useContext, useEffect} from 'react';
-
+import {AppContext} from '../../contexts/AppProvider';
 //svg
 import Back from '../../assets/svg/buttons/single/back.svg';
 import Star_A from '../../assets/svg/buttons/active/star.svg';
 import Star_D from '../../assets/svg/buttons/default/star.svg';
-import {AppContext} from '../../contexts/AppProvider';
-
+import Default from '../../assets/svg/icons/default_workout.svg';
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
@@ -139,7 +139,39 @@ const MotionDetail = ({navigation, route}) => {
 
   return (
     <View style={styles.pageContainer}>
-      <View></View>
+      <View>
+        {route.params.motion.imageUrl ? (
+          <Image
+            source={{
+              uri: route.params.motion.imageUrl,
+            }}
+            style={{
+              width: 200 * width_ratio,
+              height: 200 * height_ratio,
+            }}></Image>
+        ) : (
+          <Default
+            width={200 * width_ratio}
+            height={200 * height_ratio}></Default>
+        )}
+      </View>
+      <View style={styles.targetContainer}>
+        <Text style={styles.titleText}>운동부위</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 8 * height_ratio,
+            marginBottom: 24 * height_ratio,
+          }}>
+          <View style={styles.targetBox}>
+            <Text>{route.params.motion.major_target}</Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.detailContainer}>
+        <Text style={styles.titleText}>운동상세</Text>
+        <Text>{route.params.motion.description}</Text>
+      </View>
     </View>
   );
 };
