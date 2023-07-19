@@ -77,6 +77,7 @@ const AppProvider = ({children}) => {
       targetsetindex,
       targetmotionrangemin,
       targetmotionrangemax,
+      muscleList,
     },
     actions: {
       setIsLogin,

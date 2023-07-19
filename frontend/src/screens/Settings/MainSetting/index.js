@@ -77,6 +77,18 @@ const MainSetting = ({navigation}) => {
     }
   };
 
+  const calcTime = time => {
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
+    if (time < 60) {
+      return `${time}초`;
+    } else if (time % 60 === 0) {
+      return `${min}분`;
+    } else {
+      return `${min}분 ${sec}초`;
+    }
+  };
+
   return (
     <SafeAreaView style={styles.pageContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -199,7 +211,7 @@ const MainSetting = ({navigation}) => {
                 gap: 8 * width_ratio,
               }}>
               <Text style={styles.contentText2}>
-                {appcontext.state.userSetTime}초
+                {calcTime(appcontext.state.userSetTime)}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -218,7 +230,7 @@ const MainSetting = ({navigation}) => {
                 gap: 8 * width_ratio,
               }}>
               <Text style={styles.contentText2}>
-                {appcontext.state.userMotionTime}초
+                {calcTime(appcontext.state.userMotionTime)}
               </Text>
               <TouchableOpacity
                 onPress={() => {

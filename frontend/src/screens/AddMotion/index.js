@@ -142,7 +142,7 @@ const AddMotion = ({navigation, route}) => {
       ),
 
       headerRight: () => (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('CustomMotion')}>
           <Text style={{fontSize: 14 * height_ratio}}>+ 커스텀 동작</Text>
         </TouchableOpacity>
       ),

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import styles from './styles';
 
