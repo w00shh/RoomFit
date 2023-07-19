@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  KeyboardAvoidingView,
   Modal,
   Text,
   TextInput,
@@ -85,7 +86,7 @@ const MotionRangeModal = props => {
       transparent={true}
       animationType="fade">
       <View style={styles.modalContainer}>
-        <View style={styles.motionRangeContainer}>
+        <KeyboardAvoidingView style={styles.motionRangeContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>가동범위 자동인식</Text>
           </View>
@@ -219,7 +220,7 @@ const MotionRangeModal = props => {
                 marginVertical={0}></CustomButton_B>
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </View>
     </Modal>
   );

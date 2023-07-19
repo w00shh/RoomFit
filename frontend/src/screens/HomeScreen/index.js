@@ -130,7 +130,7 @@ const HomeScreen = ({navigation}) => {
       <ScrollView
         style={{marginBottom: 32 * height_ratio}}
         showsVerticalScrollIndicator={false}>
-        {!connectedDevice && (
+        {!true && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
             <Text style={styles.noConnectionText2}>
@@ -146,7 +146,7 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        {connectedDevice && (
+        {true && (
           <View style={{alignItems: 'center'}}>
             <CustomButton_B
               style={styles.connectButton}

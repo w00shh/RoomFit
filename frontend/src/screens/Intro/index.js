@@ -9,7 +9,6 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Kakao from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import {AppContext} from '../../contexts/AppProvider';
 import {BackHandler} from 'react-native';
@@ -21,6 +20,8 @@ import Intro_Img from '../../assets/svg/img/intro.svg';
 import Logo from '../../assets/svg/img/logo.svg';
 import Apple from '../../assets/svg/icons/apple.svg';
 import Google from '../../assets/svg/icons/google.svg';
+import Google2 from '../../assets/svg/img/google.svg';
+import Kakao from '../../assets/svg/img/kakaoLogin.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -59,7 +60,6 @@ const Intro = ({navigation}) => {
         const [key, value] = pair.split('=');
         params[key] = value;
       });
-      console.log(params);
       if (params.user_id) {
         appcontext.actions.setIsLogin(true);
         appcontext.actions.setUserid(params.user_id);
@@ -127,16 +127,13 @@ const Intro = ({navigation}) => {
             Platform.OS === 'ios' ? 64 * height_ratio : 32 * height_ratio,
         }}></View>
       <Intro_Img height={352 * height_ratio} width={320 * width_ratio} />
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('Birthday', {email: 'asfd@gmail.com', id: 55})
-        }>
-        <Logo
-          style={styles.mainLogo}
-          height={80 * height_ratio}
-          width={232 * width_ratio}
-        />
-      </TouchableOpacity>
+
+      <Logo
+        style={styles.mainLogo}
+        height={80 * height_ratio}
+        width={232 * width_ratio}
+      />
+
       {/* <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}
         style={styles.Apple_Button}>
@@ -150,8 +147,7 @@ const Intro = ({navigation}) => {
           );
         }}
         style={styles.Kakao_Button}>
-        <Kakao name="chatbubble" size={20 * height_ratio} color="black"></Kakao>
-        <Text style={styles.Button_Text2}> Kakao로 시작하기</Text>
+        <Kakao></Kakao>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.Google_Button}
@@ -160,8 +156,11 @@ const Intro = ({navigation}) => {
             `http://ec2-3-36-196-200.ap-northeast-2.compute.amazonaws.com:4000/account/google-auth`,
           )
         }>
-        <Google height={24 * height_ratio} width={24 * width_ratio} />
-        <Text style={styles.Button_Text}> Google로 시작하기</Text>
+        <View style={{flex: 1}}>
+          <Google2 height={40 * height_ratio} width={40 * width_ratio} />
+        </View>
+        <Text style={styles.Button_Text}>Google로 시작하기</Text>
+        <View style={{flex: 0.7}}></View>
       </TouchableOpacity>
 
       <View style={styles.selectionContainer}>
