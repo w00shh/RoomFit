@@ -149,7 +149,7 @@ const MotionRangeModal = props => {
               </View>
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: 12 * height_ratio,
                   color: '#000',
                   lineHeight: 56 * height_ratio,
                 }}>
@@ -182,7 +182,7 @@ const MotionRangeModal = props => {
               </View>
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: 12 * height_ratio,
                   color: '#000',
                   lineHeight: 56 * height_ratio,
                 }}>

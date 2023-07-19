@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 
   explainText: {
-    fontSize: 20,
+    fontSize: 20 * height_ratio,
     color: '#242424',
     fontWeight: '700',
   },

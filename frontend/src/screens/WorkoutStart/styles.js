@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
   motion_name: {
     color: '#242424',
-    fontSize: 20,
+    fontSize: 20 * height_ratio,
     fontWeight: '400',
   },
 
