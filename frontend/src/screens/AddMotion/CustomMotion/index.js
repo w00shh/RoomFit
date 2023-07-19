@@ -42,6 +42,23 @@ const CustomMotion = ({navigation}) => {
   const [allSelection, setAllSelection] = useState(true);
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.push('AddMotion', {
+              isRoutine: false,
+              motion_index_base: 0,
+              isCustom: true,
+            });
+          }}>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+
+  useEffect(() => {
     if (
       motionName.length > 0 &&
       mainMuscle &&
