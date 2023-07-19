@@ -127,11 +127,16 @@ const Intro = ({navigation}) => {
             Platform.OS === 'ios' ? 64 * height_ratio : 32 * height_ratio,
         }}></View>
       <Intro_Img height={352 * height_ratio} width={320 * width_ratio} />
-      <Logo
-        style={styles.mainLogo}
-        height={80 * height_ratio}
-        width={232 * width_ratio}
-      />
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Birthday', {email: 'asfd@gmail.com', id: 55})
+        }>
+        <Logo
+          style={styles.mainLogo}
+          height={80 * height_ratio}
+          width={232 * width_ratio}
+        />
+      </TouchableOpacity>
       {/* <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}
         style={styles.Apple_Button}>
@@ -141,7 +146,7 @@ const Intro = ({navigation}) => {
       <TouchableOpacity
         onPress={() => {
           Linking.openURL(
-            `http://ec2-13-125-92-213.ap-northeast-2.compute.amazonaws.com:4000/account/kakao-auth`,
+            `http://ec2-3-36-196-200.ap-northeast-2.compute.amazonaws.com:4000/account/kakao-auth`,
           );
         }}
         style={styles.Kakao_Button}>
@@ -152,7 +157,7 @@ const Intro = ({navigation}) => {
         style={styles.Google_Button}
         onPress={() =>
           Linking.openURL(
-            `http://ec2-13-125-92-213.ap-northeast-2.compute.amazonaws.com:4000/account/google-auth`,
+            `http://ec2-3-36-196-200.ap-northeast-2.compute.amazonaws.com:4000/account/google-auth`,
           )
         }>
         <Google height={24 * height_ratio} width={24 * width_ratio} />

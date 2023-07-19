@@ -23,6 +23,7 @@ import {serverAxios} from '../../utils/commonAxios';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {AppContext} from '../../contexts/AppProvider';
 import {BackHandler} from 'react-native';
+import {VictoryLine, VictoryChart, VictoryAxis} from 'victory-native';
 import {
   GestureHandlerRootView,
   gestureHandlerRootHOC,
@@ -46,7 +47,8 @@ import Setting from '../../assets/svg/buttons/active/setting.svg';
 
 import Stop from '../../assets/svg/buttons/single/stop.svg';
 import Play from '../../assets/svg/buttons/single/play.svg';
-
+import Cline from '../../assets/svg/icons/colorLine.svg';
+import Cline2 from '../../assets/svg/icons/colorLine2.svg';
 import Right from '../../assets/svg/buttons/single/arrow/right.svg';
 
 import SLeft from '../../assets/svg/buttons/single/left_small.svg';
@@ -144,6 +146,8 @@ export const WorkoutStart = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+
+  //graph 관련
 
   //battery
   const battery = useAppSelector(state => state.ble.battery);
@@ -887,7 +891,8 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </Modal>
-          <View style={{alignItems: 'center', height: 440 * height_ratio}}>
+          <View
+            style={{alignItems: 'center', marginBottom: 260 * height_ratio}}>
             <View style={{width: '100%'}}>
               <View
                 style={{
@@ -921,6 +926,107 @@ export const WorkoutStart = ({navigation, route}) => {
             </View>
           </View>
           {/** Divider */}
+
+          <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 16 * height_ratio,
+                justifyContent: 'space-between',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Cline></Cline>
+                <Text
+                  style={{
+                    fontSize: 13 * height_ratio,
+                    color: '#242424',
+                    marginLeft: 4 * width_ratio,
+                  }}>
+                  left
+                </Text>
+              </View>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+                <Text
+                  style={{
+                    fontSize: 13 * height_ratio,
+                    color: '#242424',
+                    marginLeft: 4 * width_ratio,
+                  }}>
+                  이전
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13 * height_ratio,
+                    color: '#FF594f',
+                    marginLeft: 4 * width_ratio,
+                  }}>
+                  L 80
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13 * height_ratio,
+                    color: '#2fcbe0',
+                    marginLeft: 4 * width_ratio,
+                  }}>
+                  R 80
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 16 * height_ratio,
+                justifyContent: 'space-between',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Cline2></Cline2>
+                <Text
+                  style={{
+                    fontSize: 13 * height_ratio,
+                    color: '#242424',
+                    marginLeft: 4 * width_ratio,
+                  }}>
+                  right
+                </Text>
+              </View>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+                <Text
+                  style={{
+                    fontSize: 13 * height_ratio,
+                    color: '#242424',
+                    marginLeft: 4 * width_ratio,
+                  }}>
+                  최대
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13 * height_ratio,
+                    color: '#FF594f',
+                    marginLeft: 4 * width_ratio,
+                  }}>
+                  L 80
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13 * height_ratio,
+                    color: '#2fcbe0',
+                    marginLeft: 4 * width_ratio,
+                  }}>
+                  R 80
+                </Text>
+              </View>
+            </View>
+          </View>
           <View
             style={{
               height: 8 * height_ratio,
@@ -933,6 +1039,7 @@ export const WorkoutStart = ({navigation, route}) => {
               marginBottom: 32 * height_ratio,
             }}
           />
+
           <View style={{alignItems: 'center', marginBottom: 32 * height_ratio}}>
             <Text
               style={[styles.motion_name, {marginBottom: 4 * height_ratio}]}>
@@ -1077,6 +1184,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   placeholder="운동 기록 이름"></TextInput>
                 <TextInput
                   style={styles.memoInput}
+                  multiline={true}
                   onChangeText={text => setWorkoutMemo(text)}
                   value={workoutMemo}
                   placeholder="추가 메모 남기기 (선택)"></TextInput>
@@ -1085,6 +1193,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   <CustomButton_B
                     width={264 * width_ratio}
                     onPress={() => {
+                      saveWorkoutRecord();
                       navigation.reset({routes: [{name: 'HomeScreen'}]});
                     }}
                     content="확인"
