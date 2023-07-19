@@ -71,10 +71,11 @@ const Login = ({navigation, route}) => {
       .then(res => {
         console.log(res.data);
         if (res.data.success) {
-          getUserInfo();
           appcontext.actions.setIsLogin(res.data.success);
           appcontext.actions.setUserid(res.data.user_id);
           appcontext.actions.setUseremail(res.data.email);
+
+          getUserInfo(res.data.user_id);
 
           saveLogin(res.data.user_id);
         }
@@ -86,14 +87,19 @@ const Login = ({navigation, route}) => {
       });
   };
 
-  const getUserInfo = async () => {
+  const getUserInfo = async userId => {
     await serverAxios
-      .get('/account/user-info?user_id=' + appcontext.state.userid)
+      .get('/account/user-info?user_id=' + userId)
       .then(res => {
         console.log(res.data);
         if (res.data.user_name)
           appcontext.actions.setUsernickname(res.data.user_name);
-        if (res.data.birth) appcontext.actions.setUserBirth(res.data.birth);
+        if (res.data.birthday) {
+          console.log(res.data.birthday);
+          appcontext.actions.setUserBirth(res.data.birthday);
+          console.log(appcontext.state.UserBirth);
+        }
+
         if (res.data.gender) appcontext.actions.setUserGender(res.data.gender);
         if (res.data.height) appcontext.actions.setUserHeight(res.data.height);
         if (res.data.weight) appcontext.actions.setUserWeight(res.data.weight);

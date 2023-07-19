@@ -162,9 +162,10 @@ const Register = ({navigation}) => {
       .post('/account/register', body)
       .then(res => {
         console.log(res.data);
-        navigation.push('Login', {
+        navigation.navigate('Birthday', {
           isRegister: true,
           email: email,
+          id: id,
         });
       })
       .catch(e => {

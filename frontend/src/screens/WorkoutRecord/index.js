@@ -82,9 +82,12 @@ const WorkoutRecord = ({navigation, route}) => {
     const body = {
       user_id: appcontext.state.userid,
     };
+    console.log(body);
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {
+        console.log('asd');
+        console.log(res.data);
         setWorkoutList(res.data);
       })
       .catch(e => console.log(e));
@@ -144,7 +147,7 @@ const WorkoutRecord = ({navigation, route}) => {
     await serverAxios
       .post('/workout/calender/month', body)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         setworkedDay(res.data);
       })
       .catch(e => {
@@ -166,7 +169,7 @@ const WorkoutRecord = ({navigation, route}) => {
     };
     const url = '/workout/stat/' + period;
     await serverAxios.post(url, body).then(res => {
-      console.log(res.data);
+      //console.log(res.data);
       setPeriodWorkout(res.data);
     });
   };

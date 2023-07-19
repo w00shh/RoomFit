@@ -48,8 +48,8 @@ const AppProvider = ({children}) => {
   const [userWorkoutCareer, setUserWorkoutCareer] = useState('');
   const [userBodyFat, setUserBodyFat] = useState();
   const [powerSaving, setPowerSaving] = useState(7);
-  const [smartSafety, setSmartSaftey] = useState(true);
-  const [smartAssist, setSmartAssist] = useState(true);
+  const [smartSaftey, setSmartSaftey] = useState();
+  const [smartAssist, setSmartAssist] = useState();
   const [targetmotionindex, setTargetmotionindex] = useState(0);
   const [targetsetindex, setTargetsetindex] = useState(0);
   const [targetmotionrangemin, setTargetmotionrangemin] = useState(-1);
@@ -71,7 +71,7 @@ const AppProvider = ({children}) => {
       userWorkoutCareer,
       userBodyFat,
       powerSaving,
-      smartSafety,
+      smartSaftey,
       smartAssist,
       targetmotionindex,
       targetsetindex,

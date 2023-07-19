@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 
   radioText: {
     fontSize: 16 * height_ratio,
-    fontColor: '#242424',
+    color: '#242424',
   },
 
   autoContainer: {
