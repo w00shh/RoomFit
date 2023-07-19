@@ -22,14 +22,18 @@ import PasswordSetting from './src/screens/Settings/PasswordSetting/index.js';
 import HeightWeight from './src/screens/Settings/HeightWeight/index.js';
 import BodyFat from './src/screens/Settings/BodyFat/index.js';
 import IntroSplash from './src/screens/Intro/splash.js';
+import Gender from './src/screens/Register/Gender/index.js';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
 import AppProvider from './src/contexts/AppProvider.js';
 import RestingTime from './src/screens/Settings/RestingTime/index.js';
 import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
 import WokroutCareer from './src/screens/Settings/WokroutCareer/index.js';
+import CustomMotion from './src/screens/AddMotion/CustomMotion/index.js';
 import {LogBox} from 'react-native';
 import WorkoutStartSplash from './src/screens/WorkoutStart/splash.js';
+import Birthday from './src/screens/Register/Birthday/index.js';
+import MotionDetail from './src/screens/MotionDetail/index.js';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -93,6 +97,22 @@ const App = () => {
                 headerBackVisible: false,
               }}
             />
+            <Stack.Screen
+              name="Birthday"
+              component={Birthday}
+              options={{
+                headerShadowVisible: false,
+                title: '',
+                headerBackVisible: false,
+              }}></Stack.Screen>
+            <Stack.Screen
+              name="Gender"
+              component={Gender}
+              options={{
+                headerShadowVisible: false,
+                headerBackVisible: false,
+                title: '',
+              }}></Stack.Screen>
             <Stack.Screen
               name="HomeScreen"
               component={HomeScreen}
@@ -168,6 +188,31 @@ const App = () => {
                 },
                 headerShadowVisible: false,
               }}></Stack.Screen>
+
+            <Stack.Screen
+              name="MotionDetail"
+              component={MotionDetail}
+              options={{
+                title: '동작 상세',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16 * height_ratio,
+                },
+                headerShadowVisible: false,
+              }}></Stack.Screen>
+
+            <Stack.Screen
+              name="CustomMotion"
+              component={CustomMotion}
+              options={{
+                title: '커스텀 동작 생성',
+                headerTitleStyle: {
+                  fontWeight: '700',
+                  fontSize: 16 * height_ratio,
+                },
+                headerShadowVisible: false,
+              }}></Stack.Screen>
+
             <Stack.Screen
               name="WorkoutReady"
               component={WorkoutReady}

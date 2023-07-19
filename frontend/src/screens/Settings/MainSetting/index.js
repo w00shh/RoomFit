@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   View,
   Text,
@@ -27,10 +27,10 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const MainSetting = ({navigation}) => {
   const appcontext = useContext(AppContext);
-  const [isAssist, setIsAssist] = useState(true);
-  const [isLock, setIsLock] = useState(false);
+  const [isAssist, setIsAssist] = useState(appcontext.state.smartAssist);
+  const [isSaftey, setIsSaftey] = useState(appcontext.state.smartSaftey);
   const toggleSwitch = () => setIsAssist(previousState => !previousState);
-  const toggleSwitch2 = () => setIsLock(previousState => !previousState);
+  const toggleSwitch2 = () => setIsSaftey(previousState => !previousState);
 
   const handleLogout = () => {
     appcontext.actions.setIsLogin(false);
@@ -43,6 +43,49 @@ const MainSetting = ({navigation}) => {
       await AsyncStorage.setItem('isLogin', '');
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    console.log(isAssist);
+    console.log(isSaftey);
+  }, []);
+
+  useEffect(() => {
+    assist();
+  }, [isAssist]);
+
+  useEffect(() => {
+    saftey();
+  }, [isSaftey]);
+
+  const assist = async () => {
+    try {
+      await AsyncStorage.setItem('SmartAssist', isAssist ? 'true' : 'false');
+      appcontext.actions.setSmartAssist(isAssist);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const saftey = async () => {
+    try {
+      await AsyncStorage.setItem('SmartSaftey', isSaftey ? 'true' : 'false');
+      appcontext.actions.setSmartSaftey(isSaftey);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const calcTime = time => {
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
+    if (time < 60) {
+      return `${time}초`;
+    } else if (time % 60 === 0) {
+      return `${min}분`;
+    } else {
+      return `${min}분 ${sec}초`;
     }
   };
 
@@ -118,11 +161,11 @@ const MainSetting = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 14 * height_ratio,
-                    color: isLock ? '#5252fa' : '#f5f5f5',
+                    color: isSaftey ? '#5252fa' : '#f5f5f5',
                   }}>
                   ON
                 </Text>
-                <Switch on={isLock} onPress={toggleSwitch2} />
+                <Switch on={isSaftey} onPress={toggleSwitch2} />
               </View>
             </View>
             <Text style={styles.subcontentText}>
@@ -168,7 +211,7 @@ const MainSetting = ({navigation}) => {
                 gap: 8 * width_ratio,
               }}>
               <Text style={styles.contentText2}>
-                {appcontext.state.userSetTime}초
+                {calcTime(appcontext.state.userSetTime)}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -187,7 +230,7 @@ const MainSetting = ({navigation}) => {
                 gap: 8 * width_ratio,
               }}>
               <Text style={styles.contentText2}>
-                {appcontext.state.userMotionTime}초
+                {calcTime(appcontext.state.userMotionTime)}
               </Text>
               <TouchableOpacity
                 onPress={() => {

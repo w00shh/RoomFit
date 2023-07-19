@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 48 * width_ratio,
     height: 48 * height_ratio,
-    backgroundColor: 'grey',
   },
 
   nameContainer: {

@@ -24,7 +24,8 @@ const IntroSplash = ({navigation}) => {
 
   const checkLogined = async () => {
     const userId = await AsyncStorage.getItem('isLogin');
-    console.log(userId);
+    const assist = await AsyncStorage.getItem('SmartAssist');
+    const saftey = await AsyncStorage.getItem('SmartSaftey');
     if (userId !== null) {
       appcontext.actions.setUserid(userId);
       setAutoLogin(true);
@@ -33,6 +34,21 @@ const IntroSplash = ({navigation}) => {
       setTimeout(() => {
         navigation.navigate('Intro');
       }, 1500);
+    }
+
+    if (assist === 'false') {
+      await AsyncStorage.setItem('SmartAssist', 'false');
+      appcontext.actions.setSmartAssist(false);
+    } else {
+      await AsyncStorage.setItem('SmartAssist', 'true');
+      appcontext.actions.setSmartAssist(true);
+    }
+    if (saftey === 'false') {
+      await AsyncStorage.setItem('SmartSaftey', 'false');
+      appcontext.actions.setSmartSaftey(false);
+    } else {
+      await AsyncStorage.setItem('SmartSaftey', 'true');
+      appcontext.actions.setSmartSaftey(true);
     }
   };
 

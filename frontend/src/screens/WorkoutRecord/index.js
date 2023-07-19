@@ -12,7 +12,13 @@ import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
 
+import TempPeople from '../../assets/images/img_sample1.svg';
+import Profile from '../../assets/images/normalProfile.svg';
 import moment from 'moment';
+import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
+import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
+import Body from 'react-native-vector-icons/Ionicons';
 import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
 import Sample from '../../assets/svg/img_sample1.svg';
@@ -28,7 +34,7 @@ import Volume from '../../assets/svg/icons/volume.svg';
 import Calorie from '../../assets/svg/icons/calorie.svg';
 import ICalendar from '../../assets/svg/icons/calendar.svg';
 
-import {Information, TutModal} from '../../components/Modal/information';
+import Question from '../../assets/svg/buttons/single/question.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -54,8 +60,6 @@ const WorkoutRecord = ({navigation, route}) => {
   const [period, setPeriod] = useState(7);
   const [periodWorkout, setPeriodWorkout] = useState();
 
-  const [showTut, setShowTut] = useState(false);
-
   const markDates = () => {
     const updateMarkedDates = {};
 
@@ -78,9 +82,12 @@ const WorkoutRecord = ({navigation, route}) => {
     const body = {
       user_id: appcontext.state.userid,
     };
+    console.log(body);
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {
+        console.log('asd');
+        console.log(res.data);
         setWorkoutList(res.data);
       })
       .catch(e => console.log(e));
@@ -140,7 +147,7 @@ const WorkoutRecord = ({navigation, route}) => {
     await serverAxios
       .post('/workout/calender/month', body)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         setworkedDay(res.data);
       })
       .catch(e => {
@@ -162,14 +169,13 @@ const WorkoutRecord = ({navigation, route}) => {
     };
     const url = '/workout/stat/' + period;
     await serverAxios.post(url, body).then(res => {
-      console.log(res.data);
+      //console.log(res.data);
       setPeriodWorkout(res.data);
     });
   };
 
   return (
     <View style={styles.pageContainer}>
-      <TutModal visible={showTut} setShowTut={setShowTut} />
       <View
         style={{
           flexDirection: 'row',
@@ -578,27 +584,20 @@ const WorkoutRecord = ({navigation, route}) => {
               <View
                 style={{
                   height: 8 * height_ratio,
-                  width: Dimensions.get('window').width,
-
-                  alignSelf: 'center',
+                  width: '100%',
 
                   backgroundColor: '#F5F5F5',
                   marginTop: 16 * height_ratio,
                   marginBottom: 24 * height_ratio,
-
-                  overflow: 'visible',
                 }}
               />
               <Text style={styles.yoyakText}>운동 통계</Text>
               <View
-                style={{
-                  marginTop: 24 * height_ratio,
-                  gap: 24 * height_ratio,
-                  alignSelf: 'flex-start',
-                }}>
+                style={{marginTop: 24 * height_ratio, gap: 24 * height_ratio}}>
                 <View
                   style={{
                     flexDirection: 'row',
+                    justifyContent: 'flex-start',
                     gap: 11 * width_ratio,
                   }}>
                   <View
@@ -647,11 +646,12 @@ const WorkoutRecord = ({navigation, route}) => {
                         <Text style={styles.pauseSubtitle}>
                           누적 유효 수행시간
                         </Text>
-                        <Information
-                          onPress={() => {
-                            setShowTut(true);
-                          }}
-                        />
+                        <TouchableOpacity>
+                          <Question
+                            height={16 * height_ratio}
+                            width={16 * width_ratio}
+                          />
+                        </TouchableOpacity>
                       </View>
 
                       <Text style={styles.pauseSubcontent}>

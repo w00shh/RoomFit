@@ -4,37 +4,29 @@ const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const styles = StyleSheet.create({
-  motionContainer: {
+  pageContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingHorizontal: 16 * width_ratio,
+    backgroundColor: 'white',
+  },
+  restContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: 358 * width_ratio,
-    height: 48 * height_ratio,
-    padding: 0,
   },
-  leftContainer: {
+  restChecker: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8 * width_ratio,
-    padding: 0,
+    marginRight: 16 * width_ratio,
   },
 
-  imageContainer: {
-    width: 48 * width_ratio,
-    height: 48 * height_ratio,
-  },
-
-  nameContainer: {
-    flexDirection: 'column',
-  },
-
-  koreanText: {
-    fontSize: 14 * height_ratio,
+  explainText: {
+    fontSize: 20,
     color: '#242424',
-  },
-  englishText: {
-    fontSize: 12 * height_ratio,
-    color: '#808080',
+    fontWeight: '700',
   },
 });
 

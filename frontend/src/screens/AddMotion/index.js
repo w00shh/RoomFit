@@ -105,6 +105,9 @@ const AddMotion = ({navigation, route}) => {
     return (
       <TouchableOpacity onPress={() => onSelect(motion)}>
         <MotionItem
+          navigateToMotionDetail={() => {
+            navigation.navigate('MotionDetail');
+          }}
           motion={motion}
           selected={selected}
           motionList={motionList}
@@ -132,15 +135,21 @@ const AddMotion = ({navigation, route}) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            if (route.params.isCustom) {
+              navigation.reset({routes: [{name: 'HomeScreen'}]});
+            } else {
+              navigation.goBack();
+            }
           }}>
           <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       ),
 
       headerRight: () => (
-        <TouchableOpacity>
-          <Text style={{fontSize: 14 * height_ratio}}>+ 커스텀 동작</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('CustomMotion')}>
+          <Text style={{fontSize: 14 * height_ratio, color: '#242424'}}>
+            + 커스텀 동작
+          </Text>
         </TouchableOpacity>
       ),
     });
@@ -164,7 +173,11 @@ const AddMotion = ({navigation, route}) => {
     <View
       style={[
         styles.pageContainer,
-        {alignItems: 'flex-start', alignSelf: 'center'},
+        {
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          alignSelf: 'center',
+        },
       ]}>
       <View style={styles.searchContainer}>
         <Search height={16 * height_ratio} width={16 * width_ratio} />
@@ -177,7 +190,7 @@ const AddMotion = ({navigation, route}) => {
       {displaySelected.size === 0 && (
         <Text style={styles.recommendedText}>추천 운동</Text>
       )}
-      {
+      {displaySelected.size !== 0 && (
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -212,7 +225,7 @@ const AddMotion = ({navigation, route}) => {
               </View>
             ))}
         </ScrollView>
-      }
+      )}
       <FlatList
         data={motionList}
         renderItem={({item, index}) => {
