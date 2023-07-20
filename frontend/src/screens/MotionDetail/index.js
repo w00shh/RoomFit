@@ -20,6 +20,9 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const MotionDetail = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
+  const body_region = route.params.motion.body_region.split(', ');
+  const sub_muscle = route.params.motion.sub_muscle.split(',');
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -164,11 +167,18 @@ const MotionDetail = ({navigation, route}) => {
             gap: 8 * height_ratio,
             marginBottom: 24 * height_ratio,
           }}>
-          {route.params.motion.body_region && (
-            <View style={styles.targetBox}>
-              <Text>{route.params.motion.body_region}</Text>
-            </View>
-          )}
+          {route.params.motion.body_region &&
+            body_region.map((value, key) => (
+              <View key={key} style={styles.subMuscleBox}>
+                <Text style={styles.subMuscleText}>{value}</Text>
+              </View>
+            ))}
+          {/* {route.params.motion.sub_muscle &&
+            sub_muscle.map((value, key) => (
+              <View style={styles.subMuscleBox}>
+                <Text style={styles.subMuscleText}>{value}</Text>
+              </View>
+            ))} */}
         </View>
       </View>
       <View style={styles.detailContainer}>

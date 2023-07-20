@@ -28,13 +28,23 @@ const styles = StyleSheet.create({
     color: '#242424',
     fontWeight: '700',
   },
-  targetBox: {
+  bodyRegionBox: {
+    paddingVertical: 8 * height_ratio,
+    paddingHorizontal: 12 * width_ratio,
+    backgroundColor: '#5252fa',
+    borderRadius: 8 * height_ratio,
+  },
+  subMuscleBox: {
     paddingVertical: 8 * height_ratio,
     paddingHorizontal: 12 * width_ratio,
     backgroundColor: '#f5f5f5',
     borderRadius: 8 * height_ratio,
   },
-  targetText: {
+  bodyRegionText: {
+    color: '#fff',
+    fontSize: 14 * height_ratio,
+  },
+  subMuscleText: {
     color: '#242424',
     fontSize: 14 * height_ratio,
   },
