@@ -191,7 +191,7 @@ const RoutineDetail = ({navigation, route}) => {
               motion_range_max: value.motion_range_max,
               motion_id: value.motion_id,
               motion_name: value.motion_name,
-              imageUrl: value.imageUrl,
+              image_url: value.image_url,
               sets: value.sets,
             },
           ]);
@@ -221,7 +221,7 @@ const RoutineDetail = ({navigation, route}) => {
             motion_range_max: route.params.displaySelected[i].motion_range_max,
             motion_id: route.params.displaySelected[i].motion_id,
             motion_name: route.params.displaySelected[i].motion_name,
-            imageUrl: route.params.displaySelected[i].imageUrl,
+            image_url: route.params.displaySelected[i].image_url,
             sets: [
               {
                 weight: 0,

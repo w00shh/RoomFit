@@ -14,11 +14,15 @@ const RecordItem = props => {
     <View style={styles.recordItemContainer}>
       <View style={styles.recordInfoContainer}>
         <View style={styles.imageContainer}>
+<<<<<<< HEAD
           {' '}
           {props.record.imageUrl ? (
+=======
+          {props.record.image_url ? (
+>>>>>>> 179c74ecd089bfc0d0a206c01f78bbc8468ec01b
             <Image
               source={{
-                uri: props.record.imageUrl,
+                uri: props.record.image_url,
               }}
               style={{
                 width: 48 * width_ratio,

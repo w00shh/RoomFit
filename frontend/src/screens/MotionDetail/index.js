@@ -140,10 +140,10 @@ const MotionDetail = ({navigation, route}) => {
   return (
     <View style={styles.pageContainer}>
       <View>
-        {route.params.motion.imageUrl ? (
+        {route.params.motion.image_url ? (
           <Image
             source={{
-              uri: route.params.motion.imageUrl,
+              uri: route.params.motion.image_url,
             }}
             style={{
               width: 200 * width_ratio,
@@ -164,7 +164,7 @@ const MotionDetail = ({navigation, route}) => {
             marginBottom: 24 * height_ratio,
           }}>
           <View style={styles.targetBox}>
-            <Text>{route.params.motion.major_target}</Text>
+            <Text>{route.params.motion.body_region}</Text>
           </View>
         </View>
       </View>

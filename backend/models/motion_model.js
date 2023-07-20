@@ -6,8 +6,8 @@ const Motion = function (motion) {
   this.motion_name = motion.motion_name;
   this.major_target = motion.major_target;
   this.minor_target = motion.minor_target;
-  this.equipment = motion.equipment;
-  this.imageURL = motion.imageURL;
+  this.grip = motion.grip;
+  this.image_url = motion.image_url;
   this.description = motion.description;
   this.count = motion.count;
 };
@@ -70,7 +70,7 @@ Motion.del_fav = function (user_id, motion_id, callback) {
 
 Motion.add_motion = function (motion_ids, callback) {
   const placeholders = Array(motion_ids.length).fill('?').join(',');
-  const sql = `SELECT motion_id, motion_name, imageUrl FROM motion WHERE motion_id IN (${placeholders})`;
+  const sql = `SELECT motion_id, motion_name, image_url FROM motion WHERE motion_id IN (${placeholders})`;
   db.all(sql, motion_ids, (err, rows) => {
     if (err) console.error(err);
     else callback(null, rows);
@@ -87,7 +87,7 @@ Motion.search_motion = function (user_id, motion_name, callback) {
       const placeholders = favoriteMotionIds.map(() => '?').join(',');
       const motionList = [];
       const replaceName = motion_name.replace(/[\\ ]/g, '');
-      const sqlFav = `SELECT motion_id, motion_name, major_target, minor_target, equipment, imageUrl, description FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
+      const sqlFav = `SELECT motion_id, motion_name, major_target, minor_target, grip, image_url, description FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
       db.all(sqlFav, favoriteMotionIds, (err, favRows) => {
         if (err) {
           console.error(err);
@@ -134,7 +134,7 @@ Motion.search_motion = function (user_id, motion_name, callback) {
               }
             });
           }
-          const sqlNotFav = `SELECT motion_id, motion_name, major_target, minor_target, equipment, imageUrl, description FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
+          const sqlNotFav = `SELECT motion_id, motion_name, major_target, minor_target, grip, image_url, description FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
           db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
             if (err) {
               console.error(err);

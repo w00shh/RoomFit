@@ -75,7 +75,7 @@ const AddMotion = ({navigation, route}) => {
           isFav: motion.isFav,
           motion_id: motion.motion_id,
           motion_name: motion.motion_name,
-          imageUrl: motion.imageUrl,
+          image_url: motion.image_url,
           motion_range_min: motion.motion_range_min,
           motion_range_max: motion.motion_range_max,
         });
