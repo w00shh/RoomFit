@@ -34,7 +34,7 @@ import {LogBox} from 'react-native';
 import WorkoutStartSplash from './src/screens/WorkoutStart/splash.js';
 import Birthday from './src/screens/Register/Birthday/index.js';
 import MotionDetail from './src/screens/MotionDetail/index.js';
-import HistoryDetail from './src/screens/HistoryDetail/index.js';
+import RecordDetail from './src/screens/RecordDetail/index.js';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -279,8 +279,8 @@ const App = () => {
                 headerTitleAlign: 'center',
               }}></Stack.Screen>
             <Stack.Screen
-              name="HistoryDetail"
-              component={HistoryDetail}
+              name="RecordDetail"
+              component={RecordDetail}
               options={{
                 headerShadowVisible: false,
                 headerBackVisible: false,

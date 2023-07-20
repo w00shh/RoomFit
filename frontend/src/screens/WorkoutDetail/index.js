@@ -269,8 +269,8 @@ const WorkoutDetail = ({navigation, route}) => {
                 <RecordItem
                   key={key}
                   record={value}
-                  navigateToHistoryDetail={() => {
-                    navigation.navigate('HistoryDetail', {record: value});
+                  navigateToRecordDetail={() => {
+                    navigation.navigate('RecordDetail', {record: value});
                   }}></RecordItem>
                 {key !== workoutList.length - 1 && (
                   <Divider height_ratio={height_ratio} />
