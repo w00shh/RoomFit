@@ -14,6 +14,7 @@ import Back from '../../assets/svg/buttons/single/back.svg';
 import Star_A from '../../assets/svg/buttons/active/star.svg';
 import Star_D from '../../assets/svg/buttons/default/star.svg';
 import DefaultImage from '../../assets/svg/icons/default_workout.svg';
+
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
@@ -163,9 +164,11 @@ const MotionDetail = ({navigation, route}) => {
             gap: 8 * height_ratio,
             marginBottom: 24 * height_ratio,
           }}>
-          <View style={styles.targetBox}>
-            <Text>{route.params.motion.body_region}</Text>
-          </View>
+          {route.params.motion.body_region && (
+            <View style={styles.targetBox}>
+              <Text>{route.params.motion.body_region}</Text>
+            </View>
+          )}
         </View>
       </View>
       <View style={styles.detailContainer}>
