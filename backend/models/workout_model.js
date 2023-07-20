@@ -66,7 +66,7 @@ Workout.brief = (user_id, recent = false, callback) => {
         )
       ) AS total_weight,
       (
-        SELECT json_group_array(DISTINCT motion.major_target)
+        SELECT json_group_array(DISTINCT motion.body_region)
         FROM motion
         WHERE motion.motion_id IN (
           SELECT motion_id
@@ -78,7 +78,7 @@ Workout.brief = (user_id, recent = false, callback) => {
       SELECT
         w.user_id, w.title, w.start_time, w.end_time, w.workout_id,
         s.weight, s.rep, s.record_id,
-        m.major_target, m.motion_id,
+        m.body_region, m.motion_id,
         r.record_id
       FROM
         workout AS w
@@ -117,7 +117,7 @@ Workout.brief = (user_id, recent = false, callback) => {
 //Get all records & sets in workout
 Workout.detail = (workout_id, callback) => {
   db.all(
-    `SELECT record.*, motion.motion_name, motion.imageURL, (
+    `SELECT record.*, motion.motion_name, motion.image_url, (
       SELECT json_group_array(json_object('set_no', set_info.set_no, 'weight', set_info.weight, 'rep', set_info.rep, 'mode', set_info.mode))
       FROM set_info
       WHERE set_info.record_id = record.record_id

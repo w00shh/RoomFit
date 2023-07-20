@@ -14,10 +14,10 @@ const RecordItem = props => {
     <View style={styles.recordItemContainer}>
       <View style={styles.recordInfoContainer}>
         <View style={styles.imageContainer}>
-          {props.record.imageUrl ? (
+          {props.record.image_url ? (
             <Image
               source={{
-                uri: props.record.imageUrl,
+                uri: props.record.image_url,
               }}
               style={{
                 width: 48 * width_ratio,

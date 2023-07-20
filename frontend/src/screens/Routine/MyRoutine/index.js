@@ -64,7 +64,7 @@ const MyRoutine = ({navigation}) => {
           {
             routine_id: value.routine_id,
             routine_name: value.routine_name,
-            major_targets: value.major_targets,
+            body_regions: value.body_regions,
             motion_count: value.motion_count,
           },
         ]);
@@ -141,7 +141,7 @@ const MyRoutine = ({navigation}) => {
           <View key={key}>
             <RoutineBox
               title={value.routine_name}
-              targets={value.major_targets}
+              targets={value.body_regions}
               numEx={value.motion_count}
               onPress={() => {
                 navigation.push('RoutineDetail', {
@@ -187,7 +187,7 @@ const MyRoutine = ({navigation}) => {
                     gap: 4 * width_ratio,
                     alignItems: 'center',
                   }}>
-                  <Text style={styles.targetText}>{value.major_targets}</Text>
+                  <Text style={styles.targetText}>{value.body_regions}</Text>
                   <View
                     style={{
                       width: 1 * width_ratio,
