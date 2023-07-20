@@ -266,7 +266,12 @@ const WorkoutDetail = ({navigation, route}) => {
           {workoutList &&
             workoutList.map((value, key) => (
               <>
-                <RecordItem key={key} record={value}></RecordItem>
+                <RecordItem
+                  key={key}
+                  record={value}
+                  navigateToHistoryDetail={() => {
+                    navigation.navigate('HistoryDetail', {record: value});
+                  }}></RecordItem>
                 {key !== workoutList.length - 1 && (
                   <Divider height_ratio={height_ratio} />
                 )}

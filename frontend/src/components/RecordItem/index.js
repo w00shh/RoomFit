@@ -41,7 +41,9 @@ const RecordItem = props => {
         </View>
       </View>
       <View>
-        <TouchableOpacity style={styles.aiCoachingContainer}>
+        <TouchableOpacity
+          style={styles.aiCoachingContainer}
+          onPress={props.navigateToHistoryDetail}>
           <Text style={styles.aiCoachingText}>AI 코칭</Text>
           <Right
             name="right"
