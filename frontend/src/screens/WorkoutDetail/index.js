@@ -270,7 +270,18 @@ const WorkoutDetail = ({navigation, route}) => {
                   key={key}
                   record={value}
                   navigateToRecordDetail={() => {
-                    navigation.navigate('RecordDetail', {record: value});
+                    navigation.navigate('RecordDetail', {
+                      record: value,
+                      workout_id: route.params.workout_id,
+                      title: route.params.title,
+                      start_time: route.params.start_time,
+                      end_time: route.params.end_time,
+                      targets: route.params.targets,
+                      total_time: route.params.total_time,
+                      total_weight: route.params.total_weight,
+                      memo: route.params.memo,
+                      startingPoint: route.params.startingPoint,
+                    });
                   }}></RecordItem>
                 {key !== workoutList.length - 1 && (
                   <Divider height_ratio={height_ratio} />
