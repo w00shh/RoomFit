@@ -174,7 +174,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
         setData1(newData1);
         setData2(newData2);
-      }, 10); // 1초마다 데이터 업데이트}
+      }, 100); // 1초마다 데이터 업데이트}
     }
     return () => clearInterval(interval);
   }, [data1, data2, isResting]);
@@ -986,128 +986,133 @@ export const WorkoutStart = ({navigation, route}) => {
             </View>
           </View>
           {/** Divider */}
-          <ScrollView
-            ref={scrollViewRef}
-            horizontal={true}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              flexDirection: 'row',
-              // backgroundColor: 'green',
-              height: 220 * height_ratio,
-            }}>
-            <Svg width={widths} height={heights}>
-              <Path
-                d={line1(data1)}
-                fill="none"
-                stroke="#2fcbe0"
-                strokeWidth="2"
-              />
-              <Path
-                d={line2(data2)}
-                fill="none"
-                stroke="#FF594f"
-                strokeWidth="2"
-              />
-            </Svg>
-          </ScrollView>
-          <View style={{marginBottom: 330 * height_ratio}}>
+          <View>
+            <ScrollView
+              ref={scrollViewRef}
+              horizontal={true}
+              pagingEnabled={true}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{
+                flexDirection: 'row',
+                height: 220 * height_ratio,
+              }}>
+              <Svg width={widths} height={heights}>
+                <Path
+                  d={line1(data1)}
+                  fill="none"
+                  stroke="#2fcbe0"
+                  strokeWidth="2"
+                />
+                <Path
+                  d={line2(data2)}
+                  fill="none"
+                  stroke="#FF594f"
+                  strokeWidth="2"
+                />
+              </Svg>
+            </ScrollView>
             <View
               style={{
-                flexDirection: 'row',
-                // marginTop: 16 * height_ratio,
-                justifyContent: 'space-between',
+                marginTop: 10 * height_ratio,
+                zIndex: 100,
               }}>
               <View
                 style={{
                   flexDirection: 'row',
-                  alignItems: 'center',
+                  // marginTop: 16 * height_ratio,
+                  justifyContent: 'space-between',
                 }}>
-                <Cline></Cline>
-                <Text
+                <View
                   style={{
-                    fontSize: 13 * height_ratio,
-                    color: '#242424',
-                    marginLeft: 4 * width_ratio,
+                    flexDirection: 'row',
+                    alignItems: 'center',
                   }}>
-                  left
-                </Text>
+                  <Cline></Cline>
+                  <Text
+                    style={{
+                      fontSize: 13 * height_ratio,
+                      color: '#242424',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    left
+                  </Text>
+                </View>
+                <View
+                  style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+                  <Text
+                    style={{
+                      fontSize: 13 * height_ratio,
+                      color: '#242424',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    이전
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13 * height_ratio,
+                      color: '#FF594f',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    L 80
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13 * height_ratio,
+                      color: '#2fcbe0',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    R 80
+                  </Text>
+                </View>
               </View>
-              <View
-                style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
-                <Text
-                  style={{
-                    fontSize: 13 * height_ratio,
-                    color: '#242424',
-                    marginLeft: 4 * width_ratio,
-                  }}>
-                  이전
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 13 * height_ratio,
-                    color: '#FF594f',
-                    marginLeft: 4 * width_ratio,
-                  }}>
-                  L 80
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 13 * height_ratio,
-                    color: '#2fcbe0',
-                    marginLeft: 4 * width_ratio,
-                  }}>
-                  R 80
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 16 * height_ratio,
-                justifyContent: 'space-between',
-              }}>
               <View
                 style={{
                   flexDirection: 'row',
-                  alignItems: 'center',
+                  marginTop: 16 * height_ratio,
+                  justifyContent: 'space-between',
                 }}>
-                <Cline2></Cline2>
-                <Text
+                <View
                   style={{
-                    fontSize: 13 * height_ratio,
-                    color: '#242424',
-                    marginLeft: 4 * width_ratio,
+                    flexDirection: 'row',
+                    alignItems: 'center',
                   }}>
-                  right
-                </Text>
-              </View>
-              <View
-                style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
-                <Text
-                  style={{
-                    fontSize: 13 * height_ratio,
-                    color: '#242424',
-                    marginLeft: 4 * width_ratio,
-                  }}>
-                  최대
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 13 * height_ratio,
-                    color: '#FF594f',
-                    marginLeft: 4 * width_ratio,
-                  }}>
-                  L 80
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 13 * height_ratio,
-                    color: '#2fcbe0',
-                    marginLeft: 4 * width_ratio,
-                  }}>
-                  R 80
-                </Text>
+                  <Cline2></Cline2>
+                  <Text
+                    style={{
+                      fontSize: 13 * height_ratio,
+                      color: '#242424',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    right
+                  </Text>
+                </View>
+                <View
+                  style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+                  <Text
+                    style={{
+                      fontSize: 13 * height_ratio,
+                      color: '#242424',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    최대
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13 * height_ratio,
+                      color: '#FF594f',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    L 80
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 13 * height_ratio,
+                      color: '#2fcbe0',
+                      marginLeft: 4 * width_ratio,
+                    }}>
+                    R 80
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -1202,7 +1207,17 @@ export const WorkoutStart = ({navigation, route}) => {
                   isResting ? setIsRestingModal(true) : setComplete();
                 }}
                 style={styles.CButton2}>
-                <Text style={styles.CText}>
+                <Text
+                  style={{
+                    ...styles.CText,
+                    color: isResting
+                      ? restTimer <= 10
+                        ? '#cc3300'
+                        : '#242424'
+                      : '#242424',
+                    fontWeight: isResting ? '600' : '400',
+                    fontSize: isResting ? 20 * height_ratio : 14 * height_ratio,
+                  }}>
                   {isResting ? formatTime(restTimer) : '세트완료'}
                 </Text>
               </TouchableOpacity>
