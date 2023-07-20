@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -13,6 +13,7 @@ import {
   TextInput,
   Dimensions,
   Platform,
+  useWindowDimensions,
 } from 'react-native';
 
 import CustomButton_W from '../../components/CustomButton_W';
@@ -30,6 +31,8 @@ import {
 } from 'react-native-gesture-handler';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import MotionRangeModal from '../../components/Modal/MotionRange';
+import {Svg, Path} from 'react-native-svg';
+import * as d3 from 'd3';
 
 //svg
 import Tut from '../../assets/svg/icons/tut.svg';
@@ -148,6 +151,64 @@ export const WorkoutStart = ({navigation, route}) => {
   });
 
   //graph 관련
+  const [data1, setData1] = useState([10, 20, 30, 40, 50]);
+  const [data2, setData2] = useState([10, 50, 10, 20, 30]);
+  const scrollViewRef = useRef(null);
+  const {width: windowWidth} = useWindowDimensions();
+  useEffect(() => {
+    const newData1 = [...data1, Math.random() * 50];
+    const newData2 = [...data2, Math.random() * 50];
+    let interval;
+    if (!isResting) {
+      interval = setInterval(() => {
+        // 새로운 데이터 생성 또는 가져오기
+
+        // 최대 10개의 데이터 유지
+        if (newData1.length > 300) {
+          newData1.shift();
+        }
+
+        if (newData2.length > 300) {
+          newData2.shift();
+        }
+
+        setData1(newData1);
+        setData2(newData2);
+      }, 10); // 1초마다 데이터 업데이트}
+    }
+    return () => clearInterval(interval);
+  }, [data1, data2, isResting]);
+
+  const heights = 200;
+  const widths = data1.length * 30;
+
+  const xScale = d3
+    .scaleLinear()
+    .domain([0, data1.length - 1])
+    .range([0, widths]);
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max([...data1, ...data2])])
+    .range([heights, 0]);
+
+  const line1 = d3
+    .line()
+    .x((d, i) => xScale(i))
+    .y(d => yScale(d))
+    .curve(d3.curveMonotoneX);
+
+  const line2 = d3
+    .line()
+    .x((d, i) => xScale(i))
+    .y(d => yScale(d))
+    .curve(d3.curveMonotoneX);
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({animated: true});
+    }
+  }, [data1]);
 
   //battery
   const battery = useAppSelector(state => state.ble.battery);
@@ -198,7 +259,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_range_max: route.params.displaySelected[0].motion_range_max,
             motion_id: route.params.displaySelected[0].motion_id,
             motion_name: route.params.displaySelected[0].motion_name,
-            imageUrl: route.params.displaySelected[0].imageUrl,
+            image_url: route.params.displaySelected[0].image_url,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
             ],
@@ -218,7 +279,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_range_max: route.params.displaySelected[0].motion_range_max,
             motion_id: route.params.displaySelected[0].motion_id,
             motion_name: route.params.displaySelected[0].motion_name,
-            imageUrl: route.params.displaySelected[0].imageUrl,
+            image_url: route.params.displaySelected[0].image_url,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
             ],
@@ -238,7 +299,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_range_max: route.params.displaySelected[i].motion_range_max,
             motion_id: route.params.displaySelected[i].motion_id,
             motion_name: route.params.displaySelected[i].motion_name,
-            imageUrl: route.params.displaySelected[i].imageUrl,
+            image_url: route.params.displaySelected[i].image_url,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
             ],
@@ -891,8 +952,7 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </Modal>
-          <View
-            style={{alignItems: 'center', marginBottom: 260 * height_ratio}}>
+          <View style={{alignItems: 'center', marginBottom: 50 * height_ratio}}>
             <View style={{width: '100%'}}>
               <View
                 style={{
@@ -926,7 +986,27 @@ export const WorkoutStart = ({navigation, route}) => {
             </View>
           </View>
           {/** Divider */}
-
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal={true}
+            pagingEnabled={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{flexDirection: 'row'}}>
+            <Svg width={widths} height={heights}>
+              <Path
+                d={line1(data1)}
+                fill="none"
+                stroke="#2fcbe0"
+                strokeWidth="2"
+              />
+              <Path
+                d={line2(data2)}
+                fill="none"
+                stroke="#FF594f"
+                strokeWidth="2"
+              />
+            </Svg>
+          </ScrollView>
           <View>
             <View
               style={{
