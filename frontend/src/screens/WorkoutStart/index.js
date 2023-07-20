@@ -991,7 +991,11 @@ export const WorkoutStart = ({navigation, route}) => {
             horizontal={true}
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{flexDirection: 'row'}}>
+            contentContainerStyle={{
+              flexDirection: 'row',
+              // backgroundColor: 'green',
+              height: 220 * height_ratio,
+            }}>
             <Svg width={widths} height={heights}>
               <Path
                 d={line1(data1)}
@@ -1007,11 +1011,11 @@ export const WorkoutStart = ({navigation, route}) => {
               />
             </Svg>
           </ScrollView>
-          <View>
+          <View style={{marginBottom: 330 * height_ratio}}>
             <View
               style={{
                 flexDirection: 'row',
-                marginTop: 16 * height_ratio,
+                // marginTop: 16 * height_ratio,
                 justifyContent: 'space-between',
               }}>
               <View
