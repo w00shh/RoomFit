@@ -229,9 +229,9 @@ const CustomMotion = ({navigation}) => {
       user_id: appcontext.state.userid,
       motion_name: motionName,
       body_region: mainMuscle,
-      minor_target: subMuscle.join(', '),
+      sub_muscle: subMuscle.join(', '),
       is_one_arm: workoutWay,
-      equipment: tool,
+      grip: tool,
       description: '',
     };
     console.log(body);

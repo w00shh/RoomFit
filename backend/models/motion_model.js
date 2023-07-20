@@ -6,7 +6,7 @@ const Motion = function (motion) {
   this.motion_name = motion.motion_name;
   this.body_region = motion.body_region;
   this.minor_target = motion.minor_target;
-  this.equipment = motion.equipment;
+  this.grip = motion.grip;
   this.image_url = motion.image_url;
   this.description = motion.description;
   this.count = motion.count;
@@ -87,7 +87,7 @@ Motion.search_motion = function (user_id, motion_name, callback) {
       const placeholders = favoriteMotionIds.map(() => '?').join(',');
       const motionList = [];
       const replaceName = motion_name.replace(/[\\ ]/g, '');
-      const sqlFav = `SELECT motion_id, motion_name, body_region, minor_target, equipment, image_url, description FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
+      const sqlFav = `SELECT motion_id, motion_name, body_region, minor_target, grip, image_url, description FROM motion WHERE motion_id IN (${placeholders}) ORDER BY count desc`;
       db.all(sqlFav, favoriteMotionIds, (err, favRows) => {
         if (err) {
           console.error(err);
@@ -134,7 +134,7 @@ Motion.search_motion = function (user_id, motion_name, callback) {
               }
             });
           }
-          const sqlNotFav = `SELECT motion_id, motion_name, body_region, minor_target, equipment, image_url, description FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
+          const sqlNotFav = `SELECT motion_id, motion_name, body_region, minor_target, grip, image_url, description FROM motion WHERE motion_id NOT IN (${placeholders}) ORDER BY count desc`;
           db.all(sqlNotFav, favoriteMotionIds, (err, notFavRows) => {
             if (err) {
               console.error(err);

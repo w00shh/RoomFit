@@ -92,10 +92,7 @@ const styles = StyleSheet.create({
   },
 
   CText: {
-    fontWeight: '400',
-    fontSize: 14 * height_ratio,
     textAlign: 'center',
-    color: '#242424',
   },
 
   CButton3: {
