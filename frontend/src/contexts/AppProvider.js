@@ -35,6 +35,9 @@ const AppProvider = ({children}) => {
     '삼두',
     '엉덩이',
   ];
+
+  const equipmentList = ['핸들', '바', 'Y로프'];
+
   const [isLogin, setIsLogin] = useState(false);
   const [userid, setUserid] = useState('');
   const [usernickname, setUsernickname] = useState();
@@ -77,6 +80,7 @@ const AppProvider = ({children}) => {
       targetsetindex,
       targetmotionrangemin,
       targetmotionrangemax,
+      equipmentList,
       muscleList,
     },
     actions: {
