@@ -25,8 +25,8 @@ import MotionRangeModal from '../../../components/Modal/MotionRange';
 //svg
 import Modify from '../../../assets/svg/buttons/single/modify.svg';
 import Back from '../../../assets/svg/buttons/single/back.svg';
-
 import {Divider} from '../../../components/divider';
+import DefaultImage from '../../../assets/svg/icons/default_workout.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;

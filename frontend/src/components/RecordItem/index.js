@@ -4,7 +4,7 @@ import styles from './styles';
 import Right from 'react-native-vector-icons/AntDesign';
 import SetInfo from '../SetInfo';
 
-import Default from '../../assets/svg/icons/default_workout.svg';
+import DefaultImage from '../../assets/svg/icons/default_workout.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -14,6 +14,7 @@ const RecordItem = props => {
     <View style={styles.recordItemContainer}>
       <View style={styles.recordInfoContainer}>
         <View style={styles.imageContainer}>
+          {' '}
           {props.record.imageUrl ? (
             <Image
               source={{
@@ -24,9 +25,9 @@ const RecordItem = props => {
                 height: 48 * height_ratio,
               }}></Image>
           ) : (
-            <Default
+            <DefaultImage
               width={48 * width_ratio}
-              height={48 * height_ratio}></Default>
+              height={48 * height_ratio}></DefaultImage>
           )}
         </View>
         <View style={styles.recordDetailContainer}>

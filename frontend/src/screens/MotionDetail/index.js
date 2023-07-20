@@ -13,7 +13,7 @@ import {AppContext} from '../../contexts/AppProvider';
 import Back from '../../assets/svg/buttons/single/back.svg';
 import Star_A from '../../assets/svg/buttons/active/star.svg';
 import Star_D from '../../assets/svg/buttons/default/star.svg';
-import Default from '../../assets/svg/icons/default_workout.svg';
+import DefaultImage from '../../assets/svg/icons/default_workout.svg';
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
@@ -135,7 +135,7 @@ const MotionDetail = ({navigation, route}) => {
           //   </TouchableWithoutFeedback>
         ),
     });
-  }, [route.params.motionList]);
+  }, []);
 
   return (
     <View style={styles.pageContainer}>
@@ -150,9 +150,9 @@ const MotionDetail = ({navigation, route}) => {
               height: 200 * height_ratio,
             }}></Image>
         ) : (
-          <Default
+          <DefaultImage
             width={200 * width_ratio}
-            height={200 * height_ratio}></Default>
+            height={200 * height_ratio}></DefaultImage>
         )}
       </View>
       <View style={styles.targetContainer}>
