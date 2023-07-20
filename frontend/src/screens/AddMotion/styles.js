@@ -23,7 +23,26 @@ const styles = StyleSheet.create({
     gap: 12 * width_ratio,
     backgroundColor: '#f5f5f5',
   },
+  additionalSelectContainer: {
+    paddingVertical: 16 * height_ratio,
 
+    flexDirection: 'column',
+    gap: 12 * height_ratio,
+  },
+  equipmentContainer: {
+    flexDirection: 'row',
+    gap: 8 * width_ratio,
+  },
+  muscleContainer: {
+    flexDirection: 'row',
+    gap: 8 * width_ratio,
+  },
+  selectBox: {
+    paddingVertical: 8 * height_ratio,
+    paddingHorizontal: 12 * width_ratio,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8 * height_ratio,
+  },
   recommendedText: {
     fontSize: 14 * height_ratio,
     alignSelf: 'flex-start',

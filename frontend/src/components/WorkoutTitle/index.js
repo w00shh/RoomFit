@@ -18,7 +18,7 @@ const WorkoutTitle = props => {
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: props.motion.imageUrl,
+              uri: props.motion.image_url,
             }}
             style={{
               width: 48 * width_ratio,

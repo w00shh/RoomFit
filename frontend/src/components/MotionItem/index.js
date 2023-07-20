@@ -16,7 +16,7 @@ import Star_A from '../../assets/svg/buttons/active/star.svg';
 import Star_D from '../../assets/svg/buttons/default/star.svg';
 import Question from '../../assets/svg/buttons/single/question.svg';
 import Check from '../../assets/svg/buttons/active/check.svg';
-import Default from '../../assets/svg/icons/default_workout.svg';
+import DefaultImage from '../../assets/svg/icons/default_workout.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -102,19 +102,19 @@ const MotionItem = props => {
         )}
 
         <View style={styles.imageContainer}>
-          {props.motion.imageUrl ? (
+          {props.motion.image_url ? (
             <Image
               source={{
-                uri: props.motion.imageUrl,
+                uri: props.motion.image_url,
               }}
               style={{
                 width: 48 * width_ratio,
                 height: 48 * height_ratio,
               }}></Image>
           ) : (
-            <Default
+            <DefaultImage
               width={48 * width_ratio}
-              height={48 * height_ratio}></Default>
+              height={48 * height_ratio}></DefaultImage>
           )}
         </View>
         <View style={styles.nameContainer}>

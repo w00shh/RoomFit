@@ -1,4 +1,3 @@
-import {DefaultTheme} from '@react-navigation/native';
 import {StyleSheet, Dimensions} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
@@ -10,7 +9,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'center',
-    backgroundColor: 'white',
     backgroundColor: 'rgba(0,0,0,0.7)',
     padding: 0,
   },

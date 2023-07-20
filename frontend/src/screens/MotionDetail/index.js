@@ -13,12 +13,16 @@ import {AppContext} from '../../contexts/AppProvider';
 import Back from '../../assets/svg/buttons/single/back.svg';
 import Star_A from '../../assets/svg/buttons/active/star.svg';
 import Star_D from '../../assets/svg/buttons/default/star.svg';
-import Default from '../../assets/svg/icons/default_workout.svg';
+import DefaultImage from '../../assets/svg/icons/default_workout.svg';
+
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const MotionDetail = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
+  const body_region = route.params.motion.body_region.split(', ');
+  const sub_muscle = route.params.motion.sub_muscle.split(',');
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -135,24 +139,24 @@ const MotionDetail = ({navigation, route}) => {
           //   </TouchableWithoutFeedback>
         ),
     });
-  }, [route.params.motionList]);
+  }, []);
 
   return (
     <View style={styles.pageContainer}>
       <View>
-        {route.params.motion.imageUrl ? (
+        {route.params.motion.image_url ? (
           <Image
             source={{
-              uri: route.params.motion.imageUrl,
+              uri: route.params.motion.image_url,
             }}
             style={{
               width: 200 * width_ratio,
               height: 200 * height_ratio,
             }}></Image>
         ) : (
-          <Default
+          <DefaultImage
             width={200 * width_ratio}
-            height={200 * height_ratio}></Default>
+            height={200 * height_ratio}></DefaultImage>
         )}
       </View>
       <View style={styles.targetContainer}>
@@ -163,9 +167,18 @@ const MotionDetail = ({navigation, route}) => {
             gap: 8 * height_ratio,
             marginBottom: 24 * height_ratio,
           }}>
-          <View style={styles.targetBox}>
-            <Text>{route.params.motion.major_target}</Text>
-          </View>
+          {route.params.motion.body_region &&
+            body_region.map((value, key) => (
+              <View key={key} style={styles.subMuscleBox}>
+                <Text style={styles.subMuscleText}>{value}</Text>
+              </View>
+            ))}
+          {/* {route.params.motion.sub_muscle &&
+            sub_muscle.map((value, key) => (
+              <View style={styles.subMuscleBox}>
+                <Text style={styles.subMuscleText}>{value}</Text>
+              </View>
+            ))} */}
         </View>
       </View>
       <View style={styles.detailContainer}>

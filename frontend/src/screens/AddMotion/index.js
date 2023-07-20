@@ -32,6 +32,8 @@ const AddMotion = ({navigation, route}) => {
   const [displaySelected, setDisplaySelected] = useState(new Map());
   const [selectedLength, setSelectedLength] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [gripList, setGripList] = useState([]);
+  const [bodyRegionList, setBodyRegionList] = useState([]);
 
   let length = 0;
 
@@ -75,7 +77,7 @@ const AddMotion = ({navigation, route}) => {
           isFav: motion.isFav,
           motion_id: motion.motion_id,
           motion_name: motion.motion_name,
-          imageUrl: motion.imageUrl,
+          image_url: motion.image_url,
           motion_range_min: motion.motion_range_min,
           motion_range_max: motion.motion_range_max,
         });
@@ -135,6 +137,14 @@ const AddMotion = ({navigation, route}) => {
   };
 
   useEffect(() => {
+    console.log(gripList);
+  }, [gripList]);
+
+  useEffect(() => {
+    console.log(bodyRegionList);
+  }, [bodyRegionList]);
+
+  useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity
@@ -191,9 +201,82 @@ const AddMotion = ({navigation, route}) => {
           placeholder="동작을 검색해보세요"
           inputMode="text"></TextInput>
       </View>
-      {displaySelected.size === 0 && (
-        <Text style={styles.recommendedText}>추천 운동</Text>
-      )}
+      <ScrollView
+        horizontal={true}
+        height={180 * height_ratio}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.additionalSelectContainer}>
+        <View style={styles.equipmentContainer}>
+          {appcontext.state.equipmentList.map((value, key) => (
+            <TouchableOpacity
+              key={key}
+              style={{
+                paddingVertical: 8 * height_ratio,
+                paddingHorizontal: 12 * width_ratio,
+                backgroundColor: gripList.includes(value)
+                  ? '#5252fa'
+                  : '#f5f5f5',
+                borderRadius: 8 * height_ratio,
+              }}
+              onPress={() => {
+                if (gripList.includes(value)) {
+                  setGripList(gripList.filter(grip => grip !== value));
+                } else {
+                  setGripList([...gripList, String(value)]);
+                }
+              }}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: gripList.includes(value) ? '#fff' : '#242424',
+                }}>
+                {value}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <View style={styles.muscleContainer}>
+          {[...['즐겨찾기', '커스텀'], ...appcontext.state.muscleList].map(
+            (value, key) => (
+              <TouchableOpacity
+                key={key}
+                style={{
+                  paddingVertical: 8 * height_ratio,
+                  paddingHorizontal: 12 * width_ratio,
+                  backgroundColor: bodyRegionList.includes(value)
+                    ? '#5252fa'
+                    : '#f5f5f5',
+                  borderRadius: 8 * height_ratio,
+                }}
+                onPress={() => {
+                  if (bodyRegionList.includes(value)) {
+                    setBodyRegionList(
+                      bodyRegionList.filter(bodyRegion => bodyRegion !== value),
+                    );
+                  } else {
+                    setBodyRegionList([...bodyRegionList, String(value)]);
+                  }
+                }}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: bodyRegionList.includes(value) ? '#fff' : '#242424',
+                  }}>
+                  {value}
+                </Text>
+              </TouchableOpacity>
+            ),
+          )}
+        </View>
+      </ScrollView>
+      <View
+        style={{
+          paddingVertical: 8 * height_ratio,
+        }}>
+        {displaySelected.size === 0 && (
+          <Text style={styles.recommendedText}>추천 운동</Text>
+        )}
+      </View>
       {displaySelected.size !== 0 && (
         <ScrollView
           horizontal={true}
@@ -201,7 +284,7 @@ const AddMotion = ({navigation, route}) => {
           contentContainerStyle={{
             flexDirection: 'row',
             alignSelf: 'center',
-            height: displaySelected.size !== 0 ? 32 * height_ratio : 0,
+            height: displaySelected.size !== 0 ? 40 * height_ratio : 0,
             gap: 8 * width_ratio,
             marginVertical: displaySelected.size !== 0 ? 24 * height_ratio : 0,
             overflow: 'visible',
