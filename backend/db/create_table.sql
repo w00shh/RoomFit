@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS motion (
     motion_name VARCHAR(60) NOT NULL,
     major_target VARCHAR(30) NOT NULL,
     minor_target VARCHAR(30) NOT NULL,
-    equipment VARCHAR(30) NOT NULL,
-    imageUrl VARCHAR(150) DEFAULT NULL,
+    grip VARCHAR(30) NOT NULL,
+    image_url VARCHAR(150) DEFAULT NULL,
     description TEXT NOT NULL,
     count INTEGER DEFAULT 0 NOT NULL
 );

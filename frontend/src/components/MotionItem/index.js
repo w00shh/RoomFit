@@ -102,10 +102,10 @@ const MotionItem = props => {
         )}
 
         <View style={styles.imageContainer}>
-          {props.motion.imageUrl ? (
+          {props.motion.image_url ? (
             <Image
               source={{
-                uri: props.motion.imageUrl,
+                uri: props.motion.image_url,
               }}
               style={{
                 width: 48 * width_ratio,

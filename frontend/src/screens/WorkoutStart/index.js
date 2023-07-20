@@ -198,7 +198,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_range_max: route.params.displaySelected[0].motion_range_max,
             motion_id: route.params.displaySelected[0].motion_id,
             motion_name: route.params.displaySelected[0].motion_name,
-            imageUrl: route.params.displaySelected[0].imageUrl,
+            image_url: route.params.displaySelected[0].image_url,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
             ],
@@ -218,7 +218,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_range_max: route.params.displaySelected[0].motion_range_max,
             motion_id: route.params.displaySelected[0].motion_id,
             motion_name: route.params.displaySelected[0].motion_name,
-            imageUrl: route.params.displaySelected[0].imageUrl,
+            image_url: route.params.displaySelected[0].image_url,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
             ],
@@ -238,7 +238,7 @@ export const WorkoutStart = ({navigation, route}) => {
             motion_range_max: route.params.displaySelected[i].motion_range_max,
             motion_id: route.params.displaySelected[i].motion_id,
             motion_name: route.params.displaySelected[i].motion_name,
-            imageUrl: route.params.displaySelected[i].imageUrl,
+            image_url: route.params.displaySelected[i].image_url,
             sets: [
               {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
             ],
