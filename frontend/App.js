@@ -232,7 +232,6 @@ const App = () => {
                   headerShadowVisible: false,
                 }}></Stack.Screen>
 
-<<<<<<< HEAD
             <Stack.Screen
               name="WorkoutStartSplash"
               component={WorkoutStartSplash}
@@ -354,122 +353,6 @@ const App = () => {
               }}></Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
-=======
-              <Stack.Screen
-                name="WorkoutStartSplash"
-                component={WorkoutStartSplash}
-                options={{
-                  gestureEnabled: false,
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="WorkoutStart"
-                component={WorkoutStart}
-                options={{
-                  gestureEnabled: false,
-                  headerShown: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="WorkoutRecord"
-                component={WorkoutRecord}
-                options={{
-                  title: '운동기록',
-                  animation: 'none',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 28 * height_ratio,
-                    // marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
-                  },
-                  headerTitle: props => (
-                    <View style={{flex: 1, flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          fontSize: 28 * height_ratio,
-                          fontWeight: 700,
-                          color: '#242424',
-                        }}>
-                        {props.children}
-                      </Text>
-                    </View>
-                  ),
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="WorkoutDetail"
-                component={WorkoutDetail}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                  headerTitleAlign: 'center',
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="MainSetting"
-                component={MainSetting}
-                options={{
-                  animation: 'none',
-                  headerShown: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="ProfileSetting"
-                component={ProfileSetting}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="PasswordSetting"
-                component={PasswordSetting}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="RestingTime"
-                component={RestingTime}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="PowerSaving"
-                component={PowerSaving}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="HeightWeight"
-                component={HeightWeight}
-                options={{
-                  headerTitleStyle: {
-                    title: '키/몸무게',
-                    color: '#242424',
-                    fontSize: 16 * height_ratio,
-                    fontWeight: '700',
-                  },
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="BodyFat"
-                component={BodyFat}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="WorkoutCareer"
-                component={WokroutCareer}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-            </Stack.Navigator>
-          </NavigationContainer>
-        </MobxProvider>
->>>>>>> 3b39a8ae4d7e705be0628a333585ff24fd02876d
       </AppProvider>
     </Provider>
   );
