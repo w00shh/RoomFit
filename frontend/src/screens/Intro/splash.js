@@ -17,7 +17,7 @@ const IntroSplash = ({navigation}) => {
   useEffect(() => {
     if (autoLogin) {
       handleGetAllRoutine();
-
+      handleGetAllWorkoutList();
       handleAutoLogin();
     }
   }, [autoLogin]);
@@ -139,6 +139,28 @@ const IntroSplash = ({navigation}) => {
         console.log(e);
       });
   };
+  const handleGetAllWorkoutList = async () => {
+    const body = {
+      user_id: appcontext.state.userid,
+    };
+    console.log(body);
+    await serverAxios
+      .post('/workout/brief', body)
+      .then(res => {
+        appcontext.actions.setWorkoutList(res.data);
+      })
+      .catch(e => console.log(e));
+  };
+
+  // const groupDataByDate = () => {
+  //   const groupedData = appcontext.state.workoutList.reduce((acc, exercise) => {
+  //     const {date, ...exerciseInfo} = exercise;
+  //     if (!acc[date.split(' ')[0]]) {
+  //       acc[date] = [];
+  //     }
+  //     acc[date].push(exerciseInfo);
+  //     return acc;
+  //   }, {});
 
   return (
     <View
