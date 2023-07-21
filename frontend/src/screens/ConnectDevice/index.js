@@ -143,7 +143,7 @@ const ConnectDevice = ({navigation}) => {
               stopRotating();
               setIsConnecting('');
               // dispatch(readDeviceBattery());
-              dispatch(startListening());
+              // dispatch(startListening());
             }}>
             <Text style={styles.connect}>
               {isConnecting === device.id ? '취소' : '연결'}

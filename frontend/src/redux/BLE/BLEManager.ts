@@ -4,7 +4,11 @@ import {LogBox} from 'react-native';
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 import {Buffer} from 'buffer';
 import {store} from '../store';
-import {setBattery} from './slice';
+import {setBattery, setLeft, setRight} from './slice';
+
+import {observer} from 'mobx-react';
+import BLEStore from './mobx_store';
+import {positionBuffer} from './positionBuffer';
 
 export interface DeviceReference {
   name?: string | null;
@@ -75,6 +79,12 @@ class BLEManager {
           await BleManager.connect(peripheralID).then(async () => {
             console.log('Connected to', peripheralID);
             await BleManager.retrieveServices(peripheralID);
+            // console.log(await BleManager.retrieveServices(peripheralID));
+            (
+              await BleManager.retrieveServices(peripheralID)
+            ).characteristics?.forEach(char => {
+              console.log(char);
+            });
           });
         } catch (err) {
           res = false;
@@ -111,16 +121,13 @@ class BLEManager {
   //   this.onDisconnectListener.remove();
   // };
 
-  startStreaming = async () => {
-    const id = store.getState().ble.connectedDevice?.id;
+  startStreaming = async (id: string) => {
     if (id) {
-      BleManager.startNotification(
-        id,
-        '10000000-0000-0000-0000-000000000001',
-        '20000000-0000-0000-0000-000000000001',
-      )
+      BleManager.startNotification(id, 'FFE0', 'FFE1')
         .then(() => {
-          console.log('Starting notification...');
+          console.log('Start Streaming Notification');
+          this.getPosition();
+          // this.startReport();
         })
         .catch(err => {
           console.error('Failed to start notification:', err);
@@ -129,23 +136,137 @@ class BLEManager {
       this.bleManagerEmitter.addListener(
         'BleManagerDidUpdateValueForCharacteristic',
         (data: any) => {
+          console.log(data.value);
+          // const [high, low, left, right] = positionBuffer(data.value);
+          const [left, right] = positionBuffer(data.value);
+          BLEStore.setLeft(left);
+          BLEStore.setRight(right);
           // console.log('New Data', Buffer.from(data.value).toString());
-          store.dispatch(setBattery(Buffer.from(data.value).toString()));
-          // test(Buffer.from(data.value).toString());
+          // store.dispatch(setBattery(Buffer.from(data.value).toString()));
+          // if (data.characteristic === '20000000-0000-0000-0000-000000000001')
+          //   BLEStore.setLeft(parseFloat(Buffer.from(data.value).toString()));
+          // if (data.characteristic === '20000000-0000-0000-0000-000000000002')
+          //   BLEStore.setRight(parseFloat(Buffer.from(data.value).toString()));
         },
       );
     }
   };
 
-  readBattery = async () => {
+  stopStreaming = async (id: string) => {
+    if (id) {
+      BleManager.stopNotification(id, 'ffe0', 'ffe1').then(() => {
+        console.log('Stopped Streaming Notification');
+      });
+      this.bleManagerEmitter.removeListener(
+        'BleManagerDidUpdateValueForCharacteristic',
+      );
+    }
+  };
+
+  //ble packet functions
+  getPosition = async () => {
     const id = store.getState().ble.connectedDevice?.id;
     if (id) {
-      const battery = await BleManager.read(
+      await BleManager.write(
         id,
-        '10000000-0000-0000-0000-000000000001',
-        '20000000-0000-0000-0000-000000000001',
-      );
-      return Buffer.from(battery).toString();
+        'ffe0',
+        'ffe1',
+        [0xff, 0xff, 0x02, 0x04, 0xfc],
+      ).catch(err => {
+        console.error(err);
+      });
+    }
+  };
+
+  getVoltage = async () => {
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      await BleManager.write(
+        id,
+        'ffe0',
+        'ffe1',
+        [0xff, 0xff, 0x02, 0x05, 0xfb],
+      ).catch(err => {
+        console.error(err);
+      });
+    }
+  };
+
+  startReport = async () => {
+    console.log('Start Reporting');
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      await BleManager.write(id, 'ffe0', 'ffe1', [0xff, 0xff, 0x02, 0x41, 0xbf])
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  };
+
+  stopReport = async () => {
+    console.log('Stop Reporting');
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      await BleManager.write(
+        id,
+        'ffe0',
+        'ffe1',
+        [0xff, 0xff, 0x02, 0x42, 0xbe],
+      ).then(() => {
+        this.stopStreaming(id);
+      });
+    }
+  };
+
+  setWeight = async () => {
+    console.log('Setting Weight');
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      await BleManager.write(
+        id,
+        'ffe0',
+        'ffe1',
+        [0xff, 0xff, 0x06, 0x61, 0x16, 0x1, 0x16, 0x1],
+      ).catch(err => {
+        console.error(err);
+      });
+      //마지막 4개 값은 왼쪽 무게, 왼쪽 하중모드, 오른쪽 무게, 오른쪽 하중모드
+    }
+  };
+
+  setRange = async () => {
+    console.log('Setting Range');
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      await BleManager.write(
+        id,
+        'ffe0',
+        'ffe1',
+        [0xff, 0xff, 0x04, 0x62, 0xff, 0xff],
+      ).catch(err => {
+        console.error(err);
+      });
+      //마지막 2개 값은 가동범위 시작, 가동범위 끝
+    }
+  };
+
+  //명령어 시점 영점 설정
+  calibrate = async () => {
+    console.log('Calibrate');
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      await BleManager.write(
+        id,
+        'ffe0',
+        'ffe1',
+        [0xff, 0xff, 0x03, 0x63, 0x1],
+      ).catch(err => {
+        console.error(err);
+      });
+      //마지막 값은 적용 대상 (1: Left, 2: Right, 3: Both)
     }
   };
 }

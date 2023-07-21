@@ -1,7 +1,3 @@
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import userReducer from './reducers';
-
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {bleMiddleware} from './BLE/listener';

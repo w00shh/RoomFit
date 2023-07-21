@@ -60,11 +60,15 @@ import Check from '../../assets/svg/buttons/active/check.svg';
 
 //other components
 import {Battery} from '../../components/battery';
-import {useAppSelector} from '../../redux/store';
+import {useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {Divider} from '../../components/divider';
 import {Information} from '../../components/Modal/information';
 import {Switch} from '../../components/toggle';
+
+//data receiving
+import {startListening, stopListening} from '../../redux/BLE/slice';
+import BLEStore from '../../redux/BLE/mobx_store';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
@@ -151,13 +155,17 @@ export const WorkoutStart = ({navigation, route}) => {
   });
 
   //graph 관련
-  const [data1, setData1] = useState([10, 20, 30, 40, 50]);
-  const [data2, setData2] = useState([10, 50, 10, 20, 30]);
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
+
+  const left = BLEStore.left;
+  const right = BLEStore.right;
+
   const scrollViewRef = useRef(null);
   const {width: windowWidth} = useWindowDimensions();
   useEffect(() => {
-    const newData1 = [...data1, Math.random() * 50];
-    const newData2 = [...data2, Math.random() * 50];
+    const newData1 = [...data1, left];
+    const newData2 = [...data2, right];
     let interval;
     if (!isResting) {
       interval = setInterval(() => {
@@ -209,6 +217,16 @@ export const WorkoutStart = ({navigation, route}) => {
       scrollViewRef.current.scrollToEnd({animated: true});
     }
   }, [data1]);
+
+  //데이터 받기 관련
+  const dispatch = useAppDispatch();
+  const [isListening, setIsListening] = useState(false);
+  useEffect(() => {
+    if (!isListening) {
+      dispatch(startListening());
+      setIsListening(true);
+    }
+  }, []);
 
   //battery
   const battery = useAppSelector(state => state.ble.battery);
@@ -1174,10 +1192,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   }
                 }}
                 style={styles.CButton}>
-                <Minus
-                  name="minus"
-                  size={16 * height_ratio}
-                  color="#808080"></Minus>
+                <Minus height={16 * height_ratio} width={16 * width_ratio} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -1188,14 +1203,13 @@ export const WorkoutStart = ({navigation, route}) => {
                   }
                 }}
                 style={styles.CButton}>
-                <Plus
-                  name="plus"
-                  size={16 * height_ratio}
-                  color="#808080"></Plus>
+                <Plus height={16 * height_ratio} width={16 * width_ratio} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
                   isResting ? setIsRestingModal(true) : setComplete();
+                  stopListening();
+                  setIsListening(false);
                 }}
                 style={styles.CButton2}>
                 <Text style={styles.CText}>
