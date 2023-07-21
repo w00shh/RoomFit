@@ -96,7 +96,7 @@ const HomeScreen = ({navigation}) => {
           {
             routine_id: value.routine_id,
             routine_name: value.routine_name,
-            body_regions: value.body_regions,
+            major_targets: value.major_targets,
             motion_count: value.motion_count,
           },
         ]);
@@ -195,7 +195,7 @@ const HomeScreen = ({navigation}) => {
             <View style={{gap: 12 * height_ratio}}>
               <RoutineBox
                 title={routine[0].routine_name}
-                targets={routine[0].body_regions}
+                targets={routine[0].major_targets}
                 numEx={routine[0].motion_count}
                 onPress={() => {
                   navigation.push('RoutineDetail', {
@@ -208,7 +208,7 @@ const HomeScreen = ({navigation}) => {
               {routine[1] && (
                 <RoutineBox
                   title={routine[1].routine_name}
-                  targets={routine[1].body_regions}
+                  targets={routine[1].major_targets}
                   numEx={routine[1].motion_count}
                   onPress={() => {
                     navigation.push('RoutineDetail', {

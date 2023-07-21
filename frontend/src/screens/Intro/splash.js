@@ -81,6 +81,16 @@ const IntroSplash = ({navigation}) => {
       .catch(e => console.log(e));
   };
 
+  const handleGetAllRoutine = async () => {
+    const body = {
+      user_id: appcontext.state.userid,
+      isHome: false,
+    };
+    await serverAxios.post('/routine/load', body).then(res => {
+      setRoutine(res.data);
+    });
+  };
+
   return (
     <View
       style={{
