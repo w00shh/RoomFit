@@ -1,4 +1,4 @@
-import React, {useState, createContext} from 'react';
+import React, {useState, createContext, useContext} from 'react';
 
 export const AppContext = createContext();
 
@@ -67,6 +67,8 @@ const AppProvider = ({children}) => {
   const [targetsetindex, setTargetsetindex] = useState(0);
   const [targetmotionrangemin, setTargetmotionrangemin] = useState(-1);
   const [targetmotionrangemax, setTargetmotionrangemax] = useState(-1);
+  const [left, setLeft] = useState(0);
+  const [right, setRight] = useState(0);
 
   const value = {
     state: {
@@ -98,6 +100,8 @@ const AppProvider = ({children}) => {
       targetmotionrangemax,
       gripList,
       bodyRegionList,
+      left,
+      right,
     },
     actions: {
       setMotionList,
@@ -125,6 +129,8 @@ const AppProvider = ({children}) => {
       setTargetsetindex,
       setTargetmotionrangemin,
       setTargetmotionrangemax,
+      setLeft,
+      setRight,
     },
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
