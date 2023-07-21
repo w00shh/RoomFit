@@ -25,7 +25,7 @@ const AppProvider = ({children}) => {
       modeDescription: '설명',
     },
   ];
-  const muscleList = [
+  const bodyRegionList = [
     '어깨',
     '등',
     '가슴',
@@ -36,8 +36,16 @@ const AppProvider = ({children}) => {
     '엉덩이',
   ];
 
-  const equipmentList = ['핸들', '바', 'Y로프'];
+  const gripList = ['핸들', '바', 'Y로프'];
 
+  const [motionList, setMotionList] = useState();
+  const [routineList, setRoutineList] = useState();
+  const [workoutList, setWorkoutList] = useState();
+  const [selectedMotionList, setSelectedMotionList] = useState('');
+  const [selectedGripList, setSelectedGripList] = useState([]);
+  const [selectedBodyRegionList, setSelectedBodyRegionList] = useState([]);
+
+  // 유저 관련 정보
   const [isLogin, setIsLogin] = useState(false);
   const [userid, setUserid] = useState('');
   const [usernickname, setUsernickname] = useState();
@@ -53,6 +61,8 @@ const AppProvider = ({children}) => {
   const [powerSaving, setPowerSaving] = useState(7);
   const [smartSaftey, setSmartSaftey] = useState();
   const [smartAssist, setSmartAssist] = useState();
+
+  // 가동범위/하중모드 인데스 관련
   const [targetmotionindex, setTargetmotionindex] = useState(0);
   const [targetsetindex, setTargetsetindex] = useState(0);
   const [targetmotionrangemin, setTargetmotionrangemin] = useState(-1);
@@ -60,6 +70,12 @@ const AppProvider = ({children}) => {
 
   const value = {
     state: {
+      motionList,
+      routineList,
+      workoutList,
+      selectedMotionList,
+      selectedGripList,
+      selectedBodyRegionList,
       modeList,
       isLogin,
       userid,
@@ -80,10 +96,16 @@ const AppProvider = ({children}) => {
       targetsetindex,
       targetmotionrangemin,
       targetmotionrangemax,
-      equipmentList,
-      muscleList,
+      gripList,
+      bodyRegionList,
     },
     actions: {
+      setMotionList,
+      setWorkoutList,
+      setRoutineList,
+      setSelectedMotionList,
+      setSelectedGripList,
+      setSelectedBodyRegionList,
       setIsLogin,
       setUserid,
       setUsernickname,

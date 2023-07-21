@@ -201,13 +201,13 @@ const AddMotion = ({navigation, route}) => {
           placeholder="동작을 검색해보세요"
           inputMode="text"></TextInput>
       </View>
-      <ScrollView
+      {/* <ScrollView
         horizontal={true}
         height={180 * height_ratio}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.additionalSelectContainer}>
         <View style={styles.equipmentContainer}>
-          {appcontext.state.equipmentList.map((value, key) => (
+          {appcontext.state.gripList.map((value, key) => (
             <TouchableOpacity
               key={key}
               style={{
@@ -236,7 +236,7 @@ const AddMotion = ({navigation, route}) => {
           ))}
         </View>
         <View style={styles.muscleContainer}>
-          {[...['즐겨찾기', '커스텀'], ...appcontext.state.muscleList].map(
+          {[...['즐겨찾기', '커스텀'], ...appcontext.state.bodyRegionList].map(
             (value, key) => (
               <TouchableOpacity
                 key={key}
@@ -268,7 +268,7 @@ const AddMotion = ({navigation, route}) => {
             ),
           )}
         </View>
-      </ScrollView>
+      </ScrollView> */}
       <View
         style={{
           paddingVertical: 8 * height_ratio,

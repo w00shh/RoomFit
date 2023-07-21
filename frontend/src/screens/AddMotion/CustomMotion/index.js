@@ -257,7 +257,7 @@ const CustomMotion = ({navigation}) => {
             </View>
             <View>
               <FlatList
-                data={appcontext.state.muscleList}
+                data={appcontext.state.bodyRegionList}
                 renderItem={renderItem}></FlatList>
             </View>
             <View style={styles.modeButtonContainer}>
@@ -290,7 +290,7 @@ const CustomMotion = ({navigation}) => {
             </View>
             <View>
               <FlatList
-                data={appcontext.state.muscleList}
+                data={appcontext.state.bodyRegionList}
                 renderItem={renderItem2}></FlatList>
             </View>
             <View style={styles.modeButtonContainer}>
