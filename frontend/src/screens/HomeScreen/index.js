@@ -78,7 +78,7 @@ const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     //getMyRoutine();
-    getRecentWorkout();
+    //getRecentWorkout();
   }, []);
 
   const getMyRoutine = async () => {
@@ -233,14 +233,14 @@ const HomeScreen = ({navigation}) => {
         </View>
 
         <Text style={styles.subtitleText}>최근 수행한 운동</Text>
-        {recentRoutine.length === 0 && (
+        {!appcontext.state.workoutList[0] && (
           <View style={styles.routineContainer}>
             <Text style={styles.noRoutineText}>
               최근 운동한 기록이 없습니다.
             </Text>
           </View>
         )}
-        {recentRoutine.length > 0 && (
+        {appcontext.state.workoutList[0] && (
           <View>
             <View>
               <Text
@@ -248,9 +248,9 @@ const HomeScreen = ({navigation}) => {
                   fontSize: 14 * height_ratio,
                   marginTop: 12 * height_ratio,
                 }}>
-                {recentRoutine[0].start_time.split(' ')[0]}
+                {appcontext.state.workoutList[0].date}
               </Text>
-              {recentRoutine.map((value, key) => (
+              {appcontext.state.workoutList[0].data.map((value, key) => (
                 <TouchableOpacity
                   key={key}
                   onPress={() =>

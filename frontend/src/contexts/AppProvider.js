@@ -41,7 +41,7 @@ const AppProvider = ({children}) => {
   const [motionList, setMotionList] = useState();
   const [routineList, setRoutineList] = useState([]);
   const [routineDetailList, setRoutineDetailList] = useState([]);
-  const [workoutList, setWorkoutList] = useState();
+  const [workoutList, setWorkoutList] = useState([]);
   const [selectedMotionList, setSelectedMotionList] = useState('');
   const [selectedGripList, setSelectedGripList] = useState([]);
   const [selectedBodyRegionList, setSelectedBodyRegionList] = useState([]);

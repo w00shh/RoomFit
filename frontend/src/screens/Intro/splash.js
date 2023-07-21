@@ -18,7 +18,6 @@ const IntroSplash = ({navigation}) => {
     if (autoLogin) {
       handleGetAllRoutine();
       handleGetAllWorkoutList();
-      handleAutoLogin();
     }
   }, [autoLogin]);
 
@@ -36,7 +35,6 @@ const IntroSplash = ({navigation}) => {
       appcontext.actions.setUserid(userId);
       setAutoLogin(true);
     } else {
-      console.log('no');
       setTimeout(() => {
         navigation.navigate('Intro');
       }, 1500);
@@ -68,7 +66,6 @@ const IntroSplash = ({navigation}) => {
     await serverAxios
       .get('/account/user-info?user_id=' + appcontext.state.userid)
       .then(res => {
-        console.log(res.data);
         if (res.data.user_name)
           appcontext.actions.setUsernickname(res.data.user_name);
         if (res.data.birth) appcontext.actions.setUserBirth(res.data.birth);
@@ -93,7 +90,6 @@ const IntroSplash = ({navigation}) => {
       isHome: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
-      console.log(res.data);
       res.data.map((value, key) => {
         appcontext.actions.setRoutineList(currentRoutine => [
           ...currentRoutine,
@@ -115,25 +111,10 @@ const IntroSplash = ({navigation}) => {
     await serverAxios
       .get(targeturl)
       .then(res => {
-        console.log(res.data);
-        res.data.motionList.forEach((value, key) => {
-          appcontext.actions.setRoutineDetailList(currentMotionList => [
-            ...currentMotionList,
-            {
-              motion_index: motionIndex_base + key,
-              isMotionDone: false,
-              isMotionDoing: false,
-              doingSetIndex: 0,
-              isFav: value.isFav,
-              motion_range_min: value.motion_range_min,
-              motion_range_max: value.motion_range_max,
-              motion_id: value.motion_id,
-              motion_name: value.motion_name,
-              image_url: value.image_url,
-              sets: value.sets,
-            },
-          ]);
-        });
+        appcontext.actions.setRoutineDetailList([
+          ...appcontext.state.routineDetailList,
+          res.data,
+        ]);
       })
       .catch(e => {
         console.log(e);
@@ -143,24 +124,37 @@ const IntroSplash = ({navigation}) => {
     const body = {
       user_id: appcontext.state.userid,
     };
-    console.log(body);
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {
-        appcontext.actions.setWorkoutList(res.data);
+        appcontext.actions.setWorkoutList(groupDataByDate(res.data));
       })
       .catch(e => console.log(e));
   };
 
-  // const groupDataByDate = () => {
-  //   const groupedData = appcontext.state.workoutList.reduce((acc, exercise) => {
-  //     const {date, ...exerciseInfo} = exercise;
-  //     if (!acc[date.split(' ')[0]]) {
-  //       acc[date] = [];
-  //     }
-  //     acc[date].push(exerciseInfo);
-  //     return acc;
-  //   }, {});
+  const groupDataByDate = data => {
+    const groupedData = data.reduce((acc, exercise) => {
+      const {date, ...exerciseInfo} = exercise;
+      if (!acc[date.split(' ')[0]]) {
+        acc[date] = [];
+      }
+      acc[date].push(exerciseInfo);
+      return acc;
+    }, {});
+
+    return Object.keys(groupedData).map(date => ({
+      date,
+      data: groupedData[date],
+    }));
+  };
+
+  useEffect(() => {
+    if (appcontext.state.workoutList[0]) {
+      console.log(appcontext.state.workoutList[0].data);
+      console.log('check');
+      handleAutoLogin();
+    }
+  }, [appcontext.state.workoutList]);
 
   return (
     <View

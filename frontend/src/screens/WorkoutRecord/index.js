@@ -74,7 +74,7 @@ const WorkoutRecord = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    getBreifWorkout();
+    //getBreifWorkout();
     getMonthWorkoutDay();
   }, []);
 
@@ -282,13 +282,13 @@ const WorkoutRecord = ({navigation, route}) => {
           <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
             <ScrollView showsVerticalScrollIndicator={false}>
-              {workoutList.length > 0 &&
-                formattedData.map((value, key) => (
+              {appcontext.state.workoutList[0] &&
+                appcontext.state.workoutList.map((value, key) => (
                   <View
                     key={value.date}
                     style={{
                       marginBottom:
-                        key !== formattedData.length - 1
+                        key !== appcontext.state.workoutList.length - 1
                           ? 24 * height_ratio
                           : 90 * height_ratio,
                     }}>
