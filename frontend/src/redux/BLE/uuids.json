@@ -1,0 +1,51 @@
+{
+  "advertising": {
+    "isConnectable": true,
+    "localName": "ROOMFIT_Sample8",
+    "manufacturerData": {
+      "CDVType": "ArrayBuffer",
+      "bytes": ["Array"],
+      "data": "AgEGBQLg/+H/C/9Zp4igbiy0wrXQEAlST09NRklUX1NhbXBsZTgFEggACAACCgAAAAAAAAAAAAAAAAAAAAA="
+    },
+    "serviceData": {},
+    "serviceUUIDs": ["ffe0", "ffe1"],
+    "txPowerLevel": 0
+  },
+  "characteristics": [
+    {"characteristic": "2a00", "properties": ["Object"], "service": "1800"},
+    {"characteristic": "2a01", "properties": ["Object"], "service": "1800"},
+    {"characteristic": "2a02", "properties": ["Object"], "service": "1800"},
+    {"characteristic": "2a03", "properties": ["Object"], "service": "1800"},
+    {"characteristic": "2a04", "properties": ["Object"], "service": "1800"},
+    {
+      "characteristic": "2a05",
+      "descriptors": ["Array"],
+      "properties": ["Object"],
+      "service": "1801"
+    },
+    {"characteristic": "2a23", "properties": ["Object"], "service": "180a"},
+    {"characteristic": "2a24", "properties": ["Object"], "service": "180a"},
+    {"characteristic": "2a25", "properties": ["Object"], "service": "180a"},
+    {"characteristic": "2a26", "properties": ["Object"], "service": "180a"},
+    {"characteristic": "2a27", "properties": ["Object"], "service": "180a"},
+    {"characteristic": "2a28", "properties": ["Object"], "service": "180a"},
+    {"characteristic": "2a29", "properties": ["Object"], "service": "180a"},
+    {"characteristic": "2a2a", "properties": ["Object"], "service": "180a"},
+    {"characteristic": "2a50", "properties": ["Object"], "service": "180a"},
+    {
+      "characteristic": "ffe1",
+      "descriptors": ["Array"],
+      "properties": ["Object"],
+      "service": "ffe0"
+    }
+  ],
+  "id": "D0:B5:C2:B4:2C:6E",
+  "name": "ROOMFIT_Sample8",
+  "rssi": -63,
+  "services": [
+    {"uuid": "1800"},
+    {"uuid": "1801"},
+    {"uuid": "180a"},
+    {"uuid": "ffe0"}
+  ]
+}

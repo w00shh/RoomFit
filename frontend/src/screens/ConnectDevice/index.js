@@ -25,6 +25,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 import {
   startScanning,
+  startListening,
   readDeviceBattery,
   stopScanning,
 } from '../../redux/BLE/slice';
@@ -33,7 +34,6 @@ import {store, useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {checkBluetoothPermissions} from '../../redux/BLE/permission';
 import {Easing} from 'react-native-reanimated';
-const Buffer = require('buffer/').Buffer;
 
 const ConnectDevice = ({navigation}) => {
   const [onlyRoomFit, setOnlyRoomFit] = useState(false);
@@ -142,7 +142,8 @@ const ConnectDevice = ({navigation}) => {
               await dispatch(connectToDevice(device));
               stopRotating();
               setIsConnecting('');
-              dispatch(readDeviceBattery());
+              // dispatch(readDeviceBattery());
+              // dispatch(startListening());
             }}>
             <Text style={styles.connect}>
               {isConnecting === device.id ? '취소' : '연결'}
@@ -166,7 +167,7 @@ const ConnectDevice = ({navigation}) => {
           <View style={styles.connectContainer}>
             <View>
               <Text style={styles.connectText}>{connectedDevice.name}</Text>
-              {typeof battery == 'number' && (
+              {typeof battery == 'string' && (
                 <Text style={styles.battery}>배터리 {battery}%</Text>
               )}
             </View>

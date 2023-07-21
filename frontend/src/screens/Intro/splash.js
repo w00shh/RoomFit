@@ -16,6 +16,7 @@ const IntroSplash = ({navigation}) => {
 
   useEffect(() => {
     if (autoLogin) {
+
       setTimeout(() => {
         navigation.navigate('HomeScreen');
       }, 1000);
@@ -81,13 +82,22 @@ const IntroSplash = ({navigation}) => {
       .catch(e => console.log(e));
   };
 
-  const handleGetAllRoutine = async () => {
-    const body = {
+  const handleGetAllRoutine = async () => {    const body = {
       user_id: appcontext.state.userid,
       isHome: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
-      setRoutine(res.data);
+      res.data.map((value, key) => {
+        setRoutine(currentRoutine => [
+          ...currentRoutine,
+          {
+            routine_id: value.routine_id,
+            routine_name: value.routine_name,
+            body_regions: value.body_regions,
+            motion_count: value.motion_count,
+          },
+        ]);
+      });
     });
   };
 

@@ -4,8 +4,10 @@ import {
   setConnectedDevice,
   setBattery,
   startScanning,
+  startListening,
   readDeviceBattery,
   stopScanning,
+  stopListening,
 } from './slice';
 import BLEManager, {DeviceReference} from './BLEManager';
 import {store} from '../store';
@@ -64,16 +66,36 @@ bleMiddleware.startListening({
 // });
 
 bleMiddleware.startListening({
-  actionCreator: readDeviceBattery,
+  actionCreator: startListening,
   effect: async (_, listenerApi) => {
-    if (store.getState().ble.connectedDevice) {
-      await BLEManager.readBattery()
-        .then(res => {
-          listenerApi.dispatch(setBattery(res));
-        })
-        .catch(err => {
-          listenerApi.dispatch(setBattery(null));
-        });
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      await BLEManager.startStreaming(id);
     }
   },
 });
+
+bleMiddleware.startListening({
+  actionCreator: stopListening,
+  effect: async (_, listenerApi) => {
+    const id = store.getState().ble.connectedDevice?.id;
+    if (id) {
+      await BLEManager.stopStreaming(id);
+    }
+  },
+});
+
+// bleMiddleware.startListening({
+//   actionCreator: readDeviceBattery,
+//   effect: async (_, listenerApi) => {
+//     if (store.getState().ble.connectedDevice) {
+//       await BLEManager.readBattery()
+//         .then(res => {
+//           listenerApi.dispatch(setBattery(res!));
+//         })
+//         .catch(err => {
+//           listenerApi.dispatch(setBattery(null));
+//         });
+//     }
+//   },
+// });
