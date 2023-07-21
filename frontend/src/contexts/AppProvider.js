@@ -39,8 +39,8 @@ const AppProvider = ({children}) => {
   const gripList = ['핸들', '바', 'Y로프'];
 
   const [motionList, setMotionList] = useState();
-  const [routineList, setRoutineList] = useState();
-  const [routineDetailList, setRoutineDetailList] = useState();
+  const [routineList, setRoutineList] = useState([]);
+  const [routineDetailList, setRoutineDetailList] = useState([]);
   const [workoutList, setWorkoutList] = useState();
   const [selectedMotionList, setSelectedMotionList] = useState('');
   const [selectedGripList, setSelectedGripList] = useState([]);

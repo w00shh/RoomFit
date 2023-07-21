@@ -16,12 +16,17 @@ const IntroSplash = ({navigation}) => {
 
   useEffect(() => {
     if (autoLogin) {
+      handleGetAllRoutine();
 
-      setTimeout(() => {
-        navigation.navigate('HomeScreen');
-      }, 1000);
+      handleAutoLogin();
     }
   }, [autoLogin]);
+
+  const handleAutoLogin = () => {
+    setTimeout(() => {
+      navigation.navigate('HomeScreen');
+    }, 500);
+  };
 
   const checkLogined = async () => {
     const userId = await AsyncStorage.getItem('isLogin');
@@ -82,13 +87,15 @@ const IntroSplash = ({navigation}) => {
       .catch(e => console.log(e));
   };
 
-  const handleGetAllRoutine = async () => {    const body = {
+  const handleGetAllRoutine = async () => {
+    const body = {
       user_id: appcontext.state.userid,
       isHome: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
+      console.log(res.data);
       res.data.map((value, key) => {
-        setRoutine(currentRoutine => [
+        appcontext.actions.setRoutineList(currentRoutine => [
           ...currentRoutine,
           {
             routine_id: value.routine_id,
@@ -97,8 +104,40 @@ const IntroSplash = ({navigation}) => {
             motion_count: value.motion_count,
           },
         ]);
+        getRoutinedDetail(value.routine_id);
       });
     });
+  };
+
+  getRoutinedDetail = async routine_id => {
+    const targeturl = '/routine/detail/' + routine_id;
+    const motionIndex_base = 0;
+    await serverAxios
+      .get(targeturl)
+      .then(res => {
+        console.log(res.data);
+        res.data.motionList.forEach((value, key) => {
+          appcontext.actions.setRoutineDetailList(currentMotionList => [
+            ...currentMotionList,
+            {
+              motion_index: motionIndex_base + key,
+              isMotionDone: false,
+              isMotionDoing: false,
+              doingSetIndex: 0,
+              isFav: value.isFav,
+              motion_range_min: value.motion_range_min,
+              motion_range_max: value.motion_range_max,
+              motion_id: value.motion_id,
+              motion_name: value.motion_name,
+              image_url: value.image_url,
+              sets: value.sets,
+            },
+          ]);
+        });
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
   return (
