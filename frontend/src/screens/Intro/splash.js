@@ -66,8 +66,27 @@ const IntroSplash = ({navigation}) => {
             motion_count: value.motion_count,
           },
         ]);
+        handleGetAllRoutineDetail(value.routine_id);
       });
     });
+  };
+
+  // const handleGetAllRoutineDetail = async routineID => {
+  //   const targetUrl = 'routine/detail/' + routineID;
+  //   await serverAxios.get(targetUrl).then(res => {
+  //     appcontext.actions.setRoutineDetailList([
+  //       ...appcontext.state.routineDetailList,
+  //       res.data,
+  //     ]);
+  //   });
+  // };
+
+  const handleGetAllRoutineDetail = async routineID => {
+    const targetUrl = 'routine/detail/' + routineID;
+    const res = await serverAxios.get(targetUrl);
+    const newData = res.data;
+
+    appcontext.actions.setRoutineDetailList(prevList => [...prevList, newData]);
   };
 
   const handleGetAllWorkoutList = async () => {
@@ -99,18 +118,29 @@ const IntroSplash = ({navigation}) => {
   };
 
   const handleAutoLogin = () => {
+    console.log(appcontext.state.routineDetailList);
     setTimeout(() => {
       navigation.navigate('HomeScreen');
     }, 500);
   };
 
   useEffect(() => {
-    if (appcontext.state.workoutList[0]) {
+    if (
+      appcontext.state.workoutList[0] &&
+      appcontext.state.routineDetailList[0] &&
+      appcontext.state.routineList[0] &&
+      appcontext.state.routineList.length ===
+        appcontext.state.routineDetailList.length
+    ) {
       console.log(appcontext.state.workoutList[0].data);
       console.log('check');
       handleAutoLogin();
     }
-  }, [appcontext.state.workoutList]);
+  }, [
+    appcontext.state.routineDetailList,
+    appcontext.state.workoutList,
+    appcontext.state.routineList,
+  ]);
 
   useEffect(() => {
     if (appcontext.state.userid.length > 0) {
