@@ -32,8 +32,14 @@ export type DevicesAction = PayloadAction<DeviceReference>;
 export const startScanning = createAction('bleState/startScanning');
 export const readDeviceBattery = createAction('bleState/readDeviceBattery');
 export const stopScanning = createAction('bleState/stopScanning');
+
 export const startListening = createAction('bleState/startListening');
 export const stopListening = createAction('bleState/stopListening');
+
+export const _getPosition = createAction('bleInstruction/getPosition');
+export const _getVoltage = createAction('bleInstruction/getVoltage');
+export const _startReport = createAction('bleInstruction/startReport');
+export const _stopReport = createAction('bleInstruction/stopReport');
 
 // export const connectToDevice = createAction('bleState/connectToDevice');
 // export const disconnectDevice = createAction('bleState/disconnectDevice');

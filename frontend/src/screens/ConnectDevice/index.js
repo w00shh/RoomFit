@@ -171,13 +171,31 @@ const ConnectDevice = ({navigation}) => {
                 <Text style={styles.battery}>배터리 {battery}%</Text>
               )}
             </View>
-            <TouchableOpacity
-              style={styles.disconnectButton}
-              onPress={() => {
-                dispatch(disconnectFromDevice(connectedDevice));
-              }}>
-              <Text style={styles.connect}>연결 해제</Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'column', gap: 8 * height_ratio}}>
+              <TouchableOpacity
+                style={{
+                  width: 95 * width_ratio,
+                  height: 36 * height_ratio,
+
+                  borderRadius: 8,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+
+                  backgroundColor: '#5252FA',
+                }}
+                onPress={() => {
+                  navigation.navigate('TestScreen');
+                }}>
+                <Text style={{color: '#fff'}}>테스트 모드</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.disconnectButton}
+                onPress={() => {
+                  dispatch(disconnectFromDevice(connectedDevice));
+                }}>
+                <Text style={styles.connect}>연결 해제</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       )}

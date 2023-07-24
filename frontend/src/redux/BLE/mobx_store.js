@@ -1,13 +1,17 @@
-import {makeObservable, observable} from 'mobx';
+import {makeAutoObservable, runInAction} from 'mobx';
 
 class BLEStore {
+  rawdata = [];
   left = 0;
   right = 0;
 
   constructor() {
-    makeObservable(this, {
-      left: observable,
-      right: observable,
+    makeAutoObservable(this, {});
+  }
+
+  setRawdata(data) {
+    runInAction(() => {
+      this.rawdata = data;
     });
   }
 
