@@ -197,14 +197,15 @@ const HomeScreen = ({navigation}) => {
                 targets={appcontext.state.routineList[0].body_regions}
                 numEx={appcontext.state.routineList[0].motion_count}
                 onPress={() => {
+                  console.log(appcontext.state.routineDetailList);
                   navigation.push('RoutineDetail', {
                     isRoutineDetail: true,
                     routine_id: appcontext.state.routineList[0].routine_id,
-                    // index: appcontext.state.routineDetailList.findIndex(
-                    //   e =>
-                    //     e.routine_id ===
-                    //     appcontext.state.routineList[0].routine_id,
-                    // ),
+                    index: appcontext.state.routineDetailList.findIndex(
+                      e =>
+                        e.routine_id ===
+                        appcontext.state.routineList[0].routine_id,
+                    ),
                     routineName: appcontext.state.routineList[0].routine_name,
                     motion_index_base: 0,
                   });
@@ -217,13 +218,12 @@ const HomeScreen = ({navigation}) => {
                   onPress={() => {
                     navigation.push('RoutineDetail', {
                       isRoutineDetail: true,
-                      // index: appcontext.state.routineDetailList.findIndex(
-                      //   e =>
-                      //     e.routine_id ===
-                      //     appcontext.state.routineList[1].routine_id,
-                      // ),
-                      routine_id: appcontext.state.routineList[1].routine_id,
-                      routineName: appcontext.state.routineList[1].routine_name,
+                      index: appcontext.state.routineDetailList.findIndex(
+                        e =>
+                          e.routine_id ===
+                          appcontext.state.routineList[1].routine_id,
+                      ),
+
                       motion_index_base: 0,
                     });
                   }}></RoutineBox>

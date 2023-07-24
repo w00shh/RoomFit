@@ -349,6 +349,7 @@ const AddMotion = ({navigation, route}) => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
                 route.params.isRoutineDetail
                   ? navigation.push('RoutineDetail', {
+                      index: route.params.index,
                       motion_index_base: route.params.motion_index_base,
                       isMotionAdded: true,
                       routineName: route.params.routineName,
