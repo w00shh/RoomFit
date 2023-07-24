@@ -198,6 +198,7 @@ const WorkoutRecord = ({navigation, route}) => {
               key={keys}
               onPress={() =>
                 navigation.navigate('WorkoutDetail', {
+                  index: value.index,
                   startingPoint: 1,
                   selectedDate: selectedDate,
                   workout_id: values.workout_id,
@@ -385,6 +386,9 @@ const WorkoutRecord = ({navigation, route}) => {
                           key={key}
                           onPress={() =>
                             navigation.navigate('WorkoutDetail', {
+                              index: appcontext.state.workoutList.findIndex(
+                                e => e.date === selectedDate,
+                              ),
                               startingPoint: 2,
                               selectedDate: selectedDate,
                               workout_id: value.workout_id,

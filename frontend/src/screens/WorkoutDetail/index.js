@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Platform,
   View,
@@ -22,11 +22,13 @@ import Tut from '../../assets/svg/icons/tut.svg';
 import Calorie from '../../assets/svg/icons/calorie.svg';
 import Volume from '../../assets/svg/icons/volume.svg';
 import {Divider} from '../../components/divider';
+import {AppContext} from '../../contexts/AppProvider';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutDetail = ({navigation, route}) => {
+  const appcontext = useContext(AppContext);
   const [isWorkoutDeleteModalVisible, setIsWorkoutDeleteModalVisible] =
     useState(false);
   const [workoutList, setWorkoutList] = useState();
@@ -94,10 +96,25 @@ const WorkoutDetail = ({navigation, route}) => {
         console.log(e);
       });
 
-    if (route.params.startingPoint == 0) {
+    const updatedArray = [...appcontext.state.workoutList];
+
+    const currentData = updatedArray[route.params.index].data;
+    const updatedData = currentData.filter(
+      item => item.workout_id !== route.params.workout_id,
+    );
+    updatedArray[route.params.index].data = updatedData;
+    // 배열을 순회하면서 workout_id가 일치하는 데이터를 삭제
+
+    // 변경된 배열을 저장
+    appcontext.actions.setWorkoutList(updatedArray);
+    console.log(route.params.startingPoint);
+
+    if (route.params.startingPoint === 0) {
       /* StartingPoint가 HomeScreen일 때 */
+      console.log('here?');
       navigation.push('HomeScreen');
-    } else if (route.params.startingPoint == 1) {
+    } else if (route.params.startingPoint === 1) {
+      console.log('workoutRecord');
       /* StartingPoint가 WorkoutRecord의 운동기록 탭일 때 */
       navigation.push('WorkoutRecord', {
         isCalendar: false,
@@ -265,9 +282,8 @@ const WorkoutDetail = ({navigation, route}) => {
           <Text style={styles.yoyakText}>운동 상세</Text>
           {workoutList &&
             workoutList.map((value, key) => (
-              <>
+              <View key={key}>
                 <RecordItem
-                  key={key}
                   record={value}
                   navigateToRecordDetail={() => {
                     navigation.navigate('RecordDetail', {
@@ -286,7 +302,7 @@ const WorkoutDetail = ({navigation, route}) => {
                 {key !== workoutList.length - 1 && (
                   <Divider height_ratio={height_ratio} />
                 )}
-              </>
+              </View>
             ))}
         </View>
       </ScrollView>

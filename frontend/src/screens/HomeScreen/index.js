@@ -79,6 +79,7 @@ const HomeScreen = ({navigation}) => {
   useEffect(() => {
     //getMyRoutine();
     //getRecentWorkout();
+    console.log(appcontext.state.routineDetailList);
   }, []);
 
   const getMyRoutine = async () => {
@@ -255,6 +256,7 @@ const HomeScreen = ({navigation}) => {
                   key={key}
                   onPress={() =>
                     navigation.navigate('WorkoutDetail', {
+                      index: 0,
                       workout_id: value.workout_id,
                       title: value.title,
                       start_time:
