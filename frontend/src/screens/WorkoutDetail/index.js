@@ -109,8 +109,11 @@ const WorkoutDetail = ({navigation, route}) => {
     appcontext.actions.setWorkoutList(updatedArray);
     console.log(route.params.startingPoint);
 
+    setIsWorkoutDeleteModalVisible(false);
+
     if (route.params.startingPoint === 0) {
       /* StartingPoint가 HomeScreen일 때 */
+
       console.log('here?');
       navigation.push('HomeScreen');
     } else if (route.params.startingPoint === 1) {
