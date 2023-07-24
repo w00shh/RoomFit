@@ -194,36 +194,36 @@ const HomeScreen = ({navigation}) => {
             <View style={{gap: 12 * height_ratio}}>
               <RoutineBox
                 title={appcontext.state.routineList[0].routine_name}
-                targets={appcontext.state.routineList[0].major_targets}
+                targets={appcontext.state.routineList[0].body_regions}
                 numEx={appcontext.state.routineList[0].motion_count}
                 onPress={() => {
                   navigation.push('RoutineDetail', {
                     isRoutineDetail: true,
-                    //routine_id: routine[0].routine_id,
-                    index: appcontext.state.routineDetailList.findIndex(
-                      e =>
-                        e.routine_id ===
-                        appcontext.state.routineList[0].routine_id,
-                    ),
-                    //routineName: routine[0].routine_name,
+                    routine_id: appcontext.state.routineList[0].routine_id,
+                    // index: appcontext.state.routineDetailList.findIndex(
+                    //   e =>
+                    //     e.routine_id ===
+                    //     appcontext.state.routineList[0].routine_id,
+                    // ),
+                    routineName: appcontext.state.routineList[0].routine_name,
                     motion_index_base: 0,
                   });
                 }}></RoutineBox>
               {appcontext.state.routineList[1] && (
                 <RoutineBox
                   title={appcontext.state.routineList[1].routine_name}
-                  targets={appcontext.state.routineList[1].major_targets}
+                  targets={appcontext.state.routineList[1].body_regions}
                   numEx={appcontext.state.routineList[1].motion_count}
                   onPress={() => {
                     navigation.push('RoutineDetail', {
                       isRoutineDetail: true,
-                      index: appcontext.state.routineDetailList.findIndex(
-                        e =>
-                          e.routine_id ===
-                          appcontext.state.routineList[1].routine_id,
-                      ),
-                      //routine_id: appcontext.state.routineList[1].routine_id,
-                      //routineName: routine[1].routine_name,
+                      // index: appcontext.state.routineDetailList.findIndex(
+                      //   e =>
+                      //     e.routine_id ===
+                      //     appcontext.state.routineList[1].routine_id,
+                      // ),
+                      routine_id: appcontext.state.routineList[1].routine_id,
+                      routineName: appcontext.state.routineList[1].routine_name,
                       motion_index_base: 0,
                     });
                   }}></RoutineBox>

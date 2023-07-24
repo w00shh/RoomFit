@@ -202,40 +202,40 @@ const RoutineDetail = ({navigation, route}) => {
       });
   };
 
-  // useEffect(() => {
-  //   if (route.params.isRoutineDetail) {
-  //     getRoutineDetailMotionList();
-  //   } else {
-  //     setMotionList(route.params.motionList);
-  //     setIsSaveDisabled(false);
-  //     for (let i = 0; i < route.params.displaySelected.length; i++) {
-  //       setMotionList(currentMotionList => [
-  //         ...currentMotionList,
-  //         {
-  //           motion_index: motionIndexBase + i,
-  //           isMotionDone: false,
-  //           isMotionDoing: false,
-  //           doingSetIndex: 0,
-  //           isFav: route.params.displaySelected[i].isFav,
-  //           motion_range_min: route.params.displaySelected[i].motion_range_min,
-  //           motion_range_max: route.params.displaySelected[i].motion_range_max,
-  //           motion_id: route.params.displaySelected[i].motion_id,
-  //           motion_name: route.params.displaySelected[i].motion_name,
-  //           image_url: route.params.displaySelected[i].image_url,
-  //           sets: [
-  //             {
-  //               weight: 0,
-  //               reps: 1,
-  //               mode: '기본',
-  //               isDoing: false,
-  //               isDone: false,
-  //             },
-  //           ],
-  //         },
-  //       ]);
-  //     }
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (route.params.isRoutineDetail) {
+      getRoutineDetailMotionList();
+    } else {
+      setMotionList(route.params.motionList);
+      setIsSaveDisabled(false);
+      for (let i = 0; i < route.params.displaySelected.length; i++) {
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase + i,
+            isMotionDone: false,
+            isMotionDoing: false,
+            doingSetIndex: 0,
+            isFav: route.params.displaySelected[i].isFav,
+            motion_range_min: route.params.displaySelected[i].motion_range_min,
+            motion_range_max: route.params.displaySelected[i].motion_range_max,
+            motion_id: route.params.displaySelected[i].motion_id,
+            motion_name: route.params.displaySelected[i].motion_name,
+            image_url: route.params.displaySelected[i].image_url,
+            sets: [
+              {
+                weight: 0,
+                reps: 1,
+                mode: '기본',
+                isDoing: false,
+                isDone: false,
+              },
+            ],
+          },
+        ]);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (motionList.length === 0) {
@@ -416,9 +416,7 @@ const RoutineDetail = ({navigation, route}) => {
       {motionList[0] && (
         <GestureHandlerRootView style={{height: 625 * height_ratio}}>
           <DraggableFlatList
-            data={
-              appcontext.state.RoutineDetailList[route.params.index].motionList
-            }
+            data={motionList}
             renderItem={renderItem}
             keyExtractor={item => item.motion_index}
             onDragEnd={({data}) => setMotionList(data)}

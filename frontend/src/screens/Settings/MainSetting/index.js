@@ -402,7 +402,7 @@ const MainSetting = ({navigation}) => {
           }>
           <History height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MainSetting')}>
+        <TouchableOpacity>
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       </View>

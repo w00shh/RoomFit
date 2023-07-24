@@ -66,7 +66,6 @@ const IntroSplash = ({navigation}) => {
             motion_count: value.motion_count,
           },
         ]);
-        getRoutinedDetail(value.routine_id);
       });
     });
   };
