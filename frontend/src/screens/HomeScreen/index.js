@@ -277,7 +277,7 @@ const HomeScreen = ({navigation}) => {
                 </TouchableOpacity>
               ))}
             </View>
-            <View style={{height: 90 * height_ratio}}></View>
+            <View style={{height: 60 * height_ratio}}></View>
           </View>
         )}
       </ScrollView>

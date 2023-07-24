@@ -96,7 +96,7 @@ const WorkoutDetail = ({navigation, route}) => {
 
     if (route.params.startingPoint == 0) {
       /* StartingPoint가 HomeScreen일 때 */
-      navigation.reset({routes: [{name: 'HomeScreen'}]});
+      navigation.push('HomeScreen');
     } else if (route.params.startingPoint == 1) {
       /* StartingPoint가 WorkoutRecord의 운동기록 탭일 때 */
       navigation.push('WorkoutRecord', {

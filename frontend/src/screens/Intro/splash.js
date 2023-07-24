@@ -14,19 +14,6 @@ const IntroSplash = ({navigation}) => {
     checkLogined();
   }, []);
 
-  useEffect(() => {
-    if (autoLogin) {
-      handleGetAllRoutine();
-      handleGetAllWorkoutList();
-    }
-  }, [autoLogin]);
-
-  const handleAutoLogin = () => {
-    setTimeout(() => {
-      navigation.navigate('HomeScreen');
-    }, 500);
-  };
-
   const checkLogined = async () => {
     const userId = await AsyncStorage.getItem('isLogin');
     const assist = await AsyncStorage.getItem('SmartAssist');
@@ -57,32 +44,11 @@ const IntroSplash = ({navigation}) => {
   };
 
   useEffect(() => {
-    if (appcontext.state.userid.length > 0) {
-      getUserInfo();
+    if (autoLogin) {
+      handleGetAllRoutine();
+      handleGetAllWorkoutList();
     }
-  }, [appcontext.state.userid]);
-
-  const getUserInfo = async () => {
-    await serverAxios
-      .get('/account/user-info?user_id=' + appcontext.state.userid)
-      .then(res => {
-        if (res.data.user_name)
-          appcontext.actions.setUsernickname(res.data.user_name);
-        if (res.data.birth) appcontext.actions.setUserBirth(res.data.birth);
-        if (res.data.gender) appcontext.actions.setUserGender(res.data.gender);
-        if (res.data.height) appcontext.actions.setUserHeight(res.data.height);
-        if (res.data.weight) appcontext.actions.setUserWeight(res.data.weight);
-        if (res.data.body_fat)
-          appcontext.actions.setUserBodyFat(res.data.body_fat);
-        if (res.data.set_break)
-          appcontext.actions.setUserSetTime(res.data.set_break);
-        if (res.data.motion_break)
-          appcontext.actions.setUserMotionTime(res.data.motion_break);
-        if (res.data.experience)
-          appcontext.actions.setUserWorkoutCareer(res.data.experience);
-      })
-      .catch(e => console.log(e));
-  };
+  }, [autoLogin]);
 
   const handleGetAllRoutine = async () => {
     const body = {
@@ -105,21 +71,6 @@ const IntroSplash = ({navigation}) => {
     });
   };
 
-  getRoutinedDetail = async routine_id => {
-    const targeturl = '/routine/detail/' + routine_id;
-    const motionIndex_base = 0;
-    await serverAxios
-      .get(targeturl)
-      .then(res => {
-        appcontext.actions.setRoutineDetailList([
-          ...appcontext.state.routineDetailList,
-          res.data,
-        ]);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
   const handleGetAllWorkoutList = async () => {
     const body = {
       user_id: appcontext.state.userid,
@@ -148,6 +99,12 @@ const IntroSplash = ({navigation}) => {
     }));
   };
 
+  const handleAutoLogin = () => {
+    setTimeout(() => {
+      navigation.navigate('HomeScreen');
+    }, 500);
+  };
+
   useEffect(() => {
     if (appcontext.state.workoutList[0]) {
       console.log(appcontext.state.workoutList[0].data);
@@ -155,6 +112,34 @@ const IntroSplash = ({navigation}) => {
       handleAutoLogin();
     }
   }, [appcontext.state.workoutList]);
+
+  useEffect(() => {
+    if (appcontext.state.userid.length > 0) {
+      getUserInfo();
+    }
+  }, [appcontext.state.userid]);
+
+  const getUserInfo = async () => {
+    await serverAxios
+      .get('/account/user-info?user_id=' + appcontext.state.userid)
+      .then(res => {
+        if (res.data.user_name)
+          appcontext.actions.setUsernickname(res.data.user_name);
+        if (res.data.birth) appcontext.actions.setUserBirth(res.data.birth);
+        if (res.data.gender) appcontext.actions.setUserGender(res.data.gender);
+        if (res.data.height) appcontext.actions.setUserHeight(res.data.height);
+        if (res.data.weight) appcontext.actions.setUserWeight(res.data.weight);
+        if (res.data.body_fat)
+          appcontext.actions.setUserBodyFat(res.data.body_fat);
+        if (res.data.set_break)
+          appcontext.actions.setUserSetTime(res.data.set_break);
+        if (res.data.motion_break)
+          appcontext.actions.setUserMotionTime(res.data.motion_break);
+        if (res.data.experience)
+          appcontext.actions.setUserWorkoutCareer(res.data.experience);
+      })
+      .catch(e => console.log(e));
+  };
 
   return (
     <View
