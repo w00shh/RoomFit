@@ -102,6 +102,16 @@ const MyRoutine = ({navigation}) => {
     const body = {
       routine_ids: Array.from(selected.keys()),
     };
+
+    let updatedRoutineList = appcontext.state.routineList;
+    Array.from(selected.keys()).map((value, key) => {
+      appcontext.actions.setRoutineList(
+        appcontext.state.routineList.filter(e => e.routine_id !== value),
+      );
+      appcontext.actions.setRoutineDetailList(
+        appcontext.state.routineDetailList.filter(e => e.routine_id !== value),
+      );
+    });
     await serverAxios
       .put('/routine/delete', body)
       .then(res => {

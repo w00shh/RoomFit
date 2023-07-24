@@ -119,13 +119,26 @@ const RoutineDetail = ({navigation, route}) => {
     };
     await serverAxios
       .post('/routine/save', body)
-      .then(res => {})
+      .then(res => {
+        console.log(res.data);
+        let updatedRoutineList = appcontext.state.routineList;
+        updatedRoutineList[route.params.index].routine_id =
+          res.data[0].routine_id;
+        updatedRoutineList[route.params.index].routine_name =
+          res.data[0].routine_name;
+        updatedRoutineList[route.params.index].motion_count =
+          res.data[0].motion_count;
+        updatedRoutineList[route.params.index].body_regions =
+          res.data[0].body_regions;
+        appcontext.actions.setRoutineList(updatedRoutineList);
+      })
       .catch(e => {
         console.log(e);
       });
     let updatedRoutineDetailList = appcontext.state.routineDetailList;
     updatedRoutineDetailList[route.params.index].motionList = motionList;
     appcontext.actions.setRoutineDetailList(updatedRoutineDetailList);
+
     navigation.push('MyRoutine');
   };
 

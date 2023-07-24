@@ -126,13 +126,10 @@ const IntroSplash = ({navigation}) => {
 
   useEffect(() => {
     if (
-      appcontext.state.workoutList[0] &&
-      appcontext.state.routineDetailList[0] &&
-      appcontext.state.routineList[0] &&
       appcontext.state.routineList.length ===
-        appcontext.state.routineDetailList.length
+      appcontext.state.routineDetailList.length
     ) {
-      console.log(appcontext.state.workoutList[0].data);
+      //console.log(appcontext.state.workoutList[0].data);
       console.log('check');
       handleAutoLogin();
     }
