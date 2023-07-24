@@ -178,7 +178,6 @@ const RoutineDetail = ({navigation, route}) => {
     await serverAxios
       .get(targeturl)
       .then(res => {
-        console.log(res.data);
         res.data.motionList.forEach((value, key) => {
           setMotionList(currentMotionList => [
             ...currentMotionList,
@@ -426,24 +425,22 @@ const RoutineDetail = ({navigation, route}) => {
         </GestureHandlerRootView>
       )}
 
-      {motionList[0] && (
-        <View style={styles.buttonContainer}>
-          <View style={styles.buttonSection}>
-            <CustomButton_W
-              width={171 * width_ratio}
-              content="+ 동작 추가"
-              onPress={handleAddMotionPress}
-              disabled={false}></CustomButton_W>
-          </View>
-          <View style={styles.buttonSection}>
-            <CustomButton_B
-              width={171 * width_ratio}
-              content="루틴 운동 시작"
-              onPress={handleStartWorkoutPress}
-              disabled={false}></CustomButton_B>
-          </View>
+      <View style={styles.buttonContainer}>
+        <View style={styles.buttonSection}>
+          <CustomButton_W
+            width={171 * width_ratio}
+            content="+ 동작 추가"
+            onPress={handleAddMotionPress}
+            disabled={false}></CustomButton_W>
         </View>
-      )}
+        <View style={styles.buttonSection}>
+          <CustomButton_B
+            width={171 * width_ratio}
+            content="루틴 운동 시작"
+            onPress={handleStartWorkoutPress}
+            disabled={false}></CustomButton_B>
+        </View>
+      </View>
     </View>
   );
 };
