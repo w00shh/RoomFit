@@ -153,19 +153,6 @@ const App = () => {
                 }}
               />
               <Stack.Screen
-                name="TestScreen"
-                component={TestScreen}
-                options={{
-                  headerShown: true,
-                  title: '테스트 모드',
-                  headerShadowVisible: false,
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 16 * height_ratio,
-                  },
-                }}
-              />
-              <Stack.Screen
                 name="MyRoutine"
                 component={MyRoutine}
                 options={{
