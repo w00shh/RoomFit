@@ -163,29 +163,29 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const scrollViewRef = useRef(null);
   const {width: windowWidth} = useWindowDimensions();
-  useEffect(() => {
-    const newData1 = [...data1, left];
-    const newData2 = [...data2, right];
-    let interval;
-    if (!isResting) {
-      interval = setInterval(() => {
-        // 새로운 데이터 생성 또는 가져오기
+  // useEffect(() => {
+  //   const newData1 = [...data1, left];
+  //   const newData2 = [...data2, right];
+  //   let interval;
+  //   if (!isResting) {
+  //     interval = setInterval(() => {
+  //       // 새로운 데이터 생성 또는 가져오기
 
-        // 최대 10개의 데이터 유지
-        if (newData1.length > 300) {
-          newData1.shift();
-        }
+  //       // 최대 10개의 데이터 유지
+  //       if (newData1.length > 300) {
+  //         newData1.shift();
+  //       }
 
-        if (newData2.length > 300) {
-          newData2.shift();
-        }
+  //       if (newData2.length > 300) {
+  //         newData2.shift();
+  //       }
 
-        setData1(newData1);
-        setData2(newData2);
-      }, 100); // 1초마다 데이터 업데이트}
-    }
-    return () => clearInterval(interval);
-  }, [data1, data2, isResting]);
+  //       setData1(newData1);
+  //       setData2(newData2);
+  //     }, 100); // 1초마다 데이터 업데이트}
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [data1, data2, isResting]);
 
   const heights = 200;
   const widths = data1.length * 30;
