@@ -37,6 +37,8 @@ const MainSetting = ({navigation}) => {
     appcontext.actions.setWorkoutList([]);
     appcontext.actions.setRoutineList([]);
     appcontext.actions.setRoutineDetailList([]);
+    appcontext.actions.setUserid('');
+    appcontext.actions.setUseremail('');
     saveLogout();
     navigation.reset({routes: [{name: 'IntroSplash'}]});
   };
