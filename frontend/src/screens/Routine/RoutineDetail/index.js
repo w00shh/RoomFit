@@ -228,6 +228,11 @@ const RoutineDetail = ({navigation, route}) => {
       //getRoutineDetailMotionList();
       appcontext.state.routineDetailList[route.params.index].motionList.forEach(
         (value, key) => {
+          let updatedSets = value.sets;
+          updatedSets.forEach((value2, key2) => {
+            value2.isDoing = false;
+            value2.isDone = false;
+          });
           setMotionList(currentMotionList => [
             ...currentMotionList,
             {
@@ -241,7 +246,7 @@ const RoutineDetail = ({navigation, route}) => {
               motion_id: value.motion_id,
               motion_name: value.motion_name,
               image_url: value.image_url,
-              sets: value.sets,
+              sets: updatedSets,
             },
           ]);
         },

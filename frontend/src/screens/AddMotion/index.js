@@ -37,17 +37,6 @@ const AddMotion = ({navigation, route}) => {
 
   let length = 0;
 
-  const getTextWidth = text => {
-    let charCount = text.length;
-    for (let i = 0; i < text.length; i++) {
-      if (text[i] === ' ') charCount--;
-    }
-
-    let textWidth = charCount * 17;
-    if (textWidth > 70 && textWidth <= 110) textWidth += 20;
-    return textWidth;
-  };
-
   const handleMotionSearchChange = async text => {
     const body = {
       user_id: appcontext.state.userid,
