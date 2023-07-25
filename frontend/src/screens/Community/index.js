@@ -2,90 +2,42 @@ import React, {useEffect} from 'react';
 import {
   View,
   ScrollView,
-  Text,
   Image,
-  TouchableOpacity,
-  Dimensions,
   Button,
   Modal,
   TextInput,
   Alert,
 } from 'react-native';
-import Icons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {serverAxios} from '../../utils/commonAxios';
+import {AppContext} from '../../contexts/AppProvider';
 
-const width_ratio = Dimensions.get('screen').width / 390;
-const height_ratio = Dimensions.get('screen').height / 844;
-
-// 피드 항목 컴포넌트
-const FeedItem = ({
-  imageUrl,
-  feed_content,
-  user_name,
-  like_count,
-  // comment_nums,
-  created_at,
-}) => (
-  <View style={styles.feedItem}>
-    <View style={styles.topProfile}>
-      <Icons
-        name="person-circle-outline"
-        size={20 * height_ratio}
-        color="black"></Icons>
-      <Text style={styles.user_name}>{user_name}</Text>
-      <TouchableOpacity onPress={() => console.log('pressed more')}>
-        <Icons
-          name="ellipsis-vertical-outline"
-          size={20 * height_ratio}
-          color="black"></Icons>
-      </TouchableOpacity>
-    </View>
-    <Image source={{uri: imageUrl}} style={styles.feedImage} />
-    <View style={styles.bottomIcons}>
-      <TouchableOpacity onPress={() => console.log('pressed like')}>
-        <Icons
-          name="heart-outline"
-          size={20 * height_ratio}
-          color="black"></Icons>
-      </TouchableOpacity>
-      <Text>{like_count}</Text>
-      <TouchableOpacity onPress={() => console.log('pressed comments')}>
-        <Icons
-          name="chatbubble-ellipses-outline"
-          size={20 * height_ratio}
-          color="black"></Icons>
-      </TouchableOpacity>
-      {/* <Text>{comment_nums}</Text> */}
-    </View>
-    <Text style={styles.feed_content}>{feed_content}</Text>
-    <Text>{created_at}</Text>
-  </View>
-);
+import FeedItem from '../../components/Community/FeedItem';
 
 // 피드 화면
 const FeedScreen = props => {
-  React.useEffect(() => {
-    console.log('test');
-    console.log(props.feeds);
-  }, []);
-
   const [isPostingModal, setIsPostingModal] = React.useState(false);
-  const [postimageUrl, setpostImageUrl] = React.useState(null);
+  const [postimage_url, setpostimage_url] = React.useState(null);
 
   const [postContent, setPostContent] = React.useState('');
   const handleInputChange = inputText => {
     setPostContent(inputText);
   };
 
-  const PostFeed = async () => {
+  const PostFeed = async user_id => {
+    // console.log(postContent);
+    // console.log(postimage_url);
+
+    console.log('user_id:');
+    console.log(user_id);
+    console.log('content:');
     console.log(postContent);
-    console.log(postimageUrl);
 
     const formData = new FormData();
+    formData.append('user_id', user_id);
     formData.append('content', postContent);
-    formData.append('image', postimageUrl);
+    formData.append('image', postimage_url);
 
     await serverAxios
       .post('/community/post-feed', formData, {
@@ -103,6 +55,7 @@ const FeedScreen = props => {
   };
 
   const PostImage = async () => {
+    // console.log(appContext.state.userid);
     const image = {
       uri: '',
       type: '',
@@ -123,8 +76,8 @@ const FeedScreen = props => {
           Platform.OS === 'android'
             ? res.assets[0].uri
             : res.assets[0].uri.replace('file://', '');
-        setpostImageUrl(image);
-        // setpostImageUrl(image.uri);
+        setpostimage_url(image);
+        // setpostimage_url(image.uri);
       }
     });
   };
@@ -147,7 +100,7 @@ const FeedScreen = props => {
                 multiline={true}
                 style={styles.input}
               />
-              <Image source={postimageUrl} style={styles.imageStyle} />
+              <Image source={postimage_url} style={styles.imageStyle} />
               <Button
                 title="upload Photo"
                 onPress={() => {
@@ -157,7 +110,7 @@ const FeedScreen = props => {
               <Button
                 title="post"
                 onPress={() => {
-                  PostFeed();
+                  PostFeed(props.props);
                 }}
               />
             </View>
@@ -167,12 +120,16 @@ const FeedScreen = props => {
           {props.feeds.map(item => (
             <FeedItem
               key={item.feed_id}
-              imageUrl={item.imageUrl}
+              feed_id={item.feed_id}
+              image_url={item.image_url}
               feed_content={item.feed_content}
               user_name={item.user_name}
               like_count={item.like_count}
               // comment_nums={item.comment_nums}
               created_at={item.created_at}
+              user_id={item.user_id}
+              is_like={item.is_like}
+              props={props.props}
             />
           ))}
         </ScrollView>
@@ -184,9 +141,13 @@ const FeedScreen = props => {
 
 // 앱 컴포넌트
 const Community = () => {
+  const appContext = React.useContext(AppContext);
+  const user_id = appContext.state.userid;
+  // console.log(appContext.state.userid);
+
   const fetchData = async () => {
     await serverAxios
-      .get('/community/')
+      .get('/community/?user_id=' + user_id)
       .then(res => {
         if (res.data.success == '1') {
           const data = res.data.feed_data;
@@ -211,7 +172,9 @@ const Community = () => {
     console.log(feed_data);
   }, [feed_data]);
 
-  return feed_data.length > 0 && <FeedScreen feeds={feed_data} />;
+  return (
+    feed_data.length > 0 && <FeedScreen feeds={feed_data} props={user_id} />
+  );
 };
 
 export default Community;
