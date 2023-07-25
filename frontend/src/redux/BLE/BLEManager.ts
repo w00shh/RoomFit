@@ -7,8 +7,6 @@ import {store} from '../store';
 import BLEStore from './mobx_store';
 import {positionBuffer} from './positionBuffer';
 
-import {runInAction} from 'mobx';
-
 export interface DeviceReference {
   name?: string | null;
   id?: string | null;
@@ -156,12 +154,6 @@ class BLEManager {
       //     // const [left, right] = positionBuffer(data.value);
       //     // BLEStore.setLeft(left);
       //     // BLEStore.setRight(right);
-      //     // console.log('New Data', Buffer.from(data.value).toString());
-      //     // store.dispatch(setBattery(Buffer.from(data.value).toString()));
-      //     // if (data.characteristic === '20000000-0000-0000-0000-000000000001')
-      //     //   BLEStore.setLeft(parseFloat(Buffer.from(data.value).toString()));
-      //     // if (data.characteristic === '20000000-0000-0000-0000-000000000002')
-      //     //   BLEStore.setRight(parseFloat(Buffer.from(data.value).toString()));
       //   },
       // );
     }

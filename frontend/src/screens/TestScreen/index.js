@@ -37,7 +37,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const Log = React.memo(props => {
   return (
-    <View style={{}}>
+    <View key={props.index} style={{}}>
       <Text style={{fontWeight: props.content[0] === '[' ? 400 : 700}}>
         {props.content}
       </Text>
@@ -51,7 +51,13 @@ const TestScreen = ({navigation}) => {
   const [isListening, setListening] = useState(false);
   const [logs, setLogs] = useState([]);
 
+  const didMount = useRef(false);
   useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true;
+      return;
+    }
+
     if (isReporting) {
       debounceInterval.current = debounce(() => {
         setLogs([...logs, BLEStore.rawdata]);
@@ -76,7 +82,7 @@ const TestScreen = ({navigation}) => {
 
   const scrollViewRef = useRef(null);
   useEffect(() => {
-    scrollViewRef.current.scrollToEnd({animated: true});
+    if (logs.length) scrollViewRef.current.scrollToEnd({animated: true});
   }, [logs]);
 
   useEffect(() => {
@@ -111,8 +117,8 @@ const TestScreen = ({navigation}) => {
           flexGrow: 1,
           justifyContent: 'flex-end',
         }}>
-        {logs.map(log => (
-          <Log content={log}></Log>
+        {logs.map((log, index) => (
+          <Log content={log} key={index}></Log>
         ))}
       </ScrollView>
       <View
