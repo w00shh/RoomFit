@@ -14,6 +14,9 @@ const WorkoutTitle = props => {
   const appcontext = useContext(AppContext);
   return (
     <View style={styles.workoutTitleContainer}>
+      <Text>{String(props.motion.isMotionDoing)}</Text>
+      <Text>{String(props.motion.isMotionDone)}</Text>
+      <Text>{String(props.motion.motion_index)}</Text>
       <View style={styles.descriptionContainer}>
         <View style={styles.imageContainer}>
           <Image

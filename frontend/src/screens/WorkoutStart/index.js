@@ -258,6 +258,10 @@ export const WorkoutStart = ({navigation, route}) => {
   }, [motionList]);
 
   useEffect(() => {
+    console.log(motionList);
+  }, [motionList]);
+
+  useEffect(() => {
     if (route.params.motionList) {
       setMotionList(route.params.motionList);
     }

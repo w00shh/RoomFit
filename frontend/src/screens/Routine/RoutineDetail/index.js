@@ -193,35 +193,35 @@ const RoutineDetail = ({navigation, route}) => {
     });
   }, [isRoutineName, isSaveDisabled, motionList]);
 
-  const getRoutineDetailMotionList = async () => {
-    const targeturl = '/routine/detail/' + route.params.routine_id;
+  // const getRoutineDetailMotionList = async () => {
+  //   const targeturl = '/routine/detail/' + route.params.routine_id;
 
-    await serverAxios
-      .get(targeturl)
-      .then(res => {
-        res.data.motionList.forEach((value, key) => {
-          setMotionList(currentMotionList => [
-            ...currentMotionList,
-            {
-              motion_index: motionIndexBase + key,
-              isMotionDone: false,
-              isMotionDoing: false,
-              doingSetIndex: 0,
-              isFav: value.isFav,
-              motion_range_min: value.motion_range_min,
-              motion_range_max: value.motion_range_max,
-              motion_id: value.motion_id,
-              motion_name: value.motion_name,
-              image_url: value.image_url,
-              sets: value.sets,
-            },
-          ]);
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+  //   await serverAxios
+  //     .get(targeturl)
+  //     .then(res => {
+  //       res.data.motionList.forEach((value, key) => {
+  //         setMotionList(currentMotionList => [
+  //           ...currentMotionList,
+  //           {
+  //             motion_index: motionIndexBase + key,
+  //             isMotionDone: false,
+  //             isMotionDoing: false,
+  //             doingSetIndex: 0,
+  //             isFav: value.isFav,
+  //             motion_range_min: value.motion_range_min,
+  //             motion_range_max: value.motion_range_max,
+  //             motion_id: value.motion_id,
+  //             motion_name: value.motion_name,
+  //             image_url: value.image_url,
+  //             sets: value.sets,
+  //           },
+  //         ]);
+  //       });
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+  // };
 
   useEffect(() => {
     if (route.params.isRoutineDetail) {
