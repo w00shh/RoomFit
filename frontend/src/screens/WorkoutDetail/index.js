@@ -119,8 +119,6 @@ const WorkoutDetail = ({navigation, route}) => {
       appcontext.actions.setWorkoutList(updatedWorkoutList);
     }
 
-    setIsWorkoutDeleteModalVisible(false);
-
     if (route.params.startingPoint === 0) {
       /* StartingPoint가 HomeScreen일 때 */
 
@@ -140,6 +138,8 @@ const WorkoutDetail = ({navigation, route}) => {
         selectedDate: route.params.selectedDate,
       });
     }
+
+    setIsWorkoutDeleteModalVisible(false);
   };
   return (
     <View style={styles.pageContainer}>

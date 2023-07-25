@@ -121,10 +121,14 @@ export const WorkoutStart = ({navigation, route}) => {
 
   //setting 화면 관련 변수 :
   const [pressSetting, setPressSetting] = useState(false);
-  const [isAssist, setIsAssist] = useState(true);
+  const [isAssist, setIsAssist] = useState(appcontext.state.smartAssist);
+  const [isSafety, setIsSaftey] = useState(appcontext.state.smartSaftey);
   const [isLock, setIsLock] = useState(false);
-  const toggleSwitch = () => setIsAssist(previousState => !previousState);
-  const toggleSwitch2 = () => setIsLock(previousState => !previousState);
+  const toggleSwitch = () =>
+    appcontext.actions.setSmartAssist(previousState => !previousState);
+  const toggleSwitch2 = () =>
+    appcontext.actions.setSmartSaftey(previousState => !previousState);
+  const toggleSwitch3 = () => setIsLock(previousState => !previousState);
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [temprestSet, setTempRestSet] = useState('');
@@ -1631,6 +1635,37 @@ export const WorkoutStart = ({navigation, route}) => {
             <Text style={styles.pauseTitle}>운동 설정</Text>
             <Battery battery={battery} />
           </View>
+
+          <View style={styles.settings}>
+            <View style={styles.settingContainer}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 4 * width_ratio,
+                }}>
+                <Text style={styles.settingText}>스마트 세이프티</Text>
+                <Information />
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
+                <Text
+                  style={{
+                    color: appcontext.state.smartSaftey ? '#5252fa' : '#fff',
+                  }}>
+                  ON
+                </Text>
+                <Switch
+                  on={appcontext.state.smartSaftey}
+                  onPress={toggleSwitch2}
+                />
+              </View>
+            </View>
+          </View>
           <View style={styles.settings}>
             <View style={styles.settingContainer}>
               <View
@@ -1650,11 +1685,14 @@ export const WorkoutStart = ({navigation, route}) => {
                 }}>
                 <Text
                   style={{
-                    color: isAssist ? '#5252fa' : '#fff',
+                    color: appcontext.state.smartAssist ? '#5252fa' : '#fff',
                   }}>
                   ON
                 </Text>
-                <Switch on={isAssist} onPress={toggleSwitch} />
+                <Switch
+                  on={appcontext.state.smartAssist}
+                  onPress={toggleSwitch}
+                />
               </View>
             </View>
           </View>
@@ -1674,7 +1712,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   }}>
                   ON
                 </Text>
-                <Switch on={isLock} onPress={toggleSwitch2} />
+                <Switch on={isLock} onPress={toggleSwitch3} />
               </View>
             </View>
           </View>
