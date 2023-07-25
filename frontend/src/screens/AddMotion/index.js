@@ -50,6 +50,7 @@ const AddMotion = ({navigation, route}) => {
 
   const handleMotionSearchChange = async text => {
     const body = {
+      user_id: appcontext.state.userid,
       motion_name: text,
     };
     await serverAxios
