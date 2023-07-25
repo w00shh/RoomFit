@@ -510,6 +510,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const saveWorkoutRecord = async () => {
     const body = {
+      user_id: appcontext.state.userid,
       workout_id: workoutId,
       tut: formatTime(TUT),
       title: workoutTitle,
@@ -517,10 +518,29 @@ export const WorkoutStart = ({navigation, route}) => {
     };
     await serverAxios
       .put('/workout/done', body)
-      .then(res => {})
+      .then(res => {
+        console.log(res.data);
+        appcontext.actions.setWorkoutList(groupDataByDate(res.data));
+      })
       .catch(e => {
         console.log(e);
       });
+  };
+
+  const groupDataByDate = data => {
+    const groupedData = data.reduce((acc, exercise) => {
+      const {date, ...exerciseInfo} = exercise;
+      if (!acc[date.split(' ')[0]]) {
+        acc[date] = [];
+      }
+      acc[date].push(exerciseInfo);
+      return acc;
+    }, {});
+
+    return Object.keys(groupedData).map(date => ({
+      date,
+      data: groupedData[date],
+    }));
   };
 
   function Item({mode}) {
