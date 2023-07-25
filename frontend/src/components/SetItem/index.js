@@ -182,8 +182,8 @@ const SetItem = props => {
           <Text style={styles.unitText}>회</Text>
         </View>
       </View>
-      {/* <Text>isDoing: {String(props.isDoing)}</Text>-=
-      <Text>isDone: {String(props.isDone)}</Text> */}
+      <Text>isDoing: {String(props.isDoing)}</Text>
+      <Text>isDone: {String(props.isDone)}</Text>
       <TouchableWithoutFeedback onPress={handleModeSelectPress}>
         <View
           style={[
