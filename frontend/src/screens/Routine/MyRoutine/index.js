@@ -135,9 +135,9 @@ const MyRoutine = ({navigation}) => {
 
   return (
     <View style={styles.pageContainer}>
-      {routine[0] &&
+      {appcontext.state.routineList[0] &&
         !isEdit &&
-        routine.map((value, key) => (
+        appcontext.state.routineList.map((value, key) => (
           <View key={key}>
             <RoutineBox
               title={value.routine_name}
@@ -146,14 +146,15 @@ const MyRoutine = ({navigation}) => {
               onPress={() => {
                 navigation.push('RoutineDetail', {
                   isRoutineDetail: true,
-                  routine_id: value.routine_id,
-                  routineName: value.routine_name,
+                  index: appcontext.state.routineDetailList.findIndex(
+                    e => e.routine_id === value.routine_id,
+                  ),
                   motion_index_base: 0,
                 });
               }}></RoutineBox>
           </View>
         ))}
-      {routine[0] &&
+      {appcontext.state.routineList[0] &&
         isEdit &&
         routine.map((value, key) => (
           <View

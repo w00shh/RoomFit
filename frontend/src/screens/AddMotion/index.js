@@ -25,7 +25,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const AddMotion = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
-  const [motionList, setMotionList] = useState([]);
+  const [motionList, setMotionList] = useState(appcontext.state.motionList);
   const [motionListMap, setMotionListMap] = useState(new Map());
   let selectedMotionKeys = [];
   const [selected, setSelected] = useState(new Map());
@@ -137,14 +137,6 @@ const AddMotion = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    console.log(gripList);
-  }, [gripList]);
-
-  useEffect(() => {
-    console.log(bodyRegionList);
-  }, [bodyRegionList]);
-
-  useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity
@@ -168,7 +160,7 @@ const AddMotion = ({navigation, route}) => {
       ),
     });
 
-    getMotionList();
+    //getMotionList();
 
     motionList.forEach(motion => {
       setMotionListMap(motionListMap.set(motion.motion_id, motion));
@@ -201,43 +193,45 @@ const AddMotion = ({navigation, route}) => {
           placeholder="동작을 검색해보세요"
           inputMode="text"></TextInput>
       </View>
-      {/* <ScrollView
-        horizontal={true}
-        height={180 * height_ratio}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.additionalSelectContainer}>
-        <View style={styles.equipmentContainer}>
-          {appcontext.state.gripList.map((value, key) => (
-            <TouchableOpacity
-              key={key}
-              style={{
-                paddingVertical: 8 * height_ratio,
-                paddingHorizontal: 12 * width_ratio,
-                backgroundColor: gripList.includes(value)
-                  ? '#5252fa'
-                  : '#f5f5f5',
-                borderRadius: 8 * height_ratio,
-              }}
-              onPress={() => {
-                if (gripList.includes(value)) {
-                  setGripList(gripList.filter(grip => grip !== value));
-                } else {
-                  setGripList([...gripList, String(value)]);
-                }
-              }}>
-              <Text
+      <View style={{height: 110 * height_ratio}}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.additionalSelectContainer}>
+          <View style={styles.equipmentContainer}>
+            {appcontext.state.gripList.map((value, key) => (
+              <TouchableOpacity
+                key={key}
                 style={{
-                  fontSize: 14,
-                  color: gripList.includes(value) ? '#fff' : '#242424',
+                  paddingVertical: 8 * height_ratio,
+                  paddingHorizontal: 12 * width_ratio,
+                  backgroundColor: gripList.includes(value)
+                    ? '#5252fa'
+                    : '#f5f5f5',
+                  borderRadius: 8 * height_ratio,
+                }}
+                onPress={() => {
+                  if (gripList.includes(value)) {
+                    setGripList(gripList.filter(grip => grip !== value));
+                  } else {
+                    setGripList([...gripList, String(value)]);
+                  }
                 }}>
-                {value}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <View style={styles.muscleContainer}>
-          {[...['즐겨찾기', '커스텀'], ...appcontext.state.bodyRegionList].map(
-            (value, key) => (
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: gripList.includes(value) ? '#fff' : '#242424',
+                  }}>
+                  {value}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={styles.muscleContainer}>
+            {[
+              ...['즐겨찾기', '커스텀'],
+              ...appcontext.state.bodyRegionList,
+            ].map((value, key) => (
               <TouchableOpacity
                 key={key}
                 style={{
@@ -265,53 +259,59 @@ const AddMotion = ({navigation, route}) => {
                   {value}
                 </Text>
               </TouchableOpacity>
-            ),
-          )}
-        </View>
-      </ScrollView> */}
-      <View
-        style={{
-          paddingVertical: 8 * height_ratio,
-        }}>
-        {displaySelected.size === 0 && (
-          <Text style={styles.recommendedText}>추천 운동</Text>
-        )}
-      </View>
-      {displaySelected.size !== 0 && (
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            flexDirection: 'row',
-            alignSelf: 'center',
-            height: displaySelected.size !== 0 ? 40 * height_ratio : 0,
-            gap: 8 * width_ratio,
-            marginVertical: displaySelected.size !== 0 ? 24 * height_ratio : 0,
-            overflow: 'visible',
-          }}>
-          {displaySelected &&
-            Array.from(displaySelected.values()).map((value, key) => (
-              <View
-                key={key}
-                style={{
-                  paddingHorizontal: 12 * width_ratio,
-                  height: 32 * height_ratio,
-                  backgroundColor: '#242424',
-                  borderRadius: 8,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                  gap: 2 * width_ratio,
-                  overflow: 'visible',
-                }}>
-                <Text style={styles.selectMotionText}>{value.motion_name}</Text>
-                <TouchableOpacity
-                  onPress={() => deleteSelected(value.motion_id)}>
-                  <X height={24 * height_ratio} width={24 * width_ratio} />
-                </TouchableOpacity>
-              </View>
             ))}
+          </View>
         </ScrollView>
+      </View>
+      {displaySelected.size === 0 && (
+        <View
+          style={{
+            paddingVertical: 8 * height_ratio,
+          }}>
+          <Text style={styles.recommendedText}>추천 운동</Text>
+        </View>
+      )}
+      {displaySelected.size !== 0 && (
+        <View
+          style={{height: displaySelected.size !== 0 ? 50 * height_ratio : 0}}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              flexDirection: 'row',
+              alignSelf: 'center',
+              gap: 8 * width_ratio,
+              marginTop: 0 * height_ratio,
+              //marginVertical:
+              //displaySelected.size !== 0 ? 24 * height_ratio : 0,
+              overflow: 'visible',
+            }}>
+            {displaySelected &&
+              Array.from(displaySelected.values()).map((value, key) => (
+                <View
+                  key={key}
+                  style={{
+                    paddingHorizontal: 12 * width_ratio,
+                    height: 32 * height_ratio,
+                    backgroundColor: '#242424',
+                    borderRadius: 8,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    gap: 2 * width_ratio,
+                    overflow: 'visible',
+                  }}>
+                  <Text style={styles.selectMotionText}>
+                    {value.motion_name}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => deleteSelected(value.motion_id)}>
+                    <X height={24 * height_ratio} width={24 * width_ratio} />
+                  </TouchableOpacity>
+                </View>
+              ))}
+          </ScrollView>
+        </View>
       )}
       <FlatList
         data={motionList}
@@ -341,6 +341,7 @@ const AddMotion = ({navigation, route}) => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
                 route.params.isRoutineDetail
                   ? navigation.push('RoutineDetail', {
+                      index: route.params.index,
                       motion_index_base: route.params.motion_index_base,
                       isMotionAdded: true,
                       routineName: route.params.routineName,

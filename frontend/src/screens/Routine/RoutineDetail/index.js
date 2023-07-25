@@ -33,7 +33,9 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const RoutineDetail = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
-
+  useEffect(() => {
+    console.log(route.params.index);
+  }, []);
   const [motionIndexBase, setMotionIndexBase] = useState(
     route.params.motion_index_base,
   );
@@ -42,9 +44,13 @@ const RoutineDetail = ({navigation, route}) => {
   );
 
   const [motionList, setMotionList] = useState([]);
-  const [routineId, setRoutineId] = useState(route.params.routine_id);
+  const [routineId, setRoutineId] = useState(
+    appcontext.state.routineDetailList[route.params.index].routine_id,
+  );
   const [workoutId, setWorkoutId] = useState();
-  const [routineName, setRoutineName] = useState(route.params.routineName);
+  const [routineName, setRoutineName] = useState(
+    appcontext.state.routineDetailList[route.params.index].routine_name,
+  );
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
     useState(false);
@@ -117,7 +123,9 @@ const RoutineDetail = ({navigation, route}) => {
       .catch(e => {
         console.log(e);
       });
-
+    let updatedRoutineDetailList = appcontext.state.routineDetailList;
+    updatedRoutineDetailList[route.params.index].motionList = motionList;
+    appcontext.actions.setRoutineDetailList(updatedRoutineDetailList);
     navigation.push('MyRoutine');
   };
 
@@ -204,7 +212,27 @@ const RoutineDetail = ({navigation, route}) => {
 
   useEffect(() => {
     if (route.params.isRoutineDetail) {
-      getRoutineDetailMotionList();
+      //getRoutineDetailMotionList();
+      appcontext.state.routineDetailList[route.params.index].motionList.forEach(
+        (value, key) => {
+          setMotionList(currentMotionList => [
+            ...currentMotionList,
+            {
+              motion_index: motionIndexBase + key,
+              isMotionDone: false,
+              isMotionDoing: false,
+              doingSetIndex: 0,
+              isFav: value.isFav,
+              motion_range_min: value.motion_range_min,
+              motion_range_max: value.motion_range_max,
+              motion_id: value.motion_id,
+              motion_name: value.motion_name,
+              image_url: value.image_url,
+              sets: value.sets,
+            },
+          ]);
+        },
+      );
     } else {
       setMotionList(route.params.motionList);
       setIsSaveDisabled(false);
@@ -277,6 +305,7 @@ const RoutineDetail = ({navigation, route}) => {
 
   const handleAddMotionPress = () => {
     navigation.push('AddMotion', {
+      index: route.params.index,
       isRoutine: true,
       isRoutineDetail: true,
       routine_id: routineId,

@@ -130,7 +130,7 @@ const HomeScreen = ({navigation}) => {
       <ScrollView
         style={{marginBottom: 32 * height_ratio}}
         showsVerticalScrollIndicator={false}>
-        {!connectedDevice && (
+        {!true && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
             <Text style={styles.noConnectionText2}>
@@ -146,7 +146,7 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        {connectedDevice && (
+        {true && (
           <View style={{alignItems: 'center'}}>
             <CustomButton_B
               style={styles.connectButton}
@@ -198,14 +198,15 @@ const HomeScreen = ({navigation}) => {
                 targets={appcontext.state.routineList[0].body_regions}
                 numEx={appcontext.state.routineList[0].motion_count}
                 onPress={() => {
+                  console.log(appcontext.state.routineDetailList);
                   navigation.push('RoutineDetail', {
                     isRoutineDetail: true,
                     routine_id: appcontext.state.routineList[0].routine_id,
-                    // index: appcontext.state.routineDetailList.findIndex(
-                    //   e =>
-                    //     e.routine_id ===
-                    //     appcontext.state.routineList[0].routine_id,
-                    // ),
+                    index: appcontext.state.routineDetailList.findIndex(
+                      e =>
+                        e.routine_id ===
+                        appcontext.state.routineList[0].routine_id,
+                    ),
                     routineName: appcontext.state.routineList[0].routine_name,
                     motion_index_base: 0,
                   });
@@ -218,13 +219,12 @@ const HomeScreen = ({navigation}) => {
                   onPress={() => {
                     navigation.push('RoutineDetail', {
                       isRoutineDetail: true,
-                      // index: appcontext.state.routineDetailList.findIndex(
-                      //   e =>
-                      //     e.routine_id ===
-                      //     appcontext.state.routineList[1].routine_id,
-                      // ),
-                      routine_id: appcontext.state.routineList[1].routine_id,
-                      routineName: appcontext.state.routineList[1].routine_name,
+                      index: appcontext.state.routineDetailList.findIndex(
+                        e =>
+                          e.routine_id ===
+                          appcontext.state.routineList[1].routine_id,
+                      ),
+
                       motion_index_base: 0,
                     });
                   }}></RoutineBox>

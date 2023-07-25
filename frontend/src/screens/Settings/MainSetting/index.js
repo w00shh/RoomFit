@@ -34,6 +34,9 @@ const MainSetting = ({navigation}) => {
 
   const handleLogout = () => {
     appcontext.actions.setIsLogin(false);
+    appcontext.actions.setWorkoutList([]);
+    appcontext.actions.setRoutineList([]);
+    appcontext.actions.setRoutineDetailList([]);
     saveLogout();
     navigation.reset({routes: [{name: 'IntroSplash'}]});
   };
