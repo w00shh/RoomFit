@@ -107,7 +107,17 @@ const WorkoutDetail = ({navigation, route}) => {
 
     // 변경된 배열을 저장
     appcontext.actions.setWorkoutList(updatedArray);
-    console.log(route.params.startingPoint);
+
+    console.log(appcontext.state.workoutList);
+
+    if (appcontext.state.workoutList[route.params.index].data.length === 0) {
+      let updatedWorkoutList = [...appcontext.state.workoutList];
+      updatedWorkoutList = updatedWorkoutList.filter(
+        item =>
+          item.date !== appcontext.state.workoutList[route.params.index].date,
+      );
+      appcontext.actions.setWorkoutList(updatedWorkoutList);
+    }
 
     setIsWorkoutDeleteModalVisible(false);
 

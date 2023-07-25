@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import styles from './styles';
 import {Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import Input from '../../components/Input';
@@ -18,6 +18,8 @@ const Login = ({navigation, route}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginDisabled, setLoginDisabled] = useState(true);
+  const isRef = useRef(false);
+  const array1 = [1, 2];
 
   useEffect(() => {
     navigation.setOptions({
@@ -71,7 +73,9 @@ const Login = ({navigation, route}) => {
           appcontext.actions.setUseremail(res.data.email);
 
           getUserInfo(res.data.user_id);
-
+          handleGetAllRoutine(res.data.user_id);
+          handleGetAllWorkoutList(res.data.user_id);
+          handleGetMotionList(res.data.user_id);
           saveLogin(res.data.user_id);
         }
 
@@ -81,6 +85,99 @@ const Login = ({navigation, route}) => {
         console.log(e);
       });
   };
+
+  const handleGetAllRoutine = async userId => {
+    const body = {
+      user_id: userId,
+      isHome: false,
+    };
+    await serverAxios.post('/routine/load', body).then(res => {
+      res.data.map((value, key) => {
+        appcontext.actions.setRoutineList(currentRoutine => [
+          ...currentRoutine,
+          {
+            routine_id: value.routine_id,
+            routine_name: value.routine_name,
+            body_regions: value.body_regions,
+            motion_count: value.motion_count,
+          },
+        ]);
+        handleGetAllRoutineDetail(value.routine_id);
+      });
+    });
+  };
+
+  const handleGetAllRoutineDetail = async routineID => {
+    const targetUrl = 'routine/detail/' + routineID;
+    const res = await serverAxios.get(targetUrl);
+    const newData = res.data;
+
+    appcontext.actions.setRoutineDetailList(prevList => [...prevList, newData]);
+  };
+
+  const handleGetMotionList = async userId => {
+    const body = {
+      user_id: userId,
+    };
+    await serverAxios
+      .post('/motion', body)
+      .then(res => {
+        appcontext.actions.setMotionList(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const handleGetAllWorkoutList = async userId => {
+    const body = {
+      user_id: userId,
+    };
+    await serverAxios
+      .post('/workout/brief', body)
+      .then(res => {
+        appcontext.actions.setWorkoutList(groupDataByDate(res.data));
+      })
+      .catch(e => console.log(e));
+  };
+
+  const groupDataByDate = data => {
+    const groupedData = data.reduce((acc, exercise) => {
+      const {date, ...exerciseInfo} = exercise;
+      if (!acc[date.split(' ')[0]]) {
+        acc[date] = [];
+      }
+      acc[date].push(exerciseInfo);
+      return acc;
+    }, {});
+
+    return Object.keys(groupedData).map(date => ({
+      date,
+      data: groupedData[date],
+    }));
+  };
+
+  useEffect(() => {
+    if (isRef.current) {
+      if (
+        appcontext.state.routineList.length ===
+        appcontext.state.routineDetailList.length
+      ) {
+        navigation.navigate('HomeScreen');
+      }
+    } else {
+      isRef.current = true;
+    }
+  }, [
+    appcontext.state.routineDetailList,
+    appcontext.state.workoutList,
+    appcontext.state.routineList,
+  ]);
+
+  useEffect(() => {
+    // if (JSON.stringify(appcontext.state.workoutList) !== JSON.stringify(array1))
+    //console.log(appcontext.state.workoutList);
+  }, [appcontext.state.workoutList]);
 
   const getUserInfo = async userId => {
     await serverAxios

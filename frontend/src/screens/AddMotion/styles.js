@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   },
   additionalSelectContainer: {
     paddingVertical: 16 * height_ratio,
-
     flexDirection: 'column',
     gap: 12 * height_ratio,
   },
