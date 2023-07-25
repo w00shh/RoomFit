@@ -284,51 +284,56 @@ const WorkoutRecord = ({navigation, route}) => {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               alignItems: 'center',
               borderRadius: 100,
-              backgroundColor: '#f5f5f5',
-              width: 156 * width_ratio,
+              //backgroundColor: '#f5f5f5',
+              width: 358 * width_ratio,
               height: 40 * height_ratio,
               marginTop: 24 * height_ratio,
             }}>
-            <View
-              style={{
-                backgroundColor: isCalendar ? '#f5f5f5' : '#fff',
-                borderRadius: 100,
-                width: 73 * width_ratio,
-                height: 32 * height_ratio,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity onPress={() => setIsCalendar(false)}>
-                <Text
-                  style={{
-                    fontSize: 14 * height_ratio,
-                    color: isCalendar ? '#808080' : '#242424',
-                  }}>
-                  운동기록
-                </Text>
-              </TouchableOpacity>
+            <View>
+              <Text>7일</Text>
             </View>
-            <View
-              style={{
-                backgroundColor: isCalendar ? '#fff' : '#f5f5f5',
-                borderRadius: 100,
-                width: 73 * width_ratio,
-                height: 32 * height_ratio,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity onPress={() => setIsCalendar(true)}>
-                <Text
-                  style={{
-                    fontSize: 14 * height_ratio,
-                    color: isCalendar ? '#242424' : '#808080',
-                  }}>
-                  캘린더
-                </Text>
-              </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+              <View
+                style={{
+                  //backgroundColor: isCalendar ? '#f5f5f5' : '#fff',
+                  borderRadius: 100,
+                  width: 73 * width_ratio,
+                  height: 32 * height_ratio,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity onPress={() => setIsCalendar(false)}>
+                  <Text
+                    style={{
+                      fontSize: 14 * height_ratio,
+                      color: isCalendar ? '#808080' : '#242424',
+                    }}>
+                    운동기록
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  //backgroundColor: isCalendar ? '#fff' : '#f5f5f5',
+                  borderRadius: 100,
+                  //width: 73 * width_ratio,
+                  height: 32 * height_ratio,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity onPress={() => setIsCalendar(true)}>
+                  <Text
+                    style={{
+                      fontSize: 14 * height_ratio,
+                      color: isCalendar ? '#242424' : '#808080',
+                    }}>
+                    캘린더
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View style={{height: 16 * height_ratio}}></View>
