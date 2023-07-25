@@ -77,8 +77,9 @@ const HomeScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    getMyRoutine();
-    getRecentWorkout();
+    //getMyRoutine();
+    //getRecentWorkout();
+    console.log(appcontext.state.routineDetailList);
   }, []);
 
   const getMyRoutine = async () => {
@@ -96,7 +97,7 @@ const HomeScreen = ({navigation}) => {
           {
             routine_id: value.routine_id,
             routine_name: value.routine_name,
-            body_regions: value.body_regions,
+            major_targets: value.major_targets,
             motion_count: value.motion_count,
           },
         ]);
@@ -112,7 +113,6 @@ const HomeScreen = ({navigation}) => {
     await serverAxios
       .post('/workout/brief/recent', body)
       .then(res => {
-        console.log(res.data);
         setRecentRoutine(res.data);
       })
       .catch(e => console.log(e));
@@ -178,7 +178,7 @@ const HomeScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
 
-          {!existRoutine && routineReady && (
+          {appcontext.state.routineList.length === 0 && (
             <View style={styles.routineContainer}>
               <Text style={styles.noRoutineText}>생성된 루틴이 없습니다.</Text>
               <Text style={styles.noConnectionText2}>
@@ -191,30 +191,40 @@ const HomeScreen = ({navigation}) => {
               </TouchableOpacity>
             </View>
           )}
-          {routine[0] && routineReady && (
+          {appcontext.state.routineList[0] && (
             <View style={{gap: 12 * height_ratio}}>
               <RoutineBox
-                title={routine[0].routine_name}
-                targets={routine[0].body_regions}
-                numEx={routine[0].motion_count}
+                title={appcontext.state.routineList[0].routine_name}
+                targets={appcontext.state.routineList[0].body_regions}
+                numEx={appcontext.state.routineList[0].motion_count}
                 onPress={() => {
                   navigation.push('RoutineDetail', {
                     isRoutineDetail: true,
-                    routine_id: routine[0].routine_id,
-                    routineName: routine[0].routine_name,
+                    routine_id: appcontext.state.routineList[0].routine_id,
+                    // index: appcontext.state.routineDetailList.findIndex(
+                    //   e =>
+                    //     e.routine_id ===
+                    //     appcontext.state.routineList[0].routine_id,
+                    // ),
+                    routineName: appcontext.state.routineList[0].routine_name,
                     motion_index_base: 0,
                   });
                 }}></RoutineBox>
-              {routine[1] && (
+              {appcontext.state.routineList[1] && (
                 <RoutineBox
-                  title={routine[1].routine_name}
-                  targets={routine[1].body_regions}
-                  numEx={routine[1].motion_count}
+                  title={appcontext.state.routineList[1].routine_name}
+                  targets={appcontext.state.routineList[1].body_regions}
+                  numEx={appcontext.state.routineList[1].motion_count}
                   onPress={() => {
                     navigation.push('RoutineDetail', {
                       isRoutineDetail: true,
-                      routine_id: routine[1].routine_id,
-                      routineName: routine[1].routine_name,
+                      // index: appcontext.state.routineDetailList.findIndex(
+                      //   e =>
+                      //     e.routine_id ===
+                      //     appcontext.state.routineList[1].routine_id,
+                      // ),
+                      routine_id: appcontext.state.routineList[1].routine_id,
+                      routineName: appcontext.state.routineList[1].routine_name,
                       motion_index_base: 0,
                     });
                   }}></RoutineBox>
@@ -224,14 +234,14 @@ const HomeScreen = ({navigation}) => {
         </View>
 
         <Text style={styles.subtitleText}>최근 수행한 운동</Text>
-        {recentRoutine.length === 0 && (
+        {!appcontext.state.workoutList[0] && (
           <View style={styles.routineContainer}>
             <Text style={styles.noRoutineText}>
               최근 운동한 기록이 없습니다.
             </Text>
           </View>
         )}
-        {recentRoutine.length > 0 && (
+        {appcontext.state.workoutList[0] && (
           <View>
             <View>
               <Text
@@ -239,13 +249,14 @@ const HomeScreen = ({navigation}) => {
                   fontSize: 14 * height_ratio,
                   marginTop: 12 * height_ratio,
                 }}>
-                {recentRoutine[0].start_time.split(' ')[0]}
+                {appcontext.state.workoutList[0].date}
               </Text>
-              {recentRoutine.map((value, key) => (
+              {appcontext.state.workoutList[0].data.map((value, key) => (
                 <TouchableOpacity
                   key={key}
                   onPress={() =>
                     navigation.navigate('WorkoutDetail', {
+                      index: 0,
                       workout_id: value.workout_id,
                       title: value.title,
                       start_time:
@@ -268,7 +279,7 @@ const HomeScreen = ({navigation}) => {
                 </TouchableOpacity>
               ))}
             </View>
-            <View style={{height: 90 * height_ratio}}></View>
+            <View style={{height: 60 * height_ratio}}></View>
           </View>
         )}
       </ScrollView>

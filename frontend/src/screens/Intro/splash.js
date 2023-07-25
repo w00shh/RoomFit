@@ -14,14 +14,6 @@ const IntroSplash = ({navigation}) => {
     checkLogined();
   }, []);
 
-  useEffect(() => {
-    if (autoLogin) {
-      setTimeout(() => {
-        navigation.navigate('HomeScreen');
-      }, 1000);
-    }
-  }, [autoLogin]);
-
   const checkLogined = async () => {
     const userId = await AsyncStorage.getItem('isLogin');
     const assist = await AsyncStorage.getItem('SmartAssist');
@@ -30,7 +22,6 @@ const IntroSplash = ({navigation}) => {
       appcontext.actions.setUserid(userId);
       setAutoLogin(true);
     } else {
-      console.log('no');
       setTimeout(() => {
         navigation.navigate('Intro');
       }, 1500);
@@ -53,6 +44,105 @@ const IntroSplash = ({navigation}) => {
   };
 
   useEffect(() => {
+    if (autoLogin) {
+      handleGetAllRoutine();
+      handleGetAllWorkoutList();
+    }
+  }, [autoLogin]);
+
+  const handleGetAllRoutine = async () => {
+    const body = {
+      user_id: appcontext.state.userid,
+      isHome: false,
+    };
+    await serverAxios.post('/routine/load', body).then(res => {
+      res.data.map((value, key) => {
+        appcontext.actions.setRoutineList(currentRoutine => [
+          ...currentRoutine,
+          {
+            routine_id: value.routine_id,
+            routine_name: value.routine_name,
+            body_regions: value.body_regions,
+            motion_count: value.motion_count,
+          },
+        ]);
+        handleGetAllRoutineDetail(value.routine_id);
+      });
+    });
+  };
+
+  // const handleGetAllRoutineDetail = async routineID => {
+  //   const targetUrl = 'routine/detail/' + routineID;
+  //   await serverAxios.get(targetUrl).then(res => {
+  //     appcontext.actions.setRoutineDetailList([
+  //       ...appcontext.state.routineDetailList,
+  //       res.data,
+  //     ]);
+  //   });
+  // };
+
+  const handleGetAllRoutineDetail = async routineID => {
+    const targetUrl = 'routine/detail/' + routineID;
+    const res = await serverAxios.get(targetUrl);
+    const newData = res.data;
+
+    appcontext.actions.setRoutineDetailList(prevList => [...prevList, newData]);
+  };
+
+  const handleGetAllWorkoutList = async () => {
+    const body = {
+      user_id: appcontext.state.userid,
+    };
+    await serverAxios
+      .post('/workout/brief', body)
+      .then(res => {
+        appcontext.actions.setWorkoutList(groupDataByDate(res.data));
+      })
+      .catch(e => console.log(e));
+  };
+
+  const groupDataByDate = data => {
+    const groupedData = data.reduce((acc, exercise) => {
+      const {date, ...exerciseInfo} = exercise;
+      if (!acc[date.split(' ')[0]]) {
+        acc[date] = [];
+      }
+      acc[date].push(exerciseInfo);
+      return acc;
+    }, {});
+
+    return Object.keys(groupedData).map(date => ({
+      date,
+      data: groupedData[date],
+    }));
+  };
+
+  const handleAutoLogin = () => {
+    console.log(appcontext.state.routineDetailList);
+    setTimeout(() => {
+      navigation.navigate('HomeScreen');
+    }, 500);
+  };
+
+  useEffect(() => {
+    if (
+      appcontext.state.workoutList[0] &&
+      appcontext.state.routineDetailList[0] &&
+      appcontext.state.routineList[0] &&
+      appcontext.state.routineList.length ===
+        appcontext.state.routineDetailList.length
+    ) {
+      console.log(appcontext.state.workoutList[0].data);
+      console.log('check');
+      handleAutoLogin();
+    }
+  }, [
+    appcontext.state.routineDetailList,
+    appcontext.state.workoutList,
+    appcontext.state.routineList,
+  ]);
+
+  useEffect(() => {
     if (appcontext.state.userid.length > 0) {
       getUserInfo();
     }
@@ -62,7 +152,6 @@ const IntroSplash = ({navigation}) => {
     await serverAxios
       .get('/account/user-info?user_id=' + appcontext.state.userid)
       .then(res => {
-        console.log(res.data);
         if (res.data.user_name)
           appcontext.actions.setUsernickname(res.data.user_name);
         if (res.data.birth) appcontext.actions.setUserBirth(res.data.birth);

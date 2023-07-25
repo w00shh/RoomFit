@@ -7,6 +7,7 @@ import {
   Dimensions,
   SafeAreaView,
   Image,
+  FlatList,
 } from 'react-native';
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
@@ -74,7 +75,7 @@ const WorkoutRecord = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    getBreifWorkout();
+    //getBreifWorkout();
     getMonthWorkoutDay();
   }, []);
 
@@ -172,6 +173,57 @@ const WorkoutRecord = ({navigation, route}) => {
       //console.log(res.data);
       setPeriodWorkout(res.data);
     });
+  };
+
+  const renderingWorkoutRecord = value => {
+    //console.log(appcontext.state.workoutList.length);
+    //console.log(value.index);
+    return (
+      <View
+        style={{
+          marginBottom:
+            value.index === appcontext.state.workoutList.length - 1 ? 300 : 20,
+        }}>
+        <View>
+          <Text
+            style={{
+              fontSize: 16 * height_ratio,
+              fontWeight: '700',
+              color: '#242424',
+            }}>
+            {value.item.date}
+          </Text>
+          {value.item.data.map((values, keys) => (
+            <TouchableOpacity
+              key={keys}
+              onPress={() =>
+                navigation.navigate('WorkoutDetail', {
+                  index: value.index,
+                  startingPoint: 1,
+                  selectedDate: selectedDate,
+                  workout_id: values.workout_id,
+                  title: values.title,
+                  start_time:
+                    values.start_time.split(' ')[1].split(':')[0] +
+                    ':' +
+                    values.start_time.split(' ')[1].split(':')[1],
+                  end_time:
+                    values.end_time.split(' ')[1].split(':')[0] +
+                    ':' +
+                    values.end_time.split(' ')[1].split(':')[1],
+                  targets: values.targets,
+                  total_time: values.total_time,
+                  total_weight: values.total_weight,
+                  memo: values.memo,
+                  isHomeScreen: false,
+                })
+              }>
+              <RecentExercise data={values}></RecentExercise>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -281,58 +333,11 @@ const WorkoutRecord = ({navigation, route}) => {
           </View>
           <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {workoutList.length > 0 &&
-                formattedData.map((value, key) => (
-                  <View
-                    key={value.date}
-                    style={{
-                      marginBottom:
-                        key !== formattedData.length - 1
-                          ? 24 * height_ratio
-                          : 90 * height_ratio,
-                    }}>
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: 16 * height_ratio,
-                          fontWeight: '700',
-                          color: '#242424',
-                        }}>
-                        {value.date}
-                      </Text>
-                      {value.data.map((values, keys) => (
-                        <TouchableOpacity
-                          key={keys}
-                          onPress={() =>
-                            navigation.navigate('WorkoutDetail', {
-                              startingPoint: 1,
-                              selectedDate: selectedDate,
-                              workout_id: values.workout_id,
-                              title: values.title,
-                              start_time:
-                                values.start_time.split(' ')[1].split(':')[0] +
-                                ':' +
-                                values.start_time.split(' ')[1].split(':')[1],
-                              end_time:
-                                values.end_time.split(' ')[1].split(':')[0] +
-                                ':' +
-                                values.end_time.split(' ')[1].split(':')[1],
-                              targets: values.targets,
-                              total_time: values.total_time,
-                              total_weight: values.total_weight,
-                              memo: values.memo,
-                              isHomeScreen: false,
-                            })
-                          }>
-                          <RecentExercise data={values}></RecentExercise>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  </View>
-                ))}
-              <View style={{height: 50 * height_ratio}}></View>
-            </ScrollView>
+            <View>
+              <FlatList
+                data={appcontext.state.workoutList}
+                renderItem={renderingWorkoutRecord}></FlatList>
+            </View>
           )}
           {isCalendar && (
             <ScrollView
@@ -381,6 +386,9 @@ const WorkoutRecord = ({navigation, route}) => {
                           key={key}
                           onPress={() =>
                             navigation.navigate('WorkoutDetail', {
+                              index: appcontext.state.workoutList.findIndex(
+                                e => e.date === selectedDate,
+                              ),
                               startingPoint: 2,
                               selectedDate: selectedDate,
                               workout_id: value.workout_id,
