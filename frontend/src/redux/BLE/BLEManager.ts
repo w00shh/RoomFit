@@ -5,7 +5,7 @@ LogBox.ignoreLogs(['new NativeEventEmitter']);
 import {store} from '../store';
 
 import BLEStore from './mobx_store';
-import {positionBuffer, reportBuffer} from './Buffers';
+import {positionBuffer, reportBuffer, voltageBuffer} from './Buffers';
 
 export interface DeviceReference {
   name?: string | null;
@@ -132,6 +132,7 @@ class BLEManager {
               BLEStore.setRight(right);
               break;
             case 'GET_VOLTAGE':
+              voltageBuffer(data.value);
               break;
             case 'START_REPORT':
               [high, low, left, right] = reportBuffer(data.value);

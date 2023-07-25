@@ -34,6 +34,7 @@ import {store, useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {checkBluetoothPermissions} from '../../redux/BLE/permission';
 import {Easing} from 'react-native-reanimated';
+import {getVoltage} from '../../redux/BLE/ble_instruction';
 
 const ConnectDevice = ({navigation}) => {
   const [onlyRoomFit, setOnlyRoomFit] = useState(false);
@@ -142,6 +143,7 @@ const ConnectDevice = ({navigation}) => {
               await dispatch(connectToDevice(device));
               stopRotating();
               setIsConnecting('');
+              getVoltage();
               // dispatch(readDeviceBattery());
               dispatch(startListening());
             }}>

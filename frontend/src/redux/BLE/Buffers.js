@@ -34,6 +34,13 @@ export function voltageBuffer(decimalArray) {
   const binaryArray = decimalArray.map(decimal =>
     padZeros(decimal.toString(2), 8),
   );
+
+  const startIdx = 32;
+  const voltageStr = binaryArray.join('').substr(startIdx, 8);
+  const voltage = binaryToDecimal(voltageStr);
+
+  console.log(voltage);
+  return voltage;
 }
 
 export function reportBuffer(decimalArray) {
