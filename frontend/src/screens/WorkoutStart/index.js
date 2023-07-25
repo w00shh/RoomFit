@@ -971,7 +971,11 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </Modal>
-          <View style={{alignItems: 'center', marginBottom: 50 * height_ratio}}>
+          <View
+            style={{
+              alignItems: 'center',
+              marginBottom: 50 * height_ratio,
+            }}>
             <View style={{width: '100%'}}>
               <View
                 style={{
@@ -1004,7 +1008,14 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          <View style={{justifyContent: 'flex-end'}}>
+          <View
+            style={{
+              paddingTop: 10,
+              // backgroundColor: '#000',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              // flex: 2,
+            }}>
             <ScrollView
               ref={scrollViewRef}
               horizontal={true}
@@ -1147,108 +1158,120 @@ export const WorkoutStart = ({navigation, route}) => {
               }}
             />
 
-            <View
-              style={{alignItems: 'center', marginBottom: 32 * height_ratio}}>
-              <Text
-                style={[styles.motion_name, {marginBottom: 4 * height_ratio}]}>
-                {motionList[m_index].motion_name}
-              </Text>
-              <View style={{flexDirection: 'row', gap: 16 * width_ratio}}>
-                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                  <Text style={styles.statusText}>{s_index + 1}</Text>
-                  <Text style={styles.targetText}>
-                    /{motionList[m_index].sets.length}set
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'flex-end',
-                    marginHorizontal: 16 * width_ratio,
-                  }}>
-                  <Text style={styles.statusText}>
-                    {motionList[m_index].sets[s_index].weight}
-                  </Text>
-                  <Text style={styles.targetText}> kg</Text>
-                </View>
-                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                  <Text style={styles.statusText}>1</Text>
-                  <Text style={styles.targetText}>
-                    /{motionList[m_index].sets[s_index].reps}회
-                  </Text>
+            <View style={{}}>
+              <View
+                style={{alignItems: 'center', marginBottom: 32 * height_ratio}}>
+                <Text
+                  style={[
+                    styles.motion_name,
+                    {marginBottom: 4 * height_ratio},
+                  ]}>
+                  {motionList[m_index].motion_name}
+                </Text>
+                <View style={{flexDirection: 'row', gap: 16 * width_ratio}}>
+                  <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                    <Text style={styles.statusText}>{s_index + 1}</Text>
+                    <Text style={styles.targetText}>
+                      /{motionList[m_index].sets.length}set
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'flex-end',
+                      marginHorizontal: 16 * width_ratio,
+                    }}>
+                    <Text style={styles.statusText}>
+                      {motionList[m_index].sets[s_index].weight}
+                    </Text>
+                    <Text style={styles.targetText}> kg</Text>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                    <Text style={styles.statusText}>1</Text>
+                    <Text style={styles.targetText}>
+                      /{motionList[m_index].sets[s_index].reps}회
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                gap: 12 * width_ratio,
-                marginBottom: 16 * height_ratio,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (motionList[m_index].sets[s_index].weight > 0) {
-                    const updatedMotionList = [...motionList];
-                    updatedMotionList[m_index].sets[s_index].weight -= 1;
-                    setMotionList(updatedMotionList);
-                  }
-                }}
-                style={styles.CButton}>
-                <Minus height={16 * height_ratio} width={16 * width_ratio} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  if (motionList[m_index].sets[s_index].weight < 200) {
-                    const updatedMotionList = [...motionList];
-                    updatedMotionList[m_index].sets[s_index].weight += 1;
-                    setMotionList(updatedMotionList);
-                  }
-                }}
-                style={styles.CButton}>
-                <Plus height={16 * height_ratio} width={16 * width_ratio} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  isResting ? setIsRestingModal(true) : setComplete();
-                  stopListening();
-                  setIsListening(false);
-                }}
-                style={styles.CButton2}>
-                <Text
-                  style={{
-                    ...styles.CText,
-                    color: isResting
-                      ? restTimer <= 10
-                        ? '#cc3300'
-                        : '#242424'
-                      : '#242424',
-                    fontWeight: isResting ? '600' : '400',
-                    fontSize: isResting ? 20 * height_ratio : 14 * height_ratio,
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  gap: 12 * width_ratio,
+                  marginBottom: 16 * height_ratio,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (motionList[m_index].sets[s_index].weight > 0) {
+                      const updatedMotionList = [...motionList];
+                      updatedMotionList[m_index].sets[s_index].weight -= 1;
+                      setMotionList(updatedMotionList);
+                    }
+                  }}
+                  style={styles.CButton}>
+                  <Minus height={16 * height_ratio} width={16 * width_ratio} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (motionList[m_index].sets[s_index].weight < 200) {
+                      const updatedMotionList = [...motionList];
+                      updatedMotionList[m_index].sets[s_index].weight += 1;
+                      setMotionList(updatedMotionList);
+                    }
+                  }}
+                  style={styles.CButton}>
+                  <Plus height={16 * height_ratio} width={16 * width_ratio} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    isResting ? setIsRestingModal(true) : setComplete();
+                    stopListening();
+                    setReporting(false);
+                  }}
+                  style={styles.CButton2}>
+                  <Text
+                    style={{
+                      ...styles.CText,
+                      color: isResting
+                        ? restTimer <= 10
+                          ? '#cc3300'
+                          : '#242424'
+                        : '#242424',
+                      fontWeight: isResting ? '600' : '400',
+                      fontSize: isResting
+                        ? 20 * height_ratio
+                        : 14 * height_ratio,
+                    }}>
+                    {isResting ? formatTime(restTimer) : '세트완료'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.navigator}>
+                <TouchableOpacity onPress={() => modifyingMotion()}>
+                  <Workout
+                    height={24 * height_ratio}
+                    width={24 * width_ratio}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    pausedModal();
+                    stopReport();
                   }}>
-                  {isResting ? formatTime(restTimer) : '세트완료'}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.navigator}>
-              <TouchableOpacity onPress={() => modifyingMotion()}>
-                <Workout height={24 * height_ratio} width={24 * width_ratio} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  pausedModal();
-                  stopReport();
-                }}>
-                <Pause height={24 * height_ratio} width={24 * width_ratio} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setPressSetting(true);
-                  setIsPaused(true);
-                }}>
-                <Setting height={24 * height_ratio} width={24 * width_ratio} />
-              </TouchableOpacity>
+                  <Pause height={24 * height_ratio} width={24 * width_ratio} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    setPressSetting(true);
+                    setIsPaused(true);
+                  }}>
+                  <Setting
+                    height={24 * height_ratio}
+                    width={24 * width_ratio}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
