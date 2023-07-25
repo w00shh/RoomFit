@@ -123,7 +123,7 @@ class BLEManager {
       this.bleManagerEmitter.addListener(
         'BleManagerDidUpdateValueForCharacteristic',
         (data: any) => {
-          console.log(data.value);
+          // console.log(data.value);
           let high, low, left, right, voltage;
           switch (this.state) {
             case 'GET_POSITION':
@@ -139,6 +139,7 @@ class BLEManager {
               BLEStore.setLow(low);
               BLEStore.setLeft(left);
               BLEStore.setRight(right);
+              console.log(left, right);
               break;
             default:
               break;
@@ -150,7 +151,6 @@ class BLEManager {
       this.bleManagerEmitter.addListener(
         'BleManagerDidUpdateValueForCharacteristic',
         async (data: any) => {
-          console.log(data.value);
           BLEStore.setRawdata('[ ' + data.value.join(', ') + ' ]');
         },
       );
@@ -227,7 +227,7 @@ class BLEManager {
   };
 
   startReport = async () => {
-    this.state = 'STARTING_REPORT';
+    this.state = 'START_REPORT';
     console.log('Start Reporting');
     const id = store.getState().ble.connectedDevice?.id;
     if (id) {

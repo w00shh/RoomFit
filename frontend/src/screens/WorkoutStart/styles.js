@@ -189,7 +189,8 @@ const styles = StyleSheet.create({
   navigator: {
     backgroundColor: '#5252fa',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+    alignSelf: 'center',
     alignItems: 'center',
     borderRadius: 12,
     width: 358 * width_ratio,

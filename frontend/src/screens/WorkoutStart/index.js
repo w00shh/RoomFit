@@ -69,7 +69,7 @@ import {Switch} from '../../components/toggle';
 //data receiving
 import {startListening, stopListening} from '../../redux/BLE/slice';
 import BLEStore from '../../redux/BLE/mobx_store';
-import {startReport} from '../../redux/BLE/ble_instruction';
+import {startReport, stopReport} from '../../redux/BLE/ble_instruction';
 import {set} from 'mobx';
 
 const width_ratio = Dimensions.get('window').width / 390;
@@ -184,7 +184,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
         setData1(newData1);
         setData2(newData2);
-      }, 100); // 1초마다 데이터 업데이트}
+      }, 10); // 1초마다 데이터 업데이트}
     }
     return () => clearInterval(interval);
   }, [data1, data2, isResting]);
@@ -1004,8 +1004,7 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          {/** Divider */}
-          <View>
+          <View style={{justifyContent: 'flex-end'}}>
             <ScrollView
               ref={scrollViewRef}
               horizontal={true}
@@ -1030,15 +1029,10 @@ export const WorkoutStart = ({navigation, route}) => {
                 />
               </Svg>
             </ScrollView>
-            <View
-              style={{
-                marginTop: 10 * height_ratio,
-                zIndex: 100,
-              }}>
+            <View style={{gap: 16 * height_ratio}}>
               <View
                 style={{
                   flexDirection: 'row',
-                  // marginTop: 16 * height_ratio,
                   justifyContent: 'space-between',
                 }}>
                 <View
@@ -1087,7 +1081,6 @@ export const WorkoutStart = ({navigation, route}) => {
               <View
                 style={{
                   flexDirection: 'row',
-                  marginTop: 16 * height_ratio,
                   justifyContent: 'space-between',
                 }}>
                 <View
@@ -1139,7 +1132,7 @@ export const WorkoutStart = ({navigation, route}) => {
             style={{
               position: 'absolute',
               bottom: 16 * height_ratio,
-              marginHorizontal: 16 * width_ratio,
+              // marginHorizontal: 16 * width_ratio,
             }}>
             <View
               style={{
@@ -1189,7 +1182,7 @@ export const WorkoutStart = ({navigation, route}) => {
             <View
               style={{
                 flexDirection: 'row',
-                alignItems: 'center',
+                justifyContent: 'center',
                 gap: 12 * width_ratio,
                 marginBottom: 16 * height_ratio,
               }}>
@@ -1237,21 +1230,23 @@ export const WorkoutStart = ({navigation, route}) => {
                 </Text>
               </TouchableOpacity>
             </View>
+
             <View style={styles.navigator}>
-              <TouchableOpacity
-                onPress={() => modifyingMotion()}
-                style={{marginLeft: 45 * width_ratio}}>
+              <TouchableOpacity onPress={() => modifyingMotion()}>
                 <Workout height={24 * height_ratio} width={24 * width_ratio} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={pausedModal}>
+              <TouchableOpacity
+                onPress={() => {
+                  pausedModal();
+                  stopReport();
+                }}>
                 <Pause height={24 * height_ratio} width={24 * width_ratio} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
                   setPressSetting(true);
                   setIsPaused(true);
-                }}
-                style={{marginRight: 45 * width_ratio}}>
+                }}>
                 <Setting height={24 * height_ratio} width={24 * width_ratio} />
               </TouchableOpacity>
             </View>
