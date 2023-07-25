@@ -5,7 +5,7 @@ LogBox.ignoreLogs(['new NativeEventEmitter']);
 import {store} from '../store';
 
 import BLEStore from './mobx_store';
-import {positionBuffer} from './positionBuffer';
+import {positionBuffer, reportBuffer} from './Buffers';
 
 export interface DeviceReference {
   name?: string | null;
@@ -119,6 +119,34 @@ class BLEManager {
         reject(err);
       }
 
+      //작동 함수 별 Buffer 함수 적용하는 Event Listener
+      this.bleManagerEmitter.addListener(
+        'BleManagerDidUpdateValueForCharacteristic',
+        (data: any) => {
+          console.log(data.value);
+          let high, low, left, right, voltage;
+          switch (this.state) {
+            case 'GET_POSITION':
+              [left, right] = positionBuffer(data.value);
+              BLEStore.setLeft(left);
+              BLEStore.setRight(right);
+              break;
+            case 'GET_VOLTAGE':
+              break;
+            case 'START_REPORT':
+              [high, low, left, right] = reportBuffer(data.value);
+              BLEStore.setHigh(high);
+              BLEStore.setLow(low);
+              BLEStore.setLeft(left);
+              BLEStore.setRight(right);
+              break;
+            default:
+              break;
+          }
+        },
+      );
+
+      //Buffer 없이 Raw Data 그대로 저장하는 Event Listener
       this.bleManagerEmitter.addListener(
         'BleManagerDidUpdateValueForCharacteristic',
         async (data: any) => {

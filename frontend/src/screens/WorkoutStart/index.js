@@ -69,6 +69,8 @@ import {Switch} from '../../components/toggle';
 //data receiving
 import {startListening, stopListening} from '../../redux/BLE/slice';
 import BLEStore from '../../redux/BLE/mobx_store';
+import {startReport} from '../../redux/BLE/ble_instruction';
+import {set} from 'mobx';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
@@ -218,13 +220,12 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   }, [data1]);
 
-  //데이터 받기 관련
-  const dispatch = useAppDispatch();
-  const [isListening, setIsListening] = useState(false);
+  //Report 관련
+  const [isReporting, setReporting] = useState(false);
   useEffect(() => {
-    if (!isListening) {
-      dispatch(startListening());
-      setIsListening(true);
+    if (!isReporting) {
+      startReport();
+      setReporting(true);
     }
   }, []);
 
