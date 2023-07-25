@@ -356,30 +356,32 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   }, [workoutTitle]);
 
-  const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
-    return (
-      <>
-        <WorkoutItem
-          drag={drag}
-          isActive={isActive}
-          motion_index={item.motion_index}
-          id={item.motion_id}
-          motion={item}
-          isExercising={true}
-          setIsModalVisible={setIsModalVisible}
-          motion={item}
-          motionList={motionList}
-          setMotionList={setMotionList}
-          setSelectedMode={setSelectedMode}
-          setIsMotionRangeModalVisible={
-            setIsMotionRangeModalVisible
-          }></WorkoutItem>
-        {item !== motionList[motionList.length - 1] && (
-          <Divider height_ratio={height_ratio} />
-        )}
-      </>
-    );
-  });
+  const renderItem = gestureHandlerRootHOC(
+    React.memo(({item, index, drag, isActive}) => {
+      return (
+        <>
+          <WorkoutItem
+            drag={drag}
+            isActive={isActive}
+            motion_index={item.motion_index}
+            id={item.motion_id}
+            motion={item}
+            isExercising={true}
+            setIsModalVisible={setIsModalVisible}
+            motion={item}
+            motionList={motionList}
+            setMotionList={setMotionList}
+            setSelectedMode={setSelectedMode}
+            setIsMotionRangeModalVisible={
+              setIsMotionRangeModalVisible
+            }></WorkoutItem>
+          {item !== motionList[motionList.length - 1] && (
+            <Divider height_ratio={height_ratio} />
+          )}
+        </>
+      );
+    }),
+  );
 
   const modifyingMotion = () => {
     setIsPausedPage(false);

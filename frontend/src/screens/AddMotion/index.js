@@ -303,6 +303,19 @@ const AddMotion = ({navigation, route}) => {
           </ScrollView>
         </View>
       )}
+      {motionList.length === 0 && (
+        <View
+          style={{
+            alignSelf: 'stretch',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingVertical: 80 * height_ratio,
+          }}>
+          <Text style={{fontSize: 14 * height_ratio, color: '#808080'}}>
+            검색 결과가 없습니다.
+          </Text>
+        </View>
+      )}
       <FlatList
         data={motionList}
         renderItem={({item, index}) => {
