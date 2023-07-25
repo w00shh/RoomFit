@@ -144,7 +144,7 @@ const IntroSplash = ({navigation}) => {
       appcontext.state.routineList.length ===
       appcontext.state.routineDetailList.length
     ) {
-      console.log('********');
+      console.log('check');
       handleAutoLogin();
     }
   }, [

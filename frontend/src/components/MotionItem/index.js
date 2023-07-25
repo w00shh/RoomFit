@@ -101,7 +101,9 @@ const MotionItem = props => {
           </TouchableWithoutFeedback>
         )}
 
-        <View style={styles.imageContainer}>
+        <TouchableOpacity
+          style={styles.imageContainer}
+          onPress={props.navigateToMotionDetail}>
           {props.motion.image_url ? (
             <Image
               source={{
@@ -116,7 +118,7 @@ const MotionItem = props => {
               width={48 * width_ratio}
               height={48 * height_ratio}></DefaultImage>
           )}
-        </View>
+        </TouchableOpacity>
         <View style={styles.nameContainer}>
           <Text
             style={{
@@ -133,14 +135,14 @@ const MotionItem = props => {
             {props.motion.motion_name}
           </Text>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             paddingHorizontal: 8 * width_ratio,
             paddingVertical: 16 * height_ratio,
           }}
           onPress={props.navigateToMotionDetail}>
           <Question height={16 * height_ratio} width={16 * width_ratio} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {props.selected && (
         <View>

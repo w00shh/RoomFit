@@ -238,30 +238,30 @@ const CustomMotion = ({navigation}) => {
     await serverAxios
       .post('/motion/custom', body)
       .then(res => {
-        let updatedMotionList = [...appcontext.state.motionList];
-        updatedMotionList = [
-          ...updatedMotionList,
-          {
-            add_on: null,
-            body_region: mainMuscle,
-            count: 0,
-            description: motionName + ' Description',
-            grip: tool,
-            image_url: null,
-            isFav: false,
-            main_muscle: null,
-            motion_english_name: motionNmae,
-            motion_id: 1,
-            motion_name: motionName,
-            motion_range_max: 100,
-            motion_range_min: 40,
-            sequence: null,
-            sub_muscle: subMuscle.join(', '),
-            user_id: appcontext.state.userid,
-          },
-        ];
+        console.log(res.data);
+        const newMotionItem = {
+          add_on: null,
+          body_region: mainMuscle,
+          count: 0,
+          description: motionName + ' Description',
+          grip: tool,
+          image_url: null,
+          isFav: false,
+          main_muscle: null,
+          motion_english_name: motionName,
+          motion_id: res.data,
+          motion_name: motionName,
+          motion_range_max: 100,
+          motion_range_min: 40,
+          sequence: null,
+          sub_muscle: subMuscle.join(', '),
+          user_id: appcontext.state.userid,
+        };
 
-        appcontext.actions.setMotionList(updatedMotionList);
+        appcontext.actions.setMotionList(prevMotionList => [
+          ...prevMotionList,
+          newMotionItem,
+        ]);
       })
       .catch(e => console.log(e));
 

@@ -119,13 +119,26 @@ const RoutineDetail = ({navigation, route}) => {
     };
     await serverAxios
       .post('/routine/save', body)
-      .then(res => {})
+      .then(res => {
+        console.log(res.data);
+        let updatedRoutineList = appcontext.state.routineList;
+        updatedRoutineList[route.params.index].routine_id =
+          res.data[0].routine_id;
+        updatedRoutineList[route.params.index].routine_name =
+          res.data[0].routine_name;
+        updatedRoutineList[route.params.index].motion_count =
+          res.data[0].motion_count;
+        updatedRoutineList[route.params.index].body_regions =
+          res.data[0].body_regions;
+        appcontext.actions.setRoutineList(updatedRoutineList);
+      })
       .catch(e => {
         console.log(e);
       });
     let updatedRoutineDetailList = appcontext.state.routineDetailList;
     updatedRoutineDetailList[route.params.index].motionList = motionList;
     appcontext.actions.setRoutineDetailList(updatedRoutineDetailList);
+
     navigation.push('MyRoutine');
   };
 
@@ -180,35 +193,35 @@ const RoutineDetail = ({navigation, route}) => {
     });
   }, [isRoutineName, isSaveDisabled, motionList]);
 
-  const getRoutineDetailMotionList = async () => {
-    const targeturl = '/routine/detail/' + route.params.routine_id;
+  // const getRoutineDetailMotionList = async () => {
+  //   const targeturl = '/routine/detail/' + route.params.routine_id;
 
-    await serverAxios
-      .get(targeturl)
-      .then(res => {
-        res.data.motionList.forEach((value, key) => {
-          setMotionList(currentMotionList => [
-            ...currentMotionList,
-            {
-              motion_index: motionIndexBase + key,
-              isMotionDone: false,
-              isMotionDoing: false,
-              doingSetIndex: 0,
-              isFav: value.isFav,
-              motion_range_min: value.motion_range_min,
-              motion_range_max: value.motion_range_max,
-              motion_id: value.motion_id,
-              motion_name: value.motion_name,
-              image_url: value.image_url,
-              sets: value.sets,
-            },
-          ]);
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+  //   await serverAxios
+  //     .get(targeturl)
+  //     .then(res => {
+  //       res.data.motionList.forEach((value, key) => {
+  //         setMotionList(currentMotionList => [
+  //           ...currentMotionList,
+  //           {
+  //             motion_index: motionIndexBase + key,
+  //             isMotionDone: false,
+  //             isMotionDoing: false,
+  //             doingSetIndex: 0,
+  //             isFav: value.isFav,
+  //             motion_range_min: value.motion_range_min,
+  //             motion_range_max: value.motion_range_max,
+  //             motion_id: value.motion_id,
+  //             motion_name: value.motion_name,
+  //             image_url: value.image_url,
+  //             sets: value.sets,
+  //           },
+  //         ]);
+  //       });
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+  // };
 
   useEffect(() => {
     if (route.params.isRoutineDetail) {

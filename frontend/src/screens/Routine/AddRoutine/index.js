@@ -111,7 +111,28 @@ const AddRoutine = ({navigation, route}) => {
     };
     await serverAxios
       .post('/routine/save', body)
-      .then(res => {})
+      .then(res => {
+        console.log(res.data);
+        appcontext.actions.setRoutineList(currentRoutineList => [
+          {
+            routine_id: res.data[0].routine_id,
+            routine_name: res.data[0].routine_name,
+            body_regions: res.data[0].body_regions,
+            motion_count: res.data[0].motion_count,
+          },
+          ...currentRoutineList,
+        ]);
+        appcontext.actions.setRoutineDetailList(currentRoutineDetailList => [
+          ...currentRoutineDetailList,
+          {
+            routine_id: res.data[0].routine_id,
+            routine_name: res.data[0].routine_name,
+            body_regions: res.data[0].body_regions,
+            motion_count: res.data[0].motion_count,
+            motionList: motionList,
+          },
+        ]);
+      })
       .catch(e => {
         console.log(e);
       });
@@ -291,7 +312,28 @@ const AddRoutine = ({navigation, route}) => {
 
     await serverAxios
       .post('/routine/save', body2)
-      .then(res => {})
+      .then(res => {
+        console.log(res.data);
+        appcontext.actions.setRoutineList(currentRoutineList => [
+          {
+            routine_id: res.data[0].routine_id,
+            routine_name: res.data[0].routine_name,
+            body_regions: res.data[0].body_regions,
+            motion_count: res.data[0].motion_count,
+          },
+          ...currentRoutineList,
+        ]);
+        appcontext.actions.setRoutineDetailList(currentRoutineDetailList => [
+          ...currentRoutineDetailList,
+          {
+            routine_id: res.data[0].routine_id,
+            routine_name: res.data[0].routine_name,
+            body_regions: res.data[0].body_regions,
+            motion_count: res.data[0].motion_count,
+            motionList: motionList,
+          },
+        ]);
+      })
       .catch(e => {
         console.log(e);
       });
