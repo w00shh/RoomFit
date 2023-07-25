@@ -72,6 +72,8 @@ import BLEStore from '../../redux/BLE/mobx_store';
 import {startReport, stopReport} from '../../redux/BLE/ble_instruction';
 import {set} from 'mobx';
 
+import debounce from 'lodash';
+
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
 
@@ -228,6 +230,13 @@ export const WorkoutStart = ({navigation, route}) => {
       setReporting(true);
     }
   }, []);
+  useEffect(() => {
+    if (isReporting) {
+      startReport();
+    } else {
+      stopReport();
+    }
+  }, [isReporting]);
 
   //battery
   const battery = useAppSelector(state => state.ble.battery);
@@ -717,6 +726,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const goNextMotion = () => {
     setIsResting(false);
     setIsRestingModal(false);
+    setReporting(true);
 
     setIsStopResting(false);
     if (s_index + 1 < motionList[m_index].sets.length) {
@@ -1250,7 +1260,6 @@ export const WorkoutStart = ({navigation, route}) => {
                 <TouchableOpacity
                   onPress={() => {
                     isResting ? setIsRestingModal(true) : setComplete();
-                    stopListening();
                     setReporting(false);
                   }}
                   style={styles.CButton2}>
@@ -1281,7 +1290,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 <TouchableOpacity
                   onPress={() => {
                     pausedModal();
-                    stopReport();
+                    setReporting(false);
                   }}>
                   <Pause height={24 * height_ratio} width={24 * width_ratio} />
                 </TouchableOpacity>
@@ -1502,14 +1511,19 @@ export const WorkoutStart = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}></ScrollView>
           <View style={{flexDirection: 'row', gap: 16 * width_ratio}}>
             <TouchableOpacity
-              onPress={() => setWorkoutDoneModal2(true)}
+              onPress={() => {
+                setWorkoutDoneModal2(true);
+              }}
               style={styles.endButton}>
               <Stop height={24 * height_ratio} width={24 * width_ratio} />
               <Text style={styles.CText3}>운동 종료</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.restartButton}
-              onPress={pausedModal}>
+              onPress={() => {
+                pausedModal();
+                setReporting(true);
+              }}>
               <Play height={24 * height_ratio} width={24 * width_ratio} />
               <Text style={styles.CText3}>운동 다시 시작</Text>
             </TouchableOpacity>

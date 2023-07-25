@@ -30,6 +30,12 @@ export function positionBuffer(decimalArray) {
   return [decimalValue_left, decimalValue_right];
 }
 
+export function voltageBuffer(decimalArray) {
+  const binaryArray = decimalArray.map(decimal =>
+    padZeros(decimal.toString(2), 8),
+  );
+}
+
 export function reportBuffer(decimalArray) {
   const binaryArray = decimalArray.map(decimal =>
     padZeros(decimal.toString(2), 8),
