@@ -25,7 +25,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const AddMotion = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
-  const [motionList, setMotionList] = useState([]);
+  const [motionList, setMotionList] = useState(appcontext.state.motionList);
   const [motionListMap, setMotionListMap] = useState(new Map());
   let selectedMotionKeys = [];
   const [selected, setSelected] = useState(new Map());
@@ -137,14 +137,6 @@ const AddMotion = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    console.log(gripList);
-  }, [gripList]);
-
-  useEffect(() => {
-    console.log(bodyRegionList);
-  }, [bodyRegionList]);
-
-  useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity
@@ -160,7 +152,7 @@ const AddMotion = ({navigation, route}) => {
       ),
 
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('CustomMotion')}>
+        <TouchableOpacity onPress={() => navigation.push('CustomMotion')}>
           <Text style={{fontSize: 14 * height_ratio, color: '#242424'}}>
             + 커스텀 동작
           </Text>
@@ -168,7 +160,7 @@ const AddMotion = ({navigation, route}) => {
       ),
     });
 
-    getMotionList();
+    //getMotionList();
 
     motionList.forEach(motion => {
       setMotionListMap(motionListMap.set(motion.motion_id, motion));
@@ -201,7 +193,7 @@ const AddMotion = ({navigation, route}) => {
           placeholder="동작을 검색해보세요"
           inputMode="text"></TextInput>
       </View>
-      <View style={{height: 100 * height_ratio}}>
+      <View style={{height: 110 * height_ratio}}>
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -271,17 +263,17 @@ const AddMotion = ({navigation, route}) => {
           </View>
         </ScrollView>
       </View>
-      <View
-        style={{
-          paddingVertical: 8 * height_ratio,
-        }}>
-        {displaySelected.size === 0 && (
+      {displaySelected.size === 0 && (
+        <View
+          style={{
+            paddingVertical: 8 * height_ratio,
+          }}>
           <Text style={styles.recommendedText}>추천 운동</Text>
-        )}
-      </View>
+        </View>
+      )}
       {displaySelected.size !== 0 && (
         <View
-          style={{height: displaySelected.size !== 0 ? 60 * height_ratio : 0}}>
+          style={{height: displaySelected.size !== 0 ? 50 * height_ratio : 0}}>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -289,7 +281,7 @@ const AddMotion = ({navigation, route}) => {
               flexDirection: 'row',
               alignSelf: 'center',
               gap: 8 * width_ratio,
-              marginBottom: 24 * height_ratio,
+              marginTop: 0 * height_ratio,
               //marginVertical:
               //displaySelected.size !== 0 ? 24 * height_ratio : 0,
               overflow: 'visible',

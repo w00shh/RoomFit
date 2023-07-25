@@ -8,7 +8,7 @@ import Right from '../../assets/svg/buttons/single/arrow/right.svg';
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
-const RoutineBox = props => {
+const RoutineBox2 = props => {
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.routineContainer}>
@@ -44,4 +44,4 @@ const RoutineBox = props => {
   );
 };
 
-export default RoutineBox;
+export default RoutineBox2;

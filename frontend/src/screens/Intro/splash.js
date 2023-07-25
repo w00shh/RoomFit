@@ -47,6 +47,11 @@ const IntroSplash = ({navigation}) => {
     if (autoLogin) {
       handleGetAllRoutine();
       handleGetAllWorkoutList();
+      handleGetMotionList();
+
+      setTimeout(() => {
+        navigation.navigate('HomeScreen');
+      }, 500);
     }
   }, [autoLogin]);
 
@@ -89,6 +94,21 @@ const IntroSplash = ({navigation}) => {
     appcontext.actions.setRoutineDetailList(prevList => [...prevList, newData]);
   };
 
+  const handleGetMotionList = async () => {
+    const body = {
+      user_id: appcontext.state.userid,
+    };
+    await serverAxios
+      .post('/motion', body)
+      .then(res => {
+        console.log(res.data);
+        appcontext.actions.setMotionList(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   const handleGetAllWorkoutList = async () => {
     const body = {
       user_id: appcontext.state.userid,
@@ -117,19 +137,13 @@ const IntroSplash = ({navigation}) => {
     }));
   };
 
-  const handleAutoLogin = () => {
-    console.log(appcontext.state.routineDetailList);
-    setTimeout(() => {
-      navigation.navigate('HomeScreen');
-    }, 500);
-  };
+  const handleAutoLogin = () => {};
 
   useEffect(() => {
     if (
       appcontext.state.routineList.length ===
       appcontext.state.routineDetailList.length
     ) {
-      //console.log(appcontext.state.workoutList[0].data);
       console.log('check');
       handleAutoLogin();
     }

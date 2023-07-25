@@ -34,6 +34,9 @@ const MainSetting = ({navigation}) => {
 
   const handleLogout = () => {
     appcontext.actions.setIsLogin(false);
+    appcontext.actions.setWorkoutList([]);
+    appcontext.actions.setRoutineList([]);
+    appcontext.actions.setRoutineDetailList([]);
     saveLogout();
     navigation.reset({routes: [{name: 'IntroSplash'}]});
   };
@@ -132,18 +135,18 @@ const MainSetting = ({navigation}) => {
         <View style={styles.gigiContainer}>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>기기 연결</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <Text style={styles.contentText2}>Roomfit 1</Text>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('ConnectDevice')}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ConnectDevice')}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
+                <Text style={styles.contentText2}>Roomfit 1</Text>
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer2}>
             <View
@@ -204,41 +207,43 @@ const MainSetting = ({navigation}) => {
 
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>세트간 휴식시간</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('RestingTime', {title: '세트'});
               }}>
-              <Text style={styles.contentText2}>
-                {calcTime(appcontext.state.userSetTime)}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('RestingTime', {title: '세트'});
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
                 }}>
+                <Text style={styles.contentText2}>
+                  {calcTime(appcontext.state.userSetTime)}
+                </Text>
+
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>동작간 휴식시간</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('RestingTime', {title: '동작'});
               }}>
-              <Text style={styles.contentText2}>
-                {calcTime(appcontext.state.userMotionTime)}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('RestingTime', {title: '동작'});
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
                 }}>
+                <Text style={styles.contentText2}>
+                  {calcTime(appcontext.state.userMotionTime)}
+                </Text>
+
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>절전 모드</Text>
@@ -262,121 +267,124 @@ const MainSetting = ({navigation}) => {
         <View style={styles.appContainer}>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>언어 설정</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <Text style={styles.contentText2}>한국어</Text>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
+                <Text style={styles.contentText2}>한국어</Text>
+
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>시간대 설정</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <Text style={styles.contentText2}>한국표준시 (KST)</Text>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
+                <Text style={styles.contentText2}>한국표준시 (KST)</Text>
+
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>단위 설정</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <Text style={styles.contentText2}>kg</Text>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
+                <Text style={styles.contentText2}>kg</Text>
+
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>커스텀 운동 목록</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>알림 설정</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
         <Text style={styles.subTitle}>기타 설정</Text>
         <View style={styles.gitaContainer}>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>고객센터</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>이용약관</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>개인정보 처리방침</Text>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View style={{flexDirection: 'row'}}>
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>오픈소스 라이선스</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8 * width_ratio,
-              }}>
-              <TouchableOpacity>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8 * width_ratio,
+                }}>
                 <Right height={16 * height_ratio} width={9 * width_ratio} />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.contentText}>앱 버전</Text>
