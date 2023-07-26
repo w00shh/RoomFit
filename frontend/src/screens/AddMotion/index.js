@@ -392,7 +392,6 @@ const AddMotion = ({navigation, route}) => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
                 route.params.isRoutineDetail
                   ? navigation.push('RoutineDetail', {
-                      index: route.params.index,
                       motion_index_base: route.params.motion_index_base,
                       isMotionAdded: true,
                       routineName: route.params.routineName,
@@ -415,27 +414,51 @@ const AddMotion = ({navigation, route}) => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
 
                 route.params.isExercising
-                  ? navigation.push('WorkoutModifying', {
-                      motion_index_base: route.params.motion_index_base,
-                      isQuickWorkout: route.params.isQuickWorkout,
-                      workout_id: route.params.workout_id,
-                      record_id: route.params.record_id,
-                      routine_id: route.params.routine_id,
-                      isAddMotion: true,
-                      isAddedMotionDone: route.params.isAddedMotionDone,
-                      motionList: route.params.motionList,
-                      selectedMotionKeys: selectedMotionKeys,
-                      displaySelected: Array.from(displaySelected.values()),
-                      elapsedTime: route.params.elapsedTime,
-                      TUT: route.params.TUT,
-                      m_index: route.params.m_index,
-                      s_index: route.params.s_index,
-                      isPaused: true,
-                      isPausedPage: false,
-                      isModifyMotion: true,
-                      isResting: route.params.isResting,
-                      restTimer: route.params.restTimer,
-                    })
+                  ? route.params.routine_index != null
+                    ? navigation.push('WorkoutModifying', {
+                        routine_index: route.params.routine_index,
+                        routine_detail_index: route.params.routine_detail_index,
+                        motion_index_base: route.params.motion_index_base,
+                        isQuickWorkout: route.params.isQuickWorkout,
+                        workout_id: route.params.workout_id,
+                        record_id: route.params.record_id,
+                        routine_id: route.params.routine_id,
+                        isAddMotion: true,
+                        isAddedMotionDone: route.params.isAddedMotionDone,
+                        motionList: route.params.motionList,
+                        selectedMotionKeys: selectedMotionKeys,
+                        displaySelected: Array.from(displaySelected.values()),
+                        elapsedTime: route.params.elapsedTime,
+                        TUT: route.params.TUT,
+                        m_index: route.params.m_index,
+                        s_index: route.params.s_index,
+                        isPaused: true,
+                        isPausedPage: false,
+                        isModifyMotion: true,
+                        isResting: route.params.isResting,
+                        restTimer: route.params.restTimer,
+                      })
+                    : navigation.push('WorkoutModifying', {
+                        motion_index_base: route.params.motion_index_base,
+                        isQuickWorkout: route.params.isQuickWorkout,
+                        workout_id: route.params.workout_id,
+                        record_id: route.params.record_id,
+                        routine_id: route.params.routine_id,
+                        isAddMotion: true,
+                        isAddedMotionDone: route.params.isAddedMotionDone,
+                        motionList: route.params.motionList,
+                        selectedMotionKeys: selectedMotionKeys,
+                        displaySelected: Array.from(displaySelected.values()),
+                        elapsedTime: route.params.elapsedTime,
+                        TUT: route.params.TUT,
+                        m_index: route.params.m_index,
+                        s_index: route.params.s_index,
+                        isPaused: true,
+                        isPausedPage: false,
+                        isModifyMotion: true,
+                        isResting: route.params.isResting,
+                        restTimer: route.params.restTimer,
+                      })
                   : navigation.push('WorkoutReady', {
                       motion_index_base: route.params.motion_index_base,
                       selectedMotionKeys: selectedMotionKeys,

@@ -307,6 +307,8 @@ export const WorkoutModifying = ({navigation, route}) => {
               content="+ 동작 추가"
               onPress={() => {
                 navigation.push('AddMotion', {
+                  routine_index: route.params.routine_index,
+                  routine_detail_index: route.params.routine_detail_index,
                   motion_index_base: motionIndexMax + 1,
                   isQuickWorkout: route.params.isQuickWorkout,
                   workout_id: route.params.workout_id,
@@ -332,6 +334,8 @@ export const WorkoutModifying = ({navigation, route}) => {
               content={`운동중  ${formatTime(elapsedTime)}`}
               onPress={() => {
                 navigation.push('WorkoutStart', {
+                  routine_index: route.params.routine_index,
+                  routine_detail_index: route.params.routine_detail_index,
                   motion_index_base: motionIndexMax,
                   isQuickWorkout: route.params.isQuickWorkout,
                   routine_id: route.params.routine_id,
@@ -344,7 +348,7 @@ export const WorkoutModifying = ({navigation, route}) => {
                   s_index: route.params.s_index,
                   isPaused: route.params.isPaused,
                   isPausedPage: route.params.isPausedPage,
-                  isModifyMotion: route.params.isModifyMotion,
+                  isModifyMotion: false,
                   isResting: route.params.isResting,
                   restTimer: route.params.restTimer,
                   // data1: route.params.data1,

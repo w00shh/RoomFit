@@ -44,11 +44,13 @@ const RoutineDetail = ({navigation, route}) => {
 
   const [motionList, setMotionList] = useState([]);
   const [routineId, setRoutineId] = useState(
-    appcontext.state.routineDetailList[route.params.index].routine_id,
+    appcontext.state.routineDetailList[route.params.routine_detail_index]
+      .routine_id,
   );
   const [workoutId, setWorkoutId] = useState();
   const [routineName, setRoutineName] = useState(
-    appcontext.state.routineDetailList[route.params.index].routine_name,
+    appcontext.state.routineDetailList[route.params.routine_detail_index]
+      .routine_name,
   );
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
@@ -121,13 +123,13 @@ const RoutineDetail = ({navigation, route}) => {
       .then(res => {
         console.log(res.data);
         let updatedRoutineList = appcontext.state.routineList;
-        updatedRoutineList[route.params.index].routine_id =
+        updatedRoutineList[route.params.routine_index].routine_id =
           res.data[0].routine_id;
-        updatedRoutineList[route.params.index].routine_name =
+        updatedRoutineList[route.params.routine_index].routine_name =
           res.data[0].routine_name;
-        updatedRoutineList[route.params.index].motion_count =
+        updatedRoutineList[route.params.routine_index].motion_count =
           res.data[0].motion_count;
-        updatedRoutineList[route.params.index].body_regions =
+        updatedRoutineList[route.params.routine_index].body_regions =
           res.data[0].body_regions;
         appcontext.actions.setRoutineList(updatedRoutineList);
       })
@@ -135,7 +137,8 @@ const RoutineDetail = ({navigation, route}) => {
         console.log(e);
       });
     let updatedRoutineDetailList = appcontext.state.routineDetailList;
-    updatedRoutineDetailList[route.params.index].motionList = motionList;
+    updatedRoutineDetailList[route.params.routine_detail_index].motionList =
+      motionList;
     appcontext.actions.setRoutineDetailList(updatedRoutineDetailList);
 
     navigation.push('MyRoutine');
@@ -225,31 +228,31 @@ const RoutineDetail = ({navigation, route}) => {
   useEffect(() => {
     if (route.params.isRoutineDetail) {
       //getRoutineDetailMotionList();
-      appcontext.state.routineDetailList[route.params.index].motionList.forEach(
-        (value, key) => {
-          let updatedSets = value.sets;
-          updatedSets.forEach((value2, key2) => {
-            value2.isDoing = false;
-            value2.isDone = false;
-          });
-          setMotionList(currentMotionList => [
-            ...currentMotionList,
-            {
-              motion_index: motionIndexBase + key,
-              isMotionDone: false,
-              isMotionDoing: false,
-              doingSetIndex: 0,
-              isFav: value.isFav,
-              motion_range_min: value.motion_range_min,
-              motion_range_max: value.motion_range_max,
-              motion_id: value.motion_id,
-              motion_name: value.motion_name,
-              image_url: value.image_url,
-              sets: updatedSets,
-            },
-          ]);
-        },
-      );
+      appcontext.state.routineDetailList[
+        route.params.routine_detail_index
+      ].motionList.forEach((value, key) => {
+        let updatedSets = value.sets;
+        updatedSets.forEach((value2, key2) => {
+          value2.isDoing = false;
+          value2.isDone = false;
+        });
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase + key,
+            isMotionDone: false,
+            isMotionDoing: false,
+            doingSetIndex: 0,
+            isFav: value.isFav,
+            motion_range_min: value.motion_range_min,
+            motion_range_max: value.motion_range_max,
+            motion_id: value.motion_id,
+            motion_name: value.motion_name,
+            image_url: value.image_url,
+            sets: updatedSets,
+          },
+        ]);
+      });
     } else {
       setMotionList(route.params.motionList);
       setIsSaveDisabled(false);
@@ -335,7 +338,8 @@ const RoutineDetail = ({navigation, route}) => {
   useEffect(() => {
     if (workoutId) {
       navigation.navigate('WorkoutStartSplash', {
-        index: route.params.index,
+        routine_index: route.params.routine_index,
+        routine_detail_index: route.params.routine_detail_index,
         isRoutineDetail: true,
         isQuickWorkout: false,
         routine_id: routineId,

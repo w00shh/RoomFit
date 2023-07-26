@@ -82,6 +82,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const [motionIndexMax, setMotionIndexMax] = useState(
     route.params.motion_index_base,
   );
+
   const appcontext = useContext(AppContext);
   const [isQuickWorkout, setisQuickWorkout] = useState(
     route.params.isQuickWorkout,
@@ -167,17 +168,12 @@ export const WorkoutStart = ({navigation, route}) => {
   const left = BLEStore.left;
   const right = BLEStore.right;
 
-  const scrollViewRef = useRef(null);
-<<<<<<< HEAD
-
   useEffect(() => {
-    const newData1 = [...data1, Math.floor(Math.random() * 100) + 1];
-    const newData2 = [...data2, Math.floor(Math.random() * 100) + 1];
-    let interval;
-    if (!isResting) {
-      interval = setInterval(() => {
-        // 새로운 데이터 생성 또는 가져오기
-=======
+    console.log(route.params.routine_index);
+    console.log(route.params.routine_detail_index);
+  }, []);
+
+  const scrollViewRef = useRef(null);
   const {width: windowWidth} = useWindowDimensions();
   // useEffect(() => {
   //   const newData1 = [...data1, left];
@@ -186,7 +182,6 @@ export const WorkoutStart = ({navigation, route}) => {
   //   if (!isResting) {
   //     interval = setInterval(() => {
   //       // 새로운 데이터 생성 또는 가져오기
->>>>>>> 45f7c0a0677e5711962a0dfd386308f4d95594d2
 
   //       // 최대 10개의 데이터 유지
   //       if (newData1.length > 300) {
@@ -446,13 +441,13 @@ export const WorkoutStart = ({navigation, route}) => {
             .post('/routine/save', body)
             .then(res => {
               let updatedRoutineList = appcontext.state.routineList;
-              updatedRoutineList[route.params.index].routine_id =
+              updatedRoutineList[route.params.routine_index].routine_id =
                 res.data[0].routine_id;
-              updatedRoutineList[route.params.index].routine_name =
+              updatedRoutineList[route.params.routine_index].routine_name =
                 res.data[0].routine_name;
-              updatedRoutineList[route.params.index].motion_count =
+              updatedRoutineList[route.params.routine_index].motion_count =
                 res.data[0].motion_count;
-              updatedRoutineList[route.params.index].body_regions =
+              updatedRoutineList[route.params.routine_index].body_regions =
                 res.data[0].body_regions;
               appcontext.actions.setRoutineList(updatedRoutineList);
             })
@@ -460,7 +455,9 @@ export const WorkoutStart = ({navigation, route}) => {
               console.log(e);
             });
           let updatedRoutineDetailList = appcontext.state.routineDetailList;
-          updatedRoutineDetailList[route.params.index].motionList = motionList;
+          updatedRoutineDetailList[
+            route.params.routine_detail_index
+          ].motionList = motionList;
           appcontext.actions.setRoutineDetailList(updatedRoutineDetailList);
         }
         setRoutineDoneModal(false);
@@ -898,6 +895,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     onPress={() => {
                       setRoutineDoneModal(false);
                       navigation.push('AddMotion', {
+                        routine_index: route.params.routine_index,
+                        routine_detail_index: route.params.routine_detail_index,
                         motion_index_base: motionIndexMax + 1,
                         isQuickWorkout: isQuickWorkout,
                         record_id: recordId,
@@ -1251,6 +1250,8 @@ export const WorkoutStart = ({navigation, route}) => {
                   //modifyingMotion();
                   setAnimationOption('slide_from_right');
                   navigation.push('WorkoutModifying', {
+                    routine_index: route.params.routine_index,
+                    routine_detail_index: route.params.routine_detail_index,
                     motion_index_base: motionIndexMax,
                     isQuickWorkout: isQuickWorkout,
                     workout_id: route.params.workout_id,
@@ -1280,6 +1281,8 @@ export const WorkoutStart = ({navigation, route}) => {
                   setIsPaused(true);
                   setAnimationOption('slide_from_left');
                   navigation.push('WorkoutSetting', {
+                    routine_index: route.params.routine_index,
+                    routine_detail_index: route.params.routine_detail_index,
                     isQuickWorkout: isQuickWorkout,
                     workout_id: route.params.workout_id,
                     record_id: recordId,
