@@ -13,6 +13,7 @@ import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {SelectList} from 'react-native-dropdown-select-list';
 
 import TempPeople from '../../assets/images/img_sample1.svg';
 import Profile from '../../assets/images/normalProfile.svg';
@@ -301,16 +302,11 @@ const WorkoutRecord = ({navigation, route}) => {
               marginTop: 24 * height_ratio,
             }}>
             <View>
-              <DropDownPicker
-                items={data}
-                defaultValue={null}
-                placeholder="리스트 선택"
-                containerStyle={styles.dropdownContainerStyle}
-                style={styles.dropdownStyle}
-                dropDownStyle={styles.dropdownDropStyle}
-                itemStyle={styles.dropdownItemStyle}
-                onChangeItem={item => setSelectedItem(item.value)}
-                zIndex={1000}
+              <SelectList
+                setSelected={val => setSelected(val)}
+                data={data}
+                save="value"
+                search={false}
               />
             </View>
             <View style={{flexDirection: 'row'}}>
