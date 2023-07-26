@@ -161,62 +161,66 @@ export const WorkoutStart = ({navigation, route}) => {
   });
 
   //graph 관련
-  const [data1, setData1] = useState([]);
-  const [data2, setData2] = useState([]);
+  const [data1, setData1] = useState(
+    route.params.data1 ? route.params.data1 : [],
+  );
+  const [data2, setData2] = useState(
+    route.params.data2 ? route.params.data2 : [],
+  );
 
   const left = BLEStore.left;
   const right = BLEStore.right;
 
   const scrollViewRef = useRef(null);
   const {width: windowWidth} = useWindowDimensions();
-  // useEffect(() => {
-  //   const newData1 = [...data1, left];
-  //   const newData2 = [...data2, right];
-  //   let interval;
-  //   if (!isResting) {
-  //     interval = setInterval(() => {
-  //       // 새로운 데이터 생성 또는 가져오기
+  useEffect(() => {
+    const newData1 = [...data1, Math.floor(Math.random() * 100) + 1];
+    const newData2 = [...data2, Math.floor(Math.random() * 100) + 1];
+    let interval;
+    if (!isResting) {
+      interval = setInterval(() => {
+        // 새로운 데이터 생성 또는 가져오기
 
-  //       // 최대 10개의 데이터 유지
-  //       if (newData1.length > 300) {
-  //         newData1.shift();
-  //       }
+        // 최대 10개의 데이터 유지
+        if (newData1.length > 300) {
+          newData1.shift();
+        }
 
-  //       if (newData2.length > 300) {
-  //         newData2.shift();
-  //       }
+        if (newData2.length > 300) {
+          newData2.shift();
+        }
 
-  //       setData1(newData1);
-  //       setData2(newData2);
-  //     }, 100); // 1초마다 데이터 업데이트}
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [data1, data2, isResting]);
+        setData1(newData1);
+        setData2(newData2);
+      }, 100); // 1초마다 데이터 업데이트}
+    }
+    return () => clearInterval(interval);
+  }, [data1, data2, isResting]);
 
   const heights = 200;
   const widths = data1.length * 30;
 
-  // const xScale = d3
-  //   .scaleLinear()
-  //   .domain([0, data1.length - 1])
-  //   .range([0, widths]);
+  const xScale = d3
+    .scaleLinear()
+    .domain([0, data1.length - 1])
+    .range([0, widths]);
 
-  // const yScale = d3
-  //   .scaleLinear()
-  //   .domain([0, d3.max([...data1, ...data2])])
-  //   .range([heights, 0]);
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max([...data1, ...data2])])
+    .range([heights, 0]);
 
-  // const line1 = d3
-  //   .line()
-  //   .x((d, i) => xScale(i))
-  //   .y(d => yScale(d))
-  //   .curve(d3.curveMonotoneX);
+  const line1 = d3
+    .line()
+    .x((d, i) => xScale(i))
+    .y(d => yScale(d))
+    .curve(d3.curveMonotoneX);
 
-  // const line2 = d3
-  //   .line()
-  //   .x((d, i) => xScale(i))
-  //   .y(d => yScale(d))
-  //   .curve(d3.curveMonotoneX);
+  const line2 = d3
+    .line()
+    .x((d, i) => xScale(i))
+    .y(d => yScale(d))
+    .curve(d3.curveMonotoneX);
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -906,7 +910,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 flexDirection: 'row',
                 height: 220 * height_ratio,
               }}>
-              {/* <Svg width={widths} height={heights}>
+              <Svg width={widths} height={heights}>
                 <Path
                   d={line1(data1)}
                   fill="none"
@@ -919,7 +923,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   stroke="#FF594f"
                   strokeWidth="2"
                 />
-              </Svg> */}
+              </Svg>
             </ScrollView>
             <View
               style={{
@@ -1149,6 +1153,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     s_index: s_index,
                     isResting: isResting,
                     restTimer: restTimer,
+                    // data1: data1,
+                    // data2: data2,
                   });
                 }}
                 style={{marginLeft: 45 * width_ratio}}>

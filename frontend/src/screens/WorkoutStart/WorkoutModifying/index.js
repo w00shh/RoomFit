@@ -332,6 +332,8 @@ export const WorkoutModifying = ({navigation, route}) => {
                   isModifyMotion: route.params.isModifyMotion,
                   isResting: route.params.isResting,
                   restTimer: route.params.restTimer,
+                  //   data1 : route.params.data1,
+                  //   data2 : route.params.data2,7
                 });
               }}></CustomButton_B>
           </View>
