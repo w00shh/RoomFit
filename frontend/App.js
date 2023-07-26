@@ -45,6 +45,7 @@ import MotionDetail from './src/screens/MotionDetail/index.js';
 import RecordDetail from './src/screens/RecordDetail/index.js';
 import {WorkoutSetting} from './src/screens/WorkoutStart/WorkoutSetting/index.js';
 import WorkoutModifying from './src/screens/WorkoutStart/WorkoutModifying/index.js';
+import Community from './src/screens/Community/index.js';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -382,6 +383,13 @@ const App = ({navigation}) => {
                   options={{
                     headerShadowVisible: false,
                     headerBackVisible: false,
+                  }}></Stack.Screen>
+
+                <Stack.Screen
+                  name="Community"
+                  component={Community}
+                  options={{
+                    headerShadowVisible: false,
                   }}></Stack.Screen>
               </Stack.Navigator>
             </NavigationContainer>
