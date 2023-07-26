@@ -163,6 +163,21 @@ export const WorkoutModifying = ({navigation, route}) => {
     }
   }, []);
 
+  useEffect(() => {
+    let intervalId;
+
+    intervalId = setInterval(() => {
+      setElapsedTime(prevElapsedTime => {
+        const updatedTime = prevElapsedTime + 1;
+        return updatedTime;
+      });
+    }, 1000); // 1초마다 증가
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   const renderItem = gestureHandlerRootHOC(
     React.memo(({item, index, drag, isActive}) => {
       return (
