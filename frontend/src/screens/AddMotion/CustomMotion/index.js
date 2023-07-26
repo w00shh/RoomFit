@@ -31,7 +31,7 @@ const CustomMotion = ({navigation}) => {
   const [modal3, setModal3] = useState(false);
   const [modal4, setModal4] = useState(false);
   const [tempmainMuscle, setTempMainMuscle] = useState('');
-  const [mainMuscle, setMainMuscle] = useState('');
+  const [mainMuscle, setMainMuscle] = useState([]);
   const [tempSubMuscle, setTempSubMuscle] = useState([]);
   const [subMuscle, setSubMuscle] = useState([]);
   const [tempWorkoutWay, setTempWorkoutWay] = useState('');
