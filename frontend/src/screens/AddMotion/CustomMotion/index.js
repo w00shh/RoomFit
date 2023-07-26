@@ -31,7 +31,7 @@ const CustomMotion = ({navigation}) => {
   const [modal3, setModal3] = useState(false);
   const [modal4, setModal4] = useState(false);
   const [tempmainMuscle, setTempMainMuscle] = useState('');
-  const [mainMuscle, setMainMuscle] = useState('');
+  const [mainMuscle, setMainMuscle] = useState([]);
   const [tempSubMuscle, setTempSubMuscle] = useState([]);
   const [subMuscle, setSubMuscle] = useState([]);
   const [tempWorkoutWay, setTempWorkoutWay] = useState('');
@@ -85,27 +85,44 @@ const CustomMotion = ({navigation}) => {
 
   const renderItem = item => {
     return (
-      <TouchableOpacity onPress={() => setTempMainMuscle(item.item)}>
+      <TouchableOpacity
+        onPress={() => {
+          console.log(item.index);
+          if (tempmainMuscle.includes(item.item)) {
+            setTempMainMuscle(
+              tempmainMuscle.filter(muscle => muscle !== item.item),
+            );
+          } else {
+            setTempMainMuscle([...tempmainMuscle, item.item]);
+          }
+
+          console.log(tempmainMuscle);
+        }}>
         <View
           style={{
+            marginBottom: 8,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
             width: '100%',
             height: 56 * height_ratio,
-            backgroundColor: item.item === tempmainMuscle ? '#f5f5f5' : 'white',
+            backgroundColor: tempmainMuscle.includes(item.item)
+              ? '#f5f5f5'
+              : 'white',
           }}>
           <View style={styles.restContainer}>
             <Text
               style={{
                 fontSize: 16 * height_ratio,
-                color: item.item === tempmainMuscle ? '#5252fa' : '#242424',
+                color: tempmainMuscle.includes(item.item)
+                  ? '#5252fa'
+                  : '#242424',
               }}>
               {item.item}
             </Text>
           </View>
           <View style={styles.restChecker}>
-            {item.item === tempmainMuscle && (
+            {tempmainMuscle.includes(item.item) && (
               <Check height={16 * height_ratio} width={16 * width_ratio} />
             )}
           </View>
@@ -241,7 +258,7 @@ const CustomMotion = ({navigation}) => {
         console.log(res.data);
         const newMotionItem = {
           add_on: null,
-          body_region: mainMuscle,
+          body_region: mainMuscle.join(', '),
           count: 0,
           description: motionName + ' Description',
           grip: tool,
@@ -426,7 +443,7 @@ const CustomMotion = ({navigation}) => {
                   color: '#242424',
                   fontSize: 14 * height_ratio,
                 }}>
-                {mainMuscle}
+                {mainMuscle.join(', ')}
               </Text>
               <Right></Right>
             </View>
@@ -481,7 +498,7 @@ const CustomMotion = ({navigation}) => {
           </View>
         </TouchableOpacity>
       </ScrollView>
-      <View style={{position: 'absolute', bottom: 0}}>
+      <View style={{position: 'absolute', bottom: 16}}>
         <CustomButton_B
           disabled={allSelection}
           content="커스텀 동작 추가 완료"

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   TextInput,
   Modal,
-  ScrollView,
   FlatList,
   Dimensions,
 } from 'react-native';
@@ -20,13 +19,13 @@ import {
   GestureHandlerRootView,
   gestureHandlerRootHOC,
 } from 'react-native-gesture-handler';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MotionRangeModal from '../../../components/Modal/MotionRange';
 
 //svg
 import Modify from '../../../assets/svg/buttons/single/modify.svg';
 import Back from '../../../assets/svg/buttons/single/back.svg';
 import {Divider} from '../../../components/divider';
-import DefaultImage from '../../../assets/svg/icons/default_workout.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -395,99 +394,103 @@ const RoutineDetail = ({navigation, route}) => {
 
   return (
     <View style={styles.pageContainer}>
-      <Modal
-        visible={isRoutineNameModalVisible}
-        transparent={true}
-        animationType="fade">
-        <View style={styles.modalNameContainer}>
-          <View style={styles.routineNameContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>루틴 이름</Text>
+      <KeyboardAwareScrollView>
+        <Modal
+          visible={isRoutineNameModalVisible}
+          transparent={true}
+          animationType="fade">
+          <View style={styles.modalNameContainer}>
+            <View style={styles.routineNameContainer}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.titleText}>루틴 이름</Text>
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  onChangeText={text => {
+                    setRoutineName(text);
+                  }}
+                  defaultValue={routineName}
+                  placeholder="루틴 이름"
+                  inputMode="text"></TextInput>
+              </View>
+              <CustomButton_B
+                width={264 * width_ratio}
+                onPress={handleConfirmPress}
+                disabled={routineNameSaveDisabled}
+                content="확인"></CustomButton_B>
             </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                onChangeText={text => {
-                  setRoutineName(text);
-                }}
-                defaultValue={routineName}
-                placeholder="루틴 이름"
-                inputMode="text"></TextInput>
+          </View>
+        </Modal>
+        <MotionRangeModal
+          isMotionRangeModalVisible={isMotionRangeModalVisible}
+          setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+          motionList={motionList}
+          setMotionList={setMotionList}></MotionRangeModal>
+        <Modal visible={isModalVisible} transparent={true} animationType="fade">
+          <View style={styles.modalContainer}>
+            <View style={styles.modeContainer}>
+              <View style={styles.modeTitleContainer}>
+                <Text style={styles.titleText}>하중모드</Text>
+                <Text>{selectedMode.modeName}</Text>
+              </View>
+              <View>
+                <FlatList
+                  data={appcontext.state.modeList}
+                  renderItem={({item}) => <Item mode={item}></Item>}
+                  keyExtractor={item => item.modeName}></FlatList>
+              </View>
+
+              <View style={styles.modeButtonContainer}>
+                <View>
+                  <CustomButton_W
+                    width={171 * width_ratio}
+                    content="취소"
+                    onPress={handleCancelPress}
+                    disabled={false}></CustomButton_W>
+                </View>
+                <View>
+                  <CustomButton_B
+                    width={171 * width_ratio}
+                    content="선택 완료"
+                    onPress={handleSelectPress}
+                    disabled={false}></CustomButton_B>
+                </View>
+              </View>
             </View>
+          </View>
+        </Modal>
+
+        {motionList[0] && (
+          <GestureHandlerRootView style={{height: 625 * height_ratio}}>
+            <DraggableFlatList
+              data={motionList}
+              renderItem={renderItem}
+              keyExtractor={item => item.motion_index}
+              onDragEnd={({data}) => setMotionList(data)}
+              showsVerticalScrollIndicator={false}
+            />
+          </GestureHandlerRootView>
+        )}
+
+        <View style={styles.buttonContainer}>
+          <View style={styles.buttonSection}>
+            <CustomButton_W
+              width={171 * width_ratio}
+              content="+ 동작 추가"
+              marginVertical={16 * height_ratio}
+              onPress={handleAddMotionPress}
+              disabled={false}></CustomButton_W>
+          </View>
+          <View style={styles.buttonSection}>
             <CustomButton_B
-              width={264 * width_ratio}
-              onPress={handleConfirmPress}
-              disabled={routineNameSaveDisabled}
-              content="확인"></CustomButton_B>
+              width={171 * width_ratio}
+              content="루틴 운동 시작"
+              marginVertical={16 * height_ratio}
+              onPress={handleStartWorkoutPress}
+              disabled={false}></CustomButton_B>
           </View>
         </View>
-      </Modal>
-      <MotionRangeModal
-        isMotionRangeModalVisible={isMotionRangeModalVisible}
-        setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
-        motionList={motionList}
-        setMotionList={setMotionList}></MotionRangeModal>
-      <Modal visible={isModalVisible} transparent={true} animationType="fade">
-        <View style={styles.modalContainer}>
-          <View style={styles.modeContainer}>
-            <View style={styles.modeTitleContainer}>
-              <Text style={styles.titleText}>하중모드</Text>
-              <Text>{selectedMode.modeName}</Text>
-            </View>
-            <View>
-              <FlatList
-                data={appcontext.state.modeList}
-                renderItem={({item}) => <Item mode={item}></Item>}
-                keyExtractor={item => item.modeName}></FlatList>
-            </View>
-
-            <View style={styles.modeButtonContainer}>
-              <View>
-                <CustomButton_W
-                  width={171 * width_ratio}
-                  content="취소"
-                  onPress={handleCancelPress}
-                  disabled={false}></CustomButton_W>
-              </View>
-              <View>
-                <CustomButton_B
-                  width={171 * width_ratio}
-                  content="선택 완료"
-                  onPress={handleSelectPress}
-                  disabled={false}></CustomButton_B>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      {motionList[0] && (
-        <GestureHandlerRootView style={{height: 625 * height_ratio}}>
-          <DraggableFlatList
-            data={motionList}
-            renderItem={renderItem}
-            keyExtractor={item => item.motion_index}
-            onDragEnd={({data}) => setMotionList(data)}
-            showsVerticalScrollIndicator={false}
-          />
-        </GestureHandlerRootView>
-      )}
-
-      <View style={styles.buttonContainer}>
-        <View style={styles.buttonSection}>
-          <CustomButton_W
-            width={171 * width_ratio}
-            content="+ 동작 추가"
-            onPress={handleAddMotionPress}
-            disabled={false}></CustomButton_W>
-        </View>
-        <View style={styles.buttonSection}>
-          <CustomButton_B
-            width={171 * width_ratio}
-            content="루틴 운동 시작"
-            onPress={handleStartWorkoutPress}
-            disabled={false}></CustomButton_B>
-        </View>
-      </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

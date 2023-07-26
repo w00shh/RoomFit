@@ -15,6 +15,7 @@ import RadioDefault from '../../../assets/svg/buttons/default/radio.svg';
 import RadioActive from '../../../assets/svg/buttons/active/radio.svg';
 import {useContext, useEffect, useState} from 'react';
 import {AppContext} from '../../../contexts/AppProvider';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -84,7 +85,7 @@ const MotionRangeModal = props => {
       visible={props.isMotionRangeModalVisible}
       transparent={true}
       animationType="fade">
-      <View style={styles.modalContainer}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.modalContainer}>
         <View style={styles.motionRangeContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.titleText}>가동범위 자동인식</Text>
@@ -220,7 +221,7 @@ const MotionRangeModal = props => {
             </View>
           </View>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     </Modal>
   );
 };

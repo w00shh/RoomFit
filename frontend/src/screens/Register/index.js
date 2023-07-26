@@ -13,6 +13,7 @@ import {serverAxios} from '../../utils/commonAxios.js';
 
 //svg
 import Back from '../../assets/svg/buttons/single/back.svg';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -174,7 +175,7 @@ const Register = ({navigation}) => {
 
   return (
     <View style={styles.pageContainer}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>이메일로 회원가입</Text>
         </View>
@@ -240,7 +241,7 @@ const Register = ({navigation}) => {
             <Text style={styles.loginText}>로그인하기</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
