@@ -221,7 +221,7 @@ const Intro = ({navigation}) => {
             Platform.OS === 'ios' ? 64 * height_ratio : 32 * height_ratio,
         }}></View>
       <Intro_Img height={352 * height_ratio} width={320 * width_ratio} />
-      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen2')}>
         <Logo
           style={styles.mainLogo}
           height={80 * height_ratio}

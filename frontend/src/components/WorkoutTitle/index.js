@@ -32,6 +32,7 @@ const WorkoutTitle = props => {
               height={48 * height_ratio}></DefaultImage>
           )}
         </View>
+        <Text>{props.motion.motion_index}</Text>
         <View style={styles.nameContainer}>
           <Text style={styles.koreanText}>{props.motion.motion_name}</Text>
           <TouchableOpacity

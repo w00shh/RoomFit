@@ -1,5 +1,10 @@
-import * as React from 'react';
-import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import React, {useContext, useEffect, useState, createContext} from 'react';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  useNavigation,
+} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Dimensions, Platform, View, Text} from 'react-native';
 import Intro from './src/screens/Intro/index.js';
@@ -26,6 +31,7 @@ import Gender from './src/screens/Register/Gender/index.js';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store.ts';
 import {Provider as MobxProvider} from 'mobx-react';
+import {AppContext} from './src/contexts/AppProvider';
 import BLEStore from './src/redux/BLE/mobx_store.js';
 import AppProvider from './src/contexts/AppProvider.js';
 import RestingTime from './src/screens/Settings/RestingTime/index.js';
@@ -37,6 +43,8 @@ import WorkoutStartSplash from './src/screens/WorkoutStart/splash.js';
 import Birthday from './src/screens/Register/Birthday/index.js';
 import MotionDetail from './src/screens/MotionDetail/index.js';
 import RecordDetail from './src/screens/RecordDetail/index.js';
+import {WorkoutSetting} from './src/screens/WorkoutStart/WorkoutSetting/index.js';
+import WorkoutModifying from './src/screens/WorkoutStart/WorkoutModifying/index.js';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
@@ -52,309 +60,334 @@ const Theme = {
   },
 };
 
-const App = () => {
+export const APPCONTEXT = createContext();
+
+const App = ({navigation}) => {
+  //const appcontext = useContext(AppContext);
+  const [animationOption, setAnimationOption] = useState('default');
+
   return (
     <Provider store={store}>
-      <AppProvider>
-        <MobxProvider store={BLEStore}>
-          <NavigationContainer theme={Theme}>
-            <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
-              <Stack.Screen
-                name="IntroSplash"
-                component={IntroSplash}
-                options={{
-                  gestureEnabled: false,
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="Intro"
-                component={Intro}
-                options={{gestureEnabled: false, headerShown: false}}
-              />
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{
-                  headerShown: true,
-                  title: '',
-                  headerShadowVisible: false,
-                }}
-              />
-              <Stack.Screen
-                name="PasswordFind"
-                component={PasswordFind}
-                options={{
-                  headerShown: true,
-                  title: '',
-                  headerShadowVisible: false,
-                }}
-              />
+      <APPCONTEXT.Provider value={{animationOption, setAnimationOption}}>
+        <AppProvider>
+          <MobxProvider store={BLEStore}>
+            <NavigationContainer theme={Theme}>
+              <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
+                <Stack.Screen
+                  name="IntroSplash"
+                  component={IntroSplash}
+                  options={{
+                    gestureEnabled: false,
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="Intro"
+                  component={Intro}
+                  options={{gestureEnabled: false, headerShown: false}}
+                />
+                <Stack.Screen
+                  name="Login"
+                  component={Login}
+                  options={{
+                    headerShown: true,
+                    title: '',
+                    headerShadowVisible: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="PasswordFind"
+                  component={PasswordFind}
+                  options={{
+                    headerShown: true,
+                    title: '',
+                    headerShadowVisible: false,
+                  }}
+                />
 
-              <Stack.Screen
-                name="Register"
-                component={Register}
-                options={{
-                  headerShown: true,
-                  title: '',
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}
-              />
-              <Stack.Screen
-                name="Birthday"
-                component={Birthday}
-                options={{
-                  headerShadowVisible: false,
-                  title: '',
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="Gender"
-                component={Gender}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                  title: '',
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="HomeScreen"
-                component={HomeScreen}
-                options={{
-                  headerShown: false,
-                  animation: 'none',
-                  title: '운동',
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 20 * height_ratio,
-                  },
-                }}
-              />
-              <Stack.Screen
-                name="ConnectDevice"
-                component={ConnectDevice}
-                options={{
-                  headerShown: true,
-                  title: '기기 연결',
-                  headerShadowVisible: false,
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 16 * height_ratio,
-                  },
-                }}
-              />
-              <Stack.Screen
-                name="MyRoutine"
-                component={MyRoutine}
-                options={{
-                  title: '내 루틴',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 16 * height_ratio,
-                  },
-                  headerShadowVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="AddRoutine"
-                component={AddRoutine}
-                options={{
-                  title: '새로운 루틴',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 16 * height_ratio,
-                  },
-                  headerBackVisible: false,
-                  headerShadowVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="RoutineDetail"
-                component={RoutineDetail}
-                options={{
-                  title: '루틴 상세',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 16 * height_ratio,
-                  },
-                  headerBackVisible: false,
-                  headerShadowVisible: false,
-                }}></Stack.Screen>
+                <Stack.Screen
+                  name="Register"
+                  component={Register}
+                  options={{
+                    headerShown: true,
+                    title: '',
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="Birthday"
+                  component={Birthday}
+                  options={{
+                    headerShadowVisible: false,
+                    title: '',
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="Gender"
+                  component={Gender}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                    title: '',
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="HomeScreen"
+                  component={HomeScreen}
+                  options={{
+                    headerShown: false,
+                    animation: 'none',
+                    title: '운동',
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 20 * height_ratio,
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="ConnectDevice"
+                  component={ConnectDevice}
+                  options={{
+                    headerShown: true,
+                    title: '기기 연결',
+                    headerShadowVisible: false,
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 16 * height_ratio,
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="MyRoutine"
+                  component={MyRoutine}
+                  options={{
+                    title: '내 루틴',
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 16 * height_ratio,
+                    },
+                    headerShadowVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="AddRoutine"
+                  component={AddRoutine}
+                  options={{
+                    title: '새로운 루틴',
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 16 * height_ratio,
+                    },
+                    headerBackVisible: false,
+                    headerShadowVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="RoutineDetail"
+                  component={RoutineDetail}
+                  options={{
+                    title: '루틴 상세',
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 16 * height_ratio,
+                    },
+                    headerBackVisible: false,
+                    headerShadowVisible: false,
+                  }}></Stack.Screen>
 
-              <Stack.Screen
-                name="AddMotion"
-                component={AddMotion}
-                options={{
-                  title: '동작 선택',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 16 * height_ratio,
-                  },
-                  headerShadowVisible: false,
-                }}></Stack.Screen>
+                <Stack.Screen
+                  name="AddMotion"
+                  component={AddMotion}
+                  options={{
+                    title: '동작 선택',
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 16 * height_ratio,
+                    },
+                    headerShadowVisible: false,
+                  }}></Stack.Screen>
 
-              <Stack.Screen
-                name="MotionDetail"
-                component={MotionDetail}
-                options={{
-                  title: '동작 상세',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 16 * height_ratio,
-                  },
-                  headerBackVisible: false,
-                  headerShadowVisible: false,
-                }}></Stack.Screen>
+                <Stack.Screen
+                  name="MotionDetail"
+                  component={MotionDetail}
+                  options={{
+                    title: '동작 상세',
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 16 * height_ratio,
+                    },
+                    headerBackVisible: false,
+                    headerShadowVisible: false,
+                  }}></Stack.Screen>
 
-              <Stack.Screen
-                name="CustomMotion"
-                component={CustomMotion}
-                options={{
-                  title: '커스텀 동작 생성',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 16 * height_ratio,
-                  },
-                  headerShadowVisible: false,
-                }}></Stack.Screen>
+                <Stack.Screen
+                  name="CustomMotion"
+                  component={CustomMotion}
+                  options={{
+                    title: '커스텀 동작 생성',
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 16 * height_ratio,
+                    },
+                    headerShadowVisible: false,
+                  }}></Stack.Screen>
 
-              <Stack.Screen
-                name="WorkoutReady"
-                component={WorkoutReady}
-                options={{
-                  title: '운동',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 20 * height_ratio,
-                    marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
-                  },
-                  headerBackVisible: false,
-                  headerShadowVisible: false,
-                }}></Stack.Screen>
+                <Stack.Screen
+                  name="WorkoutReady"
+                  component={WorkoutReady}
+                  options={{
+                    title: '운동',
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 20 * height_ratio,
+                      marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
+                    },
+                    headerBackVisible: false,
+                    headerShadowVisible: false,
+                  }}></Stack.Screen>
 
-              <Stack.Screen
-                name="WorkoutStartSplash"
-                component={WorkoutStartSplash}
-                options={{
-                  gestureEnabled: false,
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="WorkoutStart"
-                component={WorkoutStart}
-                options={{
-                  gestureEnabled: false,
-                  headerShown: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="WorkoutRecord"
-                component={WorkoutRecord}
-                options={{
-                  title: '운동기록',
-                  animation: 'none',
-                  headerTitleStyle: {
-                    fontWeight: '700',
-                    fontSize: 28 * height_ratio,
-                    // marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
-                  },
-                  headerTitle: props => (
-                    <View style={{flex: 1, flexDirection: 'row'}}>
-                      <Text
-                        style={{
-                          fontSize: 28 * height_ratio,
-                          fontWeight: 700,
-                          color: '#242424',
-                        }}>
-                        {props.children}
-                      </Text>
-                    </View>
-                  ),
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="WorkoutDetail"
-                component={WorkoutDetail}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                  headerTitleAlign: 'center',
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="RecordDetail"
-                component={RecordDetail}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                  headerTitleAlign: 'center',
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="MainSetting"
-                component={MainSetting}
-                options={{
-                  animation: 'none',
-                  headerShown: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="ProfileSetting"
-                component={ProfileSetting}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="PasswordSetting"
-                component={PasswordSetting}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="RestingTime"
-                component={RestingTime}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="PowerSaving"
-                component={PowerSaving}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="HeightWeight"
-                component={HeightWeight}
-                options={{
-                  headerTitleStyle: {
-                    title: '키/몸무게',
-                    color: '#242424',
-                    fontSize: 16 * height_ratio,
-                    fontWeight: '700',
-                  },
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="BodyFat"
-                component={BodyFat}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-              <Stack.Screen
-                name="WorkoutCareer"
-                component={WokroutCareer}
-                options={{
-                  headerShadowVisible: false,
-                  headerBackVisible: false,
-                }}></Stack.Screen>
-            </Stack.Navigator>
-          </NavigationContainer>
-        </MobxProvider>
-      </AppProvider>
+                <Stack.Screen
+                  name="WorkoutStartSplash"
+                  component={WorkoutStartSplash}
+                  options={{
+                    gestureEnabled: false,
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="WorkoutStart"
+                  component={WorkoutStart}
+                  options={{
+                    gestureEnabled: false,
+                    headerShown: false,
+
+                    animation: animationOption,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="WorkoutSetting"
+                  component={WorkoutSetting}
+                  options={{
+                    gestureEnabled: false,
+                    headerShown: false,
+                    animation: 'slide_from_right',
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="WorkoutModifying"
+                  component={WorkoutModifying}
+                  options={{
+                    gestureEnabled: false,
+                    headerShown: false,
+                    animation: 'slide_from_left',
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="WorkoutRecord"
+                  component={WorkoutRecord}
+                  options={{
+                    title: '운동기록',
+                    animation: 'none',
+                    headerTitleStyle: {
+                      fontWeight: '700',
+                      fontSize: 28 * height_ratio,
+                      // marginLeft: Platform.OS === 'ios' ? 0 : 20 * width_ratio,
+                    },
+                    headerTitle: props => (
+                      <View style={{flex: 1, flexDirection: 'row'}}>
+                        <Text
+                          style={{
+                            fontSize: 28 * height_ratio,
+                            fontWeight: 700,
+                            color: '#242424',
+                          }}>
+                          {props.children}
+                        </Text>
+                      </View>
+                    ),
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="WorkoutDetail"
+                  component={WorkoutDetail}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                    headerTitleAlign: 'center',
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="RecordDetail"
+                  component={RecordDetail}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                    headerTitleAlign: 'center',
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="MainSetting"
+                  component={MainSetting}
+                  options={{
+                    animation: 'none',
+                    headerShown: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="ProfileSetting"
+                  component={ProfileSetting}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="PasswordSetting"
+                  component={PasswordSetting}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="RestingTime"
+                  component={RestingTime}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="PowerSaving"
+                  component={PowerSaving}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="HeightWeight"
+                  component={HeightWeight}
+                  options={{
+                    headerTitleStyle: {
+                      title: '키/몸무게',
+                      color: '#242424',
+                      fontSize: 16 * height_ratio,
+                      fontWeight: '700',
+                    },
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="BodyFat"
+                  component={BodyFat}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+                <Stack.Screen
+                  name="WorkoutCareer"
+                  component={WokroutCareer}
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackVisible: false,
+                  }}></Stack.Screen>
+              </Stack.Navigator>
+            </NavigationContainer>
+          </MobxProvider>
+        </AppProvider>
+      </APPCONTEXT.Provider>
     </Provider>
   );
 };

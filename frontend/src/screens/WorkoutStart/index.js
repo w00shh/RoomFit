@@ -18,6 +18,7 @@ import {
 
 import CustomButton_W from '../../components/CustomButton_W';
 import styles from './styles';
+import {APPCONTEXT} from '../../../App';
 import CustomButton_B from '../../components/CustomButton_B';
 import WorkoutItem from '../../components/WorkoutItem';
 import {serverAxios} from '../../utils/commonAxios';
@@ -74,6 +75,7 @@ const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
 
 export const WorkoutStart = ({navigation, route}) => {
+  const {animationOption, setAnimationOption} = useContext(APPCONTEXT);
   const [motionIndexBase, setMotionIndexBase] = useState(
     route.params.motion_index_base,
   );
@@ -194,27 +196,27 @@ export const WorkoutStart = ({navigation, route}) => {
   const heights = 200;
   const widths = data1.length * 30;
 
-  const xScale = d3
-    .scaleLinear()
-    .domain([0, data1.length - 1])
-    .range([0, widths]);
+  // const xScale = d3
+  //   .scaleLinear()
+  //   .domain([0, data1.length - 1])
+  //   .range([0, widths]);
 
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, d3.max([...data1, ...data2])])
-    .range([heights, 0]);
+  // const yScale = d3
+  //   .scaleLinear()
+  //   .domain([0, d3.max([...data1, ...data2])])
+  //   .range([heights, 0]);
 
-  const line1 = d3
-    .line()
-    .x((d, i) => xScale(i))
-    .y(d => yScale(d))
-    .curve(d3.curveMonotoneX);
+  // const line1 = d3
+  //   .line()
+  //   .x((d, i) => xScale(i))
+  //   .y(d => yScale(d))
+  //   .curve(d3.curveMonotoneX);
 
-  const line2 = d3
-    .line()
-    .x((d, i) => xScale(i))
-    .y(d => yScale(d))
-    .curve(d3.curveMonotoneX);
+  // const line2 = d3
+  //   .line()
+  //   .x((d, i) => xScale(i))
+  //   .y(d => yScale(d))
+  //   .curve(d3.curveMonotoneX);
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -248,105 +250,97 @@ export const WorkoutStart = ({navigation, route}) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (motionList.length === 0) {
-      setIsExercisingDisabled(true);
-    } else {
-      setIsExercisingDisabled(false);
-    }
-    motionList.forEach((value, key) => {
-      if (value.motion_index > motionIndexMax) {
-        setMotionIndexMax(value.motion_index);
-      }
-    });
-  }, [motionList]);
+  // useEffect(() => {
+  //   if (motionList.length === 0) {
+  //     setIsExercisingDisabled(true);
+  //   } else {
+  //     setIsExercisingDisabled(false);
+  //   }
+  //   motionList.forEach((value, key) => {
+  //     if (value.motion_index > motionIndexMax) {
+  //       setMotionIndexMax(value.motion_index);
+  //     }
+  //   });
+  // }, [motionList]);
 
-  useEffect(() => {
-    console.log(motionList);
-  }, [motionList]);
+  // useEffect(() => {
+  //   if (route.params.motionList) {
+  //     setMotionList(route.params.motionList);
+  //   }
 
-  useEffect(() => {
-    if (route.params.motionList) {
-      setMotionList(route.params.motionList);
-    }
-
-    if (route.params.displaySelected) {
-      if (route.params.isAddedMotionDone) {
-        /*동작 완료 후 동작 추가 시*/
-        setMotionList(currentMotionList => [
-          ...currentMotionList,
-          {
-            motion_index: motionIndexBase,
-            isMotionDone: false,
-            isMotionDoing: true,
-            doingSetIndex: 0,
-            isFav: route.params.displaySelected[0].isFav,
-            motion_range_min: route.params.displaySelected[0].motion_range_min,
-            motion_range_max: route.params.displaySelected[0].motion_range_max,
-            motion_id: route.params.displaySelected[0].motion_id,
-            motion_name: route.params.displaySelected[0].motion_name,
-            image_url: route.params.displaySelected[0].image_url,
-            sets: [
-              {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
-            ],
-          },
-        ]);
-      } else {
-        /* 운동 수행 중에 동작 추가 시*/
-        setMotionList(currentMotionList => [
-          ...currentMotionList,
-          {
-            motion_index: motionIndexBase,
-            isMotionDone: false,
-            isMotionDoing: false,
-            doingSetIndex: 0,
-            isFav: route.params.displaySelected[0].isFav,
-            motion_range_min: route.params.displaySelected[0].motion_range_min,
-            motion_range_max: route.params.displaySelected[0].motion_range_max,
-            motion_id: route.params.displaySelected[0].motion_id,
-            motion_name: route.params.displaySelected[0].motion_name,
-            image_url: route.params.displaySelected[0].image_url,
-            sets: [
-              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
-            ],
-          },
-        ]);
-      }
-      for (let i = 1; i < route.params.displaySelected.length; i++) {
-        setMotionList(currentMotionList => [
-          ...currentMotionList,
-          {
-            motion_index: motionIndexBase + i,
-            isMotionDone: false,
-            isMotionDoing: false,
-            doingSetIndex: 0,
-            isFav: route.params.displaySelected[i].isFav,
-            motion_range_min: route.params.displaySelected[i].motion_range_min,
-            motion_range_max: route.params.displaySelected[i].motion_range_max,
-            motion_id: route.params.displaySelected[i].motion_id,
-            motion_name: route.params.displaySelected[i].motion_name,
-            image_url: route.params.displaySelected[i].image_url,
-            sets: [
-              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
-            ],
-          },
-        ]);
-      }
-    } else {
-      /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
-      let updatedMotionList = [...motionList];
-      if (!route.params.isAddMotion) {
-        updatedMotionList[m_index].isMotionDoing = true;
-        updatedMotionList[m_index].doingSetIndex = 0;
-        updatedMotionList[m_index].sets[0].isDoing = true;
-        setMotionList(updatedMotionList);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log(motionList);
-  }, [motionList]);
+  //   if (route.params.displaySelected) {
+  //     if (route.params.isAddedMotionDone) {
+  //       /*동작 완료 후 동작 추가 시*/
+  //       setMotionList(currentMotionList => [
+  //         ...currentMotionList,
+  //         {
+  //           motion_index: motionIndexBase,
+  //           isMotionDone: false,
+  //           isMotionDoing: true,
+  //           doingSetIndex: 0,
+  //           isFav: route.params.displaySelected[0].isFav,
+  //           motion_range_min: route.params.displaySelected[0].motion_range_min,
+  //           motion_range_max: route.params.displaySelected[0].motion_range_max,
+  //           motion_id: route.params.displaySelected[0].motion_id,
+  //           motion_name: route.params.displaySelected[0].motion_name,
+  //           image_url: route.params.displaySelected[0].image_url,
+  //           sets: [
+  //             {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
+  //           ],
+  //         },
+  //       ]);
+  //     } else {
+  //       /* 운동 수행 중에 동작 추가 시*/
+  //       setMotionList(currentMotionList => [
+  //         ...currentMotionList,
+  //         {
+  //           motion_index: motionIndexBase,
+  //           isMotionDone: false,
+  //           isMotionDoing: false,
+  //           doingSetIndex: 0,
+  //           isFav: route.params.displaySelected[0].isFav,
+  //           motion_range_min: route.params.displaySelected[0].motion_range_min,
+  //           motion_range_max: route.params.displaySelected[0].motion_range_max,
+  //           motion_id: route.params.displaySelected[0].motion_id,
+  //           motion_name: route.params.displaySelected[0].motion_name,
+  //           image_url: route.params.displaySelected[0].image_url,
+  //           sets: [
+  //             {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
+  //           ],
+  //         },
+  //       ]);
+  //     }
+  //     for (let i = 1; i < route.params.displaySelected.length; i++) {
+  //       setMotionList(currentMotionList => [
+  //         ...currentMotionList,
+  //         {
+  //           motion_index: motionIndexBase + i,
+  //           isMotionDone: false,
+  //           isMotionDoing: false,
+  //           doingSetIndex: 0,
+  //           isFav: route.params.displaySelected[i].isFav,
+  //           motion_range_min: route.params.displaySelected[i].motion_range_min,
+  //           motion_range_max: route.params.displaySelected[i].motion_range_max,
+  //           motion_id: route.params.displaySelected[i].motion_id,
+  //           motion_name: route.params.displaySelected[i].motion_name,
+  //           image_url: route.params.displaySelected[i].image_url,
+  //           sets: [
+  //             {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
+  //           ],
+  //         },
+  //       ]);
+  //     }
+  //   } else {
+  //     /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
+  //     let updatedMotionList = [...motionList];
+  //     if (!route.params.isAddMotion) {
+  //       updatedMotionList[m_index].isMotionDoing = true;
+  //       updatedMotionList[m_index].doingSetIndex = 0;
+  //       updatedMotionList[m_index].sets[0].isDoing = true;
+  //       setMotionList(updatedMotionList);
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (workoutTitle.length > 0) {
@@ -393,46 +387,12 @@ export const WorkoutStart = ({navigation, route}) => {
     setIsModifyMotion(false);
   };
 
-  const restTime = [
-    {time: 10, selsected: false},
-    {time: 20, selsected: false},
-    {time: 30, selsected: false},
-    {time: 40, selsected: false},
-    {time: 50, selsected: false},
-    {time: 60, selsected: false},
-    {time: 70, selsected: false},
-    {time: 80, selsected: false},
-    {time: 90, selsected: false},
-    {time: 100, selsected: false},
-    {time: 110, selsected: false},
-    {time: 120, selsected: false},
-    {time: 130, selsected: false},
-  ];
-
   const formatTimes = time => {
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
 
     return `${hours}h ${minutes}m ${seconds}s`;
-  };
-
-  const setTempRestTime = time => {
-    setTempRestSet(time);
-  };
-
-  const setRestTime = () => {
-    appcontext.actions.setUserSetTime(temprestSet);
-    setModalVisible2(false);
-  };
-
-  const MotionTempRestTime = time => {
-    setTempRestMotion(time);
-  };
-
-  const MotionRestTime = () => {
-    appcontext.actions.setUserMotionTime(temprestMotion);
-    setModalVisible3(false);
   };
 
   const pausedModal = () => {
@@ -745,12 +705,6 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   };
 
-  const endSetting = () => {
-    setIsPaused(false);
-    setPressSetting(false);
-    // setRestTimer(restSet);
-  };
-
   return (
     <SafeAreaView style={styles.pageContainer}>
       {!isPausedPage && !pressSetting && !isModifyMotion && (
@@ -1044,7 +998,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 flexDirection: 'row',
                 height: 220 * height_ratio,
               }}>
-              <Svg width={widths} height={heights}>
+              {/* <Svg width={widths} height={heights}>
                 <Path
                   d={line1(data1)}
                   fill="none"
@@ -1057,7 +1011,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   stroke="#FF594f"
                   strokeWidth="2"
                 />
-              </Svg>
+              </Svg> */}
             </ScrollView>
             <View
               style={{
@@ -1268,7 +1222,27 @@ export const WorkoutStart = ({navigation, route}) => {
             </View>
             <View style={styles.navigator}>
               <TouchableOpacity
-                onPress={() => modifyingMotion()}
+                onPress={() => {
+                  //modifyingMotion();
+                  setAnimationOption('slide_from_right');
+                  navigation.push('WorkoutModifying', {
+                    motion_index_base: motionIndexMax,
+                    isQuickWorkout: isQuickWorkout,
+                    workout_id: route.params.workout_id,
+                    record_id: recordId,
+                    routine_id: route.params.routine_id,
+                    isRoutine: false,
+                    isExercising: true,
+                    isAddedMotionDone: false,
+                    motionList: motionList,
+                    elapsedTime: elapsedTime,
+                    TUT: TUT,
+                    m_index: m_index,
+                    s_index: s_index,
+                    isResting: isResting,
+                    restTimer: restTimer,
+                  });
+                }}
                 style={{marginLeft: 45 * width_ratio}}>
                 <Workout height={24 * height_ratio} width={24 * width_ratio} />
               </TouchableOpacity>
@@ -1279,6 +1253,23 @@ export const WorkoutStart = ({navigation, route}) => {
                 onPress={() => {
                   setPressSetting(true);
                   setIsPaused(true);
+                  setAnimationOption('slide_from_left');
+                  navigation.push('WorkoutSetting', {
+                    isQuickWorkout: isQuickWorkout,
+                    workout_id: route.params.workout_id,
+                    record_id: recordId,
+                    routine_id: route.params.routine_id,
+                    isRoutine: false,
+                    isExercising: true,
+                    isAddedMotionDone: false,
+                    motionList: motionList,
+                    elapsedTime: elapsedTime,
+                    TUT: TUT,
+                    m_index: m_index,
+                    s_index: s_index,
+                    isResting: isResting,
+                    restTimer: restTimer,
+                  });
                 }}
                 style={{marginRight: 45 * width_ratio}}>
                 <Setting height={24 * height_ratio} width={24 * width_ratio} />
@@ -1503,266 +1494,7 @@ export const WorkoutStart = ({navigation, route}) => {
           </View>
         </View>
       )}
-      {!isPausedPage && pressSetting && (
-        <View style={styles.subpageContainer}>
-          <Modal
-            visible={modalVisible2}
-            transparent={true}
-            animationType="fade">
-            <View style={styles.modalContainer}>
-              <View style={styles.modeContainer}>
-                <View style={styles.modeTitleContainer}>
-                  <Text style={styles.titleText}>세트간 휴식시간</Text>
-                </View>
-                <ScrollView
-                  style={{height: 500 * height_ratio}}
-                  showsVerticalScrollIndicator={false}>
-                  {restTime.map((value, key) => (
-                    <TouchableOpacity
-                      key={key}
-                      onPress={() => setTempRestTime(value.time)}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          width: '100%',
-                          height: 56 * height_ratio,
-                          backgroundColor:
-                            value.time === temprestSet ? '#f5f5f5' : 'white',
-                        }}>
-                        <View style={styles.restContainer}>
-                          <Text style={{fontSize: 14 * height_ratio}}>
-                            {calTime(value.time)}
-                          </Text>
-                        </View>
-                        <View style={styles.restChecker}>
-                          {value.time === temprestSet && (
-                            <Check
-                              height={16 * height_ratio}
-                              width={16 * width_ratio}
-                            />
-                          )}
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-                <View style={styles.modeButtonContainer}>
-                  <View>
-                    <CustomButton_W
-                      width={171 * width_ratio}
-                      content="취소"
-                      disabled={false}
-                      onPress={() => setModalVisible2(false)}></CustomButton_W>
-                  </View>
-                  <View>
-                    <CustomButton_B
-                      width={171 * width_ratio}
-                      content="선택 완료"
-                      disabled={false}
-                      onPress={() => setRestTime()}></CustomButton_B>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </Modal>
-          <Modal
-            visible={modalVisible3}
-            transparent={true}
-            animationType="fade">
-            <View style={styles.modalContainer}>
-              <View style={styles.modeContainer}>
-                <View style={styles.modeTitleContainer}>
-                  <Text style={styles.titleText}>동작간 휴식시간</Text>
-                </View>
-                <ScrollView
-                  style={{height: 500 * height_ratio}}
-                  showsVerticalScrollIndicator={false}>
-                  {restTime.map((value, key) => (
-                    <TouchableOpacity
-                      key={key}
-                      onPress={() => MotionTempRestTime(value.time)}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          width: '100%',
-                          height: 56 * height_ratio,
-                          backgroundColor:
-                            value.time === temprestMotion ? '#f5f5f5' : 'white',
-                        }}>
-                        <View style={styles.restContainer}>
-                          <Text style={{fontSize: 14 * height_ratio}}>
-                            {calTime(value.time)}
-                          </Text>
-                        </View>
-                        <View style={styles.restChecker}>
-                          {value.time === temprestMotion && (
-                            <Check
-                              height={16 * height_ratio}
-                              width={16 * width_ratio}
-                            />
-                          )}
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-                <View style={styles.modeButtonContainer}>
-                  <View>
-                    <CustomButton_W
-                      width={171 * width_ratio}
-                      content="취소"
-                      disabled={false}
-                      onPress={() => setModalVisible3(false)}></CustomButton_W>
-                  </View>
-                  <View>
-                    <CustomButton_B
-                      width={171 * width_ratio}
-                      content="선택 완료"
-                      disabled={false}
-                      onPress={() => MotionRestTime()}></CustomButton_B>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </Modal>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingBottom: 16 * height_ratio,
-            }}>
-            <Text style={styles.pauseTitle}>운동 설정</Text>
-            <Battery battery={battery} />
-          </View>
 
-          <View style={styles.settings}>
-            <View style={styles.settingContainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 4 * width_ratio,
-                }}>
-                <Text style={styles.settingText}>스마트 세이프티</Text>
-                <Information />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 8 * width_ratio,
-                }}>
-                <Text
-                  style={{
-                    color: appcontext.state.smartSaftey ? '#5252fa' : '#fff',
-                  }}>
-                  ON
-                </Text>
-                <Switch
-                  on={appcontext.state.smartSaftey}
-                  onPress={toggleSwitch2}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.settings}>
-            <View style={styles.settingContainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 4 * width_ratio,
-                }}>
-                <Text style={styles.settingText}>스마트 어시스트</Text>
-                <Information />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 8 * width_ratio,
-                }}>
-                <Text
-                  style={{
-                    color: appcontext.state.smartAssist ? '#5252fa' : '#fff',
-                  }}>
-                  ON
-                </Text>
-                <Switch
-                  on={appcontext.state.smartAssist}
-                  onPress={toggleSwitch}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.settings}>
-            <View style={styles.settingContainer}>
-              <Text style={styles.settingText}>화면잠금</Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 8 * width_ratio,
-                }}>
-                <Text
-                  style={{
-                    fontSize: 14 * height_ratio,
-                    color: isLock ? '#5252fa' : '#fff',
-                  }}>
-                  ON
-                </Text>
-                <Switch on={isLock} onPress={toggleSwitch3} />
-              </View>
-            </View>
-          </View>
-          <View style={styles.settings}>
-            <View style={styles.settingContainer}>
-              <Text style={styles.settingText}>세트간 휴식시간</Text>
-              <TouchableOpacity
-                onPress={() => setModalVisible2(true)}
-                style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{fontSize: 14 * height_ratio}}>
-                  {calTime(appcontext.state.userSetTime)}
-                </Text>
-                <Right height={24 * height_ratio} width={24 * width_ratio} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.settings}>
-            <View style={styles.settingContainer}>
-              <Text style={styles.settingText}>동작간 휴식시간</Text>
-
-              <TouchableOpacity
-                onPress={() => setModalVisible3(true)}
-                style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={{fontSize: 14 * height_ratio}}>
-                  {calTime(appcontext.state.userMotionTime)}
-                </Text>
-                <Right height={24 * height_ratio} width={24 * width_ratio} />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <ScrollView showsVerticalScrollIndicator={false}></ScrollView>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              style={styles.CButton3}
-              onPress={() => endSetting()}>
-              <SLeft height={16 * height_ratio} width={16 * width_ratio} />
-              <Text style={styles.CText3}>
-                휴식중 {formatTime(elapsedTime)}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
       {!isPausedPage && isModifyMotion && (
         <View>
           <MotionRangeModal

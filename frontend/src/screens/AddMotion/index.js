@@ -367,7 +367,7 @@ const AddMotion = ({navigation, route}) => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
 
                 route.params.isExercising
-                  ? navigation.push('WorkoutStart', {
+                  ? navigation.push('WorkoutModifying', {
                       motion_index_base: route.params.motion_index_base,
                       isQuickWorkout: route.params.isQuickWorkout,
                       workout_id: route.params.workout_id,
