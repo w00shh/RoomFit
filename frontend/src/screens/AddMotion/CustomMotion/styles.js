@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
     alignItems: 'stretch',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    // height: 610 * height_ratio,
+    borderTopLeftRadius: 24 * height_ratio,
+    borderTopRightRadius: 24 * height_ratio,
+
     flex: 1,
   },
 
