@@ -172,9 +172,7 @@ const Community = () => {
     console.log(feed_data);
   }, [feed_data]);
 
-  return (
-    feed_data.length > 0 && <FeedScreen feeds={feed_data} props={user_id} />
-  );
+  return <FeedScreen feeds={feed_data} props={user_id} />;
 };
 
 export default Community;
