@@ -161,66 +161,62 @@ export const WorkoutStart = ({navigation, route}) => {
   });
 
   //graph 관련
-  const [data1, setData1] = useState(
-    route.params.data1 ? route.params.data1 : [],
-  );
-  const [data2, setData2] = useState(
-    route.params.data2 ? route.params.data2 : [],
-  );
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
 
   const left = BLEStore.left;
   const right = BLEStore.right;
 
   const scrollViewRef = useRef(null);
   const {width: windowWidth} = useWindowDimensions();
-  useEffect(() => {
-    const newData1 = [...data1, Math.floor(Math.random() * 100) + 1];
-    const newData2 = [...data2, Math.floor(Math.random() * 100) + 1];
-    let interval;
-    if (!isResting) {
-      interval = setInterval(() => {
-        // 새로운 데이터 생성 또는 가져오기
+  // useEffect(() => {
+  //   const newData1 = [...data1, left];
+  //   const newData2 = [...data2, right];
+  //   let interval;
+  //   if (!isResting) {
+  //     interval = setInterval(() => {
+  //       // 새로운 데이터 생성 또는 가져오기
 
-        // 최대 10개의 데이터 유지
-        if (newData1.length > 300) {
-          newData1.shift();
-        }
+  //       // 최대 10개의 데이터 유지
+  //       if (newData1.length > 300) {
+  //         newData1.shift();
+  //       }
 
-        if (newData2.length > 300) {
-          newData2.shift();
-        }
+  //       if (newData2.length > 300) {
+  //         newData2.shift();
+  //       }
 
-        setData1(newData1);
-        setData2(newData2);
-      }, 100); // 1초마다 데이터 업데이트}
-    }
-    return () => clearInterval(interval);
-  }, [data1, data2, isResting]);
+  //       setData1(newData1);
+  //       setData2(newData2);
+  //     }, 100); // 1초마다 데이터 업데이트}
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [data1, data2, isResting]);
 
   const heights = 200;
   const widths = data1.length * 30;
 
-  const xScale = d3
-    .scaleLinear()
-    .domain([0, data1.length - 1])
-    .range([0, widths]);
+  // const xScale = d3
+  //   .scaleLinear()
+  //   .domain([0, data1.length - 1])
+  //   .range([0, widths]);
 
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, d3.max([...data1, ...data2])])
-    .range([heights, 0]);
+  // const yScale = d3
+  //   .scaleLinear()
+  //   .domain([0, d3.max([...data1, ...data2])])
+  //   .range([heights, 0]);
 
-  const line1 = d3
-    .line()
-    .x((d, i) => xScale(i))
-    .y(d => yScale(d))
-    .curve(d3.curveMonotoneX);
+  // const line1 = d3
+  //   .line()
+  //   .x((d, i) => xScale(i))
+  //   .y(d => yScale(d))
+  //   .curve(d3.curveMonotoneX);
 
-  const line2 = d3
-    .line()
-    .x((d, i) => xScale(i))
-    .y(d => yScale(d))
-    .curve(d3.curveMonotoneX);
+  // const line2 = d3
+  //   .line()
+  //   .x((d, i) => xScale(i))
+  //   .y(d => yScale(d))
+  //   .curve(d3.curveMonotoneX);
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -252,6 +248,98 @@ export const WorkoutStart = ({navigation, route}) => {
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
+  }, []);
+
+  useEffect(() => {
+    if (motionList.length === 0) {
+      setIsExercisingDisabled(true);
+    } else {
+      setIsExercisingDisabled(false);
+    }
+    motionList.forEach((value, key) => {
+      if (value.motion_index > motionIndexMax) {
+        setMotionIndexMax(value.motion_index);
+      }
+    });
+  }, [motionList]);
+
+  useEffect(() => {
+    if (route.params.motionList) {
+      setMotionList(route.params.motionList);
+    }
+
+    if (route.params.displaySelected) {
+      if (route.params.isAddedMotionDone) {
+        /*동작 완료 후 동작 추가 시*/
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase,
+            isMotionDone: false,
+            isMotionDoing: true,
+            doingSetIndex: 0,
+            isFav: route.params.displaySelected[0].isFav,
+            motion_range_min: route.params.displaySelected[0].motion_range_min,
+            motion_range_max: route.params.displaySelected[0].motion_range_max,
+            motion_id: route.params.displaySelected[0].motion_id,
+            motion_name: route.params.displaySelected[0].motion_name,
+            image_url: route.params.displaySelected[0].image_url,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
+            ],
+          },
+        ]);
+      } else {
+        /* 운동 수행 중에 동작 추가 시*/
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase,
+            isMotionDone: false,
+            isMotionDoing: false,
+            doingSetIndex: 0,
+            isFav: route.params.displaySelected[0].isFav,
+            motion_range_min: route.params.displaySelected[0].motion_range_min,
+            motion_range_max: route.params.displaySelected[0].motion_range_max,
+            motion_id: route.params.displaySelected[0].motion_id,
+            motion_name: route.params.displaySelected[0].motion_name,
+            image_url: route.params.displaySelected[0].image_url,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
+            ],
+          },
+        ]);
+      }
+      for (let i = 1; i < route.params.displaySelected.length; i++) {
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase + i,
+            isMotionDone: false,
+            isMotionDoing: false,
+            doingSetIndex: 0,
+            isFav: route.params.displaySelected[i].isFav,
+            motion_range_min: route.params.displaySelected[i].motion_range_min,
+            motion_range_max: route.params.displaySelected[i].motion_range_max,
+            motion_id: route.params.displaySelected[i].motion_id,
+            motion_name: route.params.displaySelected[i].motion_name,
+            image_url: route.params.displaySelected[i].image_url,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
+            ],
+          },
+        ]);
+      }
+    } else {
+      /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
+      let updatedMotionList = [...motionList];
+      if (!route.params.isAddMotion) {
+        updatedMotionList[m_index].isMotionDoing = true;
+        updatedMotionList[m_index].doingSetIndex = 0;
+        updatedMotionList[m_index].sets[0].isDoing = true;
+        setMotionList(updatedMotionList);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -910,7 +998,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 flexDirection: 'row',
                 height: 220 * height_ratio,
               }}>
-              <Svg width={widths} height={heights}>
+              {/* <Svg width={widths} height={heights}>
                 <Path
                   d={line1(data1)}
                   fill="none"
@@ -923,7 +1011,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   stroke="#FF594f"
                   strokeWidth="2"
                 />
-              </Svg>
+              </Svg> */}
             </ScrollView>
             <View
               style={{
@@ -1153,8 +1241,6 @@ export const WorkoutStart = ({navigation, route}) => {
                     s_index: s_index,
                     isResting: isResting,
                     restTimer: restTimer,
-                    // data1: data1,
-                    // data2: data2,
                   });
                 }}
                 style={{marginLeft: 45 * width_ratio}}>
@@ -1405,6 +1491,109 @@ export const WorkoutStart = ({navigation, route}) => {
               <Play height={24 * height_ratio} width={24 * width_ratio} />
               <Text style={styles.CText3}>운동 다시 시작</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
+      {!isPausedPage && isModifyMotion && (
+        <View>
+          <MotionRangeModal
+            isMotionRangeModalVisible={isMotionRangeModalVisible}
+            setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+            motionList={motionList}
+            setMotionList={setMotionList}></MotionRangeModal>
+          <Modal
+            visible={isModalVisible}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer5}>
+              <View style={styles.modeContainer5}>
+                <View style={styles.modeTitleContainer5}>
+                  <Text style={styles.titleText5}>하중모드</Text>
+                  <Text style={{fontSize: 14 * height_ratio}}>
+                    {selectedMode.modeName}
+                  </Text>
+                </View>
+                <View>
+                  <FlatList
+                    data={appcontext.state.modeList}
+                    renderItem={({item}) => <Item mode={item}></Item>}
+                    keyExtractor={item => item.modeName}></FlatList>
+                </View>
+
+                <View style={styles.modeButtonContainer5}>
+                  <View>
+                    <CustomButton_W
+                      width={171 * width_ratio}
+                      content="취소"
+                      onPress={handleCancelPress}
+                      disabled={false}></CustomButton_W>
+                  </View>
+                  <View>
+                    <CustomButton_B
+                      width={171}
+                      content="선택 완료"
+                      onPress={handleSelectPress}
+                      disabled={false}></CustomButton_B>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 24 * height_ratio,
+            }}>
+            <Text style={styles.motionTitle}>동작</Text>
+            <Battery battery={battery} />
+          </View>
+
+          <GestureHandlerRootView style={{height: 625 * height_ratio}}>
+            <DraggableFlatList
+              data={motionList}
+              renderItem={renderItem}
+              keyExtractor={item => item.motion_index}
+              onDragEnd={({data}) => setMotionList(data)}
+              showsVerticalScrollIndicator={false}
+            />
+          </GestureHandlerRootView>
+
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View style={{marginRight: 8 * width_ratio}}>
+              <CustomButton_W
+                width={171 * width_ratio}
+                content="+ 동작 추가"
+                onPress={() => {
+                  navigation.push('AddMotion', {
+                    motion_index_base: motionIndexMax + 1,
+                    isQuickWorkout: isQuickWorkout,
+                    workout_id: route.params.workout_id,
+                    record_id: recordId,
+                    routine_id: route.params.routine_id,
+                    isRoutine: false,
+                    isExercising: true,
+                    isAddedMotionDone: false,
+                    motionList: motionList,
+                    elapsedTime: elapsedTime,
+                    TUT: TUT,
+                    m_index: m_index,
+                    s_index: s_index,
+                    isResting: isResting,
+                    restTimer: restTimer,
+                  });
+                }}></CustomButton_W>
+            </View>
+            <View style={{marginLeft: 8 * width_ratio}}>
+              <CustomButton_B
+                disabled={isExercisingDisabled}
+                width={171 * width_ratio}
+                content={`운동중  ${formatTime(elapsedTime)}`}
+                onPress={saveModifying}></CustomButton_B>
+            </View>
           </View>
         </View>
       )}

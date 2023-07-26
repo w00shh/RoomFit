@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useCallback} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import TempPeople from '../../assets/images/img_sample1.svg';
 import Profile from '../../assets/images/normalProfile.svg';
@@ -60,7 +61,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
   const [periodWorkout, setPeriodWorkout] = useState();
-
+  const [selectedItem, setSelectedItem] = useState(null);
   const markDates = () => {
     const updateMarkedDates = {};
 
@@ -226,6 +227,13 @@ const WorkoutRecord = ({navigation, route}) => {
     );
   };
 
+  const data = [
+    {label: '항목 1', value: 'item1'},
+    {label: '항목 2', value: 'item2'},
+    {label: '항목 3', value: 'item3'},
+    {label: '항목 4', value: 'item4'},
+  ];
+
   return (
     <View style={styles.pageContainer}>
       <View
@@ -293,7 +301,17 @@ const WorkoutRecord = ({navigation, route}) => {
               marginTop: 24 * height_ratio,
             }}>
             <View>
-              <Text>7일</Text>
+              <DropDownPicker
+                items={data}
+                defaultValue={null}
+                placeholder="리스트 선택"
+                containerStyle={styles.dropdownContainerStyle}
+                style={styles.dropdownStyle}
+                dropDownStyle={styles.dropdownDropStyle}
+                itemStyle={styles.dropdownItemStyle}
+                onChangeItem={item => setSelectedItem(item.value)}
+                zIndex={1000}
+              />
             </View>
             <View style={{flexDirection: 'row'}}>
               <View

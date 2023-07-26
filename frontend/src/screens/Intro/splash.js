@@ -112,6 +112,7 @@ const IntroSplash = ({navigation}) => {
   const handleGetAllWorkoutList = async () => {
     const body = {
       user_id: appcontext.state.userid,
+      duration: 7,
     };
     await serverAxios
       .post('/workout/brief', body)
