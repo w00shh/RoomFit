@@ -35,6 +35,7 @@ const AddMotion = ({navigation, route}) => {
   const [motionName, setMotionName] = useState('');
   const [gripList, setGripList] = useState([]);
   const [bodyRegionList, setBodyRegionList] = useState([]);
+  const [selectedList, setSelectedList] = useState([]);
 
   let length = 0;
 
@@ -58,6 +59,14 @@ const AddMotion = ({navigation, route}) => {
 
   const onSelect = useCallback(
     motion => {
+      if (selectedList.includes(motion.motion_name)) {
+        setSelectedList(
+          selectedList.filter(item => item !== motion.motion_name),
+        );
+      } else {
+        setSelectedList([...selectedList, motion.motion_name]);
+      }
+
       let length = 0;
       const newSelected = new Map(selected);
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
