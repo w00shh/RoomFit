@@ -30,7 +30,7 @@ const CustomMotion = ({navigation}) => {
   const [modal2, setModal2] = useState(false);
   const [modal3, setModal3] = useState(false);
   const [modal4, setModal4] = useState(false);
-  const [tempmainMuscle, setTempMainMuscle] = useState('');
+  const [tempmainMuscle, setTempMainMuscle] = useState([]);
   const [mainMuscle, setMainMuscle] = useState([]);
   const [tempSubMuscle, setTempSubMuscle] = useState([]);
   const [subMuscle, setSubMuscle] = useState([]);
@@ -245,7 +245,7 @@ const CustomMotion = ({navigation}) => {
     const body = {
       user_id: appcontext.state.userid,
       motion_name: motionName,
-      body_region: mainMuscle,
+      body_region: mainMuscle.join(', '),
       sub_muscle: subMuscle.join(', '),
       sequence: workoutWay,
       grip: tool,
