@@ -271,7 +271,7 @@ export const WorkoutModifying = ({navigation, route}) => {
             justifyContent: 'space-between',
             marginBottom: 24 * height_ratio,
           }}>
-          <Text style={styles.motionTitle}>동작{motionIndexMax}</Text>
+          <Text style={styles.motionTitle}>동작</Text>
           <Battery battery={battery} />
         </View>
 
@@ -332,8 +332,8 @@ export const WorkoutModifying = ({navigation, route}) => {
                   isModifyMotion: route.params.isModifyMotion,
                   isResting: route.params.isResting,
                   restTimer: route.params.restTimer,
-                  //   data1 : route.params.data1,
-                  //   data2 : route.params.data2,7
+                  // data1: route.params.data1,
+                  // data2: route.params.data2,
                 });
               }}></CustomButton_B>
           </View>

@@ -17,6 +17,7 @@ const WorkoutStartSplash = ({navigation, route}) => {
       if (route.params.routine_id) {
         setTimeout(() => {
           navigation.navigate('WorkoutStart', {
+            index: route.params.index,
             motion_index_base: 0,
             isQuickWorkout: route.params.isQuickWorkout,
             routine_id: route.params.routine_id,

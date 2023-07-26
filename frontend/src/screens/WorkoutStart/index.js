@@ -172,7 +172,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const right = BLEStore.right;
 
   const scrollViewRef = useRef(null);
-  const {width: windowWidth} = useWindowDimensions();
+
   useEffect(() => {
     const newData1 = [...data1, Math.floor(Math.random() * 100) + 1];
     const newData2 = [...data2, Math.floor(Math.random() * 100) + 1];
@@ -345,10 +345,24 @@ export const WorkoutStart = ({navigation, route}) => {
 
           await serverAxios
             .post('/routine/save', body)
-            .then(res => {})
+            .then(res => {
+              let updatedRoutineList = appcontext.state.routineList;
+              updatedRoutineList[route.params.index].routine_id =
+                res.data[0].routine_id;
+              updatedRoutineList[route.params.index].routine_name =
+                res.data[0].routine_name;
+              updatedRoutineList[route.params.index].motion_count =
+                res.data[0].motion_count;
+              updatedRoutineList[route.params.index].body_regions =
+                res.data[0].body_regions;
+              appcontext.actions.setRoutineList(updatedRoutineList);
+            })
             .catch(e => {
               console.log(e);
             });
+          let updatedRoutineDetailList = appcontext.state.routineDetailList;
+          updatedRoutineDetailList[route.params.index].motionList = motionList;
+          appcontext.actions.setRoutineDetailList(updatedRoutineDetailList);
         }
         setRoutineDoneModal(false);
       }

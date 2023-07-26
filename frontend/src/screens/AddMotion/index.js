@@ -32,15 +32,19 @@ const AddMotion = ({navigation, route}) => {
   const [displaySelected, setDisplaySelected] = useState(new Map());
   const [selectedLength, setSelectedLength] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [motionName, setMotionName] = useState('');
   const [gripList, setGripList] = useState([]);
   const [bodyRegionList, setBodyRegionList] = useState([]);
 
   let length = 0;
 
   const handleMotionSearchChange = async text => {
+    setMotionName(text);
     const body = {
       user_id: appcontext.state.userid,
       motion_name: text,
+      grip: gripList,
+      bodyRegion: bodyRegionList,
     };
     await serverAxios
       .post('/motion/search', body)
@@ -200,12 +204,33 @@ const AddMotion = ({navigation, route}) => {
                     : '#f5f5f5',
                   borderRadius: 8 * height_ratio,
                 }}
-                onPress={() => {
+                onPress={async () => {
+                  let body;
                   if (gripList.includes(value)) {
                     setGripList(gripList.filter(grip => grip !== value));
+                    body = {
+                      user_id: appcontext.state.userid,
+                      motion_name: motionName,
+                      grip: gripList.filter(grip => grip !== value),
+                      body_region: bodyRegionList,
+                    };
                   } else {
                     setGripList([...gripList, String(value)]);
+                    body = {
+                      user_id: appcontext.state.userid,
+                      motion_name: motionName,
+                      grip: [...gripList, String(value)],
+                      body_region: bodyRegionList,
+                    };
                   }
+                  await serverAxios
+                    .post('/motion/search', body)
+                    .then(res => {
+                      setMotionList(res.data);
+                    })
+                    .catch(e => {
+                      console.log(e);
+                    });
                 }}>
                 <Text
                   style={{
@@ -232,14 +257,37 @@ const AddMotion = ({navigation, route}) => {
                     : '#f5f5f5',
                   borderRadius: 8 * height_ratio,
                 }}
-                onPress={() => {
+                onPress={async () => {
+                  let body;
                   if (bodyRegionList.includes(value)) {
                     setBodyRegionList(
                       bodyRegionList.filter(bodyRegion => bodyRegion !== value),
                     );
+                    body = {
+                      user_id: appcontext.state.userid,
+                      motion_name: motionName,
+                      grip: gripList,
+                      body_region: bodyRegionList.filter(
+                        bodyRegion => bodyRegion !== value,
+                      ),
+                    };
                   } else {
                     setBodyRegionList([...bodyRegionList, String(value)]);
+                    body = {
+                      user_id: appcontext.state.userid,
+                      motion_name: motionName,
+                      grip: gripList,
+                      body_region: [...bodyRegionList, String(value)],
+                    };
                   }
+                  await serverAxios
+                    .post('/motion/search', body)
+                    .then(res => {
+                      setMotionList(res.data);
+                    })
+                    .catch(e => {
+                      console.log(e);
+                    });
                 }}>
                 <Text
                   style={{

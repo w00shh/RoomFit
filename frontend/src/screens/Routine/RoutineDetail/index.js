@@ -335,6 +335,7 @@ const RoutineDetail = ({navigation, route}) => {
   useEffect(() => {
     if (workoutId) {
       navigation.navigate('WorkoutStartSplash', {
+        index: route.params.index,
         isRoutineDetail: true,
         isQuickWorkout: false,
         routine_id: routineId,
