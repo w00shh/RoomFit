@@ -481,7 +481,7 @@ const CustomMotion = ({navigation}) => {
           </View>
         </TouchableOpacity>
       </ScrollView>
-      <View style={{position: 'absolute', bottom: 0}}>
+      <View style={{position: 'absolute', bottom: 16}}>
         <CustomButton_B
           disabled={allSelection}
           content="커스텀 동작 추가 완료"

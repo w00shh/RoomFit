@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24 * height_ratio,
     borderTopRightRadius: 24 * height_ratio,
     gap: 12 * height_ratio,
+    paddingBottom: 32 * height_ratio,
   },
 
   titleContainer: {

@@ -70,8 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-
-    padding: 0,
+    padding: 16 * height_ratio,
     backgroundColor: '#ffffff',
   },
   restContainer: {
