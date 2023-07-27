@@ -114,25 +114,6 @@ const AddMotion = ({navigation, route}) => {
     setSelectedLength(length);
   }, [selected]);
 
-  function Item({motion, selected, onSelect}) {
-    return (
-      <TouchableOpacity onPress={() => onSelect(motion)}>
-        <MotionItem
-          navigateToMotionDetail={() => {
-            navigation.navigate('MotionDetail', {
-              motion: motion,
-              motionList: motionList,
-              setMotionList: setMotionList,
-            });
-          }}
-          motion={motion}
-          selected={selected}
-          motionList={motionList}
-          setMotionList={setMotionList}></MotionItem>
-      </TouchableOpacity>
-    );
-  }
-
   const getMotionList = async () => {
     const body = {
       user_id: appcontext.state.userid,
@@ -433,14 +414,17 @@ const AddMotion = ({navigation, route}) => {
       {displaySelected.size === 0 && (
         <View
           style={{
-            paddingVertical: 8 * height_ratio,
+            paddingBottom: 4 * height_ratio,
           }}>
           <Text style={styles.recommendedText}>추천 운동</Text>
         </View>
       )}
       {displaySelected.size !== 0 && (
         <View
-          style={{height: displaySelected.size !== 0 ? 50 * height_ratio : 0}}>
+          style={{
+            height: displaySelected.size !== 0 ? 50 * height_ratio : 0,
+            paddingBottom: 15 * height_ratio,
+          }}>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
