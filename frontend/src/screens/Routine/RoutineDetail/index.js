@@ -328,7 +328,8 @@ const RoutineDetail = ({navigation, route}) => {
 
   const handleAddMotionPress = () => {
     navigation.push('AddMotion', {
-      index: route.params.index,
+      routine_index: route.params.routine_index,
+      routine_detail_index: route.params.routine_detail_index,
       isRoutine: true,
       isRoutineDetail: true,
       routine_id: routineId,
