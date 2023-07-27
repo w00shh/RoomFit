@@ -640,14 +640,28 @@ export const WorkoutStart = ({navigation, route}) => {
   useEffect(() => {
     if (recordId && (isResting || workoutDone)) {
       setCompletePost();
+      setTotalWeight(
+        totalWeight +
+          motionList[m_index].sets[s_index].weight *
+            motionList[m_index].sets[s_index].reps,
+      );
     }
   }, [recordId]);
+
+  useEffect(() => {
+    console.log('totalWeight: ' + totalWeight);
+  }, [totalWeight]);
 
   const setComplete = () => {
     if (s_index === 0) {
       getRecordId(m_index);
     } else {
       setCompletePost();
+      setTotalWeight(
+        totalWeight +
+          motionList[m_index].sets[s_index].weight *
+            motionList[m_index].sets[s_index].reps,
+      );
     }
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];

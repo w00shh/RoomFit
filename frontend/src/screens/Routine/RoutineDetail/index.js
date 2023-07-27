@@ -124,7 +124,6 @@ const RoutineDetail = ({navigation, route}) => {
     await serverAxios
       .post('/routine/save', body)
       .then(res => {
-        console.log(res.data);
         let updatedRoutineList = appcontext.state.routineList;
         updatedRoutineList[route.params.routine_index].routine_id =
           res.data[0].routine_id;
@@ -378,7 +377,6 @@ const RoutineDetail = ({navigation, route}) => {
   };
 
   const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
-    console.log(item.motion_index + ' ' + isActive);
     return (
       <>
         <WorkoutItem

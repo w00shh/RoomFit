@@ -62,7 +62,14 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
   const [periodWorkout, setPeriodWorkout] = useState();
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    {label: '옵션 1', value: 'option1'},
+    {label: '옵션 2', value: 'option2'},
+    {label: '옵션 3', value: 'option3'},
+  ]);
+
   const markDates = () => {
     const updateMarkedDates = {};
 
@@ -228,13 +235,6 @@ const WorkoutRecord = ({navigation, route}) => {
     );
   };
 
-  const data = [
-    {label: '항목 1', value: 'item1'},
-    {label: '항목 2', value: 'item2'},
-    {label: '항목 3', value: 'item3'},
-    {label: '항목 4', value: 'item4'},
-  ];
-
   return (
     <View style={styles.pageContainer}>
       <View
@@ -302,11 +302,15 @@ const WorkoutRecord = ({navigation, route}) => {
               marginTop: 24 * height_ratio,
             }}>
             <View>
-              <SelectList
-                setSelected={val => setSelected(val)}
-                data={data}
-                save="value"
-                search={false}
+              <DropDownPicker
+                open={open}
+                value={selectedValue}
+                items={items}
+                setOpen={setOpen}
+                setValue={setSelectedValue}
+                setItems={setItems}
+                placeholder="옵션을 선택해주세요."
+                style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
               />
             </View>
             <View style={{flexDirection: 'row'}}>
@@ -350,6 +354,7 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
             </View>
           </View>
+          {open && <View style={{height: 110 * height_ratio}}></View>}
           <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
             <View>
