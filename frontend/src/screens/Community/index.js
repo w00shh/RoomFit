@@ -71,21 +71,128 @@ const CategoryBar = () => {
   );
 };
 
+const Comment = ({
+  comment_content,
+  user_name,
+  created_at,
+  comment_id,
+  comment_count,
+  onCommentCountChange,
+}) => {
+  const [isSettingModal, setIsSettingModal] = React.useState(false);
+
+  const deleteComment = async () => {
+    console.log(comment_id);
+    console.log(comment_count);
+    await serverAxios
+      .delete('/community/delete-comment?comment_id=' + comment_id.toString())
+      .then(res => {
+        if (res.data.success == '1') {
+          console.log('success');
+          comment_count = comment_count - 1;
+          onCommentCountChange(comment_count);
+          Alert.alert('댓글 삭제 완료');
+        } else {
+          console.log('fail');
+        }
+      });
+  };
+  return (
+    <>
+      <Modal visible={isSettingModal} transparent={true} animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.postContainer}>
+            <View style={styles.postTitle}>
+              <Text style={styles.titleText}>댓글 메뉴</Text>
+              <TouchableOpacity onPress={() => setIsSettingModal(false)}>
+                <Icons_three name="x" size={28 * height_ratio} color="black" />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.alert(
+                    '댓글 삭제',
+                    '댓글을 삭제하시겠습니까?',
+                    [
+                      {
+                        text: '취소',
+                        onPress: () => {
+                          console.log('Cancel Pressed');
+                          setIsSettingModal(false);
+                        },
+                        style: 'cancel',
+                      },
+                      {
+                        text: '삭제',
+                        onPress: () => {
+                          deleteComment();
+                          setIsSettingModal(false);
+                        },
+                      },
+                    ],
+                    {cancelable: false},
+                  );
+                }}>
+                <View style={styles.settingModalMenu}>
+                  <Text style={styles.titleText}>삭제</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <View style={styles.settingModalMenu}>
+                  <Text style={styles.titleText}>신고</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <View style={styles.commentContainer}>
+        <View style={styles.commentLeftContainer}>
+          <Profile
+            width={30 * width_ratio}
+            height={30 * height_ratio}
+            style={{marginRight: 8 * width_ratio}}
+          />
+          <View>
+            <Text>{user_name}</Text>
+            <Text>{comment_content}</Text>
+          </View>
+        </View>
+
+        <View style={styles.commentDots}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsSettingModal(true);
+            }}>
+            <Icons_two name="dots-three-vertical" size={18 * height_ratio} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </>
+  );
+};
+
 const Feed = ({
   image_url,
   feed_content,
   user_name,
   like_count,
-  // comment_nums,
+  comment_count,
   created_at,
   feed_id,
   user_id,
   is_like,
   props,
+  fetchData,
 }) => {
   const [pressComment, isPressedComment] = React.useState(false);
   const [liked, setLiked] = React.useState(false);
   const [show_like_count, set_show_like_count] = React.useState(like_count);
+  const [show_comment_count, set_show_comment_count] =
+    React.useState(comment_count);
+  const [comment_data, setComment_data] = React.useState([]);
+  const [input_comment_content, setinput_Comment_content] = React.useState('');
   React.useEffect(() => {
     if (is_like == 0) {
       setLiked(false);
@@ -94,9 +201,19 @@ const Feed = ({
     }
     console.log(is_like);
   }, []);
+
   React.useEffect(() => {
     set_show_like_count(like_count);
   }, [like_count]);
+
+  React.useEffect(() => {
+    set_show_comment_count(comment_count);
+  }, [comment_count]);
+
+  const handleCommentCountChange = new_comment_count => {
+    set_show_comment_count(new_comment_count);
+    pressCommentandGetComment();
+  };
 
   const pressLiked = async () => {
     const body = {
@@ -125,90 +242,215 @@ const Feed = ({
       });
   };
 
-  return (
-    <View style={styles.Feed}>
-      <View style={styles.FeedBar}>
-        <View style={styles.FeedProfile}>
-          <Profile width={40 * width_ratio} height={40 * height_ratio} />
-          <Text style={styles.UserName}>{user_name}</Text>
-        </View>
-        <Icons_two name="dots-three-vertical" size={28 * height_ratio} />
-      </View>
+  const pressCommentandGetComment = async () => {
+    console.log('pressed comments');
 
-      <View style={styles.FeedContent}>
-        <Text style={styles.FeedContentText}>{feed_content}</Text>
-      </View>
-      {image_url != null && (
-        <View>
-          <Image
-            source={{
-              uri: image_url,
-            }}
-            style={styles.image}
-          />
-        </View>
-      )}
-      <View style={styles.FeedBottom}>
-        <View style={styles.Likes}>
-          <TouchableOpacity
-            onPress={() => {
-              pressLiked();
-            }}>
-            {liked ? (
-              <Icons
-                name="heart"
-                size={28 * height_ratio}
-                color="#5252fa"></Icons>
-            ) : (
-              <Icons
-                name="heart-outline"
-                size={28 * height_ratio}
-                color="#5252fa"></Icons>
-            )}
-          </TouchableOpacity>
-          <Text>{show_like_count}</Text>
-        </View>
-        <View style={styles.Comments}>
-          <TouchableOpacity
-            onPress={() => {
-              isPressedComment(!pressComment);
-            }}>
-            <Icons
-              name="chatbubble-ellipses-outline"
-              size={28 * height_ratio}
-              color="#5252fa"></Icons>
-          </TouchableOpacity>
-          <Text>0</Text>
-        </View>
-      </View>
-      {pressComment && (
-        <View>
-          <View style={styles.commentContainer}>
-            <Profile
-              width={30 * width_ratio}
-              height={30 * height_ratio}
-              style={{marginRight: 8 * width_ratio}}
-            />
+    await serverAxios
+      .get('/community/feed-comment?feed_id=' + feed_id)
+      .then(res => {
+        if (res.data.success == '1') {
+          const data = res.data.comment_data;
+          let current_comment_data = JSON.parse(JSON.stringify(data));
+          console.log(current_comment_data);
+          setComment_data(current_comment_data);
+        } else {
+          console.log('fail');
+        }
+      });
+  };
+
+  const pushComment = async () => {
+    const body = {
+      feed_id: feed_id,
+      user_id: props,
+      comment_content: input_comment_content,
+    };
+
+    await serverAxios.post('/community/post-comment', body).then(res => {
+      if (res.data.success == '1') {
+        console.log('success');
+        handleCommentChange('');
+        set_show_comment_count(show_comment_count + 1);
+        pressCommentandGetComment();
+      } else {
+        console.log('fail');
+      }
+    });
+  };
+
+  const handleCommentChange = inputText => {
+    setinput_Comment_content(inputText);
+  };
+
+  const [isSettingModal, setIsSettingModal] = React.useState(false);
+
+  const deleteFeed = async () => {
+    console.log('feed_id : ');
+    console.log(feed_id);
+    await serverAxios
+      .delete('/community/delete-feed?feed_id=' + feed_id)
+      .then(res => {
+        if (res.data.success == '1') {
+          console.log('success');
+          fetchData();
+          Alert.alert('게시물 삭제 완료');
+        } else {
+          console.log('fail');
+        }
+      });
+  };
+
+  return (
+    <>
+      <Modal visible={isSettingModal} transparent={true} animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.postContainer}>
+            <View style={styles.postTitle}>
+              <Text style={styles.titleText}>피드 메뉴</Text>
+              <TouchableOpacity onPress={() => setIsSettingModal(false)}>
+                <Icons_three name="x" size={28 * height_ratio} color="black" />
+              </TouchableOpacity>
+            </View>
             <View>
-              <Text>이름</Text>
-              <Text>댓글이에요 댓글 댓글 댓글!!!</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.alert(
+                    '게시물 삭제',
+                    '게시물을 삭제하시겠습니까?',
+                    [
+                      {
+                        text: '취소',
+                        onPress: () => {
+                          console.log('Cancel Pressed');
+                          setIsSettingModal(false);
+                        },
+                        style: 'cancel',
+                      },
+                      {
+                        text: '삭제',
+                        onPress: () => {
+                          deleteFeed();
+                          setIsSettingModal(false);
+                        },
+                      },
+                    ],
+                    {cancelable: false},
+                  );
+                }}>
+                <View style={styles.settingModalMenu}>
+                  <Text style={styles.titleText}>삭제</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <View style={styles.settingModalMenu}>
+                  <Text style={styles.titleText}>신고</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.commentInputContainer}>
-            <TextInput
-              style={{fontSize: 14 * height_ratio}}
-              // onChangeText={handleMotionSearchChange}
-              placeholder="댓글"
-              inputMode="text"></TextInput>
-            <Icons_three
-              name="comment"
-              size={28 * height_ratio}
-              color="black"
+        </View>
+      </Modal>
+
+      <View style={styles.Feed}>
+        <View style={styles.FeedBar}>
+          <View style={styles.FeedProfile}>
+            <Profile width={40 * width_ratio} height={40 * height_ratio} />
+            <Text style={styles.UserName}>{user_name}</Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              setIsSettingModal(true);
+            }}>
+            <Icons_two name="dots-three-vertical" size={28 * height_ratio} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.FeedContent}>
+          <Text style={styles.FeedContentText}>{feed_content}</Text>
+        </View>
+        {image_url != null && (
+          <View>
+            <Image
+              source={{
+                uri: image_url,
+              }}
+              style={styles.image}
             />
           </View>
+        )}
+        <View style={styles.FeedBottom}>
+          <View style={styles.Likes}>
+            <TouchableOpacity
+              onPress={() => {
+                pressLiked();
+              }}>
+              {liked ? (
+                <Icons
+                  name="heart"
+                  size={28 * height_ratio}
+                  color="#5252fa"></Icons>
+              ) : (
+                <Icons
+                  name="heart-outline"
+                  size={28 * height_ratio}
+                  color="#5252fa"></Icons>
+              )}
+            </TouchableOpacity>
+            <Text>{show_like_count}</Text>
+          </View>
+          <View style={styles.Comments}>
+            <TouchableOpacity
+              onPress={() => {
+                isPressedComment(!pressComment);
+                if (!pressComment) {
+                  pressCommentandGetComment();
+                }
+              }}>
+              <Icons
+                name="chatbubble-ellipses-outline"
+                size={28 * height_ratio}
+                color="#5252fa"></Icons>
+            </TouchableOpacity>
+            <Text>{show_comment_count}</Text>
+          </View>
         </View>
-      )}
-    </View>
+        {pressComment && (
+          <View>
+            {comment_data.map((item, key) => (
+              <View>
+                <Comment
+                  key={item.comment_id}
+                  comment_content={item.comment_content}
+                  user_name={item.user_name}
+                  created_at={item.created_at}
+                  comment_id={item.comment_id}
+                  comment_count={comment_count}
+                  onCommentCountChange={handleCommentCountChange}
+                />
+              </View>
+            ))}
+            <View style={styles.commentInputContainer}>
+              <TextInput
+                style={{fontSize: 14 * height_ratio}}
+                onChangeText={handleCommentChange}
+                value={input_comment_content}
+                placeholder="댓글"
+                inputMode="text"></TextInput>
+              <TouchableOpacity
+                onPress={() => {
+                  pushComment();
+                }}>
+                <Icons_three
+                  name="comment"
+                  size={28 * height_ratio}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      </View>
+    </>
   );
 };
 
@@ -281,6 +523,7 @@ const Community = () => {
       .then(res => {
         console.log(res);
         Alert.alert('피드 등록 완료!');
+        fetchData();
       })
       .catch(err => {
         console.log(err);
@@ -355,11 +598,12 @@ const Community = () => {
             feed_content={item.feed_content}
             user_name={item.user_name}
             like_count={item.like_count}
-            // comment_nums={item.comment_nums}
+            comment_count={item.comment_count}
             created_at={item.created_at}
             user_id={item.user_id}
             is_like={item.is_like}
             props={user_id}
+            fetchData={fetchData}
           />
         ))}
       </ScrollView>

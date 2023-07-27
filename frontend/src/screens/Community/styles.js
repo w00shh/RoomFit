@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   commentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   commentInputContainer: {
     marginTop: 8 * height_ratio,
@@ -139,5 +140,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     justifyContent: 'space-between',
   },
+  settingModalMenu: {
+    borderTopWidth: 0.5, // Add a top border
+    borderTopColor: 'lightgray', // Color of the top border
+    paddingVertical: 16 * height_ratio,
+    marginHorizontal: 8 * width_ratio,
+  },
+  titleText: {
+    fontSize: 16 * height_ratio,
+    fontWeight: '700',
+    color: '#242424',
+    textAlign: 'center',
+  },
+  commentLeftContainer:{
+    flexDirection: 'row',
+    
+  }
 });
 export default styles;
