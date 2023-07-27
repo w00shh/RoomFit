@@ -66,13 +66,13 @@ const AddMotion = ({navigation, route}) => {
 
   const onSelect = useCallback(
     motion => {
-      if (selectedList.includes(motion.motion_name)) {
-        setSelectedList(
-          selectedList.filter(item => item !== motion.motion_name),
-        );
-      } else {
-        setSelectedList([...selectedList, motion.motion_name]);
-      }
+      // if (selectedList.includes(motion.motion_name)) {
+      //   setSelectedList(
+      //     selectedList.filter(item => item !== motion.motion_name),
+      //   );
+      // } else {
+      //   setSelectedList([...selectedList, motion.motion_name]);
+      // }
 
       let length = 0;
       const newSelected = new Map(selected);
@@ -98,9 +98,10 @@ const AddMotion = ({navigation, route}) => {
 
   const deleteSelected = key => {
     displaySelected.delete(key);
-    const newSelected = new Map(selected);
-    newSelected.set(key, false);
-    setSelected(newSelected);
+    console.log(displaySelected);
+    // const newSelected = new Map(selected);
+    // newSelected.set(key, false);
+    // setSelected(newSelected);
   };
 
   useEffect(() => {
@@ -269,7 +270,7 @@ const AddMotion = ({navigation, route}) => {
               <Text
                 style={{
                   fontSize: 14 * height_ratio,
-                  color: selectedList.includes(motion.item.motion_name)
+                  color: displaySelected.has(motion.item.motion_id)
                     ? '#5252fa'
                     : '#242424',
                 }}>
@@ -278,7 +279,7 @@ const AddMotion = ({navigation, route}) => {
               <Text
                 style={{
                   fontSize: 14 * height_ratio,
-                  color: selectedList.includes(motion.item.motion_name)
+                  color: displaySelected.has(motion.item.motion_id)
                     ? '#5252fa'
                     : '#808080',
                 }}>
@@ -286,7 +287,7 @@ const AddMotion = ({navigation, route}) => {
               </Text>
             </View>
           </View>
-          {selectedList.includes(motion.item.motion_name) && (
+          {displaySelected.has(motion.item.motion_id) && (
             <View>
               <Check height={16 * height_ratio} width={16 * width_ratio} />
             </View>
@@ -471,7 +472,9 @@ const AddMotion = ({navigation, route}) => {
                     {value.motion_name}
                   </Text>
                   <TouchableOpacity
-                    onPress={() => deleteSelected(value.motion_id)}>
+                    onPress={() => {
+                      onSelect(value);
+                    }}>
                     <X height={24 * height_ratio} width={24 * width_ratio} />
                   </TouchableOpacity>
                 </View>
