@@ -79,18 +79,18 @@ const RoutineDetail = ({navigation, route}) => {
       },
     );
 
-    const keyboardWillHideListener = Keyboard.addListener(
-      'keyboardWillHide',
-      () => {
-        setKeyboardHeight(0);
-      },
-    );
+    // const keyboardWillHideListener = Keyboard.addListener(
+    //   'keyboardWillHide',
+    //   () => {
+    //     setKeyboardHeight(0);
+    //   },
+    // );
 
     return () => {
       keyboardWillShowListener.remove();
-      keyboardWillHideListener.remove();
+      //keyboardWillHideListener.remove();
     };
-  }, []);
+  }, [keyboardHeight]);
 
   function Item({mode}) {
     return (
