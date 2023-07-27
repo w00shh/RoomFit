@@ -97,6 +97,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const [s_index, setSIndex] = useState(route.params.s_index);
 
   //workout & record 관련 변수
+  const [totalWeight, setTotalWeight] = useState(0);
   const [workoutId, setWorkoutId] = useState(route.params.workout_id);
   const [recordId, setRecordId] = useState(
     route.params.record_id ? route.params.record_id : null,

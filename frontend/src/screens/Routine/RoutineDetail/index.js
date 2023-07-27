@@ -378,6 +378,7 @@ const RoutineDetail = ({navigation, route}) => {
   };
 
   const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
+    console.log(item.motion_index + ' ' + isActive);
     return (
       <>
         <WorkoutItem
