@@ -6,6 +6,9 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  Modal,
+  TextInput,
+  Alert,
 } from 'react-native';
 import styles from './styles';
 
@@ -16,7 +19,11 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Profile from '../../assets/svg/img/profile.svg';
 import Icons from 'react-native-vector-icons/Ionicons';
 import Icons_two from 'react-native-vector-icons/Entypo';
+import Icons_three from 'react-native-vector-icons/Octicons';
 import Setting from '../../assets/svg/buttons/default/setting.svg';
+
+import CustomButton_B from '../../components/CustomButton_B';
+import CustomButton_W from '../../components/CustomButton_W';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -76,6 +83,48 @@ const Feed = ({
   is_like,
   props,
 }) => {
+  const [pressComment, isPressedComment] = React.useState(false);
+  const [liked, setLiked] = React.useState(false);
+  const [show_like_count, set_show_like_count] = React.useState(like_count);
+  React.useEffect(() => {
+    if (is_like == 0) {
+      setLiked(false);
+    } else {
+      setLiked(true);
+    }
+    console.log(is_like);
+  }, []);
+  React.useEffect(() => {
+    set_show_like_count(like_count);
+  }, [like_count]);
+
+  const pressLiked = async () => {
+    const body = {
+      user_id: props,
+      feed_id: feed_id,
+    };
+    await serverAxios
+      .put('/community/like-feed', body)
+      .then(res => {
+        if (res.data.success == '1') {
+          console.log('success');
+          console.log(res.data.unliked);
+          if (!res.data.unliked) {
+            setLiked(true);
+            set_show_like_count(show_like_count + 1);
+          } else {
+            setLiked(false);
+            set_show_like_count(show_like_count - 1);
+          }
+        } else {
+          console.log('fail');
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   return (
     <View style={styles.Feed}>
       <View style={styles.FeedBar}>
@@ -101,33 +150,102 @@ const Feed = ({
       )}
       <View style={styles.FeedBottom}>
         <View style={styles.Likes}>
-          {true ? (
-            <Icons
-              name="heart"
-              size={28 * height_ratio}
-              color="#5252fa"></Icons>
-          ) : (
-            <Icons
-              name="heart-outline"
-              size={28 * height_ratio}
-              color="#5252fa"></Icons>
-          )}
-          <Text>{like_count}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              pressLiked();
+            }}>
+            {liked ? (
+              <Icons
+                name="heart"
+                size={28 * height_ratio}
+                color="#5252fa"></Icons>
+            ) : (
+              <Icons
+                name="heart-outline"
+                size={28 * height_ratio}
+                color="#5252fa"></Icons>
+            )}
+          </TouchableOpacity>
+          <Text>{show_like_count}</Text>
         </View>
         <View style={styles.Comments}>
-          <Icons
-            name="chatbubble-ellipses-outline"
-            size={28 * height_ratio}
-            color="#5252fa"></Icons>
+          <TouchableOpacity
+            onPress={() => {
+              isPressedComment(!pressComment);
+            }}>
+            <Icons
+              name="chatbubble-ellipses-outline"
+              size={28 * height_ratio}
+              color="#5252fa"></Icons>
+          </TouchableOpacity>
           <Text>0</Text>
         </View>
       </View>
+      {pressComment && (
+        <View>
+          <View style={styles.commentContainer}>
+            <Profile
+              width={30 * width_ratio}
+              height={30 * height_ratio}
+              style={{marginRight: 8 * width_ratio}}
+            />
+            <View>
+              <Text>이름</Text>
+              <Text>댓글이에요 댓글 댓글 댓글!!!</Text>
+            </View>
+          </View>
+          <View style={styles.commentInputContainer}>
+            <TextInput
+              style={{fontSize: 14 * height_ratio}}
+              // onChangeText={handleMotionSearchChange}
+              placeholder="댓글"
+              inputMode="text"></TextInput>
+            <Icons_three
+              name="comment"
+              size={28 * height_ratio}
+              color="black"
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };
 
 const Community = () => {
   const [isPostingModal, setIsPostingModal] = React.useState(false);
+  const [postContent, setPostContent] = React.useState('');
+  const handleInputChange = inputText => {
+    setPostContent(inputText);
+  };
+
+  const [postimage_url, setpostimage_url] = React.useState(null);
+  const PostImage = async () => {
+    const image = {
+      uri: '',
+      type: '',
+      name: '',
+    };
+
+    await launchImageLibrary({}, res => {
+      if (res.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (res.errorCode) {
+        console.log('ImagePicker Error: ', res.errorCode);
+      } else if (res.assets) {
+        //정상적으로 사진을 반환 받았을 때
+        console.log('ImagePicker res', res);
+        image.name = res.assets[0].fileName;
+        image.type = res.assets[0].type;
+        image.uri =
+          Platform.OS === 'android'
+            ? res.assets[0].uri
+            : res.assets[0].uri.replace('file://', '');
+        setpostimage_url(image);
+        // setpostimage_url(image.uri);
+      }
+    });
+  };
   const appContext = React.useContext(AppContext);
   const user_id = appContext.state.userid;
 
@@ -138,13 +256,34 @@ const Community = () => {
         if (res.data.success == '1') {
           const data = res.data.feed_data;
           let current_feed_data = JSON.parse(JSON.stringify(data));
-          setFeed_data(current_feed_data);
+          setFeed_data(current_feed_data.reverse());
         } else {
           console.log('fail');
         }
       })
       .catch(e => {
         console.log(e);
+      });
+  };
+
+  const postFeed = async () => {
+    const formData = new FormData();
+    formData.append('user_id', user_id);
+    formData.append('content', postContent);
+    formData.append('image', postimage_url);
+
+    await serverAxios
+      .post('/community/post-feed', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(res => {
+        console.log(res);
+        Alert.alert('피드 등록 완료!');
+      })
+      .catch(err => {
+        console.log(err);
       });
   };
 
@@ -160,6 +299,52 @@ const Community = () => {
 
   return (
     <View style={{flex: 1}}>
+      <Modal visible={isPostingModal} transparent={true} animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.postContainer}>
+            <View style={styles.postTitle}>
+              <Text style={styles.titleText}>글 쓰기</Text>
+              <TouchableOpacity onPress={() => setIsPostingModal(false)}>
+                <Icons_three name="x" size={28 * height_ratio} color="black" />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.postContentContainer}>
+              <TextInput
+                style={styles.postContent}
+                multiline={true}
+                placeholder="내용을 입력하세요"
+                onChangeText={handleInputChange}
+                value={postContent}
+              />
+              <Image source={postimage_url} style={styles.postImage} />
+            </View>
+
+            <View style={styles.modalButtonContainer}>
+              <View>
+                <CustomButton_W
+                  width={171 * width_ratio}
+                  content="사진 첨부"
+                  disabled={false}
+                  onPress={() => {
+                    PostImage();
+                  }}></CustomButton_W>
+              </View>
+              <View>
+                <CustomButton_B
+                  width={171 * width_ratio}
+                  content="포스트"
+                  disabled={false}
+                  onPress={() => {
+                    postFeed();
+                    setIsPostingModal(false);
+                  }}></CustomButton_B>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <CategoryBar />
       <ScrollView showsVerticalScrollIndicator={false}>
         {feed_data.map((item, key) => (
@@ -181,7 +366,7 @@ const Community = () => {
       <View style={styles.postButton}>
         <TouchableOpacity
           onPress={() => {
-            console.log('hi');
+            setIsPostingModal(true);
           }}>
           <Icons_two name="pencil" size={28 * height_ratio} color="white" />
         </TouchableOpacity>
