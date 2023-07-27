@@ -163,6 +163,21 @@ export const WorkoutModifying = ({navigation, route}) => {
     }
   }, []);
 
+  useEffect(() => {
+    let intervalId;
+
+    intervalId = setInterval(() => {
+      setElapsedTime(prevElapsedTime => {
+        const updatedTime = prevElapsedTime + 1;
+        return updatedTime;
+      });
+    }, 1000); // 1초마다 증가
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   const renderItem = gestureHandlerRootHOC(
     React.memo(({item, index, drag, isActive}) => {
       return (
@@ -271,7 +286,7 @@ export const WorkoutModifying = ({navigation, route}) => {
             justifyContent: 'space-between',
             marginBottom: 24 * height_ratio,
           }}>
-          <Text style={styles.motionTitle}>동작{motionIndexMax}</Text>
+          <Text style={styles.motionTitle}>동작</Text>
           <Battery battery={battery} />
         </View>
 
@@ -292,6 +307,8 @@ export const WorkoutModifying = ({navigation, route}) => {
               content="+ 동작 추가"
               onPress={() => {
                 navigation.push('AddMotion', {
+                  routine_index: route.params.routine_index,
+                  routine_detail_index: route.params.routine_detail_index,
                   motion_index_base: motionIndexMax + 1,
                   isQuickWorkout: route.params.isQuickWorkout,
                   workout_id: route.params.workout_id,
@@ -317,6 +334,8 @@ export const WorkoutModifying = ({navigation, route}) => {
               content={`운동중  ${formatTime(elapsedTime)}`}
               onPress={() => {
                 navigation.push('WorkoutStart', {
+                  routine_index: route.params.routine_index,
+                  routine_detail_index: route.params.routine_detail_index,
                   motion_index_base: motionIndexMax,
                   isQuickWorkout: route.params.isQuickWorkout,
                   routine_id: route.params.routine_id,
@@ -329,9 +348,11 @@ export const WorkoutModifying = ({navigation, route}) => {
                   s_index: route.params.s_index,
                   isPaused: route.params.isPaused,
                   isPausedPage: route.params.isPausedPage,
-                  isModifyMotion: route.params.isModifyMotion,
+                  isModifyMotion: false,
                   isResting: route.params.isResting,
                   restTimer: route.params.restTimer,
+                  // data1: route.params.data1,
+                  // data2: route.params.data2,
                 });
               }}></CustomButton_B>
           </View>

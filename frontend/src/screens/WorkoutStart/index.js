@@ -82,6 +82,7 @@ export const WorkoutStart = ({navigation, route}) => {
   const [motionIndexMax, setMotionIndexMax] = useState(
     route.params.motion_index_base,
   );
+
   const appcontext = useContext(AppContext);
   const [isQuickWorkout, setisQuickWorkout] = useState(
     route.params.isQuickWorkout,
@@ -167,6 +168,11 @@ export const WorkoutStart = ({navigation, route}) => {
   const left = BLEStore.left;
   const right = BLEStore.right;
 
+  useEffect(() => {
+    console.log(route.params.routine_index);
+    console.log(route.params.routine_detail_index);
+  }, []);
+
   const scrollViewRef = useRef(null);
   const {width: windowWidth} = useWindowDimensions();
   // useEffect(() => {
@@ -248,6 +254,98 @@ export const WorkoutStart = ({navigation, route}) => {
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     };
+  }, []);
+
+  useEffect(() => {
+    if (motionList.length === 0) {
+      setIsExercisingDisabled(true);
+    } else {
+      setIsExercisingDisabled(false);
+    }
+    motionList.forEach((value, key) => {
+      if (value.motion_index > motionIndexMax) {
+        setMotionIndexMax(value.motion_index);
+      }
+    });
+  }, [motionList]);
+
+  useEffect(() => {
+    if (route.params.motionList) {
+      setMotionList(route.params.motionList);
+    }
+
+    if (route.params.displaySelected) {
+      if (route.params.isAddedMotionDone) {
+        /*동작 완료 후 동작 추가 시*/
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase,
+            isMotionDone: false,
+            isMotionDoing: true,
+            doingSetIndex: 0,
+            isFav: route.params.displaySelected[0].isFav,
+            motion_range_min: route.params.displaySelected[0].motion_range_min,
+            motion_range_max: route.params.displaySelected[0].motion_range_max,
+            motion_id: route.params.displaySelected[0].motion_id,
+            motion_name: route.params.displaySelected[0].motion_name,
+            image_url: route.params.displaySelected[0].image_url,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
+            ],
+          },
+        ]);
+      } else {
+        /* 운동 수행 중에 동작 추가 시*/
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase,
+            isMotionDone: false,
+            isMotionDoing: false,
+            doingSetIndex: 0,
+            isFav: route.params.displaySelected[0].isFav,
+            motion_range_min: route.params.displaySelected[0].motion_range_min,
+            motion_range_max: route.params.displaySelected[0].motion_range_max,
+            motion_id: route.params.displaySelected[0].motion_id,
+            motion_name: route.params.displaySelected[0].motion_name,
+            image_url: route.params.displaySelected[0].image_url,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
+            ],
+          },
+        ]);
+      }
+      for (let i = 1; i < route.params.displaySelected.length; i++) {
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase + i,
+            isMotionDone: false,
+            isMotionDoing: false,
+            doingSetIndex: 0,
+            isFav: route.params.displaySelected[i].isFav,
+            motion_range_min: route.params.displaySelected[i].motion_range_min,
+            motion_range_max: route.params.displaySelected[i].motion_range_max,
+            motion_id: route.params.displaySelected[i].motion_id,
+            motion_name: route.params.displaySelected[i].motion_name,
+            image_url: route.params.displaySelected[i].image_url,
+            sets: [
+              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
+            ],
+          },
+        ]);
+      }
+    } else {
+      /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
+      let updatedMotionList = [...motionList];
+      if (!route.params.isAddMotion) {
+        updatedMotionList[m_index].isMotionDoing = true;
+        updatedMotionList[m_index].doingSetIndex = 0;
+        updatedMotionList[m_index].sets[0].isDoing = true;
+        setMotionList(updatedMotionList);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -341,10 +439,26 @@ export const WorkoutStart = ({navigation, route}) => {
 
           await serverAxios
             .post('/routine/save', body)
-            .then(res => {})
+            .then(res => {
+              let updatedRoutineList = appcontext.state.routineList;
+              updatedRoutineList[route.params.routine_index].routine_id =
+                res.data[0].routine_id;
+              updatedRoutineList[route.params.routine_index].routine_name =
+                res.data[0].routine_name;
+              updatedRoutineList[route.params.routine_index].motion_count =
+                res.data[0].motion_count;
+              updatedRoutineList[route.params.routine_index].body_regions =
+                res.data[0].body_regions;
+              appcontext.actions.setRoutineList(updatedRoutineList);
+            })
             .catch(e => {
               console.log(e);
             });
+          let updatedRoutineDetailList = appcontext.state.routineDetailList;
+          updatedRoutineDetailList[
+            route.params.routine_detail_index
+          ].motionList = motionList;
+          appcontext.actions.setRoutineDetailList(updatedRoutineDetailList);
         }
         setRoutineDoneModal(false);
       }
@@ -781,6 +895,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     onPress={() => {
                       setRoutineDoneModal(false);
                       navigation.push('AddMotion', {
+                        routine_index: route.params.routine_index,
+                        routine_detail_index: route.params.routine_detail_index,
                         motion_index_base: motionIndexMax + 1,
                         isQuickWorkout: isQuickWorkout,
                         record_id: recordId,
@@ -1134,6 +1250,8 @@ export const WorkoutStart = ({navigation, route}) => {
                   //modifyingMotion();
                   setAnimationOption('slide_from_right');
                   navigation.push('WorkoutModifying', {
+                    routine_index: route.params.routine_index,
+                    routine_detail_index: route.params.routine_detail_index,
                     motion_index_base: motionIndexMax,
                     isQuickWorkout: isQuickWorkout,
                     workout_id: route.params.workout_id,
@@ -1163,6 +1281,8 @@ export const WorkoutStart = ({navigation, route}) => {
                   setIsPaused(true);
                   setAnimationOption('slide_from_left');
                   navigation.push('WorkoutSetting', {
+                    routine_index: route.params.routine_index,
+                    routine_detail_index: route.params.routine_detail_index,
                     isQuickWorkout: isQuickWorkout,
                     workout_id: route.params.workout_id,
                     record_id: recordId,
@@ -1399,6 +1519,109 @@ export const WorkoutStart = ({navigation, route}) => {
               <Play height={24 * height_ratio} width={24 * width_ratio} />
               <Text style={styles.CText3}>운동 다시 시작</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
+      {!isPausedPage && isModifyMotion && (
+        <View>
+          <MotionRangeModal
+            isMotionRangeModalVisible={isMotionRangeModalVisible}
+            setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+            motionList={motionList}
+            setMotionList={setMotionList}></MotionRangeModal>
+          <Modal
+            visible={isModalVisible}
+            transparent={true}
+            animationType="fade">
+            <View style={styles.modalContainer5}>
+              <View style={styles.modeContainer5}>
+                <View style={styles.modeTitleContainer5}>
+                  <Text style={styles.titleText5}>하중모드</Text>
+                  <Text style={{fontSize: 14 * height_ratio}}>
+                    {selectedMode.modeName}
+                  </Text>
+                </View>
+                <View>
+                  <FlatList
+                    data={appcontext.state.modeList}
+                    renderItem={({item}) => <Item mode={item}></Item>}
+                    keyExtractor={item => item.modeName}></FlatList>
+                </View>
+
+                <View style={styles.modeButtonContainer5}>
+                  <View>
+                    <CustomButton_W
+                      width={171 * width_ratio}
+                      content="취소"
+                      onPress={handleCancelPress}
+                      disabled={false}></CustomButton_W>
+                  </View>
+                  <View>
+                    <CustomButton_B
+                      width={171}
+                      content="선택 완료"
+                      onPress={handleSelectPress}
+                      disabled={false}></CustomButton_B>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 24 * height_ratio,
+            }}>
+            <Text style={styles.motionTitle}>동작</Text>
+            <Battery battery={battery} />
+          </View>
+
+          <GestureHandlerRootView style={{height: 625 * height_ratio}}>
+            <DraggableFlatList
+              data={motionList}
+              renderItem={renderItem}
+              keyExtractor={item => item.motion_index}
+              onDragEnd={({data}) => setMotionList(data)}
+              showsVerticalScrollIndicator={false}
+            />
+          </GestureHandlerRootView>
+
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <View style={{marginRight: 8 * width_ratio}}>
+              <CustomButton_W
+                width={171 * width_ratio}
+                content="+ 동작 추가"
+                onPress={() => {
+                  navigation.push('AddMotion', {
+                    motion_index_base: motionIndexMax + 1,
+                    isQuickWorkout: isQuickWorkout,
+                    workout_id: route.params.workout_id,
+                    record_id: recordId,
+                    routine_id: route.params.routine_id,
+                    isRoutine: false,
+                    isExercising: true,
+                    isAddedMotionDone: false,
+                    motionList: motionList,
+                    elapsedTime: elapsedTime,
+                    TUT: TUT,
+                    m_index: m_index,
+                    s_index: s_index,
+                    isResting: isResting,
+                    restTimer: restTimer,
+                  });
+                }}></CustomButton_W>
+            </View>
+            <View style={{marginLeft: 8 * width_ratio}}>
+              <CustomButton_B
+                disabled={isExercisingDisabled}
+                width={171 * width_ratio}
+                content={`운동중  ${formatTime(elapsedTime)}`}
+                onPress={saveModifying}></CustomButton_B>
+            </View>
           </View>
         </View>
       )}

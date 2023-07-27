@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
 import styles from './styles';
@@ -20,6 +21,12 @@ import X from '../../assets/svg/buttons/single/x.svg';
 import {Divider} from '../../components/divider';
 import {AppContext} from '../../contexts/AppProvider';
 
+import Star_A from '../../assets/svg/buttons/active/star.svg';
+import Star_D from '../../assets/svg/buttons/default/star.svg';
+import Question from '../../assets/svg/buttons/single/question.svg';
+import Check from '../../assets/svg/buttons/active/check.svg';
+import DefaultImage from '../../assets/svg/icons/default_workout.svg';
+
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
@@ -32,15 +39,20 @@ const AddMotion = ({navigation, route}) => {
   const [displaySelected, setDisplaySelected] = useState(new Map());
   const [selectedLength, setSelectedLength] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [motionName, setMotionName] = useState('');
   const [gripList, setGripList] = useState([]);
   const [bodyRegionList, setBodyRegionList] = useState([]);
+  const [selectedList, setSelectedList] = useState([]);
 
   let length = 0;
 
   const handleMotionSearchChange = async text => {
+    setMotionName(text);
     const body = {
       user_id: appcontext.state.userid,
       motion_name: text,
+      grip: gripList,
+      bodyRegion: bodyRegionList,
     };
     await serverAxios
       .post('/motion/search', body)
@@ -54,6 +66,14 @@ const AddMotion = ({navigation, route}) => {
 
   const onSelect = useCallback(
     motion => {
+      // if (selectedList.includes(motion.motion_name)) {
+      //   setSelectedList(
+      //     selectedList.filter(item => item !== motion.motion_name),
+      //   );
+      // } else {
+      //   setSelectedList([...selectedList, motion.motion_name]);
+      // }
+
       let length = 0;
       const newSelected = new Map(selected);
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
@@ -78,9 +98,10 @@ const AddMotion = ({navigation, route}) => {
 
   const deleteSelected = key => {
     displaySelected.delete(key);
-    const newSelected = new Map(selected);
-    newSelected.set(key, false);
-    setSelected(newSelected);
+    console.log(displaySelected);
+    // const newSelected = new Map(selected);
+    // newSelected.set(key, false);
+    // setSelected(newSelected);
   };
 
   useEffect(() => {
@@ -92,25 +113,6 @@ const AddMotion = ({navigation, route}) => {
     });
     setSelectedLength(length);
   }, [selected]);
-
-  function Item({motion, selected, onSelect}) {
-    return (
-      <TouchableOpacity onPress={() => onSelect(motion)}>
-        <MotionItem
-          navigateToMotionDetail={() => {
-            navigation.navigate('MotionDetail', {
-              motion: motion,
-              motionList: motionList,
-              setMotionList: setMotionList,
-            });
-          }}
-          motion={motion}
-          selected={selected}
-          motionList={motionList}
-          setMotionList={setMotionList}></MotionItem>
-      </TouchableOpacity>
-    );
-  }
 
   const getMotionList = async () => {
     const body = {
@@ -165,6 +167,118 @@ const AddMotion = ({navigation, route}) => {
     }
   }, [selectedLength]);
 
+  const renderItem = motion => {
+    return (
+      <TouchableOpacity onPress={() => onSelect(motion.item)}>
+        <View style={styles.motionContainer}>
+          <View style={styles.leftContainer}>
+            {motion.item.isFav ? (
+              <TouchableWithoutFeedback
+                onPress={async () => {
+                  updatedMotionList = [...motionList];
+                  updatedMotionList[
+                    updatedMotionList.findIndex(item => item === motion.item)
+                  ].isFav = !motion.item.isFav;
+
+                  const body = {
+                    user_id: appcontext.state.userid,
+                    motion_id: motion.item.motion_id,
+                  };
+
+                  /* 즐겨찾기 삭제 API 호출 */
+                  await serverAxios
+                    .post('/motion/favDelete', body)
+                    .then(res => {})
+                    .catch(e => {
+                      console.log(e);
+                    });
+
+                  setMotionList(updatedMotionList);
+                }}>
+                <Star_A height={24 * height_ratio} width={24 * width_ratio} />
+              </TouchableWithoutFeedback>
+            ) : (
+              <TouchableWithoutFeedback
+                onPress={async () => {
+                  updatedMotionList = [...motionList];
+                  updatedMotionList[
+                    updatedMotionList.findIndex(item => item === motion.item)
+                  ].isFav = !motion.item.isFav;
+                  const body = {
+                    user_id: appcontext.state.userid,
+                    motion_id: motion.item.motion_id,
+                  };
+
+                  /* 즐겨찾기 추가 API 호출 */
+                  await serverAxios
+                    .post('/motion/favInsert', body)
+                    .then(res => {})
+                    .catch(e => {
+                      console.log(e);
+                    });
+
+                  setMotionList(updatedMotionList);
+                }}>
+                <Star_D height={24 * height_ratio} width={24 * width_ratio} />
+              </TouchableWithoutFeedback>
+            )}
+
+            <TouchableOpacity
+              style={styles.imageContainer}
+              onPress={() =>
+                navigation.navigate('MotionDetail', {
+                  motion: motion.item,
+                  motionList: motionList,
+                  setMotionList: setMotionList,
+                })
+              }>
+              {motion.item.image_url ? (
+                <Image
+                  source={{
+                    uri: motion.item.image_url,
+                  }}
+                  style={{
+                    width: 48 * width_ratio,
+                    height: 48 * height_ratio,
+                  }}></Image>
+              ) : (
+                <DefaultImage
+                  width={48 * width_ratio}
+                  height={48 * height_ratio}></DefaultImage>
+              )}
+            </TouchableOpacity>
+            <View style={styles.nameContainer}>
+              <Text
+                style={{
+                  fontSize: 14 * height_ratio,
+                  color: displaySelected.has(motion.item.motion_id)
+                    ? '#5252fa'
+                    : '#242424',
+                }}>
+                {motion.item.motion_name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14 * height_ratio,
+                  color: displaySelected.has(motion.item.motion_id)
+                    ? '#5252fa'
+                    : '#808080',
+                }}>
+                {motion.item.motion_name}
+              </Text>
+            </View>
+          </View>
+          {displaySelected.has(motion.item.motion_id) && (
+            <View>
+              <Check height={16 * height_ratio} width={16 * width_ratio} />
+            </View>
+          )}
+        </View>
+        <Divider height_ratio={height_ratio} />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View
       style={[
@@ -200,12 +314,33 @@ const AddMotion = ({navigation, route}) => {
                     : '#f5f5f5',
                   borderRadius: 8 * height_ratio,
                 }}
-                onPress={() => {
+                onPress={async () => {
+                  let body;
                   if (gripList.includes(value)) {
                     setGripList(gripList.filter(grip => grip !== value));
+                    body = {
+                      user_id: appcontext.state.userid,
+                      motion_name: motionName,
+                      grip: gripList.filter(grip => grip !== value),
+                      body_region: bodyRegionList,
+                    };
                   } else {
                     setGripList([...gripList, String(value)]);
+                    body = {
+                      user_id: appcontext.state.userid,
+                      motion_name: motionName,
+                      grip: [...gripList, String(value)],
+                      body_region: bodyRegionList,
+                    };
                   }
+                  await serverAxios
+                    .post('/motion/search', body)
+                    .then(res => {
+                      setMotionList(res.data);
+                    })
+                    .catch(e => {
+                      console.log(e);
+                    });
                 }}>
                 <Text
                   style={{
@@ -232,14 +367,37 @@ const AddMotion = ({navigation, route}) => {
                     : '#f5f5f5',
                   borderRadius: 8 * height_ratio,
                 }}
-                onPress={() => {
+                onPress={async () => {
+                  let body;
                   if (bodyRegionList.includes(value)) {
                     setBodyRegionList(
                       bodyRegionList.filter(bodyRegion => bodyRegion !== value),
                     );
+                    body = {
+                      user_id: appcontext.state.userid,
+                      motion_name: motionName,
+                      grip: gripList,
+                      body_region: bodyRegionList.filter(
+                        bodyRegion => bodyRegion !== value,
+                      ),
+                    };
                   } else {
                     setBodyRegionList([...bodyRegionList, String(value)]);
+                    body = {
+                      user_id: appcontext.state.userid,
+                      motion_name: motionName,
+                      grip: gripList,
+                      body_region: [...bodyRegionList, String(value)],
+                    };
                   }
+                  await serverAxios
+                    .post('/motion/search', body)
+                    .then(res => {
+                      setMotionList(res.data);
+                    })
+                    .catch(e => {
+                      console.log(e);
+                    });
                 }}>
                 <Text
                   style={{
@@ -256,14 +414,17 @@ const AddMotion = ({navigation, route}) => {
       {displaySelected.size === 0 && (
         <View
           style={{
-            paddingVertical: 8 * height_ratio,
+            paddingBottom: 4 * height_ratio,
           }}>
           <Text style={styles.recommendedText}>추천 운동</Text>
         </View>
       )}
       {displaySelected.size !== 0 && (
         <View
-          style={{height: displaySelected.size !== 0 ? 50 * height_ratio : 0}}>
+          style={{
+            height: displaySelected.size !== 0 ? 50 * height_ratio : 0,
+            paddingBottom: 15 * height_ratio,
+          }}>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -295,7 +456,9 @@ const AddMotion = ({navigation, route}) => {
                     {value.motion_name}
                   </Text>
                   <TouchableOpacity
-                    onPress={() => deleteSelected(value.motion_id)}>
+                    onPress={() => {
+                      onSelect(value);
+                    }}>
                     <X height={24 * height_ratio} width={24 * width_ratio} />
                   </TouchableOpacity>
                 </View>
@@ -318,20 +481,21 @@ const AddMotion = ({navigation, route}) => {
       )}
       <FlatList
         data={motionList}
-        renderItem={({item, index}) => {
-          const isEnd = index === motionList.length - 1;
-          return (
-            <>
-              <Item
-                motion={item}
-                selected={!!selected.get(item.motion_id)}
-                onSelect={onSelect}></Item>
-              {!isEnd && <Divider height_ratio={height_ratio} />}
-            </>
-          );
-        }}
+        // renderItem={({item, index}) => {
+        //   const isEnd = index === motionList.length - 1;
+        //   return (
+        //     <>
+        //       <Item
+        //         motion={item}
+        //         selected={!!selected.get(item.motion_id)}
+        //         onSelect={onSelect}></Item>
+        //       {!isEnd && <Divider height_ratio={height_ratio} />}
+        //     </>
+        //   );
+        // }}
+        renderItem={renderItem}
         keyExtractor={item => item.motion_id}
-        extraData={selected}
+        //extraData={selected}
         showsVerticalScrollIndicator={false}></FlatList>
 
       <CustomButton_B
@@ -344,7 +508,6 @@ const AddMotion = ({navigation, route}) => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
                 route.params.isRoutineDetail
                   ? navigation.push('RoutineDetail', {
-                      index: route.params.index,
                       motion_index_base: route.params.motion_index_base,
                       isMotionAdded: true,
                       routineName: route.params.routineName,
@@ -367,27 +530,51 @@ const AddMotion = ({navigation, route}) => {
                 selectedMotionKeys = Array.from(displaySelected.keys());
 
                 route.params.isExercising
-                  ? navigation.push('WorkoutModifying', {
-                      motion_index_base: route.params.motion_index_base,
-                      isQuickWorkout: route.params.isQuickWorkout,
-                      workout_id: route.params.workout_id,
-                      record_id: route.params.record_id,
-                      routine_id: route.params.routine_id,
-                      isAddMotion: true,
-                      isAddedMotionDone: route.params.isAddedMotionDone,
-                      motionList: route.params.motionList,
-                      selectedMotionKeys: selectedMotionKeys,
-                      displaySelected: Array.from(displaySelected.values()),
-                      elapsedTime: route.params.elapsedTime,
-                      TUT: route.params.TUT,
-                      m_index: route.params.m_index,
-                      s_index: route.params.s_index,
-                      isPaused: true,
-                      isPausedPage: false,
-                      isModifyMotion: true,
-                      isResting: route.params.isResting,
-                      restTimer: route.params.restTimer,
-                    })
+                  ? route.params.routine_index != null
+                    ? navigation.push('WorkoutModifying', {
+                        routine_index: route.params.routine_index,
+                        routine_detail_index: route.params.routine_detail_index,
+                        motion_index_base: route.params.motion_index_base,
+                        isQuickWorkout: route.params.isQuickWorkout,
+                        workout_id: route.params.workout_id,
+                        record_id: route.params.record_id,
+                        routine_id: route.params.routine_id,
+                        isAddMotion: true,
+                        isAddedMotionDone: route.params.isAddedMotionDone,
+                        motionList: route.params.motionList,
+                        selectedMotionKeys: selectedMotionKeys,
+                        displaySelected: Array.from(displaySelected.values()),
+                        elapsedTime: route.params.elapsedTime,
+                        TUT: route.params.TUT,
+                        m_index: route.params.m_index,
+                        s_index: route.params.s_index,
+                        isPaused: true,
+                        isPausedPage: false,
+                        isModifyMotion: true,
+                        isResting: route.params.isResting,
+                        restTimer: route.params.restTimer,
+                      })
+                    : navigation.push('WorkoutModifying', {
+                        motion_index_base: route.params.motion_index_base,
+                        isQuickWorkout: route.params.isQuickWorkout,
+                        workout_id: route.params.workout_id,
+                        record_id: route.params.record_id,
+                        routine_id: route.params.routine_id,
+                        isAddMotion: true,
+                        isAddedMotionDone: route.params.isAddedMotionDone,
+                        motionList: route.params.motionList,
+                        selectedMotionKeys: selectedMotionKeys,
+                        displaySelected: Array.from(displaySelected.values()),
+                        elapsedTime: route.params.elapsedTime,
+                        TUT: route.params.TUT,
+                        m_index: route.params.m_index,
+                        s_index: route.params.s_index,
+                        isPaused: true,
+                        isPausedPage: false,
+                        isModifyMotion: true,
+                        isResting: route.params.isResting,
+                        restTimer: route.params.restTimer,
+                      })
                   : navigation.push('WorkoutReady', {
                       motion_index_base: route.params.motion_index_base,
                       selectedMotionKeys: selectedMotionKeys,

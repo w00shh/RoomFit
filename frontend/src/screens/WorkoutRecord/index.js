@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useCallback} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import {
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {SelectList} from 'react-native-dropdown-select-list';
 
 import TempPeople from '../../assets/images/img_sample1.svg';
 import Profile from '../../assets/images/normalProfile.svg';
@@ -60,7 +62,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
   const [periodWorkout, setPeriodWorkout] = useState();
-
+  const [selectedItem, setSelectedItem] = useState(null);
   const markDates = () => {
     const updateMarkedDates = {};
 
@@ -226,6 +228,13 @@ const WorkoutRecord = ({navigation, route}) => {
     );
   };
 
+  const data = [
+    {label: '항목 1', value: 'item1'},
+    {label: '항목 2', value: 'item2'},
+    {label: '항목 3', value: 'item3'},
+    {label: '항목 4', value: 'item4'},
+  ];
+
   return (
     <View style={styles.pageContainer}>
       <View
@@ -293,7 +302,12 @@ const WorkoutRecord = ({navigation, route}) => {
               marginTop: 24 * height_ratio,
             }}>
             <View>
-              <Text>7일</Text>
+              <SelectList
+                setSelected={val => setSelected(val)}
+                data={data}
+                save="value"
+                search={false}
+              />
             </View>
             <View style={{flexDirection: 'row'}}>
               <View
@@ -773,8 +787,7 @@ const WorkoutRecord = ({navigation, route}) => {
       )}
 
       <View style={styles.navigator}>
-        <TouchableOpacity
-          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
           <Workout height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
         <TouchableOpacity>
