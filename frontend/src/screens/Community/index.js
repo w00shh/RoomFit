@@ -27,16 +27,16 @@ import CustomButton_W from '../../components/CustomButton_W';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
+const category = [
+  'Q&A',
+  '헬스자랑',
+  '자유게시판',
+  '운동팁',
+  '운동일지',
+  '운동식단',
+];
 
 const CategoryBar = () => {
-  const category = [
-    'Q&A',
-    '헬스자랑',
-    '자유게시판',
-    '운동팁',
-    '운동일지',
-    '운동식단',
-  ];
   return (
     <View>
       <ScrollView
@@ -547,7 +547,12 @@ const Community = () => {
           <View style={styles.postContainer}>
             <View style={styles.postTitle}>
               <Text style={styles.titleText}>글 쓰기</Text>
-              <TouchableOpacity onPress={() => setIsPostingModal(false)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsPostingModal(false);
+                  handleInputChange('');
+                  setpostimage_url(null);
+                }}>
                 <Icons_three name="x" size={28 * height_ratio} color="black" />
               </TouchableOpacity>
             </View>
@@ -580,6 +585,8 @@ const Community = () => {
                   disabled={false}
                   onPress={() => {
                     postFeed();
+                    handleInputChange('');
+                    setpostimage_url(null);
                     setIsPostingModal(false);
                   }}></CustomButton_B>
               </View>
