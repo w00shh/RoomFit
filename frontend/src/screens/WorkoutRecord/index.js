@@ -65,9 +65,10 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    {label: '옵션 1', value: 'option1'},
-    {label: '옵션 2', value: 'option2'},
-    {label: '옵션 3', value: 'option3'},
+    {label: '7일', value: '7'},
+    {label: '1개월', value: '1'},
+    {label: '3개월', value: '3'},
+    {label: '6개월', value: '6'},
   ]);
 
   const markDates = () => {
@@ -102,24 +103,6 @@ const WorkoutRecord = ({navigation, route}) => {
       })
       .catch(e => console.log(e));
   };
-
-  const groupDataByDate = () => {
-    const groupedData = workoutList.reduce((acc, exercise) => {
-      const {date, ...exerciseInfo} = exercise;
-      if (!acc[date.split(' ')[0]]) {
-        acc[date] = [];
-      }
-      acc[date].push(exerciseInfo);
-      return acc;
-    }, {});
-
-    return Object.keys(groupedData).map(date => ({
-      date,
-      data: groupedData[date],
-    }));
-  };
-
-  const formattedData = groupDataByDate();
 
   const handleDayPress = day => {
     setSelectedDate(day.dateString);
@@ -182,6 +165,42 @@ const WorkoutRecord = ({navigation, route}) => {
       //console.log(res.data);
       setPeriodWorkout(res.data);
     });
+  };
+
+  useEffect(() => {
+    if (selectedValue) {
+      console.log(selectedValue);
+      handleGetAllWorkoutList(selectedValue);
+    }
+  }, [selectedValue]);
+
+  const handleGetAllWorkoutList = async period => {
+    const body = {
+      user_id: appcontext.state.userid,
+      duration: period,
+    };
+    await serverAxios
+      .post('/workout/brief', body)
+      .then(res => {
+        appcontext.actions.setWorkoutList(groupDataByDate(res.data));
+      })
+      .catch(e => console.log(e));
+  };
+
+  const groupDataByDate = data => {
+    const groupedData = data.reduce((acc, exercise) => {
+      const {date, ...exerciseInfo} = exercise;
+      if (!acc[date.split(' ')[0]]) {
+        acc[date] = [];
+      }
+      acc[date].push(exerciseInfo);
+      return acc;
+    }, {});
+
+    return Object.keys(groupedData).map(date => ({
+      date,
+      data: groupedData[date],
+    }));
   };
 
   const renderingWorkoutRecord = value => {
@@ -309,7 +328,7 @@ const WorkoutRecord = ({navigation, route}) => {
                 setOpen={setOpen}
                 setValue={setSelectedValue}
                 setItems={setItems}
-                placeholder="옵션을 선택해주세요."
+                placeholder="7일"
                 style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
               />
             </View>
@@ -354,7 +373,7 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          {open && <View style={{height: 110 * height_ratio}}></View>}
+          {open && <View style={{height: 150 * height_ratio}}></View>}
           <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
             <View>
