@@ -787,8 +787,7 @@ const WorkoutRecord = ({navigation, route}) => {
       )}
 
       <View style={styles.navigator}>
-        <TouchableOpacity
-          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
           <Workout height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
         <TouchableOpacity>
