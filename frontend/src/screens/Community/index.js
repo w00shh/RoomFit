@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -38,6 +38,10 @@ const category = [
 ];
 
 const CategoryBar = () => {
+  const [selectedCategory, setSelectedCategory] = React.useState(null);
+
+  React.useEffect(() => {}, [selectedCategory]);
+
   return (
     <View>
       <ScrollView
@@ -55,7 +59,7 @@ const CategoryBar = () => {
                 borderRadius: 8 * height_ratio,
               }}
               onPress={() => {
-                console.log('hi');
+                setSelectedCategory(item);
               }}>
               <Text
                 style={{
@@ -190,6 +194,7 @@ const Feed = ({
   is_like,
   props,
   fetchData,
+  category,
 }) => {
   const [pressComment, isPressedComment] = React.useState(false);
   const [liked, setLiked] = React.useState(false);
@@ -375,6 +380,11 @@ const Feed = ({
         <View style={styles.FeedContent}>
           <Text style={styles.FeedContentText}>{feed_content}</Text>
         </View>
+        {category && (
+          <View style={styles.Category}>
+            <Text style={styles.CategoryText}>{'#' + category}</Text>
+          </View>
+        )}
         {image_url != null && (
           <View>
             <Image
@@ -629,7 +639,7 @@ const Community = () => {
         </View>
       </Modal>
 
-      <CategoryBar />
+      <CategoryBar fetchData={fetchData} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {feed_data.map((item, key) => (
           <Feed
@@ -645,6 +655,7 @@ const Community = () => {
             is_like={item.is_like}
             props={user_id}
             fetchData={fetchData}
+            category={item.category}
           />
         ))}
       </ScrollView>

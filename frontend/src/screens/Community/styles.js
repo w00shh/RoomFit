@@ -160,5 +160,24 @@ const styles = StyleSheet.create({
     paddingVertical: 8 * height_ratio,
     paddingHorizontal: 12 * width_ratio,
   },
+  Category: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    width: 80 * height_ratio,
+    height: 30 * height_ratio,
+    padding: 0,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#dfdfdf',
+    borderStyle: 'solid',
+    marginVertical: 8 * height_ratio,
+  },
+  CategoryText: {
+    fontWeight: '400',
+    fontSize: 14 * height_ratio,
+    textAlign: 'center',
+    color: '#5252fa',
+  },
 });
 export default styles;
