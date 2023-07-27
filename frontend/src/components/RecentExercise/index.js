@@ -23,7 +23,7 @@ const RecentExercise = props => {
               height: 12 * height_ratio,
               backgroundColor: '#DFDFDF',
               borderRadius: 100,
-              marginTop: 10,
+              marginTop: 10 * height_ratio,
             }}
           />
           <Text style={styles.targetText}>{value.targets.join(', ')}</Text>
