@@ -7,6 +7,7 @@ import {
   Modal,
   FlatList,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 import styles from './styles';
 import WorkoutItem from '../../../components/WorkoutItem';
@@ -67,6 +68,29 @@ const RoutineDetail = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const keyboardWillShowListener = Keyboard.addListener(
+      'keyboardWillShow',
+      e => {
+        setKeyboardHeight(e.endCoordinates.height);
+      },
+    );
+
+    const keyboardWillHideListener = Keyboard.addListener(
+      'keyboardWillHide',
+      () => {
+        setKeyboardHeight(0);
+      },
+    );
+
+    return () => {
+      keyboardWillShowListener.remove();
+      keyboardWillHideListener.remove();
+    };
+  }, []);
 
   function Item({mode}) {
     return (
