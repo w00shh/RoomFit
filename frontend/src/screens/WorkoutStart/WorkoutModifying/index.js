@@ -178,6 +178,32 @@ export const WorkoutModifying = ({navigation, route}) => {
     };
   }, []);
 
+  function Item({mode}) {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          handleModeItemPress(mode);
+        }}>
+        <View
+          style={{
+            flexDirection: 'column',
+            height: 72 * height_ratio,
+            paddingVertical: 12 * height_ratio,
+            paddingHorizontal: 12 * width_ratio,
+            marginVertical: 4 * height_ratio,
+            marginHorizontal: 4 * height_ratio,
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            backgroundColor:
+              mode.modeName === selectedMode.modeName ? '#f5f5f5' : 'white',
+          }}>
+          <Text style={styles.modeText}>{mode.modeName}</Text>
+          <Text style={styles.descriptionText}>{mode.modeDescription}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
   const renderItem = gestureHandlerRootHOC(
     React.memo(({item, index, drag, isActive}) => {
       return (
