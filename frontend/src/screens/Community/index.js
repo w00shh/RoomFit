@@ -15,6 +15,7 @@ import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import Profile from '../../assets/svg/img/profile.svg';
 import Icons from 'react-native-vector-icons/Ionicons';
