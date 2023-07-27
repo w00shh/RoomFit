@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     // marginBottom: 4 * height_ratio,
     marginTop: 10 * height_ratio,
-    marginRight: 10,
+    marginRight: 10 * width_ratio,
   },
 
   exerciseInformation: {
