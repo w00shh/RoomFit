@@ -228,13 +228,13 @@ const HomeScreen = ({navigation}) => {
                       routine_index: appcontext.state.routineList.findIndex(
                         e =>
                           e.routine_id ===
-                          appcontext.state.routineList[0].routine_id,
+                          appcontext.state.routineList[1].routine_id,
                       ),
                       routine_detail_index:
                         appcontext.state.routineDetailList.findIndex(
                           e =>
                             e.routine_id ===
-                            appcontext.state.routineDetailList[0].routine_id,
+                            appcontext.state.routineList[1].routine_id,
                         ),
 
                       motion_index_base: 0,
