@@ -146,7 +146,7 @@ export const WorkoutSetting = ({navigation, route}) => {
   };
 
   return (
-    <View style={styles.subpageContainer}>
+    <SafeAreaView style={styles.subpageContainer}>
       <Modal visible={modalVisible2} transparent={true} animationType="fade">
         <View style={styles.modalContainer}>
           <View style={styles.modeContainer}>
@@ -389,6 +389,6 @@ export const WorkoutSetting = ({navigation, route}) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
