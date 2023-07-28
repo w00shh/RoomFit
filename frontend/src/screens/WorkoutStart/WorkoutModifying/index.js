@@ -153,13 +153,13 @@ export const WorkoutModifying = ({navigation, route}) => {
       }
     } else {
       /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
-      let updatedMotionList = [...motionList];
-      if (!route.params.isAddMotion) {
-        updatedMotionList[m_index].isMotionDoing = true;
-        updatedMotionList[m_index].doingSetIndex = 0;
-        updatedMotionList[m_index].sets[0].isDoing = true;
-        setMotionList(updatedMotionList);
-      }
+      // let updatedMotionList = [...motionList];
+      // if (!route.params.isAddMotion) {
+      //   updatedMotionList[m_index].isMotionDoing = true;
+      //   updatedMotionList[m_index].doingSetIndex = 0;
+      //   updatedMotionList[m_index].sets[0].isDoing = true;
+      //   setMotionList(updatedMotionList);
+      // }
     }
   }, []);
 
