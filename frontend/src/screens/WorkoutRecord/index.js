@@ -62,7 +62,15 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
   const [periodWorkout, setPeriodWorkout] = useState();
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    {label: '7일', value: '7'},
+    {label: '1개월', value: '1'},
+    {label: '3개월', value: '3'},
+    {label: '6개월', value: '6'},
+  ]);
+
   const markDates = () => {
     const updateMarkedDates = {};
 
@@ -95,24 +103,6 @@ const WorkoutRecord = ({navigation, route}) => {
       })
       .catch(e => console.log(e));
   };
-
-  const groupDataByDate = () => {
-    const groupedData = workoutList.reduce((acc, exercise) => {
-      const {date, ...exerciseInfo} = exercise;
-      if (!acc[date.split(' ')[0]]) {
-        acc[date] = [];
-      }
-      acc[date].push(exerciseInfo);
-      return acc;
-    }, {});
-
-    return Object.keys(groupedData).map(date => ({
-      date,
-      data: groupedData[date],
-    }));
-  };
-
-  const formattedData = groupDataByDate();
 
   const handleDayPress = day => {
     setSelectedDate(day.dateString);
@@ -177,6 +167,42 @@ const WorkoutRecord = ({navigation, route}) => {
     });
   };
 
+  useEffect(() => {
+    if (selectedValue) {
+      console.log(selectedValue);
+      handleGetAllWorkoutList(selectedValue);
+    }
+  }, [selectedValue]);
+
+  const handleGetAllWorkoutList = async period => {
+    const body = {
+      user_id: appcontext.state.userid,
+      duration: period,
+    };
+    await serverAxios
+      .post('/workout/brief', body)
+      .then(res => {
+        appcontext.actions.setWorkoutList(groupDataByDate(res.data));
+      })
+      .catch(e => console.log(e));
+  };
+
+  const groupDataByDate = data => {
+    const groupedData = data.reduce((acc, exercise) => {
+      const {date, ...exerciseInfo} = exercise;
+      if (!acc[date.split(' ')[0]]) {
+        acc[date] = [];
+      }
+      acc[date].push(exerciseInfo);
+      return acc;
+    }, {});
+
+    return Object.keys(groupedData).map(date => ({
+      date,
+      data: groupedData[date],
+    }));
+  };
+
   const renderingWorkoutRecord = value => {
     //console.log(appcontext.state.workoutList.length);
     //console.log(value.index);
@@ -227,13 +253,6 @@ const WorkoutRecord = ({navigation, route}) => {
       </View>
     );
   };
-
-  const data = [
-    {label: '항목 1', value: 'item1'},
-    {label: '항목 2', value: 'item2'},
-    {label: '항목 3', value: 'item3'},
-    {label: '항목 4', value: 'item4'},
-  ];
 
   return (
     <View style={styles.pageContainer}>
@@ -302,11 +321,15 @@ const WorkoutRecord = ({navigation, route}) => {
               marginTop: 24 * height_ratio,
             }}>
             <View>
-              <SelectList
-                setSelected={val => setSelected(val)}
-                data={data}
-                save="value"
-                search={false}
+              <DropDownPicker
+                open={open}
+                value={selectedValue}
+                items={items}
+                setOpen={setOpen}
+                setValue={setSelectedValue}
+                setItems={setItems}
+                placeholder="7일"
+                style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
               />
             </View>
             <View style={{flexDirection: 'row'}}>
@@ -350,6 +373,7 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
             </View>
           </View>
+          {open && <View style={{height: 150 * height_ratio}}></View>}
           <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
             <View>

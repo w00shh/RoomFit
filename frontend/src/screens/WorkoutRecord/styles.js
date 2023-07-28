@@ -131,6 +131,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  dropdown: {
+    width: 200 * width_ratio,
+    backgroundColor: '#EFEFEF',
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
 });
 
 export default styles;

@@ -15,6 +15,7 @@ import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {AppContext} from '../../contexts/AppProvider';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import Profile from '../../assets/svg/img/profile.svg';
 import Icons from 'react-native-vector-icons/Ionicons';
@@ -27,16 +28,16 @@ import CustomButton_W from '../../components/CustomButton_W';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
+const category = [
+  'Q&A',
+  '헬스자랑',
+  '자유게시판',
+  '운동팁',
+  '운동일지',
+  '운동식단',
+];
 
 const CategoryBar = () => {
-  const category = [
-    'Q&A',
-    '헬스자랑',
-    '자유게시판',
-    '운동팁',
-    '운동일지',
-    '운동식단',
-  ];
   return (
     <View>
       <ScrollView
@@ -78,6 +79,8 @@ const Comment = ({
   comment_id,
   comment_count,
   onCommentCountChange,
+  comment_user_id,
+  props,
 }) => {
   const [isSettingModal, setIsSettingModal] = React.useState(false);
 
@@ -109,35 +112,37 @@ const Comment = ({
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  Alert.alert(
-                    '댓글 삭제',
-                    '댓글을 삭제하시겠습니까?',
-                    [
-                      {
-                        text: '취소',
-                        onPress: () => {
-                          console.log('Cancel Pressed');
-                          setIsSettingModal(false);
+              {comment_user_id == props && (
+                <TouchableOpacity
+                  onPress={() => {
+                    Alert.alert(
+                      '댓글 삭제',
+                      '댓글을 삭제하시겠습니까?',
+                      [
+                        {
+                          text: '취소',
+                          onPress: () => {
+                            console.log('Cancel Pressed');
+                            setIsSettingModal(false);
+                          },
+                          style: 'cancel',
                         },
-                        style: 'cancel',
-                      },
-                      {
-                        text: '삭제',
-                        onPress: () => {
-                          deleteComment();
-                          setIsSettingModal(false);
+                        {
+                          text: '삭제',
+                          onPress: () => {
+                            deleteComment();
+                            setIsSettingModal(false);
+                          },
                         },
-                      },
-                    ],
-                    {cancelable: false},
-                  );
-                }}>
-                <View style={styles.settingModalMenu}>
-                  <Text style={styles.titleText}>삭제</Text>
-                </View>
-              </TouchableOpacity>
+                      ],
+                      {cancelable: false},
+                    );
+                  }}>
+                  <View style={styles.settingModalMenu}>
+                    <Text style={styles.titleText}>삭제</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
               <TouchableOpacity>
                 <View style={styles.settingModalMenu}>
                   <Text style={styles.titleText}>신고</Text>
@@ -312,35 +317,37 @@ const Feed = ({
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  Alert.alert(
-                    '게시물 삭제',
-                    '게시물을 삭제하시겠습니까?',
-                    [
-                      {
-                        text: '취소',
-                        onPress: () => {
-                          console.log('Cancel Pressed');
-                          setIsSettingModal(false);
+              {props == user_id && (
+                <TouchableOpacity
+                  onPress={() => {
+                    Alert.alert(
+                      '게시물 삭제',
+                      '게시물을 삭제하시겠습니까?',
+                      [
+                        {
+                          text: '취소',
+                          onPress: () => {
+                            console.log('Cancel Pressed');
+                            setIsSettingModal(false);
+                          },
+                          style: 'cancel',
                         },
-                        style: 'cancel',
-                      },
-                      {
-                        text: '삭제',
-                        onPress: () => {
-                          deleteFeed();
-                          setIsSettingModal(false);
+                        {
+                          text: '삭제',
+                          onPress: () => {
+                            deleteFeed();
+                            setIsSettingModal(false);
+                          },
                         },
-                      },
-                    ],
-                    {cancelable: false},
-                  );
-                }}>
-                <View style={styles.settingModalMenu}>
-                  <Text style={styles.titleText}>삭제</Text>
-                </View>
-              </TouchableOpacity>
+                      ],
+                      {cancelable: false},
+                    );
+                  }}>
+                  <View style={styles.settingModalMenu}>
+                    <Text style={styles.titleText}>삭제</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
               <TouchableOpacity>
                 <View style={styles.settingModalMenu}>
                   <Text style={styles.titleText}>신고</Text>
@@ -425,7 +432,9 @@ const Feed = ({
                   created_at={item.created_at}
                   comment_id={item.comment_id}
                   comment_count={comment_count}
+                  comment_user_id={item.user_id}
                   onCommentCountChange={handleCommentCountChange}
+                  props={props}
                 />
               </View>
             ))}
@@ -513,6 +522,7 @@ const Community = () => {
     formData.append('user_id', user_id);
     formData.append('content', postContent);
     formData.append('image', postimage_url);
+    formData.append('category', selectedCategory);
 
     await serverAxios
       .post('/community/post-feed', formData, {
@@ -540,6 +550,17 @@ const Community = () => {
     console.log(feed_data);
   }, [feed_data]);
 
+  const [selectedCategory, setSelectedCategory] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [items, setItems] = React.useState([
+    {label: 'Q&A', value: 'Q&A'},
+    {label: '헬스 자랑', value: '헬스 자랑'},
+    {label: '자유게시판', value: '자유게시판'},
+    {label: '운동 팁', value: '운동 팁'},
+    {label: '운동 일지', value: '운동 일지'},
+    {label: '운동 식단', value: '운동 식단'},
+  ]);
+
   return (
     <View style={{flex: 1}}>
       <Modal visible={isPostingModal} transparent={true} animationType="fade">
@@ -547,9 +568,27 @@ const Community = () => {
           <View style={styles.postContainer}>
             <View style={styles.postTitle}>
               <Text style={styles.titleText}>글 쓰기</Text>
-              <TouchableOpacity onPress={() => setIsPostingModal(false)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsPostingModal(false);
+                  handleInputChange('');
+                  setpostimage_url(null);
+                }}>
                 <Icons_three name="x" size={28 * height_ratio} color="black" />
               </TouchableOpacity>
+            </View>
+
+            <View style={styles.dropdown}>
+              <DropDownPicker
+                open={open}
+                value={selectedCategory}
+                items={items}
+                setOpen={setOpen}
+                setValue={setSelectedCategory}
+                setItems={setItems}
+                placeholder="글의 카테고리를 선택하세요."
+              />
+              {/* {selectedCategory && <Text>선택된 값: {selectedCategory}</Text>} */}
             </View>
 
             <View style={styles.postContentContainer}>
@@ -577,9 +616,11 @@ const Community = () => {
                 <CustomButton_B
                   width={171 * width_ratio}
                   content="포스트"
-                  disabled={false}
+                  disabled={category == null || postContent == ''}
                   onPress={() => {
                     postFeed();
+                    handleInputChange('');
+                    setpostimage_url(null);
                     setIsPostingModal(false);
                   }}></CustomButton_B>
               </View>
