@@ -226,6 +226,9 @@ const RoutineDetail = ({navigation, route}) => {
   //       console.log(e);
   //     });
   // };
+  useEffect(() => {
+    if (motionList[0]) console.log(motionList[0].sets);
+  }, [motionList]);
 
   useEffect(() => {
     if (route.params.isRoutineDetail) {
