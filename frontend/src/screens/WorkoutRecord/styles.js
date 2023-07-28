@@ -132,12 +132,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dropdown: {
-    width: 200 * width_ratio,
-    backgroundColor: '#EFEFEF',
+    width: 170 * width_ratio,
+    backgroundColor: 'white',
     borderColor: '#C0C0C0',
     borderWidth: 1,
     borderRadius: 8,
-    marginBottom: 20,
+    marginBottom: 10,
+    minHeight: 40,
   },
 });
 
