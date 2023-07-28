@@ -1,4 +1,10 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -68,6 +74,9 @@ export const WorkoutModifying = ({navigation, route}) => {
   });
   const [m_index, setMIndex] = useState(route.params.m_index);
   const [s_index, setSIndex] = useState(route.params.s_index);
+
+  const [initialTime, setInitialTime] = useState(new Date());
+  const [elapsedTimeInSeconds, setElapsedTimeInSeconds] = useState(0);
 
   useEffect(() => {
     if (motionList.length === 0) {
@@ -153,6 +162,8 @@ export const WorkoutModifying = ({navigation, route}) => {
       }
     }
   }, []);
+
+  // }, []);
 
   function Item({mode}) {
     return (
@@ -331,8 +342,14 @@ export const WorkoutModifying = ({navigation, route}) => {
             <CustomButton_B
               disabled={isExercisingDisabled}
               width={171 * width_ratio}
-              content={`운동중  ${formatTime(elapsedTime)}`}
+              content={'운동중'}
+              //content={`운동중  ${formatTime(elapsedTime)}`}
               onPress={() => {
+                const currentTime = new Date();
+                const elapsedTimeInMilliseconds = currentTime - initialTime;
+                const elapsedTimeInSeconds = elapsedTimeInMilliseconds / 1000;
+                console.log(elapsedTimeInSeconds);
+                console.log(parseInt(elapsedTimeInSeconds, 10));
                 navigation.push('WorkoutStart', {
                   isWorkoutStartSplash: false,
                   routine_index: route.params.routine_index,
@@ -343,7 +360,7 @@ export const WorkoutModifying = ({navigation, route}) => {
                   workout_id: route.params.workout_id,
                   isAddMotion: route.params.isAddMotion,
                   motionList: motionList,
-                  elapsedTime: elapsedTime,
+                  elapsedTime: elapsedTime + parseInt(elapsedTimeInSeconds, 10),
                   TUT: route.params.TUT,
                   m_index: route.params.m_index,
                   s_index: route.params.s_index,
