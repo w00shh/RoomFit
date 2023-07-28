@@ -152,9 +152,13 @@ const styles = StyleSheet.create({
     color: '#242424',
     textAlign: 'center',
   },
-  commentLeftContainer:{
+  commentLeftContainer: {
     flexDirection: 'row',
-    
-  }
+  },
+  dropdown: {
+    zIndex: 1,
+    paddingVertical: 8 * height_ratio,
+    paddingHorizontal: 12 * width_ratio,
+  },
 });
 export default styles;
