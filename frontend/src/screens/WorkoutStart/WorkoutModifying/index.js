@@ -1,4 +1,10 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -68,6 +74,9 @@ export const WorkoutModifying = ({navigation, route}) => {
   });
   const [m_index, setMIndex] = useState(route.params.m_index);
   const [s_index, setSIndex] = useState(route.params.s_index);
+
+  const [initialTime, setInitialTime] = useState(new Date());
+  const [elapsedTimeInSeconds, setElapsedTimeInSeconds] = useState(0);
 
   useEffect(() => {
     if (motionList.length === 0) {
@@ -151,32 +160,10 @@ export const WorkoutModifying = ({navigation, route}) => {
           },
         ]);
       }
-    } else {
-      /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
-      // let updatedMotionList = [...motionList];
-      // if (!route.params.isAddMotion) {
-      //   updatedMotionList[m_index].isMotionDoing = true;
-      //   updatedMotionList[m_index].doingSetIndex = 0;
-      //   updatedMotionList[m_index].sets[0].isDoing = true;
-      //   setMotionList(updatedMotionList);
-      // }
     }
   }, []);
 
-  useEffect(() => {
-    let intervalId;
-
-    intervalId = setInterval(() => {
-      setElapsedTime(prevElapsedTime => {
-        const updatedTime = prevElapsedTime + 1;
-        return updatedTime;
-      });
-    }, 1000); // 1초마다 증가
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  // }, []);
 
   function Item({mode}) {
     return (
@@ -204,32 +191,30 @@ export const WorkoutModifying = ({navigation, route}) => {
     );
   }
 
-  const renderItem = gestureHandlerRootHOC(
-    React.memo(({item, index, drag, isActive}) => {
-      return (
-        <>
-          <WorkoutItem
-            drag={drag}
-            isActive={isActive}
-            motion_index={item.motion_index}
-            id={item.motion_id}
-            motion={item}
-            isExercising={true}
-            setIsModalVisible={setIsModalVisible}
-            motion={item}
-            motionList={motionList}
-            setMotionList={setMotionList}
-            setSelectedMode={setSelectedMode}
-            setIsMotionRangeModalVisible={
-              setIsMotionRangeModalVisible
-            }></WorkoutItem>
-          {item !== motionList[motionList.length - 1] && (
-            <Divider height_ratio={height_ratio} />
-          )}
-        </>
-      );
-    }),
-  );
+  const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
+    return (
+      <>
+        <WorkoutItem
+          drag={drag}
+          isActive={isActive}
+          motion_index={item.motion_index}
+          id={item.motion_id}
+          motion={item}
+          isExercising={true}
+          setIsModalVisible={setIsModalVisible}
+          motion={item}
+          motionList={motionList}
+          setMotionList={setMotionList}
+          setSelectedMode={setSelectedMode}
+          setIsMotionRangeModalVisible={
+            setIsMotionRangeModalVisible
+          }></WorkoutItem>
+        {item !== motionList[motionList.length - 1] && (
+          <Divider height_ratio={height_ratio} />
+        )}
+      </>
+    );
+  });
 
   const formatTime = time => {
     if (time < 0) {
@@ -357,8 +342,14 @@ export const WorkoutModifying = ({navigation, route}) => {
             <CustomButton_B
               disabled={isExercisingDisabled}
               width={171 * width_ratio}
-              content={`운동중  ${formatTime(elapsedTime)}`}
+              content={'운동중'}
+              //content={`운동중  ${formatTime(elapsedTime)}`}
               onPress={() => {
+                const currentTime = new Date();
+                const elapsedTimeInMilliseconds = currentTime - initialTime;
+                const elapsedTimeInSeconds = elapsedTimeInMilliseconds / 1000;
+                console.log(elapsedTimeInSeconds);
+                console.log(parseInt(elapsedTimeInSeconds, 10));
                 navigation.push('WorkoutStart', {
                   isWorkoutStartSplash: false,
                   routine_index: route.params.routine_index,
@@ -369,7 +360,7 @@ export const WorkoutModifying = ({navigation, route}) => {
                   workout_id: route.params.workout_id,
                   isAddMotion: route.params.isAddMotion,
                   motionList: motionList,
-                  elapsedTime: elapsedTime,
+                  elapsedTime: elapsedTime + parseInt(elapsedTimeInSeconds, 10),
                   TUT: route.params.TUT,
                   m_index: route.params.m_index,
                   s_index: route.params.s_index,
