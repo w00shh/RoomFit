@@ -324,6 +324,7 @@ const WorkoutRecord = ({navigation, route}) => {
       {isLeft && (
         <View style={{alignItems: 'center'}}>
           <View
+            zIndex={100}
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -334,22 +335,6 @@ const WorkoutRecord = ({navigation, route}) => {
               height: 40 * height_ratio,
               marginTop: 24 * height_ratio,
             }}>
-            <View style={{zIndex: 2000, elevation: 10}}>
-              <DropDownPicker
-                open={open}
-                value={selectedValue}
-                items={items}
-                setOpen={setOpen}
-                setValue={setSelectedValue}
-                setItems={setItems}
-                labelStyle={{height: 40, fontSize: 14 * height_ratio}}
-                placeholder={
-                  appcontext.state.duration +
-                  (appcontext.state.duration === 7 ? '일' : '개월')
-                }
-                style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
-              />
-            </View>
             <View
               style={{
                 flexDirection: 'row',
@@ -407,16 +392,36 @@ const WorkoutRecord = ({navigation, route}) => {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
-          {open && <View style={{height: 150 * height_ratio}}></View>}
-          <View style={{height: 16 * height_ratio}}></View>
-          {!isCalendar && (
+
             <View>
-              <FlatList
-                data={appcontext.state.workoutList}
-                renderItem={renderingWorkoutRecord}></FlatList>
+              <DropDownPicker
+                zIndex={2000}
+                open={open}
+                value={selectedValue}
+                items={items}
+                setOpen={setOpen}
+                setValue={setSelectedValue}
+                setItems={setItems}
+                placeholder={
+                  appcontext.state.duration +
+                  (appcontext.state.duration === 7 ? '일' : '개월')
+                }
+                style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
+              />
             </View>
-          )}
+          </View>
+
+          {/* {open && <View style={{height: 150 * height_ratio}}></View>} */}
+          <View>
+            <View style={{height: 16 * height_ratio}}></View>
+            {!isCalendar && (
+              <View>
+                <FlatList
+                  data={appcontext.state.workoutList}
+                  renderItem={renderingWorkoutRecord}></FlatList>
+              </View>
+            )}
+          </View>
           {isCalendar && (
             <ScrollView
               style={{width: 358 * width_ratio}}
@@ -490,6 +495,7 @@ const WorkoutRecord = ({navigation, route}) => {
                         </TouchableOpacity>
                       ))}
                     </View>
+
                     <View style={{height: 150 * height_ratio}}></View>
                   </>
                 )}
