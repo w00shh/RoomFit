@@ -342,7 +342,6 @@ const WorkoutRecord = ({navigation, route}) => {
                 setOpen={setOpen}
                 setValue={setSelectedValue}
                 setItems={setItems}
-                labelStyle={{height: 40, fontSize: 14 * height_ratio}}
                 placeholder={
                   appcontext.state.duration +
                   (appcontext.state.duration === 7 ? '일' : '개월')
