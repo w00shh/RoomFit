@@ -1,6 +1,9 @@
 import React, {useEffect} from 'react';
 import styles from './styles';
 import {Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
+import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
+import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //svg
 import Time from '../../assets/svg/icons/time.svg';
@@ -15,15 +18,23 @@ const RecentExercise = props => {
   return (
     <View>
       <View style={styles.performedContainer}>
+        <Text style={styles.titleText}>{value.title}</Text>
         <View style={[styles.targetContainer, {marginTop: 2 * height_ratio}]}>
-          <Text style={styles.titleText}>{value.title}</Text>
+          <Text style={styles.timeText}>
+            {value.start_time.split(' ')[1].split(':')[0] +
+              ':' +
+              value.start_time.split(' ')[1].split(':')[0]}{' '}
+            -{' '}
+            {value.end_time.split(' ')[1].split(':')[0] +
+              ':' +
+              value.end_time.split(' ')[1].split(':')[0]}
+          </Text>
           <View
             style={{
               width: 1 * width_ratio,
               height: 12 * height_ratio,
               backgroundColor: '#DFDFDF',
               borderRadius: 100,
-              marginTop: 10 * height_ratio,
             }}
           />
           <Text style={styles.targetText}>{value.targets.join(', ')}</Text>
@@ -31,7 +42,7 @@ const RecentExercise = props => {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: 5.5 * height_ratio,
+            marginTop: 17.5 * height_ratio,
             gap: 12 * width_ratio,
             justifyContent: 'flex-start',
           }}>
