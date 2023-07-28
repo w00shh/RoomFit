@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import styles from './styles';
 import {
   Text,
@@ -156,7 +156,7 @@ const SetItem = props => {
           keyboardType="numeric"
           value={isWeightEmpty ? '' : String(weight)}
           onChangeText={handleWeightChange}
-          onBlur={() => {
+          onEndEditing={() => {
             console.log(props.set_id + ' ' + props.target_motion_id);
             props.handleSaveWeight(
               weight,
@@ -173,15 +173,15 @@ const SetItem = props => {
           keyboardType="numeric"
           value={isRepsEmpty ? '' : String(reps)}
           onChangeText={handleRepsChange}
-          onBlur={() => {
+          onEndEditing={() => {
             props.handleSaveReps(reps, props.set_id, props.target_motion_id);
           }}></TextInput>
         <View style={styles.unitContainer}>
           <Text style={styles.unitText}>회</Text>
         </View>
       </View>
-      <Text>isDoing: {String(props.isDoing)}</Text>
-      <Text>isDone: {String(props.isDone)}</Text>
+      {/* <Text>isDoing: {String(props.isDoing)}</Text>
+      <Text>isDone: {String(props.isDone)}</Text> */}
       <TouchableWithoutFeedback onPress={handleModeSelectPress}>
         <View
           style={[
