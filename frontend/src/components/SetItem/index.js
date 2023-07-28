@@ -62,20 +62,6 @@ const SetItem = props => {
     }
   };
 
-  // const handleSaveWeight = () => {
-  //   //console.log(text);
-  //   console.log(weight);
-  //   let updatedMotionList = [...props.motionList];
-  //   updatedMotionList[props.target_motion_id].sets[props.set_id] = {
-  //     weight: weight,
-  //     reps: reps,
-  //     mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
-  //     isDoing: isDoing,
-  //     isDone: isDone,
-  //   };
-  //   props.setMotionList(updatedMotionList);
-  // };
-
   const handleRepsChange = text => {
     if (text === '') {
       setIsRepsEmpty(true);
@@ -92,20 +78,6 @@ const SetItem = props => {
       }
     }
   };
-
-  // useEffect(() => {
-  //   if (props.motionList) {
-  //     let updatedMotionList = [...props.motionList];
-  //     updatedMotionList[props.target_motion_id].sets[props.set_id] = {
-  //       weight: weight,
-  //       reps: reps,
-  //       mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
-  //       isDoing: isDoing,
-  //       isDone: isDone,
-  //     };
-  //     //props.setMotionList(updatedMotionList);
-  //   }
-  // }, [weight, reps]);
 
   return props.isKey ? (
     <View style={styles.setContainer}>
@@ -208,8 +180,8 @@ const SetItem = props => {
           <Text style={styles.unitText}>회</Text>
         </View>
       </View>
-      {/* <Text>isDoing: {String(props.isDoing)}</Text>
-      <Text>isDone: {String(props.isDone)}</Text> */}
+      <Text>isDoing: {String(props.isDoing)}</Text>
+      <Text>isDone: {String(props.isDone)}</Text>
       <TouchableWithoutFeedback onPress={handleModeSelectPress}>
         <View
           style={[

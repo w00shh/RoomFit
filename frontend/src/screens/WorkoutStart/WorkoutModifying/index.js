@@ -360,6 +360,7 @@ export const WorkoutModifying = ({navigation, route}) => {
               content={`운동중  ${formatTime(elapsedTime)}`}
               onPress={() => {
                 navigation.push('WorkoutStart', {
+                  isWorkoutStartSplash: false,
                   routine_index: route.params.routine_index,
                   routine_detail_index: route.params.routine_detail_index,
                   motion_index_base: motionIndexMax,
