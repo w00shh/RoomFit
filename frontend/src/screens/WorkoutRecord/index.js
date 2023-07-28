@@ -395,7 +395,6 @@ const WorkoutRecord = ({navigation, route}) => {
 
             <View>
               <DropDownPicker
-                zIndex={2000}
                 open={open}
                 value={selectedValue}
                 items={items}
@@ -406,7 +405,7 @@ const WorkoutRecord = ({navigation, route}) => {
                   appcontext.state.duration +
                   (appcontext.state.duration === 7 ? '일' : '개월')
                 }
-                style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
+                style={[styles.dropdown]}
               />
             </View>
           </View>
@@ -417,6 +416,7 @@ const WorkoutRecord = ({navigation, route}) => {
             {!isCalendar && (
               <View>
                 <FlatList
+                  showsVerticalScrollIndicator={false}
                   data={appcontext.state.workoutList}
                   renderItem={renderingWorkoutRecord}></FlatList>
               </View>
