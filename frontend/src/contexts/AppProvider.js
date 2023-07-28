@@ -39,6 +39,7 @@ const AppProvider = ({children}) => {
   const gripList = ['핸들', '바', 'Y로프'];
 
   const [motionList, setMotionList] = useState();
+  const [duration, setDuration] = useState(7);
   const [routineList, setRoutineList] = useState([]);
   const [routineDetailList, setRoutineDetailList] = useState([]);
   const [workoutList, setWorkoutList] = useState([]);
@@ -77,6 +78,7 @@ const AppProvider = ({children}) => {
   const value = {
     state: {
       motionList,
+      duration,
       routineList,
       routineDetailList,
       workoutList,
@@ -111,6 +113,7 @@ const AppProvider = ({children}) => {
     },
     actions: {
       setMotionList,
+      setDuration,
       setWorkoutList,
       setRoutineList,
       setRoutineDetailList,

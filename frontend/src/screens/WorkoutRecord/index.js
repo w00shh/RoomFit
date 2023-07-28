@@ -1,4 +1,10 @@
-import React, {useEffect, useState, useContext, useCallback} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+  useRef,
+} from 'react';
 import {
   View,
   Text,
@@ -44,6 +50,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutRecord = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
+  const isRef = useRef(false);
   const [isExercise, setIsExercise] = useState(false);
   const [isRecord, setIsRecord] = useState(true);
   const [isSetting, setIsSetting] = useState(false);
@@ -153,13 +160,20 @@ const WorkoutRecord = ({navigation, route}) => {
   }, [workedDay]);
 
   useEffect(() => {
-    getPeriodWorkout();
+    if (isRef.current) {
+      getPeriodWorkout();
+      appcontext.actions.setDuration(period);
+      console.log(period);
+    } else {
+      isRef.current = true;
+    }
   }, [period]);
 
   const getPeriodWorkout = async () => {
     const body = {
       user_id: appcontext.state.userid,
     };
+    console.log(period);
     const url = '/workout/stat/' + period;
     await serverAxios.post(url, body).then(res => {
       //console.log(res.data);
@@ -320,7 +334,7 @@ const WorkoutRecord = ({navigation, route}) => {
               height: 40 * height_ratio,
               marginTop: 24 * height_ratio,
             }}>
-            <View>
+            <View style={{zIndex: 2000, elevation: 10}}>
               <DropDownPicker
                 open={open}
                 value={selectedValue}
@@ -328,17 +342,34 @@ const WorkoutRecord = ({navigation, route}) => {
                 setOpen={setOpen}
                 setValue={setSelectedValue}
                 setItems={setItems}
-                placeholder="7일"
+                placeholder={
+                  appcontext.state.duration +
+                  (appcontext.state.duration === 7 ? '일' : '개월')
+                }
                 style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
               />
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: 170 * width_ratio,
+                height: 40 * height_ratio,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderRadius: 8,
+                borderColor: '#c0c0c0',
+                borderWidth: 1,
+                marginBottom: 10,
+              }}>
               <View
                 style={{
-                  //backgroundColor: isCalendar ? '#f5f5f5' : '#fff',
-                  borderRadius: 100,
-                  width: 73 * width_ratio,
-                  height: 32 * height_ratio,
+                  backgroundColor: isCalendar ? '#fff' : '#808080',
+                  borderWidth: 1,
+                  borderColor: '#808080',
+                  width: 85 * width_ratio,
+                  height: 40 * height_ratio,
+                  borderBottomLeftRadius: 8,
+                  borderTopLeftRadius: 8,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -346,7 +377,7 @@ const WorkoutRecord = ({navigation, route}) => {
                   <Text
                     style={{
                       fontSize: 14 * height_ratio,
-                      color: isCalendar ? '#808080' : '#242424',
+                      color: isCalendar ? '#808080' : 'white',
                     }}>
                     운동기록
                   </Text>
@@ -354,10 +385,13 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
               <View
                 style={{
-                  //backgroundColor: isCalendar ? '#fff' : '#f5f5f5',
-                  borderRadius: 100,
-                  //width: 73 * width_ratio,
-                  height: 32 * height_ratio,
+                  backgroundColor: isCalendar ? '#808080' : '#fff',
+                  borderTopRightRadius: 8,
+                  borderBottomRightRadius: 8,
+                  borderWidth: 1,
+                  borderColor: '#808080',
+                  width: 85 * width_ratio,
+                  height: 40 * height_ratio,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -365,7 +399,7 @@ const WorkoutRecord = ({navigation, route}) => {
                   <Text
                     style={{
                       fontSize: 14 * height_ratio,
-                      color: isCalendar ? '#242424' : '#808080',
+                      color: isCalendar ? 'white' : '#808080',
                     }}>
                     캘린더
                   </Text>
