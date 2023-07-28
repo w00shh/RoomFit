@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   dropdown: {
     width: 120 * width_ratio,
     backgroundColor: 'white',
-    borderColor: '#C0C0C0',
+    borderColor: '#242424',
     borderWidth: 1 * height_ratio,
     borderRadius: 8 * height_ratio,
     marginBottom: 10 * height_ratio,

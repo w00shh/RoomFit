@@ -134,6 +134,7 @@ const WorkoutRecord = ({navigation, route}) => {
       user_id: appcontext.state.userid,
       date: selectedDate,
     };
+    console.log(body.date);
     await serverAxios.post('workout/calender/date', body).then(res => {
       setSelectedWorkout(res.data);
     });
@@ -160,13 +161,9 @@ const WorkoutRecord = ({navigation, route}) => {
   }, [workedDay]);
 
   useEffect(() => {
-    if (isRef.current) {
-      getPeriodWorkout();
-      appcontext.actions.setDuration(period);
-      console.log(period);
-    } else {
-      isRef.current = true;
-    }
+    getPeriodWorkout();
+
+    console.log(period);
   }, [period]);
 
   const getPeriodWorkout = async () => {
@@ -182,9 +179,11 @@ const WorkoutRecord = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    if (selectedValue) {
-      console.log(selectedValue);
+    if (isRef.current) {
+      appcontext.actions.setDuration(selectedValue);
       handleGetAllWorkoutList(selectedValue);
+    } else {
+      isRef.current = true;
     }
   }, [selectedValue]);
 
@@ -193,6 +192,7 @@ const WorkoutRecord = ({navigation, route}) => {
       user_id: appcontext.state.userid,
       duration: parseInt(period),
     };
+    console.log('period: ' + body.duration);
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {
@@ -349,9 +349,9 @@ const WorkoutRecord = ({navigation, route}) => {
               }}>
               <View
                 style={{
-                  backgroundColor: isCalendar ? '#fff' : '#808080',
+                  backgroundColor: isCalendar ? '#fff' : '#242424',
                   borderWidth: 1,
-                  borderColor: '#808080',
+                  borderColor: '#242424',
                   width: 85 * width_ratio,
                   height: 40 * height_ratio,
                   borderBottomLeftRadius: 8,
@@ -363,7 +363,7 @@ const WorkoutRecord = ({navigation, route}) => {
                   <Text
                     style={{
                       fontSize: 14 * height_ratio,
-                      color: isCalendar ? '#808080' : 'white',
+                      color: isCalendar ? '#242424' : 'white',
                     }}>
                     운동기록
                   </Text>
@@ -371,11 +371,11 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
               <View
                 style={{
-                  backgroundColor: isCalendar ? '#808080' : '#fff',
+                  backgroundColor: isCalendar ? '#242424' : '#fff',
                   borderTopRightRadius: 8,
                   borderBottomRightRadius: 8,
                   borderWidth: 1,
-                  borderColor: '#808080',
+                  borderColor: '#242424',
                   width: 85 * width_ratio,
                   height: 40 * height_ratio,
                   justifyContent: 'center',
@@ -385,7 +385,7 @@ const WorkoutRecord = ({navigation, route}) => {
                   <Text
                     style={{
                       fontSize: 14 * height_ratio,
-                      color: isCalendar ? 'white' : '#808080',
+                      color: isCalendar ? 'white' : '#242424',
                     }}>
                     캘린더
                   </Text>
@@ -393,21 +393,23 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
             </View>
 
-            <View>
-              <DropDownPicker
-                open={open}
-                value={selectedValue}
-                items={items}
-                setOpen={setOpen}
-                setValue={setSelectedValue}
-                setItems={setItems}
-                placeholder={
-                  appcontext.state.duration +
-                  (appcontext.state.duration === 7 ? '일' : '개월')
-                }
-                style={[styles.dropdown]}
-              />
-            </View>
+            {!isCalendar && (
+              <View>
+                <DropDownPicker
+                  open={open}
+                  value={selectedValue}
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setSelectedValue}
+                  setItems={setItems}
+                  placeholder={
+                    appcontext.state.duration +
+                    (appcontext.state.duration === 7 ? '일' : '개월')
+                  }
+                  style={[styles.dropdown]}
+                />
+              </View>
+            )}
           </View>
 
           {/* {open && <View style={{height: 150 * height_ratio}}></View>} */}
