@@ -20,6 +20,7 @@ import {BackHandler} from 'react-native';
 import Workout from '../../assets/svg/buttons/active/workout.svg';
 import History from '../../assets/svg/buttons/default/history.svg';
 import Setting from '../../assets/svg/buttons/default/setting.svg';
+import Community from '../../assets/svg/buttons/default/star.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -202,11 +203,17 @@ const HomeScreen = ({navigation}) => {
                   navigation.push('RoutineDetail', {
                     isRoutineDetail: true,
                     routine_id: appcontext.state.routineList[0].routine_id,
-                    index: appcontext.state.routineDetailList.findIndex(
+                    routine_index: appcontext.state.routineList.findIndex(
                       e =>
                         e.routine_id ===
                         appcontext.state.routineList[0].routine_id,
                     ),
+                    routine_detail_index:
+                      appcontext.state.routineDetailList.findIndex(
+                        e =>
+                          e.routine_id ===
+                          appcontext.state.routineList[0].routine_id,
+                      ),
                     routineName: appcontext.state.routineList[0].routine_name,
                     motion_index_base: 0,
                   });
@@ -219,11 +226,17 @@ const HomeScreen = ({navigation}) => {
                   onPress={() => {
                     navigation.push('RoutineDetail', {
                       isRoutineDetail: true,
-                      index: appcontext.state.routineDetailList.findIndex(
+                      routine_index: appcontext.state.routineList.findIndex(
                         e =>
                           e.routine_id ===
                           appcontext.state.routineList[1].routine_id,
                       ),
+                      routine_detail_index:
+                        appcontext.state.routineDetailList.findIndex(
+                          e =>
+                            e.routine_id ===
+                            appcontext.state.routineList[1].routine_id,
+                        ),
 
                       motion_index_base: 0,
                     });
@@ -295,6 +308,9 @@ const HomeScreen = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('MainSetting')}>
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Community')}>
+          <Community height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

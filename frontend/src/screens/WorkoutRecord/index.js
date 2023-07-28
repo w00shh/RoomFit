@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useCallback} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import {
 import styles from './styles';
 import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {SelectList} from 'react-native-dropdown-select-list';
 
 import TempPeople from '../../assets/images/img_sample1.svg';
 import Profile from '../../assets/images/normalProfile.svg';
@@ -60,6 +62,14 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
   const [periodWorkout, setPeriodWorkout] = useState();
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    {label: '7일', value: '7'},
+    {label: '1개월', value: '1'},
+    {label: '3개월', value: '3'},
+    {label: '6개월', value: '6'},
+  ]);
 
   const markDates = () => {
     const updateMarkedDates = {};
@@ -93,24 +103,6 @@ const WorkoutRecord = ({navigation, route}) => {
       })
       .catch(e => console.log(e));
   };
-
-  const groupDataByDate = () => {
-    const groupedData = workoutList.reduce((acc, exercise) => {
-      const {date, ...exerciseInfo} = exercise;
-      if (!acc[date.split(' ')[0]]) {
-        acc[date] = [];
-      }
-      acc[date].push(exerciseInfo);
-      return acc;
-    }, {});
-
-    return Object.keys(groupedData).map(date => ({
-      date,
-      data: groupedData[date],
-    }));
-  };
-
-  const formattedData = groupDataByDate();
 
   const handleDayPress = day => {
     setSelectedDate(day.dateString);
@@ -173,6 +165,42 @@ const WorkoutRecord = ({navigation, route}) => {
       //console.log(res.data);
       setPeriodWorkout(res.data);
     });
+  };
+
+  useEffect(() => {
+    if (selectedValue) {
+      console.log(selectedValue);
+      handleGetAllWorkoutList(selectedValue);
+    }
+  }, [selectedValue]);
+
+  const handleGetAllWorkoutList = async period => {
+    const body = {
+      user_id: appcontext.state.userid,
+      duration: period,
+    };
+    await serverAxios
+      .post('/workout/brief', body)
+      .then(res => {
+        appcontext.actions.setWorkoutList(groupDataByDate(res.data));
+      })
+      .catch(e => console.log(e));
+  };
+
+  const groupDataByDate = data => {
+    const groupedData = data.reduce((acc, exercise) => {
+      const {date, ...exerciseInfo} = exercise;
+      if (!acc[date.split(' ')[0]]) {
+        acc[date] = [];
+      }
+      acc[date].push(exerciseInfo);
+      return acc;
+    }, {});
+
+    return Object.keys(groupedData).map(date => ({
+      date,
+      data: groupedData[date],
+    }));
   };
 
   const renderingWorkoutRecord = value => {
@@ -284,53 +312,68 @@ const WorkoutRecord = ({navigation, route}) => {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               alignItems: 'center',
               borderRadius: 100,
-              backgroundColor: '#f5f5f5',
-              width: 156 * width_ratio,
+              //backgroundColor: '#f5f5f5',
+              width: 358 * width_ratio,
               height: 40 * height_ratio,
               marginTop: 24 * height_ratio,
             }}>
-            <View
-              style={{
-                backgroundColor: isCalendar ? '#f5f5f5' : '#fff',
-                borderRadius: 100,
-                width: 73 * width_ratio,
-                height: 32 * height_ratio,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity onPress={() => setIsCalendar(false)}>
-                <Text
-                  style={{
-                    fontSize: 14 * height_ratio,
-                    color: isCalendar ? '#808080' : '#242424',
-                  }}>
-                  운동기록
-                </Text>
-              </TouchableOpacity>
+            <View>
+              <DropDownPicker
+                open={open}
+                value={selectedValue}
+                items={items}
+                setOpen={setOpen}
+                setValue={setSelectedValue}
+                setItems={setItems}
+                placeholder="7일"
+                style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
+              />
             </View>
-            <View
-              style={{
-                backgroundColor: isCalendar ? '#fff' : '#f5f5f5',
-                borderRadius: 100,
-                width: 73 * width_ratio,
-                height: 32 * height_ratio,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity onPress={() => setIsCalendar(true)}>
-                <Text
-                  style={{
-                    fontSize: 14 * height_ratio,
-                    color: isCalendar ? '#242424' : '#808080',
-                  }}>
-                  캘린더
-                </Text>
-              </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+              <View
+                style={{
+                  //backgroundColor: isCalendar ? '#f5f5f5' : '#fff',
+                  borderRadius: 100,
+                  width: 73 * width_ratio,
+                  height: 32 * height_ratio,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity onPress={() => setIsCalendar(false)}>
+                  <Text
+                    style={{
+                      fontSize: 14 * height_ratio,
+                      color: isCalendar ? '#808080' : '#242424',
+                    }}>
+                    운동기록
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  //backgroundColor: isCalendar ? '#fff' : '#f5f5f5',
+                  borderRadius: 100,
+                  //width: 73 * width_ratio,
+                  height: 32 * height_ratio,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity onPress={() => setIsCalendar(true)}>
+                  <Text
+                    style={{
+                      fontSize: 14 * height_ratio,
+                      color: isCalendar ? '#242424' : '#808080',
+                    }}>
+                    캘린더
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
+          {open && <View style={{height: 150 * height_ratio}}></View>}
           <View style={{height: 16 * height_ratio}}></View>
           {!isCalendar && (
             <View>
@@ -768,8 +811,7 @@ const WorkoutRecord = ({navigation, route}) => {
       )}
 
       <View style={styles.navigator}>
-        <TouchableOpacity
-          onPress={() => navigation.reset({routes: [{name: 'HomeScreen'}]})}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
           <Workout height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
         <TouchableOpacity>

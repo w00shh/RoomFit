@@ -71,6 +71,9 @@ const AppProvider = ({children}) => {
   const [left, setLeft] = useState(0);
   const [right, setRight] = useState(0);
 
+  //animation
+  const [animationSelection, setAnimationSelection] = useState(0);
+
   const value = {
     state: {
       motionList,
@@ -104,6 +107,7 @@ const AppProvider = ({children}) => {
       bodyRegionList,
       left,
       right,
+      animationSelection,
     },
     actions: {
       setMotionList,
@@ -134,6 +138,7 @@ const AppProvider = ({children}) => {
       setTargetmotionrangemax,
       setLeft,
       setRight,
+      setAnimationSelection,
     },
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

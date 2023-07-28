@@ -65,6 +65,7 @@ const Intro = ({navigation}) => {
         appcontext.actions.setIsLogin(true);
         appcontext.actions.setUserid(params.user_id);
         appcontext.actions.setUsernickname(params.user_name);
+        appcontext.actions.setUseremail(params.email);
 
         handleGetAllRoutine(params.user_id);
         handleGetAllWorkoutList(params.user_id);
@@ -160,7 +161,6 @@ const Intro = ({navigation}) => {
         appcontext.state.routineList.length ===
         appcontext.state.routineDetailList.length
       ) {
-        console.log('goHome');
         navigation.navigate('HomeScreen');
       }
     } else {
@@ -182,7 +182,6 @@ const Intro = ({navigation}) => {
 
   useEffect(() => {
     if (appcontext.state.userid.length > 0) {
-      console.log('?');
       getUserInfo();
     }
   }, [appcontext.state.userid]);
@@ -191,10 +190,8 @@ const Intro = ({navigation}) => {
     await serverAxios
       .get('/account/user-info?user_id=' + appcontext.state.userid)
       .then(res => {
-        console.log(res.data);
         if (res.data.user_name) {
           appcontext.actions.setUsernickname(res.data.user_name);
-          console.log(res.data.user_name);
         }
         if (res.data.birth) appcontext.actions.setUserBirth(res.data.birth);
         if (res.data.gender) appcontext.actions.setUserGender(res.data.gender);
@@ -224,7 +221,7 @@ const Intro = ({navigation}) => {
             Platform.OS === 'ios' ? 64 * height_ratio : 32 * height_ratio,
         }}></View>
       <Intro_Img height={352 * height_ratio} width={320 * width_ratio} />
-      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen2')}>
         <Logo
           style={styles.mainLogo}
           height={80 * height_ratio}

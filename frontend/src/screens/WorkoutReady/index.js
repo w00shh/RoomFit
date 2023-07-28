@@ -24,6 +24,7 @@ import {
 } from 'react-native-gesture-handler';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import MotionRangeModal from '../../components/Modal/MotionRange';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -119,6 +120,10 @@ const WorkoutReady = ({navigation, route}) => {
     );
   });
 
+  useEffect(() => {
+    if (motionList[0]) console.log(motionList[0].sets);
+  }, [motionList]);
+
   function Item({mode}) {
     return (
       <TouchableOpacity
@@ -205,73 +210,77 @@ const WorkoutReady = ({navigation, route}) => {
   };
   return (
     <View style={styles.pageContainer}>
-      <MotionRangeModal
-        isMotionRangeModalVisible={isMotionRangeModalVisible}
-        setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
-        motionList={motionList}
-        setMotionList={setMotionList}></MotionRangeModal>
-      <Modal visible={isModalVisible} transparent={true} animationType="fade">
-        <View style={styles.modalContainer}>
-          <View style={styles.modeContainer}>
-            <View style={styles.modeTitleContainer}>
-              <Text style={styles.titleText}>하중모드</Text>
-              <Text>{selectedMode.modeName}</Text>
-            </View>
-            <View>
-              <FlatList
-                data={appcontext.state.modeList}
-                renderItem={({item}) => <Item mode={item}></Item>}
-                keyExtractor={item => item.modeName}></FlatList>
-            </View>
-
-            <View style={styles.modeButtonContainer}>
-              <View>
-                <CustomButton_W
-                  width={171 * width_ratio}
-                  content="취소"
-                  onPress={handleCancelPress}
-                  disabled={false}></CustomButton_W>
+      <KeyboardAwareScrollView>
+        <MotionRangeModal
+          isMotionRangeModalVisible={isMotionRangeModalVisible}
+          setIsMotionRangeModalVisible={setIsMotionRangeModalVisible}
+          motionList={motionList}
+          setMotionList={setMotionList}></MotionRangeModal>
+        <Modal visible={isModalVisible} transparent={true} animationType="fade">
+          <View style={styles.modalContainer}>
+            <View style={styles.modeContainer}>
+              <View style={styles.modeTitleContainer}>
+                <Text style={styles.titleText}>하중모드</Text>
+                <Text>{selectedMode.modeName}</Text>
               </View>
               <View>
-                <CustomButton_B
-                  width={171 * width_ratio}
-                  content="선택 완료"
-                  onPress={handleSelectPress}
-                  disabled={false}></CustomButton_B>
+                <FlatList
+                  data={appcontext.state.modeList}
+                  renderItem={({item}) => <Item mode={item}></Item>}
+                  keyExtractor={item => item.modeName}></FlatList>
+              </View>
+
+              <View style={styles.modeButtonContainer}>
+                <View>
+                  <CustomButton_W
+                    width={171 * width_ratio}
+                    content="취소"
+                    onPress={handleCancelPress}
+                    disabled={false}></CustomButton_W>
+                </View>
+                <View>
+                  <CustomButton_B
+                    width={171 * width_ratio}
+                    content="선택 완료"
+                    onPress={handleSelectPress}
+                    disabled={false}></CustomButton_B>
+                </View>
               </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <GestureHandlerRootView style={{height: 625 * height_ratio}}>
-        <DraggableFlatList
-          data={motionList}
-          renderItem={renderItem}
-          keyExtractor={item => item.motion_index}
-          onDragEnd={({data}) => setMotionList(data)}
-          showsVerticalScrollIndicator={false}
-        />
-      </GestureHandlerRootView>
+        <GestureHandlerRootView style={{height: 625 * height_ratio}}>
+          <DraggableFlatList
+            data={motionList}
+            renderItem={renderItem}
+            keyExtractor={item => item.motion_index}
+            onDragEnd={({data}) => setMotionList(data)}
+            showsVerticalScrollIndicator={false}
+          />
+        </GestureHandlerRootView>
 
-      <View style={styles.buttonContainer}>
-        <View style={styles.buttonSection}>
-          <CustomButton_W
-            width={171 * width_ratio}
-            content="+ 동작 추가"
-            onPress={() => {
-              handleAddMotionPress();
-            }}
-            disabled={false}></CustomButton_W>
+        <View style={styles.buttonContainer}>
+          <View style={styles.buttonSection}>
+            <CustomButton_W
+              width={171 * width_ratio}
+              content="+ 동작 추가"
+              marginVertical={16 * height_ratio}
+              onPress={() => {
+                handleAddMotionPress();
+              }}
+              disabled={false}></CustomButton_W>
+          </View>
+          <View style={styles.buttonSection}>
+            <CustomButton_B
+              width={171 * width_ratio}
+              content="운동 시작"
+              marginVertical={16 * height_ratio}
+              onPress={handleStartWorkoutPress}
+              disabled={false}></CustomButton_B>
+          </View>
         </View>
-        <View style={styles.buttonSection}>
-          <CustomButton_B
-            width={171 * width_ratio}
-            content="운동 시작"
-            onPress={handleStartWorkoutPress}
-            disabled={false}></CustomButton_B>
-        </View>
-      </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

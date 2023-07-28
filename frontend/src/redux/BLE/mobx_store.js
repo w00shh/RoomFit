@@ -5,6 +5,7 @@ class BLEStore {
 
   left = 0;
   right = 0;
+  animationSelection = 0;
 
   high = 0;
   low = 0;
@@ -33,6 +34,10 @@ class BLEStore {
 
   setLow(data) {
     this.low = data;
+  }
+
+  setAnimationSelection(data) {
+    this.animationSelection = data;
   }
 }
 

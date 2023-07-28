@@ -103,7 +103,6 @@ const MyRoutine = ({navigation}) => {
       routine_ids: Array.from(selected.keys()),
     };
 
-    let updatedRoutineList = appcontext.state.routineList;
     Array.from(selected.keys()).map((value, key) => {
       appcontext.actions.setRoutineList(
         appcontext.state.routineList.filter(e => e.routine_id !== value),
@@ -115,7 +114,7 @@ const MyRoutine = ({navigation}) => {
     await serverAxios
       .put('/routine/delete', body)
       .then(res => {
-        handleGetAllRoutine();
+        //handleGetAllRoutine();
       })
       .catch(e => {
         console.log(e);
@@ -159,9 +158,13 @@ const MyRoutine = ({navigation}) => {
               onPress={() => {
                 navigation.push('RoutineDetail', {
                   isRoutineDetail: true,
-                  index: appcontext.state.routineDetailList.findIndex(
+                  routine_index: appcontext.state.routineList.findIndex(
                     e => e.routine_id === value.routine_id,
                   ),
+                  routine_detail_index:
+                    appcontext.state.routineDetailList.findIndex(
+                      e => e.routine_id === value.routine_id,
+                    ),
                   motion_index_base: 0,
                 });
               }}></RoutineBox>
