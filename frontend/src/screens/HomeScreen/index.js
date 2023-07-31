@@ -16,6 +16,7 @@ import {useAppSelector} from '../../redux/store';
 import {AppContext} from '../../contexts/AppProvider';
 import {BackHandler} from 'react-native';
 
+import Users from 'react-native-vector-icons/FontAwesome';
 //svg
 import Workout from '../../assets/svg/buttons/active/workout.svg';
 import History from '../../assets/svg/buttons/default/history.svg';
@@ -310,7 +311,11 @@ const HomeScreen = ({navigation}) => {
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Community')}>
-          <Community height={24 * height_ratio} width={24 * width_ratio} />
+          <Users
+            height={24 * height_ratio}
+            width={24 * width_ratio}
+            color={'#808080'}
+          />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
