@@ -170,7 +170,7 @@ const Comment = ({
             onPress={() => {
               setIsSettingModal(true);
             }}>
-            <Icons_two name="dots-three-vertical" size={18 * height_ratio} />
+            <Icons_two name="dots-three-vertical" size={12 * height_ratio} />
           </TouchableOpacity>
         </View>
       </View>
@@ -368,7 +368,7 @@ const Feed = ({
             onPress={() => {
               setIsSettingModal(true);
             }}>
-            <Icons_two name="dots-three-vertical" size={28 * height_ratio} />
+            <Icons_two name="dots-three-vertical" size={18 * height_ratio} />
           </TouchableOpacity>
         </View>
 
