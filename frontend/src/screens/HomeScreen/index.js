@@ -148,7 +148,7 @@ const HomeScreen = ({navigation}) => {
           </View>
         )}
         {connectedDevice && (
-          <View style={{alignItems: 'center'}}>
+          <View style={{alignItems: 'center', marginBottom: 16 * height_ratio}}>
             <CustomButton_B
               style={styles.connectButton}
               content="빠른 운동 시작"
