@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   postButton: {
     position: 'absolute',
-    backgroundColor: '#242424',
+    backgroundColor: '#5252fa',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

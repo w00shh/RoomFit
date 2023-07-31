@@ -397,6 +397,7 @@ const App = ({navigation}) => {
                   component={Community}
                   options={{
                     headerShadowVisible: false,
+                    headerBackVisible: false,
                   }}></Stack.Screen>
               </Stack.Navigator>
             </NavigationContainer>
