@@ -114,13 +114,14 @@ const styles = StyleSheet.create({
     color: '#242424',
   },
   postContentContainer: {
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 8 * width_ratio,
     height: 200 * height_ratio, // 수정 필요
   },
   postContent: {
     height: 100 * height_ratio,
     paddingVertical: 8 * height_ratio,
     paddingHorizontal: 12 * width_ratio,
-    textAlign: 'center',
   },
   postImage: {
     width: 100 * width_ratio,
