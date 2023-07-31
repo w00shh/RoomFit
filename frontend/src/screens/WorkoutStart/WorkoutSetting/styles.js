@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     height: 56 * height_ratio,
 
     borderRadius: 12 * height_ratio,
+    marginBottom: 8 * height_ratio,
   },
   CText3: {
     fontWeight: '400',

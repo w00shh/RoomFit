@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
   },
 
   devider2: {
-    marginTop: 24,
-    height: 8,
+    marginTop: 24 * height_ratio,
+    height: 8 * height_ratio,
   },
 
   motion_name: {
@@ -442,6 +442,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     margin: 0,
     padding: 0,
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-evenly',
+    margin: 0,
+    padding: 0,
+    marginTop: Platform.OS === 'ios' ? 0 : 16 * height_ratio,
+  },
+  buttonSection: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

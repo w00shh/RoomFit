@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dropdown: {
-    width: 120 * width_ratio,
+    width: 85 * width_ratio,
     backgroundColor: 'white',
     borderColor: '#242424',
     borderWidth: 1 * height_ratio,

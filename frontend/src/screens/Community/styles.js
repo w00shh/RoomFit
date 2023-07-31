@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: 'row',
     gap: 8 * width_ratio,
+    paddingVertical: 8 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
   },
 
   Feed: {
@@ -31,13 +33,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   UserName: {
-    fontSize: 18 * height_ratio,
-    fontWeight: 'bold',
+    fontSize: 16 * height_ratio,
+    fontWeight: '700',
+    color: '#242424',
     marginLeft: 8 * width_ratio,
   },
-  FeedContent: {},
+  FeedContent: {marginVertical: 16 * height_ratio},
   FeedContentText: {
-    fontSize: 14 * height_ratio,
+    color: '#242424',
+    fontSize: 16 * height_ratio,
   },
   FeedBottom: {
     flexDirection: 'row',
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     borderTopLeftRadius: 24 * height_ratio,
     borderTopRightRadius: 24 * height_ratio,
-
+    paddingBottom: Platform.OS === 'ios' ? 16 * height_ratio : 0,
     flex: 1,
   },
   modalButtonContainer: {
@@ -127,6 +131,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingVertical: 2 * height_ratio,
   },
   commentInputContainer: {
     marginTop: 8 * height_ratio,
@@ -154,6 +159,7 @@ const styles = StyleSheet.create({
   },
   commentLeftContainer: {
     flexDirection: 'row',
+    paddingVertical: 8 * height_ratio,
   },
   dropdown: {
     zIndex: 1,

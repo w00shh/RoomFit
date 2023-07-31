@@ -18,10 +18,11 @@ const styles = StyleSheet.create({
     height: 56 * height_ratio,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
+    borderWidth: 1 * height_ratio,
     borderStyle: 'solid',
     borderColor: '#dfdfdf',
-    borderRadius: 8,
+    borderRadius: 8 * height_ratio,
+    marginVertical: 24 * height_ratio,
   },
   makeRoutineText: {
     fontSize: 14 * height_ratio,

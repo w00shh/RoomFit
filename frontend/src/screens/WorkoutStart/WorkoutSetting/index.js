@@ -265,114 +265,125 @@ export const WorkoutSetting = ({navigation, route}) => {
       </Modal>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingBottom: 16 * height_ratio,
+          paddingHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
         }}>
-        <Text style={styles.pauseTitle}>운동 설정</Text>
-        <Battery battery={battery} />
-      </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingBottom: 16 * height_ratio,
+          }}>
+          <Text style={styles.pauseTitle}>운동 설정</Text>
+          <Battery battery={battery} />
+        </View>
 
-      <View style={styles.settings}>
-        <View style={styles.settingContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 4 * width_ratio,
-            }}>
-            <Text style={styles.settingText}>스마트 세이프티</Text>
-            <Information />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 8 * width_ratio,
-            }}>
-            <Text
+        <View style={styles.settings}>
+          <View style={styles.settingContainer}>
+            <View
               style={{
-                color: appcontext.state.smartSaftey ? '#5252fa' : '#fff',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 4 * width_ratio,
               }}>
-              ON
-            </Text>
-            <Switch on={appcontext.state.smartSaftey} onPress={toggleSwitch2} />
-          </View>
-        </View>
-      </View>
-      <View style={styles.settings}>
-        <View style={styles.settingContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 4 * width_ratio,
-            }}>
-            <Text style={styles.settingText}>스마트 어시스트</Text>
-            <Information />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 8 * width_ratio,
-            }}>
-            <Text
+              <Text style={styles.settingText}>스마트 세이프티</Text>
+              <Information />
+            </View>
+            <View
               style={{
-                color: appcontext.state.smartAssist ? '#5252fa' : '#fff',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 8 * width_ratio,
               }}>
-              ON
-            </Text>
-            <Switch on={appcontext.state.smartAssist} onPress={toggleSwitch} />
+              <Text
+                style={{
+                  color: appcontext.state.smartSaftey ? '#5252fa' : '#fff',
+                }}>
+                ON
+              </Text>
+              <Switch
+                on={appcontext.state.smartSaftey}
+                onPress={toggleSwitch2}
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.settings}>
-        <View style={styles.settingContainer}>
-          <Text style={styles.settingText}>화면잠금</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 8 * width_ratio,
-            }}>
-            <Text
+        <View style={styles.settings}>
+          <View style={styles.settingContainer}>
+            <View
               style={{
-                fontSize: 14 * height_ratio,
-                color: isLock ? '#5252fa' : '#fff',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 4 * width_ratio,
               }}>
-              ON
-            </Text>
-            <Switch on={isLock} onPress={toggleSwitch3} />
+              <Text style={styles.settingText}>스마트 어시스트</Text>
+              <Information />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 8 * width_ratio,
+              }}>
+              <Text
+                style={{
+                  color: appcontext.state.smartAssist ? '#5252fa' : '#fff',
+                }}>
+                ON
+              </Text>
+              <Switch
+                on={appcontext.state.smartAssist}
+                onPress={toggleSwitch}
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.settings}>
-        <View style={styles.settingContainer}>
-          <Text style={styles.settingText}>세트간 휴식시간</Text>
-          <TouchableOpacity
-            onPress={() => setModalVisible2(true)}
-            style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{fontSize: 16 * height_ratio, color: '#242424'}}>
-              {calTime(appcontext.state.userSetTime)}
-            </Text>
-            <Right height={24 * height_ratio} width={24 * width_ratio} />
-          </TouchableOpacity>
+        <View style={styles.settings}>
+          <View style={styles.settingContainer}>
+            <Text style={styles.settingText}>화면잠금</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 8 * width_ratio,
+              }}>
+              <Text
+                style={{
+                  fontSize: 14 * height_ratio,
+                  color: isLock ? '#5252fa' : '#fff',
+                }}>
+                ON
+              </Text>
+              <Switch on={isLock} onPress={toggleSwitch3} />
+            </View>
+          </View>
         </View>
-      </View>
-      <View style={styles.settings}>
-        <View style={styles.settingContainer}>
-          <Text style={styles.settingText}>동작간 휴식시간</Text>
+        <View style={styles.settings}>
+          <View style={styles.settingContainer}>
+            <Text style={styles.settingText}>세트간 휴식시간</Text>
+            <TouchableOpacity
+              onPress={() => setModalVisible2(true)}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{fontSize: 16 * height_ratio, color: '#242424'}}>
+                {calTime(appcontext.state.userSetTime)}
+              </Text>
+              <Right height={24 * height_ratio} width={24 * width_ratio} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.settings}>
+          <View style={styles.settingContainer}>
+            <Text style={styles.settingText}>동작간 휴식시간</Text>
 
-          <TouchableOpacity
-            onPress={() => setModalVisible3(true)}
-            style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{fontSize: 16 * height_ratio, color: '#242424'}}>
-              {calTime(appcontext.state.userMotionTime)}
-            </Text>
-            <Right height={24 * height_ratio} width={24 * width_ratio} />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setModalVisible3(true)}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{fontSize: 16 * height_ratio, color: '#242424'}}>
+                {calTime(appcontext.state.userMotionTime)}
+              </Text>
+              <Right height={24 * height_ratio} width={24 * width_ratio} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}></ScrollView>

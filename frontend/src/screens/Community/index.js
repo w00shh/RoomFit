@@ -51,7 +51,7 @@ const CategoryBar = () => {
               style={{
                 paddingVertical: 8 * height_ratio,
                 paddingHorizontal: 12 * width_ratio,
-                backgroundColor: '#5252fa', //색깔 수정 필요
+                backgroundColor: '#242424', //색깔 수정 필요
                 borderRadius: 8 * height_ratio,
               }}
               onPress={() => {
@@ -155,8 +155,8 @@ const Comment = ({
       <View style={styles.commentContainer}>
         <View style={styles.commentLeftContainer}>
           <Profile
-            width={30 * width_ratio}
-            height={30 * height_ratio}
+            width={24 * width_ratio}
+            height={24 * height_ratio}
             style={{marginRight: 8 * width_ratio}}
           />
           <View>
@@ -313,7 +313,7 @@ const Feed = ({
             <View style={styles.postTitle}>
               <Text style={styles.titleText}>피드 메뉴</Text>
               <TouchableOpacity onPress={() => setIsSettingModal(false)}>
-                <Icons_three name="x" size={28 * height_ratio} color="black" />
+                <Icons_three name="x" size={20 * height_ratio} color="black" />
               </TouchableOpacity>
             </View>
             <View>
@@ -361,7 +361,7 @@ const Feed = ({
       <View style={styles.Feed}>
         <View style={styles.FeedBar}>
           <View style={styles.FeedProfile}>
-            <Profile width={40 * width_ratio} height={40 * height_ratio} />
+            <Profile width={36 * width_ratio} height={36 * height_ratio} />
             <Text style={styles.UserName}>{user_name}</Text>
           </View>
           <TouchableOpacity
@@ -394,13 +394,13 @@ const Feed = ({
               {liked ? (
                 <Icons
                   name="heart"
-                  size={28 * height_ratio}
-                  color="#5252fa"></Icons>
+                  size={24 * height_ratio}
+                  color="#f02828"></Icons>
               ) : (
                 <Icons
                   name="heart-outline"
-                  size={28 * height_ratio}
-                  color="#5252fa"></Icons>
+                  size={24 * height_ratio}
+                  color="#242424"></Icons>
               )}
             </TouchableOpacity>
             <Text>{show_like_count}</Text>
@@ -415,8 +415,8 @@ const Feed = ({
               }}>
               <Icons
                 name="chatbubble-ellipses-outline"
-                size={28 * height_ratio}
-                color="#5252fa"></Icons>
+                size={24 * height_ratio}
+                color="#242424"></Icons>
             </TouchableOpacity>
             <Text>{show_comment_count}</Text>
           </View>

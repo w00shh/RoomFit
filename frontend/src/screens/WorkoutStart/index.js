@@ -269,7 +269,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
   //rep count
   useEffect(() => {
-    console.log(reps);
+    //console.log(reps);
     // let max = 0; // 각 rep의 최댓값
     // let min = 500; // 각 rep의 최솟값
     // let tempMax = 0; // 기준에 못 미치는 최대값을 저장
