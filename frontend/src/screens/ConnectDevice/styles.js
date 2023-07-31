@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   connectContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 19 * height_ratio,
     marginBottom: 47 * height_ratio,
   },

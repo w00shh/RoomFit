@@ -1,15 +1,22 @@
-import {makeObservable, observable} from 'mobx';
+import {makeAutoObservable, runInAction} from 'mobx';
 
 class BLEStore {
+  rawdata = [];
+
   left = 0;
   right = 0;
   animationSelection = 0;
 
+  high = 0;
+  low = 0;
+
   constructor() {
-    makeObservable(this, {
-      left: observable,
-      right: observable,
-      animationSelection: observable,
+    makeAutoObservable(this, {});
+  }
+
+  setRawdata(data) {
+    runInAction(() => {
+      this.rawdata = data;
     });
   }
 
@@ -19,6 +26,14 @@ class BLEStore {
 
   setRight(data) {
     this.right = data;
+  }
+
+  setHigh(data) {
+    this.high = data;
+  }
+
+  setLow(data) {
+    this.low = data;
   }
 
   setAnimationSelection(data) {

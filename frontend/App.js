@@ -7,6 +7,8 @@ import {
 import {useIsFocused} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Dimensions, Platform, View, Text} from 'react-native';
+
+//screens
 import Intro from './src/screens/Intro/index.js';
 import HomeScreen from './src/screens/HomeScreen/index.js';
 import Register from './src/screens/Register/index.js';
@@ -28,17 +30,11 @@ import HeightWeight from './src/screens/Settings/HeightWeight/index.js';
 import BodyFat from './src/screens/Settings/BodyFat/index.js';
 import IntroSplash from './src/screens/Intro/splash.js';
 import Gender from './src/screens/Register/Gender/index.js';
-import {Provider} from 'react-redux';
-import {store} from './src/redux/store.ts';
-import {Provider as MobxProvider} from 'mobx-react';
 import {AppContext} from './src/contexts/AppProvider';
-import BLEStore from './src/redux/BLE/mobx_store.js';
-import AppProvider from './src/contexts/AppProvider.js';
 import RestingTime from './src/screens/Settings/RestingTime/index.js';
 import PowerSaving from './src/screens/Settings/PowerSaving/index.js';
 import WokroutCareer from './src/screens/Settings/WokroutCareer/index.js';
 import CustomMotion from './src/screens/AddMotion/CustomMotion/index.js';
-import {LogBox} from 'react-native';
 import WorkoutStartSplash from './src/screens/WorkoutStart/splash.js';
 import Birthday from './src/screens/Register/Birthday/index.js';
 import MotionDetail from './src/screens/MotionDetail/index.js';
@@ -46,6 +42,17 @@ import RecordDetail from './src/screens/RecordDetail/index.js';
 import {WorkoutSetting} from './src/screens/WorkoutStart/WorkoutSetting/index.js';
 import WorkoutModifying from './src/screens/WorkoutStart/WorkoutModifying/index.js';
 import Community from './src/screens/Community/index.js';
+import TestScreen from './src/screens/TestScreen/index.js';
+
+//State Control
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store.ts';
+import {Provider as MobxProvider} from 'mobx-react';
+import BLEStore from './src/redux/BLE/mobx_store.js';
+import AppProvider from './src/contexts/AppProvider.js';
+
+//warning ignore
+import {LogBox} from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 

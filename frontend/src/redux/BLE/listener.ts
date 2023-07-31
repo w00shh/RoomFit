@@ -8,6 +8,10 @@ import {
   readDeviceBattery,
   stopScanning,
   stopListening,
+  _getPosition,
+  _getVoltage,
+  _startReport,
+  _stopReport,
 } from './slice';
 import BLEManager, {DeviceReference} from './BLEManager';
 import {store} from '../store';

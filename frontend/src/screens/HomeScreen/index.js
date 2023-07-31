@@ -132,7 +132,7 @@ const HomeScreen = ({navigation}) => {
       <ScrollView
         style={{marginBottom: 32 * height_ratio}}
         showsVerticalScrollIndicator={false}>
-        {!true && (
+        {!connectedDevice && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
             <Text style={styles.noConnectionText2}>
@@ -148,8 +148,8 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        {true && (
-          <View style={{alignItems: 'center'}}>
+        {connectedDevice && (
+          <View style={{alignItems: 'center', marginBottom: 16 * height_ratio}}>
             <CustomButton_B
               style={styles.connectButton}
               content="빠른 운동 시작"

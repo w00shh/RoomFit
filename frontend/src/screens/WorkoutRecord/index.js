@@ -190,7 +190,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const handleGetAllWorkoutList = async period => {
     const body = {
       user_id: appcontext.state.userid,
-      duration: period,
+      duration: parseInt(period),
     };
     console.log('period: ' + body.duration);
     await serverAxios

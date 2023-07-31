@@ -34,6 +34,7 @@ import {store, useAppDispatch, useAppSelector} from '../../redux/store';
 
 import {checkBluetoothPermissions} from '../../redux/BLE/permission';
 import {Easing} from 'react-native-reanimated';
+import {getVoltage} from '../../redux/BLE/ble_instruction';
 
 const ConnectDevice = ({navigation}) => {
   const [onlyRoomFit, setOnlyRoomFit] = useState(false);
@@ -142,8 +143,9 @@ const ConnectDevice = ({navigation}) => {
               await dispatch(connectToDevice(device));
               stopRotating();
               setIsConnecting('');
+              getVoltage();
               // dispatch(readDeviceBattery());
-              // dispatch(startListening());
+              dispatch(startListening());
             }}>
             <Text style={styles.connect}>
               {isConnecting === device.id ? '취소' : '연결'}
@@ -156,29 +158,32 @@ const ConnectDevice = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.pageContainer}>
-      {connectedDevice && (
-        <View>
-          <View style={styles.connectExplain}>
-            <Text style={styles.statusText}>연결된 기기</Text>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <Divider height_ratio={height_ratio} />
-          </View>
-          <View style={styles.connectContainer}>
-            <View>
-              <Text style={styles.connectText}>{connectedDevice.name}</Text>
-              {typeof battery == 'string' && (
-                <Text style={styles.battery}>배터리 {battery}%</Text>
-              )}
+      <View style={{paddingHorizontal: 16 * width_ratio}}>
+        {connectedDevice && (
+          <View>
+            <View style={styles.connectExplain}>
+              <Text style={styles.statusText}>연결된 기기</Text>
             </View>
-            <TouchableOpacity
-              style={styles.disconnectButton}
-              onPress={() => {
-                dispatch(disconnectFromDevice(connectedDevice));
-              }}>
-              <Text style={styles.connect}>연결 해제</Text>
-            </TouchableOpacity>
-          </View>
+            <View style={{alignItems: 'center'}}>
+              <Divider height_ratio={height_ratio} />
+            </View>
+            <View style={styles.connectContainer}>
+              <View>
+                <Text style={styles.connectText}>{connectedDevice.name}</Text>
+                {typeof battery == 'string' && (
+                  <Text style={styles.battery}>배터리 {battery}%</Text>
+                )}
+              </View>
+              <View style={{flexDirection: 'column', gap: 8 * height_ratio}}>
+                <TouchableOpacity
+                  style={styles.disconnectButton}
+                  onPress={() => {
+                    dispatch(disconnectFromDevice(connectedDevice));
+                  }}>
+                  <Text style={styles.connect}>연결 해제</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
         </View>
       )}
       <View style={styles.connectExplain}>
@@ -194,19 +199,22 @@ const ConnectDevice = ({navigation}) => {
         </View>
       </View>
 
-      <View style={{alignItems: 'center'}}>
-        <Divider height_ratio={height_ratio} />
+        <View style={{alignItems: 'center'}}>
+          <Divider height_ratio={height_ratio} />
+        </View>
+        <ScrollView
+          style={{gap: 8 * height_ratio}}
+          showsVerticalScrollIndicator={false}>
+          {discoveredDevices.map((device, index) => (
+            <View key={device.id}>
+              <RenderDevices
+                device={device}
+                isLast={index === discoveredDevices.length - 1}
+              />
+            </View>
+          ))}
+        </ScrollView>
       </View>
-      <ScrollView style={{gap: 8 * height_ratio}}>
-        {discoveredDevices.map((device, index) => (
-          <View key={device.id}>
-            <RenderDevices
-              device={device}
-              isLast={index === discoveredDevices.length - 1}
-            />
-          </View>
-        ))}
-      </ScrollView>
     </SafeAreaView>
   );
 };
