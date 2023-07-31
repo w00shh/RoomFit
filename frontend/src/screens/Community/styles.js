@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   FeedBottom: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   Likes: {
     flexDirection: 'row',
