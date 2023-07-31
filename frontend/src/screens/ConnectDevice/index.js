@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Animated,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 
@@ -158,7 +159,10 @@ const ConnectDevice = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.pageContainer}>
-      <View style={{paddingHorizontal: 16 * width_ratio}}>
+      <View
+        style={{
+          paddingHorizontal: Platform.OS === 'ios' ? 16 * width_ratio : 0,
+        }}>
         {connectedDevice && (
           <View>
             <View style={styles.connectExplain}>
@@ -184,20 +188,20 @@ const ConnectDevice = ({navigation}) => {
                 </TouchableOpacity>
               </View>
             </View>
+          </View>
+        )}
+        <View style={styles.connectExplain}>
+          <Text style={styles.statusText}>탐색된 기기</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8 * width_ratio,
+            }}>
+            <Switch on={onlyRoomFit} onPress={toggleSwitch} />
+            <Text style={{fontSize: 14 * height_ratio}}>룸핏만 보기</Text>
+          </View>
         </View>
-      )}
-      <View style={styles.connectExplain}>
-        <Text style={styles.statusText}>탐색된 기기</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 8 * width_ratio,
-          }}>
-          <Switch on={onlyRoomFit} onPress={toggleSwitch} />
-          <Text style={{fontSize: 14 * height_ratio}}>룸핏만 보기</Text>
-        </View>
-      </View>
 
         <View style={{alignItems: 'center'}}>
           <Divider height_ratio={height_ratio} />

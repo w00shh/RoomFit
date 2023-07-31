@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   ScrollView,
+  Image,
 } from 'react-native';
 import styles from './styles';
 import MotionItem from '../../components/MotionItem';
@@ -505,6 +506,7 @@ const AddMotion = ({navigation, route}) => {
         onPress={
           route.params.isRoutine
             ? () => {
+                console.log(route.params.routineName);
                 selectedMotionKeys = Array.from(displaySelected.keys());
                 route.params.isRoutineDetail
                   ? navigation.push('RoutineDetail', {

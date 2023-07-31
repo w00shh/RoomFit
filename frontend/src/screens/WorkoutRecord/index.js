@@ -33,6 +33,7 @@ import {AppContext} from '../../contexts/AppProvider';
 import Sample from '../../assets/svg/img_sample1.svg';
 
 //svg
+import Users from 'react-native-vector-icons/FontAwesome';
 import Workout from '../../assets/svg/buttons/default/workout.svg';
 import History from '../../assets/svg/buttons/active/history.svg';
 import Setting from '../../assets/svg/buttons/default/setting.svg';
@@ -862,6 +863,9 @@ const WorkoutRecord = ({navigation, route}) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('MainSetting')}>
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Community')}>
+          <Users name="users" size={22 * height_ratio} color="#808080" />
         </TouchableOpacity>
       </View>
     </View>
