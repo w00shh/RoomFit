@@ -305,7 +305,9 @@ export const WorkoutModifying = ({navigation, route}) => {
           <DraggableFlatList
             data={motionList}
             renderItem={renderItem}
-            keyExtractor={item => item.motion_index}
+            keyExtractor={(item, index) =>
+              item.motion_index.toString() + index.toString()
+            }
             onDragEnd={({data}) => setMotionList(data)}
             showsVerticalScrollIndicator={false}
           />

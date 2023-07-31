@@ -8,6 +8,8 @@ import {
   FlatList,
   Dimensions,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 import WorkoutItem from '../../../components/WorkoutItem';
@@ -445,7 +447,9 @@ const RoutineDetail = ({navigation, route}) => {
           <DraggableFlatList
             data={motionList}
             renderItem={renderItem}
-            keyExtractor={item => item.motion_index}
+            keyExtractor={(item, index) =>
+              item.motion_index.toString() + index.toString()
+            }
             onDragEnd={({data}) => setMotionList(data)}
             showsVerticalScrollIndicator={false}
           />
