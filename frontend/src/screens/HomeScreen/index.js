@@ -310,7 +310,7 @@ const HomeScreen = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.navigate('MainSetting')}>
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Community')}>
+        <TouchableOpacity onPress={() => navigation.push('Community')}>
           <Users name="users" size={20 * height_ratio} color="#808080" />
         </TouchableOpacity>
       </View>

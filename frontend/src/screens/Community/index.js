@@ -17,6 +17,7 @@ import {AppContext} from '../../contexts/AppProvider';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 
+import Back from '../../assets/svg/buttons/single/back.svg';
 import Profile from '../../assets/svg/img/profile.svg';
 import Icons from 'react-native-vector-icons/Ionicons';
 import Icons_two from 'react-native-vector-icons/Entypo';
@@ -28,6 +29,7 @@ import CustomButton_W from '../../components/CustomButton_W';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
+
 const category = [
   'Q&A',
   '헬스자랑',
@@ -483,7 +485,32 @@ const Feed = ({
   );
 };
 
-const Community = () => {
+const Community = ({navigation}) => {
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+      ),
+      headerTitle: () => (
+        <>
+          <Text
+            style={{
+              marginHorizontal: Platform.OS === 'ios' ? 0 : 6 * width_ratio,
+              color: '#242424',
+              fontSize: 16 * height_ratio,
+              fontWeight: '700',
+            }}>
+            룸핏 커뮤니티
+          </Text>
+        </>
+      ),
+    });
+  }, []);
   const [isPostingModal, setIsPostingModal] = React.useState(false);
   const [postContent, setPostContent] = React.useState('');
   const handleInputChange = inputText => {
