@@ -124,6 +124,13 @@ export const WorkoutStart = ({navigation, route}) => {
   const [tempData, setTempData] = useState(0);
   const [diffAverage, setDiffAverage] = useState(0);
   const [minAvg, setMinAvg] = useState(0);
+
+  // packet 저장 관련 변수
+  const [packetTime, setPacketTime] = useState([]);
+  const [packetLeft, setPacketLeft] = useState([]);
+  const [packetRight, setPacketRight] = useState([]);
+
+
   //time 관련 변수 :
   const [TUT, setTUT] = useState(route.params.TUT);
   const [isTut, setIsTuT] = useState(true);
@@ -269,15 +276,6 @@ export const WorkoutStart = ({navigation, route}) => {
 
   //rep count
   useEffect(() => {
-    console.log(reps);
-    // let max = 0; // 각 rep의 최댓값
-    // let min = 500; // 각 rep의 최솟값
-    // let tempMax = 0; // 기준에 못 미치는 최대값을 저장
-    // const exerMax = []; // 기준이 될 만한 최댓값 저장
-    // const exerMin = []; // 기준이 될 만한 최솟값 저장
-    // let isUp = 1; // 현재 위치가 커지는 중인지 아닌지 판별
-    // let count = 0; // 몇 번째 데이터인지 확인
-    // let tempData = 0; // 50ms 이전의 데이터 저장
     let maxAvg;
     let time = 0;
     //let check = 0;
@@ -311,6 +309,11 @@ export const WorkoutStart = ({navigation, route}) => {
                     }
                 }
                 if(isUp===0){
+                  setPacketTime([...packetTime, count]);
+                  setPacketLeft([...packetLeft, min]);
+                  setPacketRight([...packetRight, min]);
+                  
+                  //savePacketMin();
                     //save_packet(min, time);
                     setMin(500);
                 }
@@ -334,8 +337,10 @@ export const WorkoutStart = ({navigation, route}) => {
                     setTempMax(max);
                 }
                 if(isUp===1){
-                    //save_packet(max, time);
-                    setMax(0);
+                  setPacketTime([...packetTime, count]);
+                  setPacketLeft([...packetLeft, max]);
+                  setPacketRight([...packetRight, max]);
+                  setMax(0);
                 }
                 setIsUp(0);
 
@@ -357,7 +362,6 @@ export const WorkoutStart = ({navigation, route}) => {
             //time = data.time;
         }
         else if(left<min && isUp === 0){
-            //console.log("..");
             setMin(left);
             //time = data.time;
         }
@@ -551,6 +555,22 @@ export const WorkoutStart = ({navigation, route}) => {
       });
   };
 
+  const savePacket = async () => {
+    const body = {
+      record_id: recordId,
+      time:packetTime,
+      left:packetLeft,
+      right:packetRight
+    }
+    console.log(body);
+    await serverAxios
+      .post('/packet/save', body)
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   const setCompletePost = async () => {
     const body = {
       record_id: recordId,
@@ -706,7 +726,9 @@ export const WorkoutStart = ({navigation, route}) => {
 
   useEffect(() => {
     if (recordId && (isResting || workoutDone)) {
+      console.log(".");
       setCompletePost();
+      console.log(".");
       setTotalWeight(
         totalWeight +
           motionList[m_index].sets[s_index].weight *
@@ -726,20 +748,24 @@ export const WorkoutStart = ({navigation, route}) => {
     if (s_index === 0) {
       getRecordId(m_index);
     } else {
+      console.log("...");
       setCompletePost();
+      console.log("...");
       setTotalWeight(
         totalWeight +
           motionList[m_index].sets[s_index].weight *
             motionList[m_index].sets[s_index].reps,
       );
     }
+    setPacketTime([...packetTime, count]);
+    setPacketLeft([...packetLeft, min]);
+    setPacketRight([...packetRight, min]);
     setMax(0);
     setMin(500);
     setTempMax(0);
     setExerMax([]);
     setExerMin([]);
     setIsUp(1);
-    setCount(0);
     setTempData(0);
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
@@ -772,6 +798,11 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList[m_index].doingSetIndex = s_index + 1;
       updatedMotionList[m_index].sets[s_index].isDoing = false;
       setMotionList(updatedMotionList);
+      savePacket();
+      setPacketLeft([]);
+      setPacketRight([]);
+      setPacketTime([]);
+      setCount(0);
     } else {
       // 운동 종료시
       updatedMotionList = [...motionList];
@@ -785,6 +816,11 @@ export const WorkoutStart = ({navigation, route}) => {
       setMotionList(updatedMotionList);
       setMotionList(updatedMotionList);
       setWorkoutDone(true);
+      savePacket();
+      setPacketLeft([]);
+      setPacketRight([]);
+      setPacketTime([]);
+      setCount(0);
       if (isQuickWorkout) {
         setWorkoutDoneModal(true);
       } else {
@@ -820,7 +856,7 @@ export const WorkoutStart = ({navigation, route}) => {
       setMotionList(updatedMotionList);
     }
   };
-
+  // recordId 받아오고... -> 보내고
   return (
     <SafeAreaView style={styles.pageContainer}>
       {!isPausedPage && !pressSetting && !isModifyMotion && (

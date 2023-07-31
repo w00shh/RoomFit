@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   ScrollView,
+  Image,
 } from 'react-native';
 import styles from './styles';
 import MotionItem from '../../components/MotionItem';
