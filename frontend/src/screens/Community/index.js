@@ -448,6 +448,7 @@ const Feed = ({
                 placeholder="댓글"
                 inputMode="text"></TextInput>
               <TouchableOpacity
+                disabled={input_comment_content.length === 0}
                 onPress={() => {
                   pushComment();
                 }}>
