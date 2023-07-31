@@ -195,7 +195,7 @@ export const WorkoutModifying = ({navigation, route}) => {
     return (
       <>
         <WorkoutItem
-          drag={drag}
+          drag={!item.isMotionDoing && !item.isMotionDone ? drag : null}
           isActive={isActive}
           motion_index={item.motion_index}
           id={item.motion_id}
@@ -308,16 +308,19 @@ export const WorkoutModifying = ({navigation, route}) => {
             keyExtractor={(item, index) =>
               item.motion_index.toString() + index.toString()
             }
-            onDragEnd={({data}) => setMotionList(data)}
+            onDragEnd={({data}) => {
+              setMotionList(data);
+            }}
             showsVerticalScrollIndicator={false}
           />
         </GestureHandlerRootView>
 
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <View style={{marginRight: 8 * width_ratio}}>
+        <View style={styles.buttonContainer}>
+          <View style={styles.buttonSection}>
             <CustomButton_W
               width={171 * width_ratio}
               content="+ 동작 추가"
+              marginVertical={16 * height_ratio}
               onPress={() => {
                 navigation.push('AddMotion', {
                   routine_index: route.params.routine_index,
@@ -338,14 +341,14 @@ export const WorkoutModifying = ({navigation, route}) => {
                   isResting: route.params.isResting,
                   restTimer: route.params.restTimer,
                 });
-              }}></CustomButton_W>
+              }}
+              disabled={false}></CustomButton_W>
           </View>
-          <View style={{marginLeft: 8 * width_ratio}}>
+          <View style={styles.buttonSection}>
             <CustomButton_B
-              disabled={isExercisingDisabled}
               width={171 * width_ratio}
-              content={'운동중'}
-              //content={`운동중  ${formatTime(elapsedTime)}`}
+              content="운동중"
+              marginVertical={16 * height_ratio}
               onPress={() => {
                 const currentTime = new Date();
                 const elapsedTimeInMilliseconds = currentTime - initialTime;
@@ -374,7 +377,8 @@ export const WorkoutModifying = ({navigation, route}) => {
                   // data1: route.params.data1,
                   // data2: route.params.data2,
                 });
-              }}></CustomButton_B>
+              }}
+              disabled={false}></CustomButton_B>
           </View>
         </View>
       </View>
