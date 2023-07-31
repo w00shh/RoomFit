@@ -174,7 +174,7 @@ const WorkoutRecord = ({navigation, route}) => {
     console.log(period);
     const url = '/workout/stat/' + period;
     await serverAxios.post(url, body).then(res => {
-      //console.log(res.data);
+      console.log(res.data);
       setPeriodWorkout(res.data);
     });
   };
@@ -672,6 +672,18 @@ const WorkoutRecord = ({navigation, route}) => {
                     <Text style={styles.targetText}>코어</Text>
                     <Text style={styles.percentText}>
                       {periodWorkout.percentage.core}%
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>이두</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.bicep}%
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>삼두</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.tricep}%
                     </Text>
                   </View>
                 </View>

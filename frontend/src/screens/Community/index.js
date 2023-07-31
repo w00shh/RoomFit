@@ -388,39 +388,59 @@ const Feed = ({
           </View>
         )}
         <View style={styles.FeedBottom}>
-          <View style={styles.Likes}>
-            <TouchableOpacity
-              onPress={() => {
-                pressLiked();
-              }}>
-              {liked ? (
+          <View style={{flexDirection: 'row'}}>
+            <View style={styles.Likes}>
+              <TouchableOpacity
+                onPress={() => {
+                  pressLiked();
+                }}>
+                {liked ? (
+                  <Icons
+                    name="heart"
+                    size={24 * height_ratio}
+                    color="#f02828"></Icons>
+                ) : (
+                  <Icons
+                    name="heart-outline"
+                    size={24 * height_ratio}
+                    color="#242424"></Icons>
+                )}
+              </TouchableOpacity>
+              {/* <Text>{show_like_count}</Text> */}
+            </View>
+            <View style={styles.Comments}>
+              <TouchableOpacity
+                onPress={() => {
+                  isPressedComment(!pressComment);
+                  if (!pressComment) {
+                    pressCommentandGetComment();
+                  }
+                }}>
                 <Icons
-                  name="heart"
-                  size={24 * height_ratio}
-                  color="#f02828"></Icons>
-              ) : (
-                <Icons
-                  name="heart-outline"
+                  name="chatbubble-ellipses-outline"
                   size={24 * height_ratio}
                   color="#242424"></Icons>
-              )}
-            </TouchableOpacity>
-            <Text>{show_like_count}</Text>
+              </TouchableOpacity>
+              {/* <Text>{show_comment_count}</Text> */}
+            </View>
           </View>
-          <View style={styles.Comments}>
-            <TouchableOpacity
-              onPress={() => {
-                isPressedComment(!pressComment);
-                if (!pressComment) {
-                  pressCommentandGetComment();
-                }
-              }}>
-              <Icons
-                name="chatbubble-ellipses-outline"
-                size={24 * height_ratio}
-                color="#242424"></Icons>
-            </TouchableOpacity>
-            <Text>{show_comment_count}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+            {show_like_count !== 0 && (
+              <Text style={{color: '#242424', fontSize: 15}}>
+                {show_like_count}
+              </Text>
+            )}
+            {show_like_count !== 0 && (
+              <Text style={{fontSize: 12}}> Likes </Text>
+            )}
+            {show_comment_count !== 0 && (
+              <Text style={{color: '#242424', fontSize: 15}}>
+                {show_comment_count}
+              </Text>
+            )}
+            {show_comment_count !== 0 && (
+              <Text style={{fontSize: 12}}> Comments </Text>
+            )}
           </View>
         </View>
         {pressComment && (

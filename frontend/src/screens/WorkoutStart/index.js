@@ -1467,6 +1467,7 @@ export const WorkoutStart = ({navigation, route}) => {
                       saveWorkoutRecord();
                       navigation.reset({routes: [{name: 'HomeScreen'}]});
                     }}
+                    disabled={isSaveWorkoutDisabled}
                     content="확인"
                     marginVertical={12 * height_ratio}></CustomButton_B>
                 </View>
