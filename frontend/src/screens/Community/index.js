@@ -97,6 +97,9 @@ const Comment = ({
         if (res.data.success == '1') {
           console.log('success');
           comment_count = comment_count - 1;
+          if (comment_count < 0) {
+            comment_count = 0;
+          }
           onCommentCountChange(comment_count);
           Alert.alert('댓글 삭제 완료');
         } else {
