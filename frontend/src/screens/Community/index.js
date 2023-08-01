@@ -9,6 +9,7 @@ import {
   Modal,
   TextInput,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import styles from './styles';
 
@@ -30,19 +31,14 @@ import CustomButton_W from '../../components/CustomButton_W';
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
-const category = [
-  'Q&A',
-  '헬스자랑',
-  '자유게시판',
-  '운동팁',
-  '운동일지',
-  '운동식단',
-];
+const CategoryBar = ({fetchData, items}) => {
+  // const [selectedCategory, setSelectedCategory] = React.useState(null);
 
-const CategoryBar = () => {
-  const [selectedCategory, setSelectedCategory] = React.useState(null);
+  console.log('items : ');
+  console.log(items);
+  const category = items.map(item => item.label);
 
-  React.useEffect(() => {}, [selectedCategory]);
+  // React.useEffect(() => {}, [selectedCategory]);
 
   return (
     <View>
@@ -51,6 +47,24 @@ const CategoryBar = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.additionalSelectContainer}>
         <View style={styles.categoryContainer}>
+          <TouchableOpacity
+            style={{
+              paddingVertical: 8 * height_ratio,
+              paddingHorizontal: 12 * width_ratio,
+              backgroundColor: '#242424', //색깔 수정 필요
+              borderRadius: 8 * height_ratio,
+            }}
+            onPress={() => {
+              fetchData();
+            }}>
+            <Text
+              style={{
+                fontSize: 14,
+                color: '#fff',
+              }}>
+              {'전체 글 보기'}
+            </Text>
+          </TouchableOpacity>
           {category.map((item, key) => (
             <TouchableOpacity
               key={key}
@@ -61,7 +75,8 @@ const CategoryBar = () => {
                 borderRadius: 8 * height_ratio,
               }}
               onPress={() => {
-                setSelectedCategory(item);
+                // setSelectedCategory(item);
+                fetchData(key);
               }}>
               <Text
                 style={{
@@ -549,10 +564,7 @@ const Community = ({navigation}) => {
         console.log('ImagePicker res', res);
         image.name = res.assets[0].fileName;
         image.type = res.assets[0].type;
-        image.uri =
-          Platform.OS === 'android'
-            ? res.assets[0].uri
-            : res.assets[0].uri.replace('file://', '');
+        image.uri = res.assets[0].uri;
         setpostimage_url(image);
         // setpostimage_url(image.uri);
       }
@@ -561,21 +573,38 @@ const Community = ({navigation}) => {
   const appContext = React.useContext(AppContext);
   const user_id = appContext.state.userid;
 
-  const fetchData = async () => {
-    await serverAxios
-      .get('/community/?user_id=' + user_id)
-      .then(res => {
-        if (res.data.success == '1') {
-          const data = res.data.feed_data;
-          let current_feed_data = JSON.parse(JSON.stringify(data));
-          setFeed_data(current_feed_data.reverse());
-        } else {
-          console.log('fail');
-        }
-      })
-      .catch(e => {
-        console.log(e);
-      });
+  const fetchData = async category => {
+    if (category) {
+      await serverAxios
+        .get('/community/?user_id=' + user_id + '&category=' + category)
+        .then(res => {
+          if (res.data.success == '1') {
+            const data = res.data.feed_data;
+            let current_feed_data = JSON.parse(JSON.stringify(data));
+            setFeed_data(current_feed_data.reverse());
+          } else {
+            console.log('fail');
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    } else {
+      await serverAxios
+        .get('/community/?user_id=' + user_id)
+        .then(res => {
+          if (res.data.success == '1') {
+            const data = res.data.feed_data;
+            let current_feed_data = JSON.parse(JSON.stringify(data));
+            setFeed_data(current_feed_data.reverse());
+          } else {
+            console.log('fail');
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
   };
 
   const postFeed = async () => {
@@ -614,13 +643,25 @@ const Community = ({navigation}) => {
   const [selectedCategory, setSelectedCategory] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [items, setItems] = React.useState([
-    {label: 'Q&A', value: 'Q&A'},
-    {label: '헬스 자랑', value: '헬스 자랑'},
-    {label: '자유게시판', value: '자유게시판'},
-    {label: '운동 팁', value: '운동 팁'},
-    {label: '운동 일지', value: '운동 일지'},
-    {label: '운동 식단', value: '운동 식단'},
+    {label: 'Q&A', value: '0'},
+    {label: '헬스 자랑', value: '1'},
+    {label: '자유게시판', value: '2'},
+    {label: '운동 팁', value: '3'},
+    {label: '운동 일지', value: '4'},
+    {label: '운동 식단', value: '5'},
   ]);
+
+  const getCategory = value => {
+    const foundItem = items.find(item => item.value === value);
+    return foundItem ? foundItem.label : '레거시';
+  };
+
+  const [refreshing, setRefreshing] = React.useState(false);
+  const refreshControl = () => {
+    setRefreshing(true);
+    fetchData();
+    setRefreshing(false);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -677,7 +718,7 @@ const Community = ({navigation}) => {
                 <CustomButton_B
                   width={171 * width_ratio}
                   content="포스트"
-                  disabled={category == null || postContent == ''}
+                  disabled={selectedCategory == null || postContent == ''}
                   onPress={() => {
                     postFeed();
                     handleInputChange('');
@@ -690,8 +731,12 @@ const Community = ({navigation}) => {
         </View>
       </Modal>
 
-      <CategoryBar fetchData={fetchData} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <CategoryBar fetchData={fetchData} items={items} />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refreshControl} />
+        }>
         {feed_data.map((item, key) => (
           <Feed
             key={item.feed_id}
@@ -706,7 +751,7 @@ const Community = ({navigation}) => {
             is_like={item.is_like}
             props={user_id}
             fetchData={fetchData}
-            category={item.category}
+            category={getCategory(item.category)}
           />
         ))}
       </ScrollView>
