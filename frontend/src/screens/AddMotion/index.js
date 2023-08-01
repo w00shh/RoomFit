@@ -82,7 +82,6 @@ const AddMotion = ({navigation, route}) => {
       // } else {
       //   setSelectedList([...selectedList, motion.motion_name]);
       // }
-      setTest(test => test + 1);
       let length = 0;
       const newSelected = new Map(selected);
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
@@ -101,6 +100,7 @@ const AddMotion = ({navigation, route}) => {
           motion_range_max: motion.motion_range_max,
         });
       setSelected(newSelected);
+      setTest(test => test + 1);
     },
     [selected],
   );
