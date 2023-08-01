@@ -297,7 +297,10 @@ const WorkoutRecord = ({navigation, route}) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setIsLeft(false)}
+          onPress={() => {
+            setOpen(false);
+            setIsLeft(false);
+          }}
           style={{
             flex: 1,
             alignItems: 'center',
