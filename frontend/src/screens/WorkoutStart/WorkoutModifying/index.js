@@ -1,4 +1,10 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -68,6 +74,9 @@ export const WorkoutModifying = ({navigation, route}) => {
   });
   const [m_index, setMIndex] = useState(route.params.m_index);
   const [s_index, setSIndex] = useState(route.params.s_index);
+
+  const [initialTime, setInitialTime] = useState(new Date());
+  const [elapsedTimeInSeconds, setElapsedTimeInSeconds] = useState(0);
 
   useEffect(() => {
     if (motionList.length === 0) {
@@ -151,59 +160,61 @@ export const WorkoutModifying = ({navigation, route}) => {
           },
         ]);
       }
-    } else {
-      /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
-      let updatedMotionList = [...motionList];
-      if (!route.params.isAddMotion) {
-        updatedMotionList[m_index].isMotionDoing = true;
-        updatedMotionList[m_index].doingSetIndex = 0;
-        updatedMotionList[m_index].sets[0].isDoing = true;
-        setMotionList(updatedMotionList);
-      }
     }
   }, []);
 
-  useEffect(() => {
-    let intervalId;
+  // }, []);
 
-    intervalId = setInterval(() => {
-      setElapsedTime(prevElapsedTime => {
-        const updatedTime = prevElapsedTime + 1;
-        return updatedTime;
-      });
-    }, 1000); // 1초마다 증가
+  function Item({mode}) {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          handleModeItemPress(mode);
+        }}>
+        <View
+          style={{
+            flexDirection: 'column',
+            height: 72 * height_ratio,
+            paddingVertical: 12 * height_ratio,
+            paddingHorizontal: 12 * width_ratio,
+            marginVertical: 4 * height_ratio,
+            marginHorizontal: 4 * height_ratio,
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            backgroundColor:
+              mode.modeName === selectedMode.modeName ? '#f5f5f5' : 'white',
+          }}>
+          <Text style={styles.modeText}>{mode.modeName}</Text>
+          <Text style={styles.descriptionText}>{mode.modeDescription}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
-  const renderItem = gestureHandlerRootHOC(
-    React.memo(({item, index, drag, isActive}) => {
-      return (
-        <>
-          <WorkoutItem
-            drag={drag}
-            isActive={isActive}
-            motion_index={item.motion_index}
-            id={item.motion_id}
-            motion={item}
-            isExercising={true}
-            setIsModalVisible={setIsModalVisible}
-            motion={item}
-            motionList={motionList}
-            setMotionList={setMotionList}
-            setSelectedMode={setSelectedMode}
-            setIsMotionRangeModalVisible={
-              setIsMotionRangeModalVisible
-            }></WorkoutItem>
-          {item !== motionList[motionList.length - 1] && (
-            <Divider height_ratio={height_ratio} />
-          )}
-        </>
-      );
-    }),
-  );
+  const renderItem = gestureHandlerRootHOC(({item, index, drag, isActive}) => {
+    return (
+      <>
+        <WorkoutItem
+          drag={!item.isMotionDoing && !item.isMotionDone ? drag : null}
+          isActive={isActive}
+          motion_index={item.motion_index}
+          id={item.motion_id}
+          motion={item}
+          isExercising={true}
+          setIsModalVisible={setIsModalVisible}
+          motion={item}
+          motionList={motionList}
+          setMotionList={setMotionList}
+          setSelectedMode={setSelectedMode}
+          setIsMotionRangeModalVisible={
+            setIsMotionRangeModalVisible
+          }></WorkoutItem>
+        {item !== motionList[motionList.length - 1] && (
+          <Divider height_ratio={height_ratio} />
+        )}
+      </>
+    );
+  });
 
   const formatTime = time => {
     if (time < 0) {
@@ -294,17 +305,22 @@ export const WorkoutModifying = ({navigation, route}) => {
           <DraggableFlatList
             data={motionList}
             renderItem={renderItem}
-            keyExtractor={item => item.motion_index}
-            onDragEnd={({data}) => setMotionList(data)}
+            keyExtractor={(item, index) =>
+              item.motion_index.toString() + index.toString()
+            }
+            onDragEnd={({data}) => {
+              setMotionList(data);
+            }}
             showsVerticalScrollIndicator={false}
           />
         </GestureHandlerRootView>
 
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <View style={{marginRight: 8 * width_ratio}}>
+        <View style={styles.buttonContainer}>
+          <View style={styles.buttonSection}>
             <CustomButton_W
               width={171 * width_ratio}
               content="+ 동작 추가"
+              marginVertical={16 * height_ratio}
               onPress={() => {
                 navigation.push('AddMotion', {
                   routine_index: route.params.routine_index,
@@ -325,15 +341,22 @@ export const WorkoutModifying = ({navigation, route}) => {
                   isResting: route.params.isResting,
                   restTimer: route.params.restTimer,
                 });
-              }}></CustomButton_W>
+              }}
+              disabled={false}></CustomButton_W>
           </View>
-          <View style={{marginLeft: 8 * width_ratio}}>
+          <View style={styles.buttonSection}>
             <CustomButton_B
-              disabled={isExercisingDisabled}
               width={171 * width_ratio}
-              content={`운동중  ${formatTime(elapsedTime)}`}
+              content="운동중"
+              marginVertical={16 * height_ratio}
               onPress={() => {
+                const currentTime = new Date();
+                const elapsedTimeInMilliseconds = currentTime - initialTime;
+                const elapsedTimeInSeconds = elapsedTimeInMilliseconds / 1000;
+                console.log(elapsedTimeInSeconds);
+                console.log(parseInt(elapsedTimeInSeconds, 10));
                 navigation.push('WorkoutStart', {
+                  isWorkoutStartSplash: false,
                   routine_index: route.params.routine_index,
                   routine_detail_index: route.params.routine_detail_index,
                   motion_index_base: motionIndexMax,
@@ -342,7 +365,7 @@ export const WorkoutModifying = ({navigation, route}) => {
                   workout_id: route.params.workout_id,
                   isAddMotion: route.params.isAddMotion,
                   motionList: motionList,
-                  elapsedTime: elapsedTime,
+                  elapsedTime: elapsedTime + parseInt(elapsedTimeInSeconds, 10),
                   TUT: route.params.TUT,
                   m_index: route.params.m_index,
                   s_index: route.params.s_index,
@@ -354,7 +377,8 @@ export const WorkoutModifying = ({navigation, route}) => {
                   // data1: route.params.data1,
                   // data2: route.params.data2,
                 });
-              }}></CustomButton_B>
+              }}
+              disabled={false}></CustomButton_B>
           </View>
         </View>
       </View>

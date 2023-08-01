@@ -17,6 +17,7 @@ import {AppContext} from '../../contexts/AppProvider';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 
+import Back from '../../assets/svg/buttons/single/back.svg';
 import Profile from '../../assets/svg/img/profile.svg';
 import Icons from 'react-native-vector-icons/Ionicons';
 import Icons_two from 'react-native-vector-icons/Entypo';
@@ -28,6 +29,7 @@ import CustomButton_W from '../../components/CustomButton_W';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
+
 const category = [
   'Q&A',
   '헬스자랑',
@@ -55,7 +57,7 @@ const CategoryBar = () => {
               style={{
                 paddingVertical: 8 * height_ratio,
                 paddingHorizontal: 12 * width_ratio,
-                backgroundColor: '#5252fa', //색깔 수정 필요
+                backgroundColor: '#242424', //색깔 수정 필요
                 borderRadius: 8 * height_ratio,
               }}
               onPress={() => {
@@ -162,8 +164,8 @@ const Comment = ({
       <View style={styles.commentContainer}>
         <View style={styles.commentLeftContainer}>
           <Profile
-            width={30 * width_ratio}
-            height={30 * height_ratio}
+            width={24 * width_ratio}
+            height={24 * height_ratio}
             style={{marginRight: 8 * width_ratio}}
           />
           <View>
@@ -177,7 +179,7 @@ const Comment = ({
             onPress={() => {
               setIsSettingModal(true);
             }}>
-            <Icons_two name="dots-three-vertical" size={18 * height_ratio} />
+            <Icons_two name="dots-three-vertical" size={12 * height_ratio} />
           </TouchableOpacity>
         </View>
       </View>
@@ -321,7 +323,7 @@ const Feed = ({
             <View style={styles.postTitle}>
               <Text style={styles.titleText}>피드 메뉴</Text>
               <TouchableOpacity onPress={() => setIsSettingModal(false)}>
-                <Icons_three name="x" size={28 * height_ratio} color="black" />
+                <Icons_three name="x" size={20 * height_ratio} color="black" />
               </TouchableOpacity>
             </View>
             <View>
@@ -369,14 +371,14 @@ const Feed = ({
       <View style={styles.Feed}>
         <View style={styles.FeedBar}>
           <View style={styles.FeedProfile}>
-            <Profile width={40 * width_ratio} height={40 * height_ratio} />
+            <Profile width={36 * width_ratio} height={36 * height_ratio} />
             <Text style={styles.UserName}>{user_name}</Text>
           </View>
           <TouchableOpacity
             onPress={() => {
               setIsSettingModal(true);
             }}>
-            <Icons_two name="dots-three-vertical" size={28 * height_ratio} />
+            <Icons_two name="dots-three-vertical" size={18 * height_ratio} />
           </TouchableOpacity>
         </View>
 
@@ -399,39 +401,59 @@ const Feed = ({
           </View>
         )}
         <View style={styles.FeedBottom}>
-          <View style={styles.Likes}>
-            <TouchableOpacity
-              onPress={() => {
-                pressLiked();
-              }}>
-              {liked ? (
+          <View style={{flexDirection: 'row'}}>
+            <View style={styles.Likes}>
+              <TouchableOpacity
+                onPress={() => {
+                  pressLiked();
+                }}>
+                {liked ? (
+                  <Icons
+                    name="heart"
+                    size={24 * height_ratio}
+                    color="#f02828"></Icons>
+                ) : (
+                  <Icons
+                    name="heart-outline"
+                    size={24 * height_ratio}
+                    color="#242424"></Icons>
+                )}
+              </TouchableOpacity>
+              {/* <Text>{show_like_count}</Text> */}
+            </View>
+            <View style={styles.Comments}>
+              <TouchableOpacity
+                onPress={() => {
+                  isPressedComment(!pressComment);
+                  if (!pressComment) {
+                    pressCommentandGetComment();
+                  }
+                }}>
                 <Icons
-                  name="heart"
-                  size={28 * height_ratio}
-                  color="#5252fa"></Icons>
-              ) : (
-                <Icons
-                  name="heart-outline"
-                  size={28 * height_ratio}
-                  color="#5252fa"></Icons>
-              )}
-            </TouchableOpacity>
-            <Text>{show_like_count}</Text>
+                  name="chatbubble-ellipses-outline"
+                  size={24 * height_ratio}
+                  color="#242424"></Icons>
+              </TouchableOpacity>
+              {/* <Text>{show_comment_count}</Text> */}
+            </View>
           </View>
-          <View style={styles.Comments}>
-            <TouchableOpacity
-              onPress={() => {
-                isPressedComment(!pressComment);
-                if (!pressComment) {
-                  pressCommentandGetComment();
-                }
-              }}>
-              <Icons
-                name="chatbubble-ellipses-outline"
-                size={28 * height_ratio}
-                color="#5252fa"></Icons>
-            </TouchableOpacity>
-            <Text>{show_comment_count}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+            {show_like_count !== 0 && (
+              <Text style={{color: '#242424', fontSize: 15}}>
+                {show_like_count}
+              </Text>
+            )}
+            {show_like_count !== 0 && (
+              <Text style={{fontSize: 12}}> Likes </Text>
+            )}
+            {show_comment_count !== 0 && (
+              <Text style={{color: '#242424', fontSize: 15}}>
+                {show_comment_count}
+              </Text>
+            )}
+            {show_comment_count !== 0 && (
+              <Text style={{fontSize: 12}}> Comments </Text>
+            )}
           </View>
         </View>
         {pressComment && (
@@ -459,6 +481,7 @@ const Feed = ({
                 placeholder="댓글"
                 inputMode="text"></TextInput>
               <TouchableOpacity
+                disabled={input_comment_content.length === 0}
                 onPress={() => {
                   pushComment();
                 }}>
@@ -476,7 +499,32 @@ const Feed = ({
   );
 };
 
-const Community = () => {
+const Community = ({navigation}) => {
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Back height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+      ),
+      headerTitle: () => (
+        <>
+          <Text
+            style={{
+              marginHorizontal: Platform.OS === 'ios' ? 0 : 6 * width_ratio,
+              color: '#242424',
+              fontSize: 16 * height_ratio,
+              fontWeight: '700',
+            }}>
+            룸핏 커뮤니티
+          </Text>
+        </>
+      ),
+    });
+  }, []);
   const [isPostingModal, setIsPostingModal] = React.useState(false);
   const [postContent, setPostContent] = React.useState('');
   const handleInputChange = inputText => {

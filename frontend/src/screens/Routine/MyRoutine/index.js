@@ -24,10 +24,6 @@ const MyRoutine = ({navigation}) => {
   const [selected, setSelected] = useState(new Map());
 
   useEffect(() => {
-    handleGetAllRoutine();
-  }, []);
-
-  useEffect(() => {
     navigation.setOptions({
       headerLeft: () =>
         !isEdit && (
@@ -49,28 +45,6 @@ const MyRoutine = ({navigation}) => {
       ),
     });
   }, [isEdit]);
-
-  const handleGetAllRoutine = async () => {
-    setRoutine([]);
-    setIsEdit(false);
-    const body = {
-      user_id: appcontext.state.userid,
-      isHome: false,
-    };
-    await serverAxios.post('/routine/load', body).then(res => {
-      res.data.map((value, key) => {
-        setRoutine(currentRoutine => [
-          ...currentRoutine,
-          {
-            routine_id: value.routine_id,
-            routine_name: value.routine_name,
-            body_regions: value.body_regions,
-            motion_count: value.motion_count,
-          },
-        ]);
-      });
-    });
-  };
 
   useEffect(() => {
     if (routineId) {
@@ -172,7 +146,7 @@ const MyRoutine = ({navigation}) => {
         ))}
       {appcontext.state.routineList[0] &&
         isEdit &&
-        routine.map((value, key) => (
+        appcontext.state.routineList.map((value, key) => (
           <View
             key={key}
             style={{

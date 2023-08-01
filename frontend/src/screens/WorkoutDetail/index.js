@@ -214,9 +214,7 @@ const WorkoutDetail = ({navigation, route}) => {
               </View>
               <View>
                 <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
-                <Text style={styles.pauseSubcontent}>
-                  {route.params.total_time}
-                </Text>
+                <Text style={styles.pauseSubcontent}>00:40:12</Text>
               </View>
             </View>
             <View
@@ -231,7 +229,7 @@ const WorkoutDetail = ({navigation, route}) => {
 
               <View>
                 <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
-                <Text style={styles.pauseSubcontent}>tut</Text>
+                <Text style={styles.pauseSubcontent}>00:24:37</Text>
               </View>
             </View>
           </View>

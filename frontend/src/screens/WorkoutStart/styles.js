@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5252fa',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignSelf: 'center',
     alignItems: 'center',
     borderRadius: 12,
     width: 358 * width_ratio,

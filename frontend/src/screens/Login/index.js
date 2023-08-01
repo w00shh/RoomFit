@@ -131,6 +131,7 @@ const Login = ({navigation, route}) => {
   const handleGetAllWorkoutList = async userId => {
     const body = {
       user_id: userId,
+      duration: 7,
     };
     await serverAxios
       .post('/workout/brief', body)

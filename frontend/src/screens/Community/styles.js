@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: 'row',
     gap: 8 * width_ratio,
+    paddingVertical: 8 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
   },
 
   Feed: {
@@ -31,17 +33,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   UserName: {
-    fontSize: 18 * height_ratio,
-    fontWeight: 'bold',
+    fontSize: 16 * height_ratio,
+    fontWeight: '700',
+    color: '#242424',
     marginLeft: 8 * width_ratio,
   },
-  FeedContent: {},
+  FeedContent: {marginVertical: 16 * height_ratio},
   FeedContentText: {
-    fontSize: 14 * height_ratio,
+    color: '#242424',
+    fontSize: 16 * height_ratio,
   },
   FeedBottom: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   Likes: {
     flexDirection: 'row',
@@ -61,15 +66,15 @@ const styles = StyleSheet.create({
   },
   postButton: {
     position: 'absolute',
-    backgroundColor: '#5252fa',
+    backgroundColor: '#242424',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderRadius: 100,
-    width: 64 * width_ratio,
-    height: 64 * height_ratio,
-    bottom: 29 * height_ratio,
-    right: 29 * width_ratio,
+    borderRadius: 50 * height_ratio,
+    width: 56 * width_ratio,
+    height: 56 * height_ratio,
+    bottom: 32 * height_ratio,
+    right: 32 * width_ratio,
   },
   modalContainer: {
     flex: 1,
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     borderTopLeftRadius: 24 * height_ratio,
     borderTopRightRadius: 24 * height_ratio,
-
+    paddingBottom: Platform.OS === 'ios' ? 16 * height_ratio : 0,
     flex: 1,
   },
   modalButtonContainer: {
@@ -109,13 +114,14 @@ const styles = StyleSheet.create({
     color: '#242424',
   },
   postContentContainer: {
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 8 * width_ratio,
     height: 200 * height_ratio, // 수정 필요
   },
   postContent: {
     height: 100 * height_ratio,
     paddingVertical: 8 * height_ratio,
     paddingHorizontal: 12 * width_ratio,
-    textAlign: 'center',
   },
   postImage: {
     width: 100 * width_ratio,
@@ -127,6 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingVertical: 2 * height_ratio,
   },
   commentInputContainer: {
     marginTop: 8 * height_ratio,
@@ -154,6 +161,7 @@ const styles = StyleSheet.create({
   },
   commentLeftContainer: {
     flexDirection: 'row',
+    paddingVertical: 8 * height_ratio,
   },
   dropdown: {
     zIndex: 1,

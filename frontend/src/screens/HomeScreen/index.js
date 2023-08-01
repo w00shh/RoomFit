@@ -16,6 +16,7 @@ import {useAppSelector} from '../../redux/store';
 import {AppContext} from '../../contexts/AppProvider';
 import {BackHandler} from 'react-native';
 
+import Users from 'react-native-vector-icons/FontAwesome';
 //svg
 import Workout from '../../assets/svg/buttons/active/workout.svg';
 import History from '../../assets/svg/buttons/default/history.svg';
@@ -131,7 +132,7 @@ const HomeScreen = ({navigation}) => {
       <ScrollView
         style={{marginBottom: 32 * height_ratio}}
         showsVerticalScrollIndicator={false}>
-        {!true && (
+        {!connectedDevice && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
             <Text style={styles.noConnectionText2}>
@@ -147,8 +148,8 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        {true && (
-          <View style={{alignItems: 'center'}}>
+        {connectedDevice && (
+          <View style={{alignItems: 'center', marginBottom: 16 * height_ratio}}>
             <CustomButton_B
               style={styles.connectButton}
               content="빠른 운동 시작"
@@ -309,8 +310,8 @@ const HomeScreen = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.navigate('MainSetting')}>
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Community')}>
-          <Community height={24 * height_ratio} width={24 * width_ratio} />
+        <TouchableOpacity onPress={() => navigation.push('Community')}>
+          <Users name="users" size={20 * height_ratio} color="#808080" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

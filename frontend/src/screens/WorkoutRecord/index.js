@@ -1,4 +1,10 @@
-import React, {useEffect, useState, useContext, useCallback} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+  useRef,
+} from 'react';
 import {
   View,
   Text,
@@ -27,6 +33,7 @@ import {AppContext} from '../../contexts/AppProvider';
 import Sample from '../../assets/svg/img_sample1.svg';
 
 //svg
+import Users from 'react-native-vector-icons/FontAwesome';
 import Workout from '../../assets/svg/buttons/default/workout.svg';
 import History from '../../assets/svg/buttons/active/history.svg';
 import Setting from '../../assets/svg/buttons/default/setting.svg';
@@ -44,6 +51,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutRecord = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
+  const isRef = useRef(false);
   const [isExercise, setIsExercise] = useState(false);
   const [isRecord, setIsRecord] = useState(true);
   const [isSetting, setIsSetting] = useState(false);
@@ -127,6 +135,7 @@ const WorkoutRecord = ({navigation, route}) => {
       user_id: appcontext.state.userid,
       date: selectedDate,
     };
+    console.log(body.date);
     await serverAxios.post('workout/calender/date', body).then(res => {
       setSelectedWorkout(res.data);
     });
@@ -154,31 +163,37 @@ const WorkoutRecord = ({navigation, route}) => {
 
   useEffect(() => {
     getPeriodWorkout();
+
+    console.log(period);
   }, [period]);
 
   const getPeriodWorkout = async () => {
     const body = {
       user_id: appcontext.state.userid,
     };
+    console.log(period);
     const url = '/workout/stat/' + period;
     await serverAxios.post(url, body).then(res => {
-      //console.log(res.data);
+      console.log(res.data);
       setPeriodWorkout(res.data);
     });
   };
 
   useEffect(() => {
-    if (selectedValue) {
-      console.log(selectedValue);
+    if (isRef.current) {
+      appcontext.actions.setDuration(selectedValue);
       handleGetAllWorkoutList(selectedValue);
+    } else {
+      isRef.current = true;
     }
   }, [selectedValue]);
 
   const handleGetAllWorkoutList = async period => {
     const body = {
       user_id: appcontext.state.userid,
-      duration: period,
+      duration: parseInt(period),
     };
+    console.log('period: ' + body.duration);
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {
@@ -282,7 +297,10 @@ const WorkoutRecord = ({navigation, route}) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setIsLeft(false)}
+          onPress={() => {
+            setOpen(false);
+            setIsLeft(false);
+          }}
           style={{
             flex: 1,
             alignItems: 'center',
@@ -310,6 +328,7 @@ const WorkoutRecord = ({navigation, route}) => {
       {isLeft && (
         <View style={{alignItems: 'center'}}>
           <View
+            zIndex={100}
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -320,25 +339,27 @@ const WorkoutRecord = ({navigation, route}) => {
               height: 40 * height_ratio,
               marginTop: 24 * height_ratio,
             }}>
-            <View>
-              <DropDownPicker
-                open={open}
-                value={selectedValue}
-                items={items}
-                setOpen={setOpen}
-                setValue={setSelectedValue}
-                setItems={setItems}
-                placeholder="7일"
-                style={[styles.dropdown, {zIndex: open ? 10 : 0}]}
-              />
-            </View>
-            <View style={{flexDirection: 'row'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: 170 * width_ratio,
+                height: 40 * height_ratio,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderRadius: 8,
+                borderColor: '#c0c0c0',
+                borderWidth: 1,
+                marginBottom: 10,
+              }}>
               <View
                 style={{
-                  //backgroundColor: isCalendar ? '#f5f5f5' : '#fff',
-                  borderRadius: 100,
-                  width: 73 * width_ratio,
-                  height: 32 * height_ratio,
+                  backgroundColor: isCalendar ? '#fff' : '#242424',
+                  borderWidth: 1,
+                  borderColor: '#242424',
+                  width: 85 * width_ratio,
+                  height: 40 * height_ratio,
+                  borderBottomLeftRadius: 8,
+                  borderTopLeftRadius: 8,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -346,7 +367,7 @@ const WorkoutRecord = ({navigation, route}) => {
                   <Text
                     style={{
                       fontSize: 14 * height_ratio,
-                      color: isCalendar ? '#808080' : '#242424',
+                      color: isCalendar ? '#242424' : 'white',
                     }}>
                     운동기록
                   </Text>
@@ -354,10 +375,13 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
               <View
                 style={{
-                  //backgroundColor: isCalendar ? '#fff' : '#f5f5f5',
-                  borderRadius: 100,
-                  //width: 73 * width_ratio,
-                  height: 32 * height_ratio,
+                  backgroundColor: isCalendar ? '#242424' : '#fff',
+                  borderTopRightRadius: 8,
+                  borderBottomRightRadius: 8,
+                  borderWidth: 1,
+                  borderColor: '#242424',
+                  width: 85 * width_ratio,
+                  height: 40 * height_ratio,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -365,23 +389,45 @@ const WorkoutRecord = ({navigation, route}) => {
                   <Text
                     style={{
                       fontSize: 14 * height_ratio,
-                      color: isCalendar ? '#242424' : '#808080',
+                      color: isCalendar ? 'white' : '#242424',
                     }}>
                     캘린더
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
+
+            {!isCalendar && (
+              <View>
+                <DropDownPicker
+                  open={open}
+                  value={selectedValue}
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setSelectedValue}
+                  setItems={setItems}
+                  placeholder={
+                    appcontext.state.duration +
+                    (appcontext.state.duration === 7 ? '일' : '개월')
+                  }
+                  style={[styles.dropdown]}
+                />
+              </View>
+            )}
           </View>
-          {open && <View style={{height: 150 * height_ratio}}></View>}
-          <View style={{height: 16 * height_ratio}}></View>
-          {!isCalendar && (
-            <View>
-              <FlatList
-                data={appcontext.state.workoutList}
-                renderItem={renderingWorkoutRecord}></FlatList>
-            </View>
-          )}
+
+          {/* {open && <View style={{height: 150 * height_ratio}}></View>} */}
+          <View>
+            <View style={{height: 16 * height_ratio}}></View>
+            {!isCalendar && (
+              <View>
+                <FlatList
+                  showsVerticalScrollIndicator={false}
+                  data={appcontext.state.workoutList}
+                  renderItem={renderingWorkoutRecord}></FlatList>
+              </View>
+            )}
+          </View>
           {isCalendar && (
             <ScrollView
               style={{width: 358 * width_ratio}}
@@ -455,6 +501,7 @@ const WorkoutRecord = ({navigation, route}) => {
                         </TouchableOpacity>
                       ))}
                     </View>
+
                     <View style={{height: 150 * height_ratio}}></View>
                   </>
                 )}
@@ -628,6 +675,18 @@ const WorkoutRecord = ({navigation, route}) => {
                     <Text style={styles.targetText}>코어</Text>
                     <Text style={styles.percentText}>
                       {periodWorkout.percentage.core}%
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>이두</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.bicep}%
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={styles.targetText}>삼두</Text>
+                    <Text style={styles.percentText}>
+                      {periodWorkout.percentage.tricep}%
                     </Text>
                   </View>
                 </View>
@@ -819,6 +878,9 @@ const WorkoutRecord = ({navigation, route}) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('MainSetting')}>
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Community')}>
+          <Users name="users" size={22 * height_ratio} color="#808080" />
         </TouchableOpacity>
       </View>
     </View>

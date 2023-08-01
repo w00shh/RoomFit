@@ -70,6 +70,10 @@ import {Switch} from '../../components/toggle';
 //data receiving
 import {startListening, stopListening} from '../../redux/BLE/slice';
 import BLEStore from '../../redux/BLE/mobx_store';
+import {startReport, stopReport} from '../../redux/BLE/ble_instruction';
+import {set} from 'mobx';
+
+import debounce from 'lodash';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
@@ -107,7 +111,19 @@ export const WorkoutStart = ({navigation, route}) => {
   const [workoutDone, setWorkoutDone] = useState(false);
   const [workoutDoneModal, setWorkoutDoneModal] = useState(false);
   const [routineDoneModal, setRoutineDoneModal] = useState(false);
+  const [reps, setReps] = useState(0);
 
+  // rep counting 관련 변수
+  const [max, setMax] = useState(0);
+  const [min, setMin] = useState(500);
+  const [tempMax, setTempMax] = useState(0);
+  const [exerMax, setExerMax] = useState([]);
+  const [exerMin, setExerMin] = useState([]);
+  const [isUp, setIsUp] = useState(1);
+  const [count, setCount] = useState(0);
+  const [tempData, setTempData] = useState(0);
+  const [diffAverage, setDiffAverage] = useState(0);
+  const [minAvg, setMinAvg] = useState(0);
   //time 관련 변수 :
   const [TUT, setTUT] = useState(route.params.TUT);
   const [isTut, setIsTuT] = useState(true);
@@ -168,6 +184,10 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const left = BLEStore.left;
   const right = BLEStore.right;
+  useEffect(() => {
+    console.log(route.params.routine_index);
+    console.log(route.params.routine_detail_index);
+  }, []);
 
   useEffect(() => {
     console.log(route.params.routine_index);
@@ -176,54 +196,54 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const scrollViewRef = useRef(null);
   const {width: windowWidth} = useWindowDimensions();
-  // useEffect(() => {
-  //   const newData1 = [...data1, left];
-  //   const newData2 = [...data2, right];
-  //   let interval;
-  //   if (!isResting) {
-  //     interval = setInterval(() => {
-  //       // 새로운 데이터 생성 또는 가져오기
+  useEffect(() => {
+    const newData1 = [...data1, left];
+    const newData2 = [...data2, right];
+    let interval;
+    if (!isResting) {
+      interval = setInterval(() => {
+        // 새로운 데이터 생성 또는 가져오기
 
-  //       // 최대 10개의 데이터 유지
-  //       if (newData1.length > 300) {
-  //         newData1.shift();
-  //       }
+        // 최대 300개의 데이터 유지
+        if (newData1.length > 300) {
+          newData1.shift();
+        }
 
-  //       if (newData2.length > 300) {
-  //         newData2.shift();
-  //       }
+        if (newData2.length > 300) {
+          newData2.shift();
+        }
 
-  //       setData1(newData1);
-  //       setData2(newData2);
-  //     }, 100); // 1초마다 데이터 업데이트}
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [data1, data2, isResting]);
+        setData1(newData1);
+        setData2(newData2);
+      }, 10); // 1초마다 데이터 업데이트}
+    }
+    return () => clearInterval(interval);
+  }, [data1, data2, isResting]);
 
   const heights = 200;
-  const widths = data1.length * 30;
+  const widths = data1.length * 2;
 
-  // const xScale = d3
-  //   .scaleLinear()
-  //   .domain([0, data1.length - 1])
-  //   .range([0, widths]);
+  const xScale = d3
+    .scaleLinear()
+    .domain([0, data1.length - 1])
+    .range([0, widths]);
 
-  // const yScale = d3
-  //   .scaleLinear()
-  //   .domain([0, d3.max([...data1, ...data2])])
-  //   .range([heights, 0]);
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max([...data1, ...data2])])
+    .range([heights, 0]);
 
-  // const line1 = d3
-  //   .line()
-  //   .x((d, i) => xScale(i))
-  //   .y(d => yScale(d))
-  //   .curve(d3.curveMonotoneX);
+  const line1 = d3
+    .line()
+    .x((d, i) => xScale(i))
+    .y(d => yScale(d))
+    .curve(d3.curveMonotoneX);
 
-  // const line2 = d3
-  //   .line()
-  //   .x((d, i) => xScale(i))
-  //   .y(d => yScale(d))
-  //   .curve(d3.curveMonotoneX);
+  const line2 = d3
+    .line()
+    .x((d, i) => xScale(i))
+    .y(d => yScale(d))
+    .curve(d3.curveMonotoneX);
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -231,15 +251,125 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   }, [data1]);
 
-  //데이터 받기 관련
-  const dispatch = useAppDispatch();
-  const [isListening, setIsListening] = useState(false);
+  //Report 관련
+  const [isReporting, setReporting] = useState(false);
   useEffect(() => {
-    if (!isListening) {
-      dispatch(startListening());
-      setIsListening(true);
+    if (!isReporting) {
+      startReport();
+      setReporting(true);
     }
   }, []);
+  useEffect(() => {
+    if (isReporting) {
+      startReport();
+    } else {
+      stopReport();
+    }
+  }, [isReporting]);
+
+  //rep count
+  useEffect(() => {
+    //console.log(reps);
+    // let max = 0; // 각 rep의 최댓값
+    // let min = 500; // 각 rep의 최솟값
+    // let tempMax = 0; // 기준에 못 미치는 최대값을 저장
+    // const exerMax = []; // 기준이 될 만한 최댓값 저장
+    // const exerMin = []; // 기준이 될 만한 최솟값 저장
+    // let isUp = 1; // 현재 위치가 커지는 중인지 아닌지 판별
+    // let count = 0; // 몇 번째 데이터인지 확인
+    // let tempData = 0; // 50ms 이전의 데이터 저장
+    let maxAvg;
+    let time = 0;
+    //let check = 0;
+    function counting(left) {
+      if (count % 5 === 0) {
+        // 50ms 마다 확인
+        if (left - tempData >= 1.0) {
+          // 내리다가 올리는 상황이 되는 경우
+          if (isUp === 0 && exerMin.length === 0) {
+            setExerMin([...exerMin, min]);
+            exerMin.push(min);
+            setReps(reps + 1);
+          } else if (isUp === 0) {
+            setMinAvg(
+              exerMin.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+              }, 0) / exerMin.length,
+            );
+            let sum = 0;
+            let len = exerMin.length;
+            for (let i = 0; i < len; i++) {
+              sum += exerMax[i] - exerMin[i];
+            }
+            setDiffAverage(sum / len);
+            if (min - minAvg < 10 || diffAverage < tempMax - min) {
+              // 충분히 내린 경우(최저점이 기준에 근접한 경우)
+              setExerMin([...exerMin, min]);
+            } else {
+              // 코칭 시스템 관련 코드 작성
+            }
+            if (diffAverage * 0.5 - (tempMax - min) <= 0) {
+              // 가동 범위 평균의 절반 이상으로 운동한 경우 rep 증가
+              setReps(reps + 1);
+              console.log(reps);
+            }
+          }
+          if (isUp === 0) {
+            //save_packet(min, time);
+            setMin(500);
+          }
+          setIsUp(1);
+        } else if (tempData - left >= 1.0) {
+          // 올리다가 내리는 상황으로 바뀌는 경우
+          if (exerMax.length === 0) {
+            setExerMax([...exerMax, max]);
+            //exerMax.push(max);
+          } else if (isUp === 1) {
+            maxAvg =
+              exerMax.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+              }, 0) / exerMax.length;
+            if (maxAvg - max < 5) {
+              setExerMax([...exerMax, max]);
+            } else {
+              // 코칭 시스템 관련 코드 추가
+            }
+            setTempMax(max);
+          }
+          if (isUp === 1) {
+            //save_packet(max, time);
+            setMax(0);
+          }
+          setIsUp(0);
+
+          //check = 0;
+        } else {
+        }
+        setTempData(left);
+      }
+      setCount(count + 1);
+      // if(left<min_location && isUp === 0 && check === 0){
+      //     lastMin = left;
+      //     lastTime = data.time;
+      //     check = 1;
+      // }
+      if (left > max && isUp === 1) {
+        setMax(left);
+        //time = data.time;
+      } else if (left < min && isUp === 0) {
+        //console.log("..");
+        setMin(left);
+        //time = data.time;
+      }
+    }
+    // if(diffAverage*0.5<=tempMax-minAvg){
+    //   setReps(reps++);
+    // }
+    counting(left);
+    //console.log(exerMax);
+    //console.log(exerMin);
+    //console.log("rep : " + reps);
+  }, [data1]);
 
   //battery
   const battery = useAppSelector(state => state.ble.battery);
@@ -275,77 +405,14 @@ export const WorkoutStart = ({navigation, route}) => {
       setMotionList(route.params.motionList);
     }
 
-    if (route.params.displaySelected) {
-      if (route.params.isAddedMotionDone) {
-        /*동작 완료 후 동작 추가 시*/
-        setMotionList(currentMotionList => [
-          ...currentMotionList,
-          {
-            motion_index: motionIndexBase,
-            isMotionDone: false,
-            isMotionDoing: true,
-            doingSetIndex: 0,
-            isFav: route.params.displaySelected[0].isFav,
-            motion_range_min: route.params.displaySelected[0].motion_range_min,
-            motion_range_max: route.params.displaySelected[0].motion_range_max,
-            motion_id: route.params.displaySelected[0].motion_id,
-            motion_name: route.params.displaySelected[0].motion_name,
-            image_url: route.params.displaySelected[0].image_url,
-            sets: [
-              {weight: 0, reps: 1, mode: '기본', isDoing: true, isDone: false},
-            ],
-          },
-        ]);
-      } else {
-        /* 운동 수행 중에 동작 추가 시*/
-        setMotionList(currentMotionList => [
-          ...currentMotionList,
-          {
-            motion_index: motionIndexBase,
-            isMotionDone: false,
-            isMotionDoing: false,
-            doingSetIndex: 0,
-            isFav: route.params.displaySelected[0].isFav,
-            motion_range_min: route.params.displaySelected[0].motion_range_min,
-            motion_range_max: route.params.displaySelected[0].motion_range_max,
-            motion_id: route.params.displaySelected[0].motion_id,
-            motion_name: route.params.displaySelected[0].motion_name,
-            image_url: route.params.displaySelected[0].image_url,
-            sets: [
-              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
-            ],
-          },
-        ]);
-      }
-      for (let i = 1; i < route.params.displaySelected.length; i++) {
-        setMotionList(currentMotionList => [
-          ...currentMotionList,
-          {
-            motion_index: motionIndexBase + i,
-            isMotionDone: false,
-            isMotionDoing: false,
-            doingSetIndex: 0,
-            isFav: route.params.displaySelected[i].isFav,
-            motion_range_min: route.params.displaySelected[i].motion_range_min,
-            motion_range_max: route.params.displaySelected[i].motion_range_max,
-            motion_id: route.params.displaySelected[i].motion_id,
-            motion_name: route.params.displaySelected[i].motion_name,
-            image_url: route.params.displaySelected[i].image_url,
-            sets: [
-              {weight: 0, reps: 1, mode: '기본', isDoing: false, isDone: false},
-            ],
-          },
-        ]);
-      }
-    } else {
-      /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
+    /* WorkoutReady 또는 Routine Detail에서 최초에 진입했을 때 */
+
+    if (route.params.isWorkoutStartSplash) {
       let updatedMotionList = [...motionList];
-      if (!route.params.isAddMotion) {
-        updatedMotionList[m_index].isMotionDoing = true;
-        updatedMotionList[m_index].doingSetIndex = 0;
-        updatedMotionList[m_index].sets[0].isDoing = true;
-        setMotionList(updatedMotionList);
-      }
+      updatedMotionList[m_index].isMotionDoing = true;
+      updatedMotionList[m_index].doingSetIndex = 0;
+      updatedMotionList[m_index].sets[0].isDoing = true;
+      setMotionList(updatedMotionList);
     }
   }, []);
 
@@ -653,6 +720,9 @@ export const WorkoutStart = ({navigation, route}) => {
   }, [totalWeight]);
 
   const setComplete = () => {
+    if (diffAverage * 0.5 <= tempMax - minAvg) {
+      setReps(reps + 1);
+    }
     if (s_index === 0) {
       getRecordId(m_index);
     } else {
@@ -663,6 +733,14 @@ export const WorkoutStart = ({navigation, route}) => {
             motionList[m_index].sets[s_index].reps,
       );
     }
+    setMax(0);
+    setMin(500);
+    setTempMax(0);
+    setExerMax([]);
+    setExerMin([]);
+    setIsUp(1);
+    setCount(0);
+    setTempData(0);
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
     updatedMotionList[m_index].sets[s_index].isDone = true;
@@ -719,7 +797,8 @@ export const WorkoutStart = ({navigation, route}) => {
   const goNextMotion = () => {
     setIsResting(false);
     setIsRestingModal(false);
-
+    setReporting(true);
+    setReps(0);
     setIsStopResting(false);
     if (s_index + 1 < motionList[m_index].sets.length) {
       setSIndex(s_index + 1);
@@ -993,7 +1072,11 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </Modal>
-          <View style={{alignItems: 'center', marginBottom: 50 * height_ratio}}>
+          <View
+            style={{
+              alignItems: 'center',
+              marginBottom: 50 * height_ratio,
+            }}>
             <View style={{width: '100%'}}>
               <View
                 style={{
@@ -1026,8 +1109,14 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          {/** Divider */}
-          <View>
+          <View
+            style={{
+              paddingTop: 10,
+              // backgroundColor: '#000',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              // flex: 2,
+            }}>
             <ScrollView
               ref={scrollViewRef}
               horizontal={true}
@@ -1037,7 +1126,7 @@ export const WorkoutStart = ({navigation, route}) => {
                 flexDirection: 'row',
                 height: 220 * height_ratio,
               }}>
-              {/* <Svg width={widths} height={heights}>
+              <Svg width={widths} height={heights}>
                 <Path
                   d={line1(data1)}
                   fill="none"
@@ -1050,17 +1139,12 @@ export const WorkoutStart = ({navigation, route}) => {
                   stroke="#FF594f"
                   strokeWidth="2"
                 />
-              </Svg> */}
+              </Svg>
             </ScrollView>
-            <View
-              style={{
-                marginTop: 10 * height_ratio,
-                zIndex: 100,
-              }}>
+            <View style={{gap: 16 * height_ratio}}>
               <View
                 style={{
                   flexDirection: 'row',
-                  // marginTop: 16 * height_ratio,
                   justifyContent: 'space-between',
                 }}>
                 <View
@@ -1109,7 +1193,6 @@ export const WorkoutStart = ({navigation, route}) => {
               <View
                 style={{
                   flexDirection: 'row',
-                  marginTop: 16 * height_ratio,
                   justifyContent: 'space-between',
                 }}>
                 <View
@@ -1161,7 +1244,7 @@ export const WorkoutStart = ({navigation, route}) => {
             style={{
               position: 'absolute',
               bottom: 16 * height_ratio,
-              marginHorizontal: 16 * width_ratio,
+              // marginHorizontal: 16 * width_ratio,
             }}>
             <View
               style={{
@@ -1201,7 +1284,7 @@ export const WorkoutStart = ({navigation, route}) => {
                   <Text style={styles.targetText}> kg</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                  <Text style={styles.statusText}>1</Text>
+                  <Text style={styles.statusText}>{reps}</Text>
                   <Text style={styles.targetText}>
                     /{motionList[m_index].sets[s_index].reps}회
                   </Text>
@@ -1212,6 +1295,7 @@ export const WorkoutStart = ({navigation, route}) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: 12 * width_ratio,
                 marginBottom: 16 * height_ratio,
               }}>
@@ -1241,7 +1325,6 @@ export const WorkoutStart = ({navigation, route}) => {
                 onPress={() => {
                   isResting ? setIsRestingModal(true) : setComplete();
                   stopListening();
-                  setIsListening(false);
                 }}
                 style={styles.CButton2}>
                 <Text
@@ -1384,6 +1467,7 @@ export const WorkoutStart = ({navigation, route}) => {
                       saveWorkoutRecord();
                       navigation.reset({routes: [{name: 'HomeScreen'}]});
                     }}
+                    disabled={isSaveWorkoutDisabled}
                     content="확인"
                     marginVertical={12 * height_ratio}></CustomButton_B>
                 </View>
@@ -1523,14 +1607,19 @@ export const WorkoutStart = ({navigation, route}) => {
             showsVerticalScrollIndicator={false}></ScrollView>
           <View style={{flexDirection: 'row', gap: 16 * width_ratio}}>
             <TouchableOpacity
-              onPress={() => setWorkoutDoneModal2(true)}
+              onPress={() => {
+                setWorkoutDoneModal2(true);
+              }}
               style={styles.endButton}>
               <Stop height={24 * height_ratio} width={24 * width_ratio} />
               <Text style={styles.CText3}>운동 종료</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.restartButton}
-              onPress={pausedModal}>
+              onPress={() => {
+                pausedModal();
+                setReporting(true);
+              }}>
               <Play height={24 * height_ratio} width={24 * width_ratio} />
               <Text style={styles.CText3}>운동 다시 시작</Text>
             </TouchableOpacity>

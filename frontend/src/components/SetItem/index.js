@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import styles from './styles';
 import {
   Text,
@@ -62,20 +62,6 @@ const SetItem = props => {
     }
   };
 
-  // const handleSaveWeight = () => {
-  //   //console.log(text);
-  //   console.log(weight);
-  //   let updatedMotionList = [...props.motionList];
-  //   updatedMotionList[props.target_motion_id].sets[props.set_id] = {
-  //     weight: weight,
-  //     reps: reps,
-  //     mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
-  //     isDoing: isDoing,
-  //     isDone: isDone,
-  //   };
-  //   props.setMotionList(updatedMotionList);
-  // };
-
   const handleRepsChange = text => {
     if (text === '') {
       setIsRepsEmpty(true);
@@ -92,20 +78,6 @@ const SetItem = props => {
       }
     }
   };
-
-  // useEffect(() => {
-  //   if (props.motionList) {
-  //     let updatedMotionList = [...props.motionList];
-  //     updatedMotionList[props.target_motion_id].sets[props.set_id] = {
-  //       weight: weight,
-  //       reps: reps,
-  //       mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
-  //       isDoing: isDoing,
-  //       isDone: isDone,
-  //     };
-  //     //props.setMotionList(updatedMotionList);
-  //   }
-  // }, [weight, reps]);
 
   return props.isKey ? (
     <View style={styles.setContainer}>
@@ -184,7 +156,7 @@ const SetItem = props => {
           keyboardType="numeric"
           value={isWeightEmpty ? '' : String(weight)}
           onChangeText={handleWeightChange}
-          onBlur={() => {
+          onEndEditing={() => {
             console.log(props.set_id + ' ' + props.target_motion_id);
             props.handleSaveWeight(
               weight,
@@ -201,7 +173,7 @@ const SetItem = props => {
           keyboardType="numeric"
           value={isRepsEmpty ? '' : String(reps)}
           onChangeText={handleRepsChange}
-          onBlur={() => {
+          onEndEditing={() => {
             props.handleSaveReps(reps, props.set_id, props.target_motion_id);
           }}></TextInput>
         <View style={styles.unitContainer}>

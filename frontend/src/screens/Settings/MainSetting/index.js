@@ -13,6 +13,7 @@ import {AppContext} from '../../../contexts/AppProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //svg
+import Users from 'react-native-vector-icons/FontAwesome';
 import Workout from '../../../assets/svg/buttons/default/workout.svg';
 import History from '../../../assets/svg/buttons/default/history.svg';
 import Setting from '../../../assets/svg/buttons/active/setting.svg';
@@ -413,6 +414,9 @@ const MainSetting = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity>
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Community')}>
+          <Users name="users" size={22 * height_ratio} color="#808080" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

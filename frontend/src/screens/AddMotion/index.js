@@ -1,4 +1,10 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import {
   FlatList,
   Text,
@@ -8,6 +14,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   ScrollView,
+  Image,
 } from 'react-native';
 import styles from './styles';
 import MotionItem from '../../components/MotionItem';
@@ -43,8 +50,10 @@ const AddMotion = ({navigation, route}) => {
   const [gripList, setGripList] = useState([]);
   const [bodyRegionList, setBodyRegionList] = useState([]);
   const [selectedList, setSelectedList] = useState([]);
+  const [test, setTest] = useState(0);
 
   let length = 0;
+  const scrollViewRef = useRef(null);
 
   const handleMotionSearchChange = async text => {
     setMotionName(text);
@@ -73,7 +82,7 @@ const AddMotion = ({navigation, route}) => {
       // } else {
       //   setSelectedList([...selectedList, motion.motion_name]);
       // }
-
+      setTest(test => test + 1);
       let length = 0;
       const newSelected = new Map(selected);
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
@@ -95,6 +104,12 @@ const AddMotion = ({navigation, route}) => {
     },
     [selected],
   );
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({animated: true});
+    }
+  }, [test]);
 
   const deleteSelected = key => {
     displaySelected.delete(key);
@@ -426,6 +441,7 @@ const AddMotion = ({navigation, route}) => {
             paddingBottom: 15 * height_ratio,
           }}>
           <ScrollView
+            ref={scrollViewRef}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
@@ -505,6 +521,7 @@ const AddMotion = ({navigation, route}) => {
         onPress={
           route.params.isRoutine
             ? () => {
+                console.log(route.params.routineName);
                 selectedMotionKeys = Array.from(displaySelected.keys());
                 route.params.isRoutineDetail
                   ? navigation.push('RoutineDetail', {

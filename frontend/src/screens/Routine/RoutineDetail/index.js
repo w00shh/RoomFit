@@ -8,6 +8,8 @@ import {
   FlatList,
   Dimensions,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 import WorkoutItem from '../../../components/WorkoutItem';
@@ -50,8 +52,10 @@ const RoutineDetail = ({navigation, route}) => {
   );
   const [workoutId, setWorkoutId] = useState();
   const [routineName, setRoutineName] = useState(
-    appcontext.state.routineDetailList[route.params.routine_detail_index]
-      .routine_name,
+    route.params.routineName
+      ? route.params.routineName
+      : appcontext.state.routineDetailList[route.params.routine_detail_index]
+          .routine_name,
   );
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
@@ -195,40 +199,7 @@ const RoutineDetail = ({navigation, route}) => {
         </TouchableOpacity>
       ),
     });
-  }, [isRoutineName, isSaveDisabled, motionList]);
-
-  // const getRoutineDetailMotionList = async () => {
-  //   const targeturl = '/routine/detail/' + route.params.routine_id;
-
-  //   await serverAxios
-  //     .get(targeturl)
-  //     .then(res => {
-  //       res.data.motionList.forEach((value, key) => {
-  //         setMotionList(currentMotionList => [
-  //           ...currentMotionList,
-  //           {
-  //             motion_index: motionIndexBase + key,
-  //             isMotionDone: false,
-  //             isMotionDoing: false,
-  //             doingSetIndex: 0,
-  //             isFav: value.isFav,
-  //             motion_range_min: value.motion_range_min,
-  //             motion_range_max: value.motion_range_max,
-  //             motion_id: value.motion_id,
-  //             motion_name: value.motion_name,
-  //             image_url: value.image_url,
-  //             sets: value.sets,
-  //           },
-  //         ]);
-  //       });
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-  // };
-  useEffect(() => {
-    if (motionList[0]) console.log(motionList[0].sets);
-  }, [motionList]);
+  }, [isRoutineName, isSaveDisabled, motionList, routineName]);
 
   useEffect(() => {
     if (route.params.isRoutineDetail) {
@@ -329,6 +300,7 @@ const RoutineDetail = ({navigation, route}) => {
   };
 
   const handleAddMotionPress = () => {
+    console.log(routineName);
     navigation.push('AddMotion', {
       routine_index: route.params.routine_index,
       routine_detail_index: route.params.routine_detail_index,
@@ -475,7 +447,9 @@ const RoutineDetail = ({navigation, route}) => {
           <DraggableFlatList
             data={motionList}
             renderItem={renderItem}
-            keyExtractor={item => item.motion_index}
+            keyExtractor={(item, index) =>
+              item.motion_index.toString() + index.toString()
+            }
             onDragEnd={({data}) => setMotionList(data)}
             showsVerticalScrollIndicator={false}
           />
