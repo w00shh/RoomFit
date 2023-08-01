@@ -124,7 +124,6 @@ const RoutineDetail = ({navigation, route}) => {
     await serverAxios
       .post('/routine/save', body)
       .then(res => {
-        console.log(res.data);
         let updatedRoutineList = appcontext.state.routineList;
         updatedRoutineList[route.params.routine_index].routine_id =
           res.data[0].routine_id;
@@ -227,6 +226,9 @@ const RoutineDetail = ({navigation, route}) => {
   //       console.log(e);
   //     });
   // };
+  useEffect(() => {
+    if (motionList[0]) console.log(motionList[0].sets);
+  }, [motionList]);
 
   useEffect(() => {
     if (route.params.isRoutineDetail) {
@@ -328,7 +330,8 @@ const RoutineDetail = ({navigation, route}) => {
 
   const handleAddMotionPress = () => {
     navigation.push('AddMotion', {
-      index: route.params.index,
+      routine_index: route.params.routine_index,
+      routine_detail_index: route.params.routine_detail_index,
       isRoutine: true,
       isRoutineDetail: true,
       routine_id: routineId,

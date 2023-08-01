@@ -62,6 +62,20 @@ const SetItem = props => {
     }
   };
 
+  // const handleSaveWeight = () => {
+  //   //console.log(text);
+  //   console.log(weight);
+  //   let updatedMotionList = [...props.motionList];
+  //   updatedMotionList[props.target_motion_id].sets[props.set_id] = {
+  //     weight: weight,
+  //     reps: reps,
+  //     mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
+  //     isDoing: isDoing,
+  //     isDone: isDone,
+  //   };
+  //   props.setMotionList(updatedMotionList);
+  // };
+
   const handleRepsChange = text => {
     if (text === '') {
       setIsRepsEmpty(true);
@@ -79,18 +93,19 @@ const SetItem = props => {
     }
   };
 
-  useEffect(() => {
-    if (props.motionList) {
-      const updatedMotionList = [...props.motionList];
-      updatedMotionList[props.target_motion_id].sets[props.set_id] = {
-        weight: weight,
-        reps: reps,
-        mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
-        isDoing: isDoing,
-        isDone: isDone,
-      };
-    }
-  }, [weight, reps]);
+  // useEffect(() => {
+  //   if (props.motionList) {
+  //     let updatedMotionList = [...props.motionList];
+  //     updatedMotionList[props.target_motion_id].sets[props.set_id] = {
+  //       weight: weight,
+  //       reps: reps,
+  //       mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
+  //       isDoing: isDoing,
+  //       isDone: isDone,
+  //     };
+  //     //props.setMotionList(updatedMotionList);
+  //   }
+  // }, [weight, reps]);
 
   return props.isKey ? (
     <View style={styles.setContainer}>
@@ -168,7 +183,15 @@ const SetItem = props => {
           inputMode="numeric"
           keyboardType="numeric"
           value={isWeightEmpty ? '' : String(weight)}
-          onChangeText={handleWeightChange}></TextInput>
+          onChangeText={handleWeightChange}
+          onBlur={() => {
+            console.log(props.set_id + ' ' + props.target_motion_id);
+            props.handleSaveWeight(
+              weight,
+              props.set_id,
+              props.target_motion_id,
+            );
+          }}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
       <View style={styles.itemBox}>
@@ -177,7 +200,10 @@ const SetItem = props => {
           inputMode="numeric"
           keyboardType="numeric"
           value={isRepsEmpty ? '' : String(reps)}
-          onChangeText={handleRepsChange}></TextInput>
+          onChangeText={handleRepsChange}
+          onBlur={() => {
+            props.handleSaveReps(reps, props.set_id, props.target_motion_id);
+          }}></TextInput>
         <View style={styles.unitContainer}>
           <Text style={styles.unitText}>회</Text>
         </View>
