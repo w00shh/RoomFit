@@ -1214,7 +1214,11 @@ export const WorkoutStart = ({navigation, route}) => {
                   </Text>
                 </View>
                 <View
-                  style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4 * width_ratio,
+                  }}>
                   <Text
                     style={{
                       fontSize: 13 * height_ratio,
@@ -1262,7 +1266,11 @@ export const WorkoutStart = ({navigation, route}) => {
                   </Text>
                 </View>
                 <View
-                  style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4 * width_ratio,
+                  }}>
                   <Text
                     style={{
                       fontSize: 13 * height_ratio,
