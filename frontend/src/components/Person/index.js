@@ -1,4 +1,4 @@
-import {View, Image, Dimensions} from 'react-native';
+import {View, Image, Dimensions, StyleSheet} from 'react-native';
 import styles from './styles';
 
 //images
@@ -32,6 +32,17 @@ const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
 
 export const Person = props => {
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      gap: 16 * width_ratio,
+    },
+    image: {
+      width: (props.width ? props.width : 80) * width_ratio,
+      height: (props.height ? props.height : 246) * height_ratio,
+    },
+  });
+
   const percent = {
     back: props.percent.back / 100 + 0.3 * !!props.percent.back,
     bicep: props.percent.bicep / 100 + 0.3 * !!props.percent.bicep,

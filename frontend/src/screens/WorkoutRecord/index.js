@@ -643,9 +643,10 @@ const WorkoutRecord = ({navigation, route}) => {
                   </View>
                 </TouchableOpacity>
               </View>
-              <View style={{height: 16}}></View>
+              <View style={{height: 16 * height_ratio}} />
               <View style={{alignItems: 'center'}}>
                 <Person percent={periodWorkout.percentage} />
+                <View style={{height: 16 * height_ratio}} />
                 <View style={{flexDirection: 'row', gap: 24 * height_ratio}}>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>가슴</Text>
