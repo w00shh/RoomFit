@@ -15,6 +15,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const RecentExercise = props => {
   const value = props.data;
+
   return (
     <View>
       <View style={styles.performedContainer}>
