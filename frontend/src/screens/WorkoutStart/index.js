@@ -74,6 +74,7 @@ import {startReport, stopReport} from '../../redux/BLE/ble_instruction';
 import {set} from 'mobx';
 
 import debounce from 'lodash';
+import ShareWorkoutModal from '../../components/Modal/ShareWorkout';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
@@ -177,6 +178,10 @@ export const WorkoutStart = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+
+  // 운동기록 공유 관련
+  const [isShareWorkoutModalVisible, setIsShareWorkoutModalVisible] =
+    useState(true);
 
   //graph 관련
   const [data1, setData1] = useState([]);
@@ -1076,6 +1081,11 @@ export const WorkoutStart = ({navigation, route}) => {
               </View>
             </View>
           </Modal>
+          <ShareWorkoutModal
+            isShareWorkoutModalVisible={isShareWorkoutModalVisible}
+            setIsShareWorkoutModalVisible={
+              setIsShareWorkoutModalVisible
+            }></ShareWorkoutModal>
           <View
             style={{
               alignItems: 'center',
