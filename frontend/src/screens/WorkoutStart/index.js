@@ -195,7 +195,7 @@ export const WorkoutStart = ({navigation, route}) => {
   };
   const captureRef = useRef();
   const [capturedImageURI, setCapturedImageURI] = useState(null);
-  const getPhotoUri = async (): Promise<string> => {
+  const getPhotoUri = async () => {
     const uri = await captureRef.current.capture();
     console.log('Image saved to', uri);
     return uri;
@@ -205,7 +205,7 @@ export const WorkoutStart = ({navigation, route}) => {
     console.log('onCapture');
     try {
       const uri = await getPhotoUri();
-
+      console.log(uri);
       const randomFileName = `capturedImage${Math.floor(
         Math.random() * 1000 + 1,
       )}.png`;
@@ -235,9 +235,9 @@ export const WorkoutStart = ({navigation, route}) => {
     console.log(uri);
     const formData = new FormData();
     formData.append('user_id', appcontext.state.userid);
-    formData.append('content', '오늘 운동 완료!');
+    formData.append('content', '두둥!');
     formData.append('image', image);
-    formData.append('category', '0');
+    formData.append('category', '1');
 
     await serverAxios
       .post('/community/post-feed', formData, {
@@ -253,6 +253,7 @@ export const WorkoutStart = ({navigation, route}) => {
       .catch(err => {
         console.log(err);
       });
+    setIsShareWorkoutModalVisible(false);
   };
 
   //graph 관련
@@ -1207,7 +1208,6 @@ export const WorkoutStart = ({navigation, route}) => {
                     width={126 * width_ratio}
                     content="공유"
                     onPress={() => {
-                      setIsShareWorkoutModalVisible(false);
                       onCapture();
                     }}
                     disabled={false}
