@@ -17,13 +17,15 @@ const ShareWorkoutModal = props => {
           <View style={styles.popuptopContainer}></View>
           <View style={styles.contentContainer}>
             <Text style={styles.titleText}>오늘의 운동기록</Text>
-            <View
-              style={{
-                width: 240 * height_ratio,
-                height: 240 * height_ratio,
-                backgroundColor: '#242424',
-                borderRadius: 6 * height_ratio,
-              }}></View>
+            <View style={styles.workoutRecordContainer}>
+              <View style={styles.workoutRecordTop}>
+                <View style={styles.workoutRecordLeft}>
+                  <Text>2023년 8월 22일</Text>
+                  <Text>오전 10:49 - 오후 12: 00</Text>
+                </View>
+                <View style={styles.workoutRecordRight}></View>
+              </View>
+            </View>
             <Text style={styles.descriptionText}>
               오늘의 운동기록을 공유하시겠습니까?
             </Text>

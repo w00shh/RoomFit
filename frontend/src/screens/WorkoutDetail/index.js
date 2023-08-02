@@ -58,7 +58,7 @@ const WorkoutDetail = ({navigation, route}) => {
 
       const isFileExists = await RNFS.exists(imagePath);
       if (isFileExists) {
-        console.log('Image saveddd to:', imagePath);
+        console.log('Image saved to:', imagePath);
         setCapturedImageURI('file://' + imagePath);
       } else {
         console.error('Failed to save the image:', imagePath);
@@ -340,10 +340,18 @@ const WorkoutDetail = ({navigation, route}) => {
           </View>
         </ViewShot>
         {capturedImageURI && (
-          <Image
-            source={{uri: capturedImageURI}}
-            style={{width: 200, height: 200}}
-          />
+          <>
+            <TouchableOpacity
+              onPress={() => {
+                console.log(capturedImageURI);
+              }}>
+              <Text>check uri</Text>
+            </TouchableOpacity>
+            <Image
+              source={{uri: capturedImageURI}}
+              style={{width: 200, height: 200}}
+            />
+          </>
         )}
 
         <View style={{alignSelf: 'stretch'}}>
