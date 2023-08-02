@@ -453,10 +453,10 @@ const styles = StyleSheet.create({
   },
 
   workoutSharingModal: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     alignItems: 'center',
     borderRadius: 8,
-    gap: 16 * height_ratio,
+    //gap: 16 * height_ratio,
   },
 
   popuptopContainer: {
@@ -508,6 +508,14 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     gap: 12 * width_ratio,
     paddingVertical: 16 * height_ratio,
+  },
+  inputContainer: {
+    flexDirection: 'column',
+    width: 280 * width_ratio,
+    paddingTop: 8 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
+    borderRadius: 6 * height_ratio,
+    backgroundColor: '#dfdfdf',
   },
 });
 
