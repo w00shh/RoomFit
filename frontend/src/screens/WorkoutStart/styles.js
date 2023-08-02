@@ -512,7 +512,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'column',
     width: 280 * width_ratio,
-    paddingTop: 8 * height_ratio,
+    height: 48 * height_ratio,
+    justifyContent: 'center',
     paddingHorizontal: 16 * width_ratio,
     borderRadius: 6 * height_ratio,
     backgroundColor: '#dfdfdf',
