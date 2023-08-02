@@ -32,67 +32,6 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const WorkoutDetail = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
-  const captureRef = useRef();
-  const [capturedImageURI, setCapturedImageURI] = useState(null);
-
-  const getPhotoUri = async (): Promise<string> => {
-    const uri = await captureRef.current.capture();
-    console.log('Image saved to', uri);
-    return uri;
-  };
-
-  const onCapture = async () => {
-    try {
-      const uri = await getPhotoUri();
-
-      const randomFileName = `capturedImage${Math.floor(
-        Math.random() * 1000 + 1,
-      )}.png`;
-
-      postFeed(uri, randomFileName);
-      const imagePath = RNFS.DocumentDirectoryPath + '/' + randomFileName;
-      await RNFS.copyFile(uri, imagePath);
-
-      const isFileExists = await RNFS.exists(imagePath);
-      if (isFileExists) {
-        console.log('Image saved to:', imagePath);
-        setCapturedImageURI('file://' + imagePath);
-      } else {
-        console.error('Failed to save the image:', imagePath);
-      }
-    } catch (e) {
-      console.log('snapshot failed', e);
-    }
-  };
-
-  const postFeed = async (uri, name) => {
-    const image = {
-      uri: uri,
-      type: 'image/jpg',
-      name: name,
-    };
-    console.log(uri);
-    const formData = new FormData();
-    formData.append('user_id', appcontext.state.userid);
-    formData.append('content', 'test feed');
-    formData.append('image', image);
-    formData.append('category', '0');
-
-    await serverAxios
-      .post('/community/post-feed', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(res => {
-        console.log(res);
-        //Alert.alert('피드 등록 완료!');
-        //fetchData();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
 
   const [isWorkoutDeleteModalVisible, setIsWorkoutDeleteModalVisible] =
     useState(false);
@@ -246,136 +185,124 @@ const WorkoutDetail = ({navigation, route}) => {
             </View>
           </View>
         </Modal>
-        <ViewShot ref={captureRef} options={{format: 'jpg', quality: 0.9}}>
-          <View style={{backgroundColor: 'white'}}>
-            <Text style={styles.yoyakText}>운동 요약</Text>
+
+        <View style={{backgroundColor: 'white'}}>
+          <Text style={styles.yoyakText}>운동 요약</Text>
+          <View
+            style={{gap: 24 * height_ratio, marginBottom: 24 * height_ratio}}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={styles.grayCircle}>
+                <Body height={24 * height_ratio} width={24 * width_ratio} />
+              </View>
+
+              <View style={{marginLeft: 8 * width_ratio}}>
+                <Text style={styles.pauseSubtitle}>운동 부위</Text>
+                <Text style={styles.pauseMotionTitle}>
+                  {route.params.targets.join(', ')}
+                </Text>
+              </View>
+            </View>
             <View
-              style={{gap: 24 * height_ratio, marginBottom: 24 * height_ratio}}>
-              <View style={{flexDirection: 'row'}}>
+              style={{
+                flexDirection: 'row',
+                gap: 11 * width_ratio,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width:
+                    (Dimensions.get('screen').width - 32 * width_ratio) / 2 -
+                    11 * width_ratio,
+                  gap: 8 * width_ratio,
+                  alignItems: 'center',
+                }}>
                 <View style={styles.grayCircle}>
-                  <Body height={24 * height_ratio} width={24 * width_ratio} />
+                  <Time height={24 * height_ratio} width={24 * width_ratio} />
                 </View>
-
-                <View style={{marginLeft: 8 * width_ratio}}>
-                  <Text style={styles.pauseSubtitle}>운동 부위</Text>
-                  <Text style={styles.pauseMotionTitle}>
-                    {route.params.targets.join(', ')}
-                  </Text>
+                <View>
+                  <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
+                  <Text style={styles.pauseSubcontent}>00:40:12</Text>
                 </View>
               </View>
               <View
                 style={{
                   flexDirection: 'row',
-                  gap: 11 * width_ratio,
+                  gap: 8 * width_ratio,
+                  alignItems: 'center',
                 }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    width:
-                      (Dimensions.get('screen').width - 32 * width_ratio) / 2 -
-                      11 * width_ratio,
-                    gap: 8 * width_ratio,
-                    alignItems: 'center',
-                  }}>
-                  <View style={styles.grayCircle}>
-                    <Time height={24 * height_ratio} width={24 * width_ratio} />
-                  </View>
-                  <View>
-                    <Text style={styles.pauseSubtitle}>전체 운동시간</Text>
-                    <Text style={styles.pauseSubcontent}>00:40:12</Text>
-                  </View>
+                <View style={styles.grayCircle}>
+                  <Tut height={24 * height_ratio} width={24 * width_ratio} />
                 </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 8 * width_ratio,
-                    alignItems: 'center',
-                  }}>
-                  <View style={styles.grayCircle}>
-                    <Tut height={24 * height_ratio} width={24 * width_ratio} />
-                  </View>
 
-                  <View>
-                    <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
-                    <Text style={styles.pauseSubcontent}>00:24:37</Text>
-                  </View>
-                </View>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  gap: 11 * width_ratio,
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    width:
-                      (Dimensions.get('screen').width - 32 * width_ratio) / 2 -
-                      11 * width_ratio,
-                    gap: 8 * width_ratio,
-                    alignItems: 'center',
-                  }}>
-                  <View style={styles.grayCircle}>
-                    <Volume
-                      height={24 * height_ratio}
-                      width={24 * width_ratio}
-                    />
-                  </View>
-                  <View>
-                    <Text style={styles.pauseSubtitle}>볼륨</Text>
-                    <Text style={styles.pauseSubcontent}>
-                      {route.params.total_weight}
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    gap: 8 * width_ratio,
-                    alignItems: 'center',
-                  }}>
-                  <View style={styles.grayCircle}>
-                    <Calorie
-                      height={24 * height_ratio}
-                      width={24 * width_ratio}
-                    />
-                  </View>
-
-                  <View>
-                    <Text style={styles.pauseSubtitle}>칼로리</Text>
-                    <Text style={styles.pauseSubcontent}>10000</Text>
-                  </View>
+                <View>
+                  <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
+                  <Text style={styles.pauseSubcontent}>00:24:37</Text>
                 </View>
               </View>
             </View>
-
             <View
-              style={{alignItems: 'center', marginBottom: 40 * height_ratio}}>
-              <View style={styles.memoContainer}>
-                {route.params.memo.length > 0 ? (
-                  <Text style={{fontSize: 14 * height_ratio}}>
-                    {route.params.memo}
+              style={{
+                flexDirection: 'row',
+                gap: 11 * width_ratio,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width:
+                    (Dimensions.get('screen').width - 32 * width_ratio) / 2 -
+                    11 * width_ratio,
+                  gap: 8 * width_ratio,
+                  alignItems: 'center',
+                }}>
+                <View style={styles.grayCircle}>
+                  <Volume height={24 * height_ratio} width={24 * width_ratio} />
+                </View>
+                <View>
+                  <Text style={styles.pauseSubtitle}>볼륨</Text>
+                  <Text style={styles.pauseSubcontent}>
+                    {route.params.total_weight}
                   </Text>
-                ) : (
-                  <Text style={{fontSize: 14 * height_ratio}}>
-                    작성하신 메모가 없습니다.
-                  </Text>
-                )}
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  gap: 8 * width_ratio,
+                  alignItems: 'center',
+                }}>
+                <View style={styles.grayCircle}>
+                  <Calorie
+                    height={24 * height_ratio}
+                    width={24 * width_ratio}
+                  />
+                </View>
+
+                <View>
+                  <Text style={styles.pauseSubtitle}>칼로리</Text>
+                  <Text style={styles.pauseSubcontent}>10000</Text>
+                </View>
               </View>
             </View>
           </View>
-        </ViewShot>
-        {capturedImageURI && (
-          <Image
-            source={{uri: capturedImageURI}}
-            style={{width: 400, height: 400}}
-          />
-        )}
+
+          <View style={{alignItems: 'center', marginBottom: 40 * height_ratio}}>
+            <View style={styles.memoContainer}>
+              {route.params.memo.length > 0 ? (
+                <Text style={{fontSize: 14 * height_ratio}}>
+                  {route.params.memo}
+                </Text>
+              ) : (
+                <Text style={{fontSize: 14 * height_ratio}}>
+                  작성하신 메모가 없습니다.
+                </Text>
+              )}
+            </View>
+          </View>
+        </View>
 
         <View style={{alignSelf: 'stretch'}}>
-          <TouchableOpacity onPress={() => onCapture()}>
-            <Text style={styles.yoyakText}>운동 상세</Text>
-          </TouchableOpacity>
+          <Text style={styles.yoyakText}>운동 상세</Text>
+
           {workoutList &&
             workoutList.map((value, key) => (
               <View key={key}>
