@@ -35,10 +35,16 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#242424',
   },
-  descriptionContainer: {
+  workoutRecordContainer: {
     flexDirection: 'column',
-    gap: 2 * height_ratio,
+    width: 260 * width_ratio,
+    gap: 16 * height_ratio,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
+    backgroundColor: '#242424',
+    borderRadius: 6 * height_ratio,
   },
+  workoutRecordTop: {},
   descriptionText: {
     fontSize: 14 * height_ratio,
     color: '#242424',

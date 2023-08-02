@@ -55,7 +55,7 @@ const WorkoutDetail = ({navigation, route}) => {
 
       const isFileExists = await RNFS.exists(imagePath);
       if (isFileExists) {
-        console.log('Image saveddd to:', imagePath);
+        console.log('Image saved to:', imagePath);
         setCapturedImageURI('file://' + imagePath);
       } else {
         console.error('Failed to save the image:', imagePath);

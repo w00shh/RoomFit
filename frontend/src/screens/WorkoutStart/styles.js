@@ -444,6 +444,61 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
   },
+  shareWorkoutModalContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    gap: 8 * height_ratio,
+  },
+
+  popuptopContainer: {
+    height: 24 * height_ratio,
+  },
+  contentContainer: {
+    flexDirection: 'column',
+    gap: 16 * height_ratio,
+    alignItems: 'center',
+    marginVertical: 8 * height_ratio,
+  },
+  titleText: {
+    fontSize: 16 * height_ratio,
+    fontWeight: '700',
+    color: '#242424',
+  },
+  workoutRecordContainer: {
+    flexDirection: 'column',
+    width: '100%',
+    gap: 16 * height_ratio,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
+    backgroundColor: '#242424',
+    borderRadius: 6 * height_ratio,
+  },
+  workoutRecordTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  dateText: {
+    fontSize: 14 * height_ratio,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  timeText: {
+    fontSize: 14 * height_ratio,
+    color: '#fff',
+  },
+  descriptionText: {
+    fontSize: 14 * height_ratio,
+    color: '#242424',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    gap: 12 * width_ratio,
+    paddingVertical: 16 * height_ratio,
+  },
 });
 
 export default styles;
