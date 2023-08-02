@@ -34,6 +34,8 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import MotionRangeModal from '../../components/Modal/MotionRange';
 import {Svg, Path} from 'react-native-svg';
 import * as d3 from 'd3';
+import ViewShot from 'react-native-view-shot';
+import RNFS from 'react-native-fs';
 
 //svg
 import Tut from '../../assets/svg/icons/tut.svg';
@@ -190,6 +192,67 @@ export const WorkoutStart = ({navigation, route}) => {
     leg: Math.floor(Math.random() * 50 + 1),
     shoulder: Math.floor(Math.random() * 50 + 1),
     tricep: Math.floor(Math.random() * 50 + 1),
+  };
+  const captureRef = useRef();
+  const [capturedImageURI, setCapturedImageURI] = useState(null);
+  const getPhotoUri = async (): Promise<string> => {
+    const uri = await captureRef.current.capture();
+    console.log('Image saved to', uri);
+    return uri;
+  };
+
+  const onCapture = async () => {
+    console.log('onCapture');
+    try {
+      const uri = await getPhotoUri();
+
+      const randomFileName = `capturedImage${Math.floor(
+        Math.random() * 1000 + 1,
+      )}.png`;
+
+      postFeed(uri, randomFileName);
+      const imagePath = RNFS.DocumentDirectoryPath + '/' + randomFileName;
+      await RNFS.copyFile(uri, imagePath);
+
+      const isFileExists = await RNFS.exists(imagePath);
+      if (isFileExists) {
+        console.log('Image saved to:', imagePath);
+        setCapturedImageURI('file://' + imagePath);
+      } else {
+        console.error('Failed to save the image:', imagePath);
+      }
+    } catch (e) {
+      console.log('snapshot failed', e);
+    }
+  };
+
+  const postFeed = async (uri, name) => {
+    const image = {
+      uri: uri,
+      type: 'image/jpg',
+      name: name,
+    };
+    console.log(uri);
+    const formData = new FormData();
+    formData.append('user_id', appcontext.state.userid);
+    formData.append('content', '오늘 운동 완료!');
+    formData.append('image', image);
+    formData.append('category', '0');
+
+    await serverAxios
+      .post('/community/post-feed', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(res => {
+        console.log(res);
+        //Alert.alert('피드 등록 완료!');
+        //fetchData();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   //graph 관련
@@ -1095,54 +1158,61 @@ export const WorkoutStart = ({navigation, route}) => {
             transparent={true}
             animationType="fade">
             <View style={styles.shareWorkoutModalContainer}>
-              <Text style={styles.titleText}>오늘의 운동기록</Text>
-              <View style={styles.workoutRecordContainer}>
-                <View style={styles.workoutRecordTop}>
-                  <View style={styles.workoutRecordLeft}>
-                    <Text style={styles.boldText}>2023년 8월 22일</Text>
-                    <Text style={styles.normalText}>
-                      오전 10:49 - 오후 12: 00
-                    </Text>
-                  </View>
-                  <View style={styles.workoutRecordRight}>
-                    <Text style={styles.boldText}>오운완</Text>
-                  </View>
-                </View>
-                <View style={styles.workoutRecordBottom}>
-                  <Person percent={percentage}></Person>
+              <View style={styles.workoutSharingModal}>
+                {/* <Text style={styles.titleText}>오늘의 운동기록</Text> */}
+                <ViewShot
+                  ref={captureRef}
+                  options={{format: 'jpg', quality: 0.9}}>
+                  <View style={styles.workoutRecordContainer}>
+                    <View style={styles.workoutRecordTop}>
+                      <View style={styles.workoutRecordLeft}>
+                        <Text style={styles.boldText}>2023년 8월 22일</Text>
+                        <Text style={styles.normalText}>
+                          오전 10:49 - 오후 12: 00
+                        </Text>
+                      </View>
+                      <View style={styles.workoutRecordRight}>
+                        <Text style={styles.boldText}>오운완</Text>
+                      </View>
+                    </View>
+                    <View style={styles.workoutRecordBottom}>
+                      <Person percent={percentage}></Person>
 
-                  <View style={styles.workoutRecordMotion}>
-                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                      <View style={styles.workoutRecordMotion}>
+                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                      </View>
+                    </View>
                   </View>
-                </View>
-              </View>
-              <Text style={styles.descriptionText}>
-                오늘의 운동기록을 공유하시겠습니까?
-              </Text>
+                </ViewShot>
+                <Text style={styles.descriptionText}>
+                  오늘의 운동기록을 공유하시겠습니까?
+                </Text>
 
-              <View style={styles.buttonContainer}>
-                <CustomButton_W
-                  width={126 * width_ratio}
-                  content="아니요"
-                  onPress={() => {
-                    setIsShareWorkoutModalVisible(false);
-                  }}
-                  disabled={false}
-                  marginVertical={0}></CustomButton_W>
-                <CustomButton_B
-                  width={126 * width_ratio}
-                  content="공유"
-                  onPress={() => {
-                    setIsShareWorkoutModalVisible(false);
-                  }}
-                  disabled={false}
-                  marginVertical={0}></CustomButton_B>
+                <View style={styles.buttonContainer}>
+                  <CustomButton_W
+                    width={126 * width_ratio}
+                    content="아니요"
+                    onPress={() => {
+                      setIsShareWorkoutModalVisible(false);
+                    }}
+                    disabled={false}
+                    marginVertical={0}></CustomButton_W>
+                  <CustomButton_B
+                    width={126 * width_ratio}
+                    content="공유"
+                    onPress={() => {
+                      setIsShareWorkoutModalVisible(false);
+                      onCapture();
+                    }}
+                    disabled={false}
+                    marginVertical={0}></CustomButton_B>
+                </View>
               </View>
             </View>
           </Modal>

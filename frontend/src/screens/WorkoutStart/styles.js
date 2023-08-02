@@ -448,8 +448,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(0,0,0,0.7)',
     gap: 8 * height_ratio,
+  },
+
+  workoutSharingModal: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    borderRadius: 8,
+    gap: 16 * height_ratio,
   },
 
   popuptopContainer: {
@@ -467,7 +474,8 @@ const styles = StyleSheet.create({
     paddingVertical: 16 * height_ratio,
     paddingHorizontal: 16 * width_ratio,
     backgroundColor: '#242424',
-    borderRadius: 6 * height_ratio,
+    borderTopLeftRadius: 6 * height_ratio,
+    borderTopRightRadius: 6 * height_ratio,
   },
   workoutRecordTop: {
     flexDirection: 'row',
