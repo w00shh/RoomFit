@@ -74,6 +74,7 @@ import {startReport, stopReport} from '../../redux/BLE/ble_instruction';
 import {set} from 'mobx';
 
 import debounce from 'lodash';
+import {Person} from '../../components/Person';
 
 const width_ratio = Dimensions.get('window').width / 390;
 const height_ratio = Dimensions.get('window').height / 844;
@@ -181,6 +182,15 @@ export const WorkoutStart = ({navigation, route}) => {
   // 운동기록 공유 관련
   const [isShareWorkoutModalVisible, setIsShareWorkoutModalVisible] =
     useState(true);
+  const percentage = {
+    back: Math.floor(Math.random() * 50 + 1),
+    bicep: Math.floor(Math.random() * 50 + 1),
+    chest: Math.floor(Math.random() * 50 + 1),
+    core: Math.floor(Math.random() * 50 + 1),
+    leg: Math.floor(Math.random() * 50 + 1),
+    shoulder: Math.floor(Math.random() * 50 + 1),
+    tricep: Math.floor(Math.random() * 50 + 1),
+  };
 
   //graph 관련
   const [data1, setData1] = useState([]);
@@ -1085,24 +1095,37 @@ export const WorkoutStart = ({navigation, route}) => {
             transparent={true}
             animationType="fade">
             <View style={styles.shareWorkoutModalContainer}>
-              <View style={styles.popuptopContainer}></View>
-              <View style={styles.contentContainer}>
-                <Text style={styles.titleText}>오늘의 운동기록</Text>
-                <View style={styles.workoutRecordContainer}>
-                  <View style={styles.workoutRecordTop}>
-                    <View style={styles.workoutRecordLeft}>
-                      <Text style={styles.dateText}>2023년 8월 22일</Text>
-                      <Text style={styles.timeText}>
-                        오전 10:49 - 오후 12: 00
-                      </Text>
-                    </View>
-                    <View style={styles.workoutRecordRight}></View>
+              <Text style={styles.titleText}>오늘의 운동기록</Text>
+              <View style={styles.workoutRecordContainer}>
+                <View style={styles.workoutRecordTop}>
+                  <View style={styles.workoutRecordLeft}>
+                    <Text style={styles.boldText}>2023년 8월 22일</Text>
+                    <Text style={styles.normalText}>
+                      오전 10:49 - 오후 12: 00
+                    </Text>
+                  </View>
+                  <View style={styles.workoutRecordRight}>
+                    <Text style={styles.boldText}>오운완</Text>
                   </View>
                 </View>
-                <Text style={styles.descriptionText}>
-                  오늘의 운동기록을 공유하시겠습니까?
-                </Text>
+                <View style={styles.workoutRecordBottom}>
+                  <Person percent={percentage}></Person>
+
+                  <View style={styles.workoutRecordMotion}>
+                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                    <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                  </View>
+                </View>
               </View>
+              <Text style={styles.descriptionText}>
+                오늘의 운동기록을 공유하시겠습니까?
+              </Text>
+
               <View style={styles.buttonContainer}>
                 <CustomButton_W
                   width={126 * width_ratio}

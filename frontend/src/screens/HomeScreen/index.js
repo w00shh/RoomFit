@@ -40,18 +40,18 @@ const HomeScreen = ({navigation}) => {
   const [routineId, setRoutineId] = useState();
   const [routineReady, setRoutineReady] = useState(false);
 
-  useEffect(() => {
-    const handleBackButton = () => {
-      // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
-      return true;
-    };
+  // useEffect(() => {
+  //   const handleBackButton = () => {
+  //     // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
+  //     return true;
+  //   };
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, []);
+  //   return () => {
+  //     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (routineId) {
