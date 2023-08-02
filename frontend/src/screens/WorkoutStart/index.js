@@ -1220,7 +1220,7 @@ export const WorkoutStart = ({navigation, route}) => {
                         </View>
                       </View>
                       <View style={styles.workoutRecordRight}>
-                        <Text style={styles.boldText}>오운완</Text>
+                        <Text style={styles.boldText}>{workoutTitle}</Text>
                       </View>
                     </View>
                     <View style={styles.workoutRecordBottom}>
