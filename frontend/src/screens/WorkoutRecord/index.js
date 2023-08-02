@@ -33,6 +33,8 @@ import RecentExercise from '../../components/RecentExercise';
 import {AppContext} from '../../contexts/AppProvider';
 import Sample from '../../assets/svg/img_sample1.svg';
 
+import {Person} from '../../components/Person/index';
+
 //svg
 import Users from 'react-native-vector-icons/FontAwesome';
 import Workout from '../../assets/svg/buttons/default/workout.svg';
@@ -71,13 +73,13 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedWorkout, setSelectedWorkout] = useState([]);
   const [period, setPeriod] = useState(7);
   const [periodWorkout, setPeriodWorkout] = useState();
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState(7);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    {label: '7일', value: '7'},
-    {label: '1개월', value: '1'},
-    {label: '3개월', value: '3'},
-    {label: '6개월', value: '6'},
+    {label: '7일', value: 7},
+    {label: '1개월', value: 1},
+    {label: '3개월', value: 3},
+    {label: '6개월', value: 6},
   ]);
 
   const data = [
@@ -142,7 +144,7 @@ const WorkoutRecord = ({navigation, route}) => {
       date: selectedDate,
     };
     console.log(body.date);
-    await serverAxios.post('workout/calender/date', body).then(res => {
+    await serverAxios.post('/workout/calender/date', body).then(res => {
       setSelectedWorkout(res.data);
     });
   };
@@ -197,7 +199,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const handleGetAllWorkoutList = async period => {
     const body = {
       user_id: appcontext.state.userid,
-      duration: parseInt(period),
+      duration: period,
     };
     console.log('period: ' + body.duration);
     await serverAxios
@@ -649,9 +651,7 @@ const WorkoutRecord = ({navigation, route}) => {
               </View>
               <View style={{height: 16}}></View>
               <View style={{alignItems: 'center'}}>
-                <Sample
-                  width={200 * width_ratio}
-                  height={200 * height_ratio}></Sample>
+                <Person percent={periodWorkout.percentage} />
                 <View style={{flexDirection: 'row', gap: 24 * height_ratio}}>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.targetText}>가슴</Text>
