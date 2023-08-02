@@ -88,18 +88,18 @@ const HomeScreen = ({navigation}) => {
     setRoutine([]);
     const body = {
       user_id: appcontext.state.userid,
-      isHome: false,
+      is_home: true,
     };
-    await serverAxios.post('/routine/load', body).then(res => {
+    await serverAxios.post('/routine/brief', body).then(res => {
       res.data.map((value, key) => {
         if (res.data.length === 0) setExistRoutine(false);
         else setExistRoutine(true);
         setRoutine(currentRoutine => [
           ...currentRoutine,
           {
-            routine_id: value.routine_id,
-            routine_name: value.routine_name,
-            major_targets: value.major_targets,
+            routine_id: value._id,
+            routine_name: value.name,
+            major_targets: value.targets,
             motion_count: value.motion_count,
           },
         ]);
@@ -132,7 +132,7 @@ const HomeScreen = ({navigation}) => {
       <ScrollView
         style={{marginBottom: 32 * height_ratio}}
         showsVerticalScrollIndicator={false}>
-        {!connectedDevice && (
+        {!true && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
             <Text style={styles.noConnectionText2}>
@@ -148,7 +148,7 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        {connectedDevice && (
+        {true && (
           <View style={{alignItems: 'center', marginBottom: 16 * height_ratio}}>
             <CustomButton_B
               style={styles.connectButton}
@@ -212,8 +212,7 @@ const HomeScreen = ({navigation}) => {
                     routine_detail_index:
                       appcontext.state.routineDetailList.findIndex(
                         e =>
-                          e.routine_id ===
-                          appcontext.state.routineList[0].routine_id,
+                          e.routine_id === appcontext.state.routineList[0]._id,
                       ),
                     routineName: appcontext.state.routineList[0].routine_name,
                     motion_index_base: 0,
@@ -236,7 +235,7 @@ const HomeScreen = ({navigation}) => {
                         appcontext.state.routineDetailList.findIndex(
                           e =>
                             e.routine_id ===
-                            appcontext.state.routineList[1].routine_id,
+                            appcontext.state.routineList[1]._id,
                         ),
 
                       motion_index_base: 0,
@@ -271,19 +270,15 @@ const HomeScreen = ({navigation}) => {
                   onPress={() =>
                     navigation.navigate('WorkoutDetail', {
                       index: 0,
-                      workout_id: value.workout_id,
+                      workout_id: value._id,
                       title: value.title,
-                      start_time:
-                        value.start_time.split(' ')[1].split(':')[0] +
-                        ':' +
-                        value.start_time.split(' ')[1].split(':')[1],
-                      end_time:
-                        value.end_time.split(' ')[1].split(':')[0] +
-                        ':' +
-                        value.end_time.split(' ')[1].split(':')[1],
+                      start_time: value.start_time,
+                      end_time: value.end_time,
+                      tut: value.tut,
                       targets: value.targets,
-                      total_time: value.total_time,
-                      total_weight: value.total_weight,
+                      total_time: value.time,
+                      total_weight: value.volume,
+                      kcal: value.kcal,
                       memo: value.memo,
                       startingPoint: 0,
                       isHomeScreen: true,

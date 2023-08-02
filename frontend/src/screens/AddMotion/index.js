@@ -77,20 +77,19 @@ const AddMotion = ({navigation, route}) => {
 
       let length = 0;
       const newSelected = new Map(selected);
-      newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
-      if (displaySelected.get(motion.motion_id))
-        displaySelected.delete(motion.motion_id);
+      newSelected.set(motion._id, !selected.get(motion._id));
+      if (displaySelected.get(motion._id)) displaySelected.delete(motion._id);
       else
-        displaySelected.set(motion.motion_id, {
+        displaySelected.set(motion._id, {
           isMotionDone: false,
           isMotionDoing: false,
           doingSetIndex: 0,
           isFav: motion.isFav,
-          motion_id: motion.motion_id,
-          motion_name: motion.motion_name,
+          motion_id: motion._id,
+          motion_name: motion.name,
           image_url: motion.image_url,
-          motion_range_min: motion.motion_range_min,
-          motion_range_max: motion.motion_range_max,
+          range_min: motion.range_min,
+          range_max: motion.range_max,
         });
       setSelected(newSelected);
     },
@@ -252,24 +251,24 @@ const AddMotion = ({navigation, route}) => {
               <Text
                 style={{
                   fontSize: 14 * height_ratio,
-                  color: displaySelected.has(motion.item.motion_id)
+                  color: displaySelected.has(motion.item._id)
                     ? '#5252fa'
                     : '#242424',
                 }}>
-                {motion.item.motion_name}
+                {motion.item.name}
               </Text>
               <Text
                 style={{
                   fontSize: 14 * height_ratio,
-                  color: displaySelected.has(motion.item.motion_id)
+                  color: displaySelected.has(motion.item._id)
                     ? '#5252fa'
                     : '#808080',
                 }}>
-                {motion.item.motion_name}
+                {motion.item.english_name}
               </Text>
             </View>
           </View>
-          {displaySelected.has(motion.item.motion_id) && (
+          {displaySelected.has(motion.item._id) && (
             <View>
               <Check height={16 * height_ratio} width={16 * width_ratio} />
             </View>
@@ -495,7 +494,7 @@ const AddMotion = ({navigation, route}) => {
         //   );
         // }}
         renderItem={renderItem}
-        keyExtractor={item => item.motion_id}
+        keyExtractor={item => item._id}
         //extraData={selected}
         showsVerticalScrollIndicator={false}></FlatList>
 

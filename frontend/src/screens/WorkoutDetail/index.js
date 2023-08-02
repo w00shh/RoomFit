@@ -37,10 +37,10 @@ const WorkoutDetail = ({navigation, route}) => {
     await serverAxios
       .get(targetUrl)
       .then(res => {
-        setWorkoutList(res.data);
+        setWorkoutList(res.data.details);
       })
       .catch(e => {
-        console.log(e);
+        console.error(e);
       });
   };
 
@@ -231,7 +231,7 @@ const WorkoutDetail = ({navigation, route}) => {
 
               <View>
                 <Text style={styles.pauseSubtitle}>유효 수행시간</Text>
-                <Text style={styles.pauseSubcontent}>tut</Text>
+                <Text style={styles.pauseSubcontent}>{route.params.tut}</Text>
               </View>
             </View>
           </View>
@@ -271,7 +271,7 @@ const WorkoutDetail = ({navigation, route}) => {
 
               <View>
                 <Text style={styles.pauseSubtitle}>칼로리</Text>
-                <Text style={styles.pauseSubcontent}>10000</Text>
+                <Text style={styles.pauseSubcontent}>{route.params.kcal}</Text>
               </View>
             </View>
           </View>

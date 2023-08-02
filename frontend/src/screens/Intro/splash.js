@@ -58,22 +58,28 @@ const IntroSplash = ({navigation}) => {
   const handleGetAllRoutine = async () => {
     const body = {
       user_id: appcontext.state.userid,
-      isHome: false,
+      is_home: false,
     };
-    await serverAxios.post('/routine/load', body).then(res => {
-      res.data.map((value, key) => {
-        appcontext.actions.setRoutineList(currentRoutine => [
-          ...currentRoutine,
-          {
-            routine_id: value.routine_id,
-            routine_name: value.routine_name,
-            body_regions: value.body_regions,
-            motion_count: value.motion_count,
-          },
-        ]);
-        handleGetAllRoutineDetail(value.routine_id);
+    console.log('routine', body);
+    await serverAxios
+      .post('/routine/brief', body)
+      .then(res => {
+        res.data.map((value, key) => {
+          appcontext.actions.setRoutineList(currentRoutine => [
+            ...currentRoutine,
+            {
+              routine_id: value._id,
+              routine_name: value.name,
+              body_regions: value.targets,
+              motion_count: value.motion_count,
+            },
+          ]);
+          handleGetAllRoutineDetail(value._id);
+        });
+      })
+      .catch(err => {
+        console.error('Routine Brief Error:', err);
       });
-    });
   };
 
   // const handleGetAllRoutineDetail = async routineID => {
@@ -88,7 +94,10 @@ const IntroSplash = ({navigation}) => {
 
   const handleGetAllRoutineDetail = async routineID => {
     const targetUrl = 'routine/detail/' + routineID;
-    const res = await serverAxios.get(targetUrl);
+    const res = await serverAxios.get(targetUrl).catch(err => {
+      console.error('Routine Detail Error:', err);
+    });
+
     const newData = res.data;
 
     appcontext.actions.setRoutineDetailList(prevList => [...prevList, newData]);
@@ -98,9 +107,11 @@ const IntroSplash = ({navigation}) => {
     const body = {
       user_id: appcontext.state.userid,
     };
+    console.log('motion', appcontext.state.userid);
     await serverAxios
       .post('/motion', body)
       .then(res => {
+        console.log('motion');
         console.log(res.data);
         appcontext.actions.setMotionList(res.data);
       })
@@ -114,6 +125,7 @@ const IntroSplash = ({navigation}) => {
       user_id: appcontext.state.userid,
       duration: 7,
     };
+    console.log('workout', appcontext.state.userid);
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {

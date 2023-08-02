@@ -47,15 +47,14 @@ const RoutineDetail = ({navigation, route}) => {
 
   const [motionList, setMotionList] = useState([]);
   const [routineId, setRoutineId] = useState(
-    appcontext.state.routineDetailList[route.params.routine_detail_index]
-      .routine_id,
+    appcontext.state.routineDetailList[route.params.routine_detail_index]._id,
   );
   const [workoutId, setWorkoutId] = useState();
   const [routineName, setRoutineName] = useState(
     route.params.routineName
       ? route.params.routineName
       : appcontext.state.routineDetailList[route.params.routine_detail_index]
-          .routine_name,
+          .name,
   );
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
@@ -206,7 +205,7 @@ const RoutineDetail = ({navigation, route}) => {
       //getRoutineDetailMotionList();
       appcontext.state.routineDetailList[
         route.params.routine_detail_index
-      ].motionList.forEach((value, key) => {
+      ].details.forEach((value, key) => {
         let updatedSets = value.sets;
         updatedSets.forEach((value2, key2) => {
           value2.isDoing = false;

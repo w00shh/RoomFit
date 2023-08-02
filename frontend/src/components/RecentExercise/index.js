@@ -21,13 +21,7 @@ const RecentExercise = props => {
         <Text style={styles.titleText}>{value.title}</Text>
         <View style={[styles.targetContainer, {marginTop: 2 * height_ratio}]}>
           <Text style={styles.timeText}>
-            {value.start_time.split(' ')[1].split(':')[0] +
-              ':' +
-              value.start_time.split(' ')[1].split(':')[0]}{' '}
-            -{' '}
-            {value.end_time.split(' ')[1].split(':')[0] +
-              ':' +
-              value.end_time.split(' ')[1].split(':')[0]}
+            {value.start_time} - {value.end_time}
           </Text>
           <View
             style={{
@@ -57,7 +51,7 @@ const RecentExercise = props => {
               width={24 * width_ratio}
               style={{marginLeft: -5.5 * width_ratio}}
             />
-            <Text style={styles.exerciseInformation}>{value.total_time}</Text>
+            <Text style={styles.exerciseInformation}>{value.time}</Text>
           </View>
           <View
             style={{
@@ -66,7 +60,7 @@ const RecentExercise = props => {
               alignItems: 'center',
             }}>
             <Volume height={24 * height_ratio} width={24 * width_ratio} />
-            <Text style={styles.exerciseInformation}>{value.total_weight}</Text>
+            <Text style={styles.exerciseInformation}>{value.volume}</Text>
             <Text style={[styles.exerciseInformation, {color: '#808080'}]}>
               kg
             </Text>
@@ -78,7 +72,7 @@ const RecentExercise = props => {
               alignItems: 'center',
             }}>
             <Calorie height={24 * height_ratio} width={24 * width_ratio} />
-            <Text style={styles.exerciseInformation}>10,000</Text>
+            <Text style={styles.exerciseInformation}>{value.kcal}</Text>
             <Text style={[styles.exerciseInformation, {color: '#808080'}]}>
               Kcal
             </Text>

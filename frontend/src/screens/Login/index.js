@@ -63,32 +63,40 @@ const Login = ({navigation, route}) => {
       password: password,
     };
 
-    await serverAxios
-      .put('/account/login', body)
-      .then(res => {
-        if (res.data.success) {
-          appcontext.actions.setIsLogin(res.data.success);
-          appcontext.actions.setUserid(res.data.user_id);
-          appcontext.actions.setUseremail(res.data.email);
+    // await serverAxios
+    //   .put('/account/login', body)
+    //   .then(res => {
+    //     if (res.data.success) {
+    //       appcontext.actions.setIsLogin(res.data.success);
+    //       appcontext.actions.setUserid(res.data.user_id);
+    //       appcontext.actions.setUseremail(res.data.email);
 
-          getUserInfo(res.data.user_id);
-          handleGetAllRoutine(res.data.user_id);
-          handleGetAllWorkoutList(res.data.user_id);
-          handleGetMotionList(res.data.user_id);
-          saveLogin(res.data.user_id);
-        }
+    //       getUserInfo(res.data.user_id);
+    //       handleGetAllRoutine(res.data.user_id);
+    //       handleGetAllWorkoutList(res.data.user_id);
+    //       handleGetMotionList(res.data.user_id);
+    //       saveLogin(res.data.user_id);
+    //     }
 
-        navigation.reset({routes: [{name: 'HomeScreen'}]});
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    //     navigation.reset({routes: [{name: 'HomeScreen'}]});
+    //   })
+    //   .catch(e => {
+    //     console.log(e);
+    //   });
+    appcontext.actions.setIsLogin('success');
+    appcontext.actions.setUserid('64c75bea2772560e467d4b8b');
+    appcontext.actions.setUseremail('test@test.com');
+    navigation.reset({routes: [{name: 'HomeScreen'}]});
+    handleGetAllRoutine('64c75bea2772560e467d4b8b');
+    handleGetAllWorkoutList('64c75bea2772560e467d4b8b');
+    handleGetMotionList('64c75bea2772560e467d4b8b');
+    saveLogin('64c75bea2772560e467d4b8b');
   };
 
   const handleGetAllRoutine = async userId => {
     const body = {
       user_id: userId,
-      isHome: false,
+      is_home: false,
     };
     await serverAxios.post('/routine/load', body).then(res => {
       res.data.map((value, key) => {

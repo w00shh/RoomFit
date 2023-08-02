@@ -49,7 +49,7 @@ const AppProvider = ({children}) => {
 
   // 유저 관련 정보
   const [isLogin, setIsLogin] = useState(false);
-  const [userid, setUserid] = useState('');
+  const [userid, setUserid] = useState('64c75bea2772560e467d4b8b');
   const [usernickname, setUsernickname] = useState();
   const [useremail, setUseremail] = useState();
   const [userSetTime, setUserSetTime] = useState(30);

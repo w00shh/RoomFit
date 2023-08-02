@@ -73,10 +73,10 @@ const WorkoutRecord = ({navigation, route}) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    {label: '7일', value: '7'},
-    {label: '1개월', value: '1'},
-    {label: '3개월', value: '3'},
-    {label: '6개월', value: '6'},
+    {label: '7일', value: 7},
+    {label: '1개월', value: 1},
+    {label: '3개월', value: 3},
+    {label: '6개월', value: 6},
   ]);
 
   const markDates = () => {
@@ -94,7 +94,7 @@ const WorkoutRecord = ({navigation, route}) => {
 
   useEffect(() => {
     //getBreifWorkout();
-    getMonthWorkoutDay();
+    // getMonthWorkoutDay();
   }, []);
 
   const getBreifWorkout = async () => {
@@ -123,11 +123,11 @@ const WorkoutRecord = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    getMonthWorkoutDay();
+    // getMonthWorkoutDay();
   }, [selectedMonth]);
 
   useEffect(() => {
-    getDaybreifWorkout();
+    // getDaybreifWorkout();
   }, [selectedDate]);
 
   getDaybreifWorkout = async () => {
@@ -153,6 +153,7 @@ const WorkoutRecord = ({navigation, route}) => {
         setworkedDay(res.data);
       })
       .catch(e => {
+        console.error(e);
         console.log(e);
       });
   };
@@ -162,7 +163,7 @@ const WorkoutRecord = ({navigation, route}) => {
   }, [workedDay]);
 
   useEffect(() => {
-    getPeriodWorkout();
+    // getPeriodWorkout();
 
     console.log(period);
   }, [period]);
@@ -171,8 +172,8 @@ const WorkoutRecord = ({navigation, route}) => {
     const body = {
       user_id: appcontext.state.userid,
     };
-    console.log(period);
     const url = '/workout/stat/' + period;
+    console.log(url);
     await serverAxios.post(url, body).then(res => {
       //console.log(res.data);
       setPeriodWorkout(res.data);
@@ -191,7 +192,7 @@ const WorkoutRecord = ({navigation, route}) => {
   const handleGetAllWorkoutList = async period => {
     const body = {
       user_id: appcontext.state.userid,
-      duration: parseInt(period),
+      duration: period === 7 ? period : period * 30,
     };
     console.log('period: ' + body.duration);
     await serverAxios
@@ -199,7 +200,9 @@ const WorkoutRecord = ({navigation, route}) => {
       .then(res => {
         appcontext.actions.setWorkoutList(groupDataByDate(res.data));
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        console.error(e);
+      });
   };
 
   const groupDataByDate = data => {
