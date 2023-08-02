@@ -446,7 +446,6 @@ const styles = StyleSheet.create({
   },
   shareWorkoutModalContainer: {
     flex: 1,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
@@ -455,12 +454,6 @@ const styles = StyleSheet.create({
 
   popuptopContainer: {
     height: 24 * height_ratio,
-  },
-  contentContainer: {
-    flexDirection: 'column',
-    gap: 16 * height_ratio,
-    alignItems: 'center',
-    marginVertical: 8 * height_ratio,
   },
   titleText: {
     fontSize: 16 * height_ratio,
@@ -480,12 +473,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  dateText: {
+  workoutRecordBottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 40 * height_ratio,
+  },
+  workoutRecordMotion: {
+    gap: 4 * height_ratio,
+    justifyContent: 'flex-end',
+  },
+  boldText: {
     fontSize: 14 * height_ratio,
     fontWeight: '700',
     color: '#fff',
   },
-  timeText: {
+  normalText: {
     fontSize: 14 * height_ratio,
     color: '#fff',
   },
