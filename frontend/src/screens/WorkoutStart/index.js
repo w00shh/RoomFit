@@ -579,7 +579,7 @@ export const WorkoutStart = ({navigation, route}) => {
     await serverAxios
       .put('/workout/done', body)
       .then(res => {
-        console.log(res.data);
+        console.log(res.data[0].date);
         appcontext.actions.setWorkoutList(groupDataByDate(res.data));
       })
       .catch(e => {
@@ -587,10 +587,14 @@ export const WorkoutStart = ({navigation, route}) => {
       });
   };
 
+  useEffect(() => {
+    console.log(appcontext.state.workoutList);
+  }, [appcontext.state.workoutList]);
+
   const groupDataByDate = data => {
     const groupedData = data.reduce((acc, exercise) => {
       const {date, ...exerciseInfo} = exercise;
-      if (!acc[date.split(' ')[0]]) {
+      if (!acc[date]) {
         acc[date] = [];
       }
       acc[date].push(exerciseInfo);

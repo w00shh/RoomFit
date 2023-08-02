@@ -20,6 +20,7 @@ import {serverAxios} from '../../utils/commonAxios';
 import {Calendar} from 'react-native-calendars';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {SelectList} from 'react-native-dropdown-select-list';
+import Body2 from 'react-native-body-highlighter';
 
 import TempPeople from '../../assets/images/img_sample1.svg';
 import Profile from '../../assets/images/normalProfile.svg';
@@ -78,6 +79,11 @@ const WorkoutRecord = ({navigation, route}) => {
     {label: '3개월', value: '3'},
     {label: '6개월', value: '6'},
   ]);
+
+  const data = [
+    {slug: 'chest', intensity: 1},
+    {slug: 'abs', intensity: 2},
+  ];
 
   const markDates = () => {
     const updateMarkedDates = {};
