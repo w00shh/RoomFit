@@ -44,16 +44,13 @@ const WorkoutDetail = ({navigation, route}) => {
   const onCapture = async () => {
     try {
       const uri = await getPhotoUri();
+
       const randomFileName = `capturedImage${Math.floor(
         Math.random() * 1000 + 1,
       )}.png`;
-      const imagePath = RNFS.DocumentDirectoryPath + '/' + randomFileName;
-      //console.log(randomFileName);
-      // const imagePath =
-      //   '../../assets/capturedImage' +
-      //   String(Math.random() * 1000 + 1) +
-      //   '.png';
 
+      postFeed(uri, randomFileName);
+      const imagePath = RNFS.DocumentDirectoryPath + '/' + randomFileName;
       await RNFS.copyFile(uri, imagePath);
 
       const isFileExists = await RNFS.exists(imagePath);
@@ -66,6 +63,35 @@ const WorkoutDetail = ({navigation, route}) => {
     } catch (e) {
       console.log('snapshot failed', e);
     }
+  };
+
+  const postFeed = async (uri, name) => {
+    const image = {
+      uri: uri,
+      type: 'image/jpg',
+      name: name,
+    };
+    console.log(uri);
+    const formData = new FormData();
+    formData.append('user_id', appcontext.state.userid);
+    formData.append('content', 'test feed');
+    formData.append('image', image);
+    formData.append('category', '0');
+
+    await serverAxios
+      .post('/community/post-feed', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(res => {
+        console.log(res);
+        //Alert.alert('피드 등록 완료!');
+        //fetchData();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const [isWorkoutDeleteModalVisible, setIsWorkoutDeleteModalVisible] =
@@ -342,7 +368,7 @@ const WorkoutDetail = ({navigation, route}) => {
         {capturedImageURI && (
           <Image
             source={{uri: capturedImageURI}}
-            style={{width: 200, height: 200}}
+            style={{width: 400, height: 400}}
           />
         )}
 

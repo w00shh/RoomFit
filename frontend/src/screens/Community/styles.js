@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
   },
   image: {
     marginTop: 8 * height_ratio,
-    width: 180 * width_ratio,
-    height: 180 * height_ratio,
+    width: 300 * width_ratio,
+    height: 300 * height_ratio,
     resizeMode: 'contain',
     borderRadius: 10,
   },
