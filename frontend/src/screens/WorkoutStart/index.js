@@ -1203,10 +1203,20 @@ export const WorkoutStart = ({navigation, route}) => {
                           {startMinute} - {endHour < 12 ? '오전' : '오후'}{' '}
                           {endHour < 12 ? endHour : endHour - 12}:{endMinute}
                         </Text>
-                        <View style={{flexDirection: 'row'}}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 4 * height_ratio,
+                          }}>
                           <Tut2 width={16} height={16}></Tut2>
+                          <Text style={styles.normalText}>
+                            {formatTime(TUT)}
+                          </Text>
                           <Volume2 width={16} height={16}></Volume2>
+                          <Text style={styles.normalText}>{totalWeight}kg</Text>
                           <Calorie2 width={16} height={16}></Calorie2>
+                          <Text style={styles.normalText}>756Kcal</Text>
                         </View>
                       </View>
                       <View style={styles.workoutRecordRight}>
