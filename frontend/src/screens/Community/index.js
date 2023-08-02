@@ -520,7 +520,7 @@ const Community = ({navigation}) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            navigation.reset({routes: [{name: 'HomeScreen'}]});
           }}>
           <Back height={24 * height_ratio} width={24 * width_ratio} />
         </TouchableOpacity>

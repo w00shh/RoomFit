@@ -125,6 +125,8 @@ export const WorkoutSetting = ({navigation, route}) => {
     // setPressSetting(false);
     // setRestTimer(restSet);
     navigation.push('WorkoutStart', {
+      startHour: route.params.startHour,
+      startMinute: route.params.startMinute,
       isWorkoutStartSplash: false,
       isQuickWorkout: route.params.isQuickWorkout,
       routine_index: route.params.routine_index,

@@ -16,7 +16,10 @@ const WorkoutStartSplash = ({navigation, route}) => {
     if (second === 1) {
       if (route.params.routine_id) {
         setTimeout(() => {
+          const currentTime = new Date();
           navigation.navigate('WorkoutStart', {
+            startHour: currentTime.getHours(),
+            startMinute: currentTime.getMinutes(),
             isWorkoutStartSplash: true,
             routine_index: route.params.routine_index,
             routine_detail_index: route.params.routine_detail_index,
@@ -39,7 +42,10 @@ const WorkoutStartSplash = ({navigation, route}) => {
         }, 650);
       } else {
         setTimeout(() => {
+          const currentTime = new Date();
           navigation.navigate('WorkoutStart', {
+            startHour: currentTime.getHours(),
+            startMinute: currentTime.getMinutes(),
             isWorkoutStartSplash: true,
             motion_index_base: 0,
             isQuickWorkout: route.params.isQuickWorkout,

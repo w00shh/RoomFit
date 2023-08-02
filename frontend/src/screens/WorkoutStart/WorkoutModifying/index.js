@@ -323,6 +323,8 @@ export const WorkoutModifying = ({navigation, route}) => {
               marginVertical={16 * height_ratio}
               onPress={() => {
                 navigation.push('AddMotion', {
+                  startHour: route.params.startHour,
+                  startMinute: route.params.startMinute,
                   routine_index: route.params.routine_index,
                   routine_detail_index: route.params.routine_detail_index,
                   motion_index_base: motionIndexMax + 1,
@@ -356,6 +358,8 @@ export const WorkoutModifying = ({navigation, route}) => {
                 console.log(elapsedTimeInSeconds);
                 console.log(parseInt(elapsedTimeInSeconds, 10));
                 navigation.push('WorkoutStart', {
+                  startHour: route.params.startHour,
+                  startMinute: route.params.startMinute,
                   isWorkoutStartSplash: false,
                   routine_index: route.params.routine_index,
                   routine_detail_index: route.params.routine_detail_index,

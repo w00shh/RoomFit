@@ -182,8 +182,21 @@ export const WorkoutStart = ({navigation, route}) => {
   });
 
   // 운동기록 공유 관련
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  const day = currentDate.getDate();
+  const [startHour, setStartHour] = useState(route.params.startHour);
+  const [startMinute, setStartMinute] = useState(route.params.startMinute);
+  const [endHour, setEndHour] = useState(route.params.startMinute);
+  const [endMinute, setEndMinute] = useState(route.params.startMinute);
+
+  useEffect(() => {
+    console.log(startHour + ':' + startMinute);
+  }, []);
+
   const [isShareWorkoutModalVisible, setIsShareWorkoutModalVisible] =
-    useState(true);
+    useState(false);
   const percentage = {
     back: Math.floor(Math.random() * 50 + 1),
     bicep: Math.floor(Math.random() * 50 + 1),
@@ -254,6 +267,7 @@ export const WorkoutStart = ({navigation, route}) => {
         console.log(err);
       });
     setIsShareWorkoutModalVisible(false);
+    navigation.push('Community');
   };
 
   //graph 관련
@@ -1016,6 +1030,8 @@ export const WorkoutStart = ({navigation, route}) => {
                       onPress={() => {
                         setWorkoutDoneModal(false);
                         navigation.push('AddMotion', {
+                          startHour: route.params.startHour,
+                          startMinute: route.params.startMinute,
                           motion_index_base: motionIndexMax + 1,
                           isQuickWorkout: isQuickWorkout,
                           workout_id: route.params.workout_id,
@@ -1071,6 +1087,8 @@ export const WorkoutStart = ({navigation, route}) => {
                     onPress={() => {
                       setRoutineDoneModal(false);
                       navigation.push('AddMotion', {
+                        startHour: route.params.startHour,
+                        startMinute: route.params.startMinute,
                         routine_index: route.params.routine_index,
                         routine_detail_index: route.params.routine_detail_index,
                         motion_index_base: motionIndexMax + 1,
@@ -1145,8 +1163,12 @@ export const WorkoutStart = ({navigation, route}) => {
                     width={264 * width_ratio}
                     disabled={isSaveWorkoutDisabled}
                     onPress={() => {
+                      const currentTime = new Date();
+                      setEndHour(currentTime.getHours());
+                      setEndMinute(currentTime.getMinutes());
                       saveWorkoutRecord();
-                      navigation.reset({routes: [{name: 'HomeScreen'}]});
+                      setWorkoutMemoModal(false);
+                      setIsShareWorkoutModalVisible(true);
                     }}
                     content="확인"
                     marginVertical={12 * height_ratio}></CustomButton_B>
@@ -1167,9 +1189,14 @@ export const WorkoutStart = ({navigation, route}) => {
                   <View style={styles.workoutRecordContainer}>
                     <View style={styles.workoutRecordTop}>
                       <View style={styles.workoutRecordLeft}>
-                        <Text style={styles.boldText}>2023년 8월 22일</Text>
+                        <Text style={styles.boldText}>
+                          {year}년 {month}월 {day}일
+                        </Text>
                         <Text style={styles.normalText}>
-                          오전 10:49 - 오후 12: 00
+                          {startHour < 12 ? '오전' : '오후'}{' '}
+                          {startHour < 12 ? startHour : startHour - 12}:
+                          {startMinute} - {endHour < 12 ? '오전' : '오후'}{' '}
+                          {endHour < 12 ? endHour : endHour - 12}:{endMinute}
                         </Text>
                       </View>
                       <View style={styles.workoutRecordRight}>
@@ -1180,13 +1207,11 @@ export const WorkoutStart = ({navigation, route}) => {
                       <Person percent={percentage}></Person>
 
                       <View style={styles.workoutRecordMotion}>
-                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
-                        <Text style={styles.normalText}>벤치프레스 100kg</Text>
+                        {motionList.map((value, key) => (
+                          <Text style={styles.normalText}>
+                            {value.motion_name}
+                          </Text>
+                        ))}
                       </View>
                     </View>
                   </View>
@@ -1201,6 +1226,7 @@ export const WorkoutStart = ({navigation, route}) => {
                     content="아니요"
                     onPress={() => {
                       setIsShareWorkoutModalVisible(false);
+                      navigation.reset({routes: [{name: 'HomeScreen'}]});
                     }}
                     disabled={false}
                     marginVertical={0}></CustomButton_W>
@@ -1500,6 +1526,8 @@ export const WorkoutStart = ({navigation, route}) => {
                   //modifyingMotion();
                   setAnimationOption('slide_from_right');
                   navigation.push('WorkoutModifying', {
+                    startHour: route.params.startHour,
+                    startMinute: route.params.startMinute,
                     routine_index: route.params.routine_index,
                     routine_detail_index: route.params.routine_detail_index,
                     motion_index_base: motionIndexMax,
@@ -1531,6 +1559,8 @@ export const WorkoutStart = ({navigation, route}) => {
                   setIsPaused(true);
                   setAnimationOption('slide_from_left');
                   navigation.push('WorkoutSetting', {
+                    startHour: route.params.startHour,
+                    startMinute: route.params.startMinute,
                     routine_index: route.params.routine_index,
                     routine_detail_index: route.params.routine_detail_index,
                     isQuickWorkout: isQuickWorkout,
@@ -1616,8 +1646,12 @@ export const WorkoutStart = ({navigation, route}) => {
                   <CustomButton_B
                     width={264 * width_ratio}
                     onPress={() => {
+                      const currentTime = new Date();
+                      setEndHour(currentTime.getHours());
+                      setEndMinute(currentTime.getMinutes());
                       saveWorkoutRecord();
-                      navigation.reset({routes: [{name: 'HomeScreen'}]});
+                      setWorkoutMemoModal(false);
+                      setIsShareWorkoutModalVisible(true);
                     }}
                     disabled={isSaveWorkoutDisabled}
                     content="확인"
@@ -1853,6 +1887,8 @@ export const WorkoutStart = ({navigation, route}) => {
                 content="+ 동작 추가"
                 onPress={() => {
                   navigation.push('AddMotion', {
+                    startHour: route.params.startHour,
+                    startMinute: route.params.startMinute,
                     motion_index_base: motionIndexMax + 1,
                     isQuickWorkout: isQuickWorkout,
                     workout_id: route.params.workout_id,

@@ -551,6 +551,8 @@ const AddMotion = ({navigation, route}) => {
                 route.params.isExercising
                   ? route.params.routine_index != null
                     ? navigation.push('WorkoutModifying', {
+                        startHour: route.params.startHour,
+                        startMinute: route.params.startMinute,
                         routine_index: route.params.routine_index,
                         routine_detail_index: route.params.routine_detail_index,
                         motion_index_base: route.params.motion_index_base,
@@ -574,6 +576,8 @@ const AddMotion = ({navigation, route}) => {
                         restTimer: route.params.restTimer,
                       })
                     : navigation.push('WorkoutModifying', {
+                        startHour: route.params.startHour,
+                        startMinute: route.params.startMinute,
                         motion_index_base: route.params.motion_index_base,
                         isQuickWorkout: route.params.isQuickWorkout,
                         workout_id: route.params.workout_id,
