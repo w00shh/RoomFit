@@ -37,13 +37,16 @@ import * as d3 from 'd3';
 import ViewShot from 'react-native-view-shot';
 import RNFS from 'react-native-fs';
 
+import Pen from 'react-native-vector-icons/FontAwesome5';
 //svg
 import Tut from '../../assets/svg/icons/tut.svg';
+import Tut2 from '../../assets/svg/icons/tut2.svg';
 import Body from '../../assets/svg/icons/body.svg';
 import Time from '../../assets/svg/icons/time.svg';
 import Volume from '../../assets/svg/icons/volume.svg';
 import Calorie from '../../assets/svg/icons/calorie.svg';
-
+import Volume2 from '../../assets/svg/icons/volume2.svg';
+import Calorie2 from '../../assets/svg/icons/calorie2.svg';
 import Plus from '../../assets/svg/buttons/single/plus.svg';
 import Minus from '../../assets/svg/buttons/single/minus.svg';
 
@@ -208,6 +211,7 @@ export const WorkoutStart = ({navigation, route}) => {
   };
   const captureRef = useRef();
   const [capturedImageURI, setCapturedImageURI] = useState(null);
+  const [workoutHanJool, setWorkoutHanJool] = useState();
   const getPhotoUri = async () => {
     const uri = await captureRef.current.capture();
     console.log('Image saved to', uri);
@@ -248,7 +252,7 @@ export const WorkoutStart = ({navigation, route}) => {
     console.log(uri);
     const formData = new FormData();
     formData.append('user_id', appcontext.state.userid);
-    formData.append('content', '두둥!');
+    formData.append('content', workoutHanJool);
     formData.append('image', image);
     formData.append('category', '1');
 
@@ -266,6 +270,7 @@ export const WorkoutStart = ({navigation, route}) => {
       .catch(err => {
         console.log(err);
       });
+
     setIsShareWorkoutModalVisible(false);
     navigation.push('Community');
   };
@@ -1198,6 +1203,11 @@ export const WorkoutStart = ({navigation, route}) => {
                           {startMinute} - {endHour < 12 ? '오전' : '오후'}{' '}
                           {endHour < 12 ? endHour : endHour - 12}:{endMinute}
                         </Text>
+                        <View style={{flexDirection: 'row'}}>
+                          <Tut2 width={16} height={16}></Tut2>
+                          <Volume2 width={16} height={16}></Volume2>
+                          <Calorie2 width={16} height={16}></Calorie2>
+                        </View>
                       </View>
                       <View style={styles.workoutRecordRight}>
                         <Text style={styles.boldText}>오운완</Text>
@@ -1216,13 +1226,23 @@ export const WorkoutStart = ({navigation, route}) => {
                     </View>
                   </View>
                 </ViewShot>
-                <Text style={styles.descriptionText}>
-                  오늘의 운동기록을 공유하시겠습니까?
-                </Text>
-
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 16 * height_ratio,
+                    gap: 8 * height_ratio,
+                  }}>
+                  <Pen name="pen" size={14} color={'#242424'}></Pen>
+                  <TextInput
+                    style={styles.inputContainer}
+                    placeholderTextColor={'#808080'}
+                    placeholder="오늘 운동을 한 줄로 요약해주세요!"
+                    onChangeText={text => setWorkoutHanJool(text)}></TextInput>
+                </View>
                 <View style={styles.buttonContainer}>
                   <CustomButton_W
-                    width={126 * width_ratio}
+                    width={140 * width_ratio}
                     content="아니요"
                     onPress={() => {
                       setIsShareWorkoutModalVisible(false);
@@ -1231,7 +1251,7 @@ export const WorkoutStart = ({navigation, route}) => {
                     disabled={false}
                     marginVertical={0}></CustomButton_W>
                   <CustomButton_B
-                    width={126 * width_ratio}
+                    width={140 * width_ratio}
                     content="공유"
                     onPress={() => {
                       onCapture();
