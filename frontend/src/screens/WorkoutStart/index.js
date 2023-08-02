@@ -274,12 +274,10 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   }, [isReporting]);
 
-  //rep count
+  //rep count 두 손인 경우
   useEffect(() => {
     let maxAvg;
-    let time = 0;
-    //let check = 0;
-    function counting(left){
+    function counting(left, right){
         if(count%5===0){ // 50ms 마다 확인
             if(left-tempData>=1.0){ // 내리다가 올리는 상황이 되는 경우
                 if(isUp===0 && exerMin.length === 0){
@@ -297,24 +295,25 @@ export const WorkoutStart = ({navigation, route}) => {
                         sum += exerMax[i] - exerMin[i];
                     }
                     setDiffAverage(sum/len);
-                    if(min-minAvg<10 || diffAverage<tempMax-min){ // 충분히 내린 경우(최저점이 기준에 근접한 경우)
+                    if(min-minAvg<10 && diffAverage<tempMax-min){ // 충분히 내린 경우(최저점이 기준에 근접한 경우)
                       setExerMin([...exerMin, min]);
                     }
                     else{
                         // 코칭 시스템 관련 코드 작성
                     }
                     if((diffAverage*0.5)-(tempMax-min)<=0){ // 가동 범위 평균의 절반 이상으로 운동한 경우 rep 증가
-                        setReps(reps+1);
-                        console.log(reps);
+                      console.log("diff"+diffAverage);
+                      console.log("tempMax"+tempMax);
+                      console.log("min"+min);
+                      console.log("range"+(tempMax-min))  
+                      setReps(reps+1);
+                      console.log("reps"+reps);
                     }
                 }
                 if(isUp===0){
                   setPacketTime([...packetTime, count]);
                   setPacketLeft([...packetLeft, min]);
                   setPacketRight([...packetRight, min]);
-                  
-                  //savePacketMin();
-                    //save_packet(min, time);
                     setMin(500);
                 }
                 setIsUp(1);
@@ -322,7 +321,6 @@ export const WorkoutStart = ({navigation, route}) => {
             else if (tempData-left>=1.0){ // 올리다가 내리는 상황으로 바뀌는 경우
                 if(exerMax.length === 0){
                   setExerMax([...exerMax, max]);
-                    //exerMax.push(max);
                 }
                 else if(isUp===1){
                     maxAvg = exerMax.reduce((accumulator, currentValue) => {
@@ -343,8 +341,6 @@ export const WorkoutStart = ({navigation, route}) => {
                   setMax(0);
                 }
                 setIsUp(0);
-
-                //check = 0;
             }
             else{
                 
@@ -352,27 +348,14 @@ export const WorkoutStart = ({navigation, route}) => {
             setTempData(left);
         }
         setCount(count+1);
-        // if(left<min_location && isUp === 0 && check === 0){
-        //     lastMin = left;
-        //     lastTime = data.time;
-        //     check = 1;
-        // }
         if(left>max && isUp === 1){
             setMax(left);
-            //time = data.time;
         }
         else if(left<min && isUp === 0){
             setMin(left);
-            //time = data.time;
         }
     }
-    // if(diffAverage*0.5<=tempMax-minAvg){
-    //   setReps(reps++);
-    // }
-    counting(left);
-    //console.log(exerMax);
-    //console.log(exerMin);
-    //console.log("rep : " + reps);
+    counting(left, right);
   }, [data1]);
 
   //battery
@@ -508,7 +491,8 @@ export const WorkoutStart = ({navigation, route}) => {
             routine_id: route.params.routine_id,
             motion_list: motionList,
           };
-
+          console.log(".........................");
+          console.log(body);
           await serverAxios
             .post('/routine/save', body)
             .then(res => {
@@ -562,16 +546,17 @@ export const WorkoutStart = ({navigation, route}) => {
       left:packetLeft,
       right:packetRight
     }
-    console.log(body);
+    console.log("packet");
+    //console.log(body);
     await serverAxios
       .post('/packet/save', body)
-      .then(res => {})
       .catch(e => {
         console.log(e);
       });
   };
 
   const setCompletePost = async () => {
+    console.log(motionList);
     const body = {
       record_id: recordId,
       set_no: s_index + 1,
