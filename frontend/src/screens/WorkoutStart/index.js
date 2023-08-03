@@ -130,6 +130,12 @@ export const WorkoutStart = ({navigation, route}) => {
   const [tempData, setTempData] = useState(0);
   const [diffAverage, setDiffAverage] = useState(0);
   const [minAvg, setMinAvg] = useState(0);
+
+  // packet 저장 관련 변수
+  const [packetTime, setPacketTime] = useState([]);
+  const [packetLeft, setPacketLeft] = useState([]);
+  const [packetRight, setPacketRight] = useState([]);
+
   //time 관련 변수 :
   const [TUT, setTUT] = useState(route.params.TUT);
   const [isTut, setIsTuT] = useState(true);
@@ -364,21 +370,10 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   }, [isReporting]);
 
-  //rep count
+  //rep count 두 손인 경우
   useEffect(() => {
-    //console.log(reps);
-    // let max = 0; // 각 rep의 최댓값
-    // let min = 500; // 각 rep의 최솟값
-    // let tempMax = 0; // 기준에 못 미치는 최대값을 저장
-    // const exerMax = []; // 기준이 될 만한 최댓값 저장
-    // const exerMin = []; // 기준이 될 만한 최솟값 저장
-    // let isUp = 1; // 현재 위치가 커지는 중인지 아닌지 판별
-    // let count = 0; // 몇 번째 데이터인지 확인
-    // let tempData = 0; // 50ms 이전의 데이터 저장
     let maxAvg;
-    let time = 0;
-    //let check = 0;
-    function counting(left) {
+    function counting(left, right) {
       if (count % 5 === 0) {
         // 50ms 마다 확인
         if (left - tempData >= 1.0) {
@@ -399,7 +394,7 @@ export const WorkoutStart = ({navigation, route}) => {
               sum += exerMax[i] - exerMin[i];
             }
             setDiffAverage(sum / len);
-            if (min - minAvg < 10 || diffAverage < tempMax - min) {
+            if (min - minAvg < 10 && diffAverage < tempMax - min) {
               // 충분히 내린 경우(최저점이 기준에 근접한 경우)
               setExerMin([...exerMin, min]);
             } else {
@@ -407,12 +402,18 @@ export const WorkoutStart = ({navigation, route}) => {
             }
             if (diffAverage * 0.5 - (tempMax - min) <= 0) {
               // 가동 범위 평균의 절반 이상으로 운동한 경우 rep 증가
+              console.log('diff' + diffAverage);
+              console.log('tempMax' + tempMax);
+              console.log('min' + min);
+              console.log('range' + (tempMax - min));
               setReps(reps + 1);
-              console.log(reps);
+              console.log('reps' + reps);
             }
           }
           if (isUp === 0) {
-            //save_packet(min, time);
+            setPacketTime([...packetTime, count]);
+            setPacketLeft([...packetLeft, min]);
+            setPacketRight([...packetRight, min]);
             setMin(500);
           }
           setIsUp(1);
@@ -420,7 +421,6 @@ export const WorkoutStart = ({navigation, route}) => {
           // 올리다가 내리는 상황으로 바뀌는 경우
           if (exerMax.length === 0) {
             setExerMax([...exerMax, max]);
-            //exerMax.push(max);
           } else if (isUp === 1) {
             maxAvg =
               exerMax.reduce((accumulator, currentValue) => {
@@ -434,38 +434,40 @@ export const WorkoutStart = ({navigation, route}) => {
             setTempMax(max);
           }
           if (isUp === 1) {
-            //save_packet(max, time);
+            setPacketTime([...packetTime, count]);
+            setPacketLeft([...packetLeft, max]);
+            setPacketRight([...packetRight, max]);
             setMax(0);
           }
           setIsUp(0);
-
-          //check = 0;
         } else {
         }
         setTempData(left);
       }
       setCount(count + 1);
-      // if(left<min_location && isUp === 0 && check === 0){
-      //     lastMin = left;
-      //     lastTime = data.time;
-      //     check = 1;
-      // }
       if (left > max && isUp === 1) {
         setMax(left);
-        //time = data.time;
       } else if (left < min && isUp === 0) {
-        //console.log("..");
         setMin(left);
-        //time = data.time;
       }
+      setTempData(left);
     }
-    // if(diffAverage*0.5<=tempMax-minAvg){
-    //   setReps(reps++);
+    setCount(count + 1);
+    // if(left<min_location && isUp === 0 && check === 0){
+    //     lastMin = left;
+    //     lastTime = data.time;
+    //     check = 1;
     // }
-    counting(left);
-    //console.log(exerMax);
-    //console.log(exerMin);
-    //console.log("rep : " + reps);
+    if (left > max && isUp === 1) {
+      setMax(left);
+      //time = data.time;
+    } else if (left < min && isUp === 0) {
+      //console.log("..");
+      setMin(left);
+      //time = data.time;
+    }
+
+    counting(left, right);
   }, [data1]);
 
   //battery
@@ -601,7 +603,8 @@ export const WorkoutStart = ({navigation, route}) => {
             routine_id: route.params.routine_id,
             motion_list: motionList,
           };
-
+          console.log('.........................');
+          console.log(body);
           await serverAxios
             .post('/routine/save', body)
             .then(res => {
@@ -648,7 +651,22 @@ export const WorkoutStart = ({navigation, route}) => {
       });
   };
 
+  const savePacket = async () => {
+    const body = {
+      record_id: recordId,
+      time: packetTime,
+      left: packetLeft,
+      right: packetRight,
+    };
+    console.log('packet');
+    //console.log(body);
+    await serverAxios.post('/packet/save', body).catch(e => {
+      console.log(e);
+    });
+  };
+
   const setCompletePost = async () => {
+    console.log(motionList);
     const body = {
       record_id: recordId,
       set_no: s_index + 1,
@@ -807,7 +825,9 @@ export const WorkoutStart = ({navigation, route}) => {
 
   useEffect(() => {
     if (recordId && (isResting || workoutDone)) {
+      console.log('.');
       setCompletePost();
+      console.log('.');
       setTotalWeight(
         totalWeight +
           motionList[m_index].sets[s_index].weight *
@@ -827,20 +847,24 @@ export const WorkoutStart = ({navigation, route}) => {
     if (s_index === 0) {
       getRecordId(m_index);
     } else {
+      console.log('...');
       setCompletePost();
+      console.log('...');
       setTotalWeight(
         totalWeight +
           motionList[m_index].sets[s_index].weight *
             motionList[m_index].sets[s_index].reps,
       );
     }
+    setPacketTime([...packetTime, count]);
+    setPacketLeft([...packetLeft, min]);
+    setPacketRight([...packetRight, min]);
     setMax(0);
     setMin(500);
     setTempMax(0);
     setExerMax([]);
     setExerMin([]);
     setIsUp(1);
-    setCount(0);
     setTempData(0);
     setIsMotionDone(false);
     let updatedMotionList = [...motionList];
@@ -873,6 +897,11 @@ export const WorkoutStart = ({navigation, route}) => {
       updatedMotionList[m_index].doingSetIndex = s_index + 1;
       updatedMotionList[m_index].sets[s_index].isDoing = false;
       setMotionList(updatedMotionList);
+      savePacket();
+      setPacketLeft([]);
+      setPacketRight([]);
+      setPacketTime([]);
+      setCount(0);
     } else {
       // 운동 종료시
       updatedMotionList = [...motionList];
@@ -886,6 +915,11 @@ export const WorkoutStart = ({navigation, route}) => {
       setMotionList(updatedMotionList);
       setMotionList(updatedMotionList);
       setWorkoutDone(true);
+      savePacket();
+      setPacketLeft([]);
+      setPacketRight([]);
+      setPacketTime([]);
+      setCount(0);
       if (isQuickWorkout) {
         setWorkoutDoneModal(true);
       } else {
@@ -921,7 +955,7 @@ export const WorkoutStart = ({navigation, route}) => {
       setMotionList(updatedMotionList);
     }
   };
-
+  // recordId 받아오고... -> 보내고
   return (
     <SafeAreaView style={styles.pageContainer}>
       {!isPausedPage && !pressSetting && !isModifyMotion && (

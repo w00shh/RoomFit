@@ -140,7 +140,7 @@ class BLEManager {
               BLEStore.setLow(low);
               BLEStore.setLeft(left);
               BLEStore.setRight(right);
-              console.log(left, right);
+              //console.log(left, right);
               break;
             default:
               break;
