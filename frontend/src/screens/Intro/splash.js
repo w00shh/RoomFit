@@ -101,7 +101,6 @@ const IntroSplash = ({navigation}) => {
     await serverAxios
       .post('/motion', body)
       .then(res => {
-        console.log(res.data);
         appcontext.actions.setMotionList(res.data);
       })
       .catch(e => {
@@ -145,7 +144,6 @@ const IntroSplash = ({navigation}) => {
       appcontext.state.routineList.length ===
       appcontext.state.routineDetailList.length
     ) {
-      console.log('check');
       handleAutoLogin();
     }
   }, [

@@ -31,7 +31,6 @@ const WokroutCareer = ({navigation, route}) => {
   ];
 
   const handleBackButton = async () => {
-    console.log(appcontext.state.userWorkoutCareer);
     const body = {
       user_id: appcontext.state.userid,
       experience: appcontext.state.userWorkoutCareer,

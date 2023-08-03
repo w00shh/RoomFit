@@ -70,18 +70,10 @@ export const WorkoutSetting = ({navigation, route}) => {
     {time: 130, selsected: false},
   ];
 
-  useEffect(() => {
-    console.log(BLEStore.animationSelection);
-  }, []);
-
   const setRestTime = () => {
     appcontext.actions.setUserSetTime(temprestSet);
     setModalVisible2(false);
   };
-
-  useEffect(() => {
-    console.log(appcontext.state.userSetTime);
-  }, [appcontext.state.userSetTime]);
 
   const setTempRestTime = time => {
     setTempRestSet(time);

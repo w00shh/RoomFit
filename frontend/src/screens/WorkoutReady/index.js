@@ -120,10 +120,6 @@ const WorkoutReady = ({navigation, route}) => {
     );
   });
 
-  useEffect(() => {
-    if (motionList[0]) console.log(motionList[0].sets);
-  }, [motionList]);
-
   function Item({mode}) {
     return (
       <TouchableOpacity

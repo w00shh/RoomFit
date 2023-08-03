@@ -71,7 +71,6 @@ const BodyFat = ({navigation}) => {
       body_fat: appcontext.state.userBodyFat,
     };
     await serverAxios.put('/account/update', body).then(res => {
-      console.log(appcontext.state.userBodyFat);
       if (res.data.success === 1) {
         navigation.navigate('ProfileSetting');
       }

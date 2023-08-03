@@ -78,12 +78,6 @@ const HomeScreen = ({navigation}) => {
       });
   };
 
-  useEffect(() => {
-    //getMyRoutine();
-    //getRecentWorkout();
-    console.log(appcontext.state.routineDetailList);
-  }, []);
-
   const getMyRoutine = async () => {
     setRoutine([]);
     const body = {

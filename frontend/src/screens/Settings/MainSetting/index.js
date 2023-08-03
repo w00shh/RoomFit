@@ -53,11 +53,6 @@ const MainSetting = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log(isAssist);
-    console.log(isSaftey);
-  }, []);
-
-  useEffect(() => {
     assist();
   }, [isAssist]);
 

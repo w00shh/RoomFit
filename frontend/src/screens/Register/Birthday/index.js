@@ -56,7 +56,7 @@ const Birthday = ({navigation, route}) => {
       user_id: userID,
       birth: tempBirthDay,
     };
-    console.log(body);
+
     await serverAxios
       .put('/account/update', body)
       .then(res => {})

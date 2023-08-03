@@ -68,7 +68,6 @@ const PasswordSetting = ({navigation}) => {
     if (success === true) {
       handleBackButton();
     } else if (success === false) {
-      console.log('error');
     }
   }, [success]);
 

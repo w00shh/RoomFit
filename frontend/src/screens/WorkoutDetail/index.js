@@ -112,8 +112,6 @@ const WorkoutDetail = ({navigation, route}) => {
     // 변경된 배열을 저장
     appcontext.actions.setWorkoutList(updatedArray);
 
-    console.log(appcontext.state.workoutList);
-
     if (appcontext.state.workoutList[route.params.index].data.length === 0) {
       let updatedWorkoutList = [...appcontext.state.workoutList];
       updatedWorkoutList = updatedWorkoutList.filter(
@@ -125,11 +123,8 @@ const WorkoutDetail = ({navigation, route}) => {
 
     if (route.params.startingPoint === 0) {
       /* StartingPoint가 HomeScreen일 때 */
-
-      console.log('here?');
       navigation.push('HomeScreen');
     } else if (route.params.startingPoint === 1) {
-      console.log('workoutRecord');
       /* StartingPoint가 WorkoutRecord의 운동기록 탭일 때 */
       navigation.push('WorkoutRecord', {
         isCalendar: false,

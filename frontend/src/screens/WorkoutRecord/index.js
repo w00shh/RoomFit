@@ -109,12 +109,9 @@ const WorkoutRecord = ({navigation, route}) => {
     const body = {
       user_id: appcontext.state.userid,
     };
-    console.log(body);
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {
-        console.log('asd');
-        console.log(res.data);
         setWorkoutList(res.data);
       })
       .catch(e => console.log(e));
@@ -143,7 +140,6 @@ const WorkoutRecord = ({navigation, route}) => {
       user_id: appcontext.state.userid,
       date: selectedDate,
     };
-    console.log(body.date);
     await serverAxios.post('/workout/calender/date', body).then(res => {
       setSelectedWorkout(res.data);
     });
@@ -157,7 +153,6 @@ const WorkoutRecord = ({navigation, route}) => {
     await serverAxios
       .post('/workout/calender/month', body)
       .then(res => {
-        // console.log(res.data);
         setworkedDay(res.data);
       })
       .catch(e => {
@@ -171,18 +166,14 @@ const WorkoutRecord = ({navigation, route}) => {
 
   useEffect(() => {
     getPeriodWorkout();
-
-    console.log(period);
   }, [period]);
 
   const getPeriodWorkout = async () => {
     const body = {
       user_id: appcontext.state.userid,
     };
-    console.log(period);
     const url = '/workout/stat/' + period;
     await serverAxios.post(url, body).then(res => {
-      console.log(res.data);
       setPeriodWorkout(res.data);
     });
   };
@@ -201,7 +192,6 @@ const WorkoutRecord = ({navigation, route}) => {
       user_id: appcontext.state.userid,
       duration: period,
     };
-    console.log('period: ' + body.duration);
     await serverAxios
       .post('/workout/brief', body)
       .then(res => {
@@ -227,8 +217,6 @@ const WorkoutRecord = ({navigation, route}) => {
   };
 
   const renderingWorkoutRecord = value => {
-    //console.log(appcontext.state.workoutList.length);
-    //console.log(value.index);
     return (
       <View
         style={{

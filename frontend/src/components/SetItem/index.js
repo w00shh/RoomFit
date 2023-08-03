@@ -157,7 +157,6 @@ const SetItem = props => {
           value={isWeightEmpty ? '' : String(weight)}
           onChangeText={handleWeightChange}
           onEndEditing={() => {
-            console.log(props.set_id + ' ' + props.target_motion_id);
             props.handleSaveWeight(
               weight,
               props.set_id,

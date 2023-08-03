@@ -34,8 +34,6 @@ const height_ratio = Dimensions.get('screen').height / 844;
 const CategoryBar = ({fetchData, items}) => {
   // const [selectedCategory, setSelectedCategory] = React.useState(null);
 
-  console.log('items : ');
-  console.log(items);
   const category = items.map(item => item.label);
 
   // React.useEffect(() => {}, [selectedCategory]);
@@ -106,8 +104,6 @@ const Comment = ({
   const [isSettingModal, setIsSettingModal] = React.useState(false);
 
   const deleteComment = async () => {
-    console.log(comment_id);
-    console.log(comment_count);
     await serverAxios
       .delete('/community/delete-comment?comment_id=' + comment_id.toString())
       .then(res => {

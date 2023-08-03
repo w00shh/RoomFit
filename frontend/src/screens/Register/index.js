@@ -66,11 +66,9 @@ const Register = ({navigation}) => {
     const body = {
       email: email,
     };
-    console.log(body);
     await serverAxios
       .post('/account/email-verification', body)
       .then(res => {
-        console.log(res.data);
         setCertificationCode(res.data.verification_code);
         setIsCertificationNumberVisible(true);
       })
@@ -89,18 +87,13 @@ const Register = ({navigation}) => {
   };
 
   const handleCertificationNumberPress = () => {
-    console.log('num: ' + certificationNumber);
-    console.log('code: ' + certificationCode);
     if (certificationNumber === String(certificationCode)) {
       setIsCertificated(true);
       setIsCertificationNumberVisible(false);
-      console.log('is same');
     }
   };
 
-  useEffect(() => {
-    console.log('isCertificated: ' + isCertificated);
-  }, [isCertificated]);
+  useEffect(() => {}, [isCertificated]);
   const handlePasswordChange = text => {
     setPassword(text);
   };
@@ -157,7 +150,6 @@ const Register = ({navigation}) => {
     await serverAxios
       .post('/account/register', body)
       .then(res => {
-        console.log(res.data);
         navigation.navigate('Birthday', {
           isRegister: true,
           email: email,

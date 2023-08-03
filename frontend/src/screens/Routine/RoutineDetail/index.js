@@ -35,9 +35,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const RoutineDetail = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
-  useEffect(() => {
-    console.log(route.params.index);
-  }, []);
+
   const [motionIndexBase, setMotionIndexBase] = useState(
     route.params.motion_index_base,
   );
@@ -300,7 +298,6 @@ const RoutineDetail = ({navigation, route}) => {
   };
 
   const handleAddMotionPress = () => {
-    console.log(routineName);
     navigation.push('AddMotion', {
       routine_index: route.params.routine_index,
       routine_detail_index: route.params.routine_detail_index,

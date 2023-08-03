@@ -87,7 +87,6 @@ export const WorkoutModifying = ({navigation, route}) => {
     motionList.forEach((value, key) => {
       if (value.motion_index > motionIndexMax) {
         setMotionIndexMax(value.motion_index);
-        console.log(value.motion_index);
       }
     });
   }, [motionList]);
@@ -120,7 +119,6 @@ export const WorkoutModifying = ({navigation, route}) => {
         ]);
       } else {
         /* 운동 수행 중에 동작 추가 시*/
-        console.log('come');
         setMotionList(currentMotionList => [
           ...currentMotionList,
           {
@@ -355,8 +353,6 @@ export const WorkoutModifying = ({navigation, route}) => {
                 const currentTime = new Date();
                 const elapsedTimeInMilliseconds = currentTime - initialTime;
                 const elapsedTimeInSeconds = elapsedTimeInMilliseconds / 1000;
-                console.log(elapsedTimeInSeconds);
-                console.log(parseInt(elapsedTimeInSeconds, 10));
                 navigation.push('WorkoutStart', {
                   startHour: route.params.startHour,
                   startMinute: route.params.startMinute,

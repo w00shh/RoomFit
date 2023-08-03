@@ -116,9 +116,6 @@ const MyRoutine = ({navigation}) => {
     [selected],
   );
 
-  useEffect(() => {
-    console.log(appcontext.state.routineList);
-  }, []);
   return (
     <View style={styles.pageContainer}>
       {appcontext.state.routineList[0] &&

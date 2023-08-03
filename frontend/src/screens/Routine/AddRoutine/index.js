@@ -112,7 +112,6 @@ const AddRoutine = ({navigation, route}) => {
     await serverAxios
       .post('/routine/save', body)
       .then(res => {
-        console.log(res.data);
         appcontext.actions.setRoutineList(currentRoutineList => [
           {
             routine_id: res.data[0].routine_id,
@@ -141,7 +140,6 @@ const AddRoutine = ({navigation, route}) => {
   };
 
   const handleBackButton = () => {
-    console.log(motionList);
     if (motionList.length === 0) {
       deleteRoutine();
       navigation.reset({routes: [{name: 'MyRoutine'}]});
@@ -313,7 +311,6 @@ const AddRoutine = ({navigation, route}) => {
     await serverAxios
       .post('/routine/save', body2)
       .then(res => {
-        console.log(res.data);
         appcontext.actions.setRoutineList(currentRoutineList => [
           {
             routine_id: res.data[0].routine_id,

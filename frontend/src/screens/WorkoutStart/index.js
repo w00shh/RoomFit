@@ -200,10 +200,6 @@ export const WorkoutStart = ({navigation, route}) => {
   const [endHour, setEndHour] = useState(route.params.startMinute);
   const [endMinute, setEndMinute] = useState(route.params.startMinute);
 
-  useEffect(() => {
-    console.log(startHour + ':' + startMinute);
-  }, []);
-
   const [isShareWorkoutModalVisible, setIsShareWorkoutModalVisible] =
     useState(false);
   const percentage = {
@@ -220,15 +216,13 @@ export const WorkoutStart = ({navigation, route}) => {
   const [workoutHanJool, setWorkoutHanJool] = useState();
   const getPhotoUri = async () => {
     const uri = await captureRef.current.capture();
-    console.log('Image saved to', uri);
     return uri;
   };
 
   const onCapture = async () => {
-    console.log('onCapture');
     try {
       const uri = await getPhotoUri();
-      console.log(uri);
+
       const randomFileName = `capturedImage${Math.floor(
         Math.random() * 1000 + 1,
       )}.png`;
@@ -239,13 +233,10 @@ export const WorkoutStart = ({navigation, route}) => {
 
       const isFileExists = await RNFS.exists(imagePath);
       if (isFileExists) {
-        console.log('Image saved to:', imagePath);
         setCapturedImageURI('file://' + imagePath);
-      } else {
-        console.error('Failed to save the image:', imagePath);
       }
     } catch (e) {
-      console.log('snapshot failed', e);
+      console.log(e);
     }
   };
 
@@ -255,7 +246,6 @@ export const WorkoutStart = ({navigation, route}) => {
       type: 'image/jpg',
       name: name,
     };
-    console.log(uri);
     const formData = new FormData();
     formData.append('user_id', appcontext.state.userid);
     formData.append('content', workoutHanJool);
@@ -268,13 +258,9 @@ export const WorkoutStart = ({navigation, route}) => {
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then(res => {
-        console.log(res);
-        //Alert.alert('피드 등록 완료!');
-        //fetchData();
-      })
-      .catch(err => {
-        console.log(err);
+      .then(res => {})
+      .catch(e => {
+        console.log(e);
       });
 
     setIsShareWorkoutModalVisible(false);
@@ -287,15 +273,6 @@ export const WorkoutStart = ({navigation, route}) => {
 
   const left = BLEStore.left;
   const right = BLEStore.right;
-  useEffect(() => {
-    console.log(route.params.routine_index);
-    console.log(route.params.routine_detail_index);
-  }, []);
-
-  useEffect(() => {
-    console.log(route.params.routine_index);
-    console.log(route.params.routine_detail_index);
-  }, []);
 
   const scrollViewRef = useRef(null);
   const {width: windowWidth} = useWindowDimensions();
@@ -402,12 +379,7 @@ export const WorkoutStart = ({navigation, route}) => {
             }
             if (diffAverage * 0.5 - (tempMax - min) <= 0) {
               // 가동 범위 평균의 절반 이상으로 운동한 경우 rep 증가
-              console.log('diff' + diffAverage);
-              console.log('tempMax' + tempMax);
-              console.log('min' + min);
-              console.log('range' + (tempMax - min));
               setReps(reps + 1);
-              console.log('reps' + reps);
             }
           }
           if (isUp === 0) {
@@ -603,8 +575,6 @@ export const WorkoutStart = ({navigation, route}) => {
             routine_id: route.params.routine_id,
             motion_list: motionList,
           };
-          console.log('.........................');
-          console.log(body);
           await serverAxios
             .post('/routine/save', body)
             .then(res => {
@@ -643,7 +613,6 @@ export const WorkoutStart = ({navigation, route}) => {
     await serverAxios
       .post('/workout/record', body)
       .then(res => {
-        console.log(res.data);
         setRecordId(res.data.record_id);
       })
       .catch(e => {
@@ -658,15 +627,13 @@ export const WorkoutStart = ({navigation, route}) => {
       left: packetLeft,
       right: packetRight,
     };
-    console.log('packet');
-    //console.log(body);
+
     await serverAxios.post('/packet/save', body).catch(e => {
       console.log(e);
     });
   };
 
   const setCompletePost = async () => {
-    console.log(motionList);
     const body = {
       record_id: recordId,
       set_no: s_index + 1,
@@ -674,7 +641,7 @@ export const WorkoutStart = ({navigation, route}) => {
       reps: motionList[m_index].sets[s_index].reps,
       mode: motionList[m_index].sets[s_index].mode,
     };
-    console.log(body);
+
     await serverAxios
       .post('/workout/set', body)
       .then(res => {})
@@ -694,17 +661,12 @@ export const WorkoutStart = ({navigation, route}) => {
     await serverAxios
       .put('/workout/done', body)
       .then(res => {
-        console.log(res.data[0].date);
         appcontext.actions.setWorkoutList(groupDataByDate(res.data));
       })
       .catch(e => {
         console.log(e);
       });
   };
-
-  useEffect(() => {
-    console.log(appcontext.state.workoutList);
-  }, [appcontext.state.workoutList]);
 
   const groupDataByDate = data => {
     const groupedData = data.reduce((acc, exercise) => {
@@ -825,9 +787,7 @@ export const WorkoutStart = ({navigation, route}) => {
 
   useEffect(() => {
     if (recordId && (isResting || workoutDone)) {
-      console.log('.');
       setCompletePost();
-      console.log('.');
       setTotalWeight(
         totalWeight +
           motionList[m_index].sets[s_index].weight *
@@ -836,10 +796,6 @@ export const WorkoutStart = ({navigation, route}) => {
     }
   }, [recordId]);
 
-  useEffect(() => {
-    console.log('totalWeight: ' + totalWeight);
-  }, [totalWeight]);
-
   const setComplete = () => {
     if (diffAverage * 0.5 <= tempMax - minAvg) {
       setReps(reps + 1);
@@ -847,9 +803,7 @@ export const WorkoutStart = ({navigation, route}) => {
     if (s_index === 0) {
       getRecordId(m_index);
     } else {
-      console.log('...');
       setCompletePost();
-      console.log('...');
       setTotalWeight(
         totalWeight +
           motionList[m_index].sets[s_index].weight *

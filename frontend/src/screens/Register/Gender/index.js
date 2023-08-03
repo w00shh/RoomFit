@@ -43,7 +43,7 @@ const Gender = ({navigation, route}) => {
       user_id: userID,
       gender: tempGender === '남성' ? 1 : 2,
     };
-    console.log(body);
+
     await serverAxios.put('/account/update', body).then(res => {});
   };
 

@@ -87,7 +87,6 @@ const CustomMotion = ({navigation}) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log(item.index);
           if (tempmainMuscle.includes(item.item)) {
             setTempMainMuscle(
               tempmainMuscle.filter(muscle => muscle !== item.item),
@@ -95,8 +94,6 @@ const CustomMotion = ({navigation}) => {
           } else {
             setTempMainMuscle([...tempmainMuscle, item.item]);
           }
-
-          console.log(tempmainMuscle);
         }}>
         <View
           style={{
@@ -135,7 +132,6 @@ const CustomMotion = ({navigation}) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log(item.index);
           if (tempSubMuscle.includes(item.item)) {
             setTempSubMuscle(
               tempSubMuscle.filter(muscle => muscle !== item.item),
@@ -143,8 +139,6 @@ const CustomMotion = ({navigation}) => {
           } else {
             setTempSubMuscle([...tempSubMuscle, item.item]);
           }
-
-          console.log(tempSubMuscle);
         }}>
         <View
           style={{
@@ -251,11 +245,9 @@ const CustomMotion = ({navigation}) => {
       grip: tool,
       description: '',
     };
-    console.log(body);
     await serverAxios
       .post('/motion/custom', body)
       .then(res => {
-        console.log(res.data);
         const newMotionItem = {
           add_on: null,
           body_region: mainMuscle.join(', '),
