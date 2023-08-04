@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Dimensions,
   SafeAreaView,
-  Platform,
   Modal,
   TextInput,
   FlatList,

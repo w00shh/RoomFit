@@ -17,7 +17,6 @@ import {
   Image,
 } from 'react-native';
 import styles from './styles';
-import MotionItem from '../../components/MotionItem';
 import CustomButton_B from '../../components/CustomButton_B';
 import {serverAxios} from '../../utils/commonAxios';
 
@@ -27,10 +26,8 @@ import Search from '../../assets/svg/buttons/single/search.svg';
 import X from '../../assets/svg/buttons/single/x.svg';
 import {Divider} from '../../components/divider';
 import {AppContext} from '../../contexts/AppProvider';
-
 import Star_A from '../../assets/svg/buttons/active/star.svg';
 import Star_D from '../../assets/svg/buttons/default/star.svg';
-import Question from '../../assets/svg/buttons/single/question.svg';
 import Check from '../../assets/svg/buttons/active/check.svg';
 import DefaultImage from '../../assets/svg/icons/default_workout.svg';
 
@@ -40,8 +37,6 @@ const height_ratio = Dimensions.get('screen').height / 844;
 const AddMotion = ({navigation, route}) => {
   const appcontext = useContext(AppContext);
   const [motionList, setMotionList] = useState(appcontext.state.motionList);
-  const [motionListMap, setMotionListMap] = useState(new Map());
-  let selectedMotionKeys = [];
   const [selected, setSelected] = useState(new Map());
   const [displaySelected, setDisplaySelected] = useState(new Map());
   const [selectedLength, setSelectedLength] = useState(0);
@@ -49,7 +44,6 @@ const AddMotion = ({navigation, route}) => {
   const [motionName, setMotionName] = useState('');
   const [gripList, setGripList] = useState([]);
   const [bodyRegionList, setBodyRegionList] = useState([]);
-  const [selectedList, setSelectedList] = useState([]);
   const [test, setTest] = useState(0);
 
   let length = 0;
@@ -75,14 +69,6 @@ const AddMotion = ({navigation, route}) => {
 
   const onSelect = useCallback(
     motion => {
-      // if (selectedList.includes(motion.motion_name)) {
-      //   setSelectedList(
-      //     selectedList.filter(item => item !== motion.motion_name),
-      //   );
-      // } else {
-      //   setSelectedList([...selectedList, motion.motion_name]);
-      // }
-      let length = 0;
       const newSelected = new Map(selected);
       newSelected.set(motion.motion_id, !selected.get(motion.motion_id));
       if (displaySelected.get(motion.motion_id))
@@ -111,14 +97,6 @@ const AddMotion = ({navigation, route}) => {
     }
   }, [test]);
 
-  const deleteSelected = key => {
-    displaySelected.delete(key);
-    console.log(displaySelected);
-    // const newSelected = new Map(selected);
-    // newSelected.set(key, false);
-    // setSelected(newSelected);
-  };
-
   useEffect(() => {
     length = 0;
     selected.forEach(value => {
@@ -128,20 +106,6 @@ const AddMotion = ({navigation, route}) => {
     });
     setSelectedLength(length);
   }, [selected]);
-
-  const getMotionList = async () => {
-    const body = {
-      user_id: appcontext.state.userid,
-    };
-    await serverAxios
-      .post('/motion', body)
-      .then(res => {
-        setMotionList(res.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -165,12 +129,6 @@ const AddMotion = ({navigation, route}) => {
           </Text>
         </TouchableOpacity>
       ),
-    });
-
-    //getMotionList();
-
-    motionList.forEach(motion => {
-      setMotionListMap(motionListMap.set(motion.motion_id, motion));
     });
   }, []);
 
@@ -449,8 +407,6 @@ const AddMotion = ({navigation, route}) => {
               alignSelf: 'center',
               gap: 8 * width_ratio,
               marginTop: 0 * height_ratio,
-              //marginVertical:
-              //displaySelected.size !== 0 ? 24 * height_ratio : 0,
               overflow: 'visible',
             }}>
             {displaySelected &&
@@ -497,21 +453,8 @@ const AddMotion = ({navigation, route}) => {
       )}
       <FlatList
         data={motionList}
-        // renderItem={({item, index}) => {
-        //   const isEnd = index === motionList.length - 1;
-        //   return (
-        //     <>
-        //       <Item
-        //         motion={item}
-        //         selected={!!selected.get(item.motion_id)}
-        //         onSelect={onSelect}></Item>
-        //       {!isEnd && <Divider height_ratio={height_ratio} />}
-        //     </>
-        //   );
-        // }}
         renderItem={renderItem}
         keyExtractor={item => item.motion_id}
-        //extraData={selected}
         showsVerticalScrollIndicator={false}></FlatList>
 
       <CustomButton_B
@@ -521,7 +464,6 @@ const AddMotion = ({navigation, route}) => {
         onPress={
           route.params.isRoutine
             ? () => {
-                selectedMotionKeys = Array.from(displaySelected.keys());
                 route.params.isRoutineDetail
                   ? navigation.push('RoutineDetail', {
                       routine_index: route.params.routine_index,
@@ -529,7 +471,6 @@ const AddMotion = ({navigation, route}) => {
                       motion_index_base: route.params.motion_index_base,
                       isMotionAdded: true,
                       routineName: route.params.routineName,
-                      selectedMotionKeys: selectedMotionKeys,
                       motionList: route.params.motionList,
                       displaySelected: Array.from(displaySelected.values()),
                       routine_id: route.params.routine_id,
@@ -538,15 +479,12 @@ const AddMotion = ({navigation, route}) => {
                       motion_index_base: route.params.motion_index_base,
                       isMotionAdded: true,
                       routineName: route.params.routineName,
-                      selectedMotionKeys: selectedMotionKeys,
                       motionList: route.params.motionList,
                       displaySelected: Array.from(displaySelected.values()),
                       routine_id: route.params.routine_id,
                     });
               }
             : () => {
-                selectedMotionKeys = Array.from(displaySelected.keys());
-
                 route.params.isExercising
                   ? route.params.routine_index != null
                     ? navigation.push('WorkoutModifying', {
@@ -562,7 +500,6 @@ const AddMotion = ({navigation, route}) => {
                         isAddMotion: true,
                         isAddedMotionDone: route.params.isAddedMotionDone,
                         motionList: route.params.motionList,
-                        selectedMotionKeys: selectedMotionKeys,
                         displaySelected: Array.from(displaySelected.values()),
                         elapsedTime: route.params.elapsedTime,
                         TUT: route.params.TUT,
@@ -585,7 +522,6 @@ const AddMotion = ({navigation, route}) => {
                         isAddMotion: true,
                         isAddedMotionDone: route.params.isAddedMotionDone,
                         motionList: route.params.motionList,
-                        selectedMotionKeys: selectedMotionKeys,
                         displaySelected: Array.from(displaySelected.values()),
                         elapsedTime: route.params.elapsedTime,
                         TUT: route.params.TUT,
@@ -599,7 +535,6 @@ const AddMotion = ({navigation, route}) => {
                       })
                   : navigation.push('WorkoutReady', {
                       motion_index_base: route.params.motion_index_base,
-                      selectedMotionKeys: selectedMotionKeys,
                       motionList: route.params.motionList,
                       displaySelected: Array.from(displaySelected.values()),
                     });
