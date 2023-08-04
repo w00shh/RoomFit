@@ -34,7 +34,6 @@ const PasswordFind = ({navigation}) => {
       .get(targetUrl)
       .then(res => {
         setIsTempPasswordSent(true);
-        console.log(res.data);
       })
       .catch(e => {
         console.log(e);

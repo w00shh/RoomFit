@@ -13,6 +13,7 @@ import {serverAxios} from '../../utils/commonAxios.js';
 
 //svg
 import Back from '../../assets/svg/buttons/single/back.svg';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -65,11 +66,9 @@ const Register = ({navigation}) => {
     const body = {
       email: email,
     };
-    console.log(body);
     await serverAxios
       .post('/account/email-verification', body)
       .then(res => {
-        console.log(res.data);
         setCertificationCode(res.data.verification_code);
         setIsCertificationNumberVisible(true);
       })
@@ -88,18 +87,13 @@ const Register = ({navigation}) => {
   };
 
   const handleCertificationNumberPress = () => {
-    console.log('num: ' + certificationNumber);
-    console.log('code: ' + certificationCode);
     if (certificationNumber === String(certificationCode)) {
       setIsCertificated(true);
       setIsCertificationNumberVisible(false);
-      console.log('is same');
     }
   };
 
-  useEffect(() => {
-    console.log('isCertificated: ' + isCertificated);
-  }, [isCertificated]);
+  useEffect(() => {}, [isCertificated]);
   const handlePasswordChange = text => {
     setPassword(text);
   };
@@ -156,7 +150,6 @@ const Register = ({navigation}) => {
     await serverAxios
       .post('/account/register', body)
       .then(res => {
-        console.log(res.data);
         navigation.navigate('Birthday', {
           isRegister: true,
           email: email,
@@ -174,7 +167,7 @@ const Register = ({navigation}) => {
 
   return (
     <View style={styles.pageContainer}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>이메일로 회원가입</Text>
         </View>
@@ -240,7 +233,7 @@ const Register = ({navigation}) => {
             <Text style={styles.loginText}>로그인하기</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

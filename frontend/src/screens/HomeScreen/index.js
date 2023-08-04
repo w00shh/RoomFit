@@ -16,10 +16,12 @@ import {useAppSelector} from '../../redux/store';
 import {AppContext} from '../../contexts/AppProvider';
 import {BackHandler} from 'react-native';
 
+import Users from 'react-native-vector-icons/FontAwesome';
 //svg
 import Workout from '../../assets/svg/buttons/active/workout.svg';
 import History from '../../assets/svg/buttons/default/history.svg';
 import Setting from '../../assets/svg/buttons/default/setting.svg';
+import Community from '../../assets/svg/buttons/default/star.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -38,18 +40,18 @@ const HomeScreen = ({navigation}) => {
   const [routineId, setRoutineId] = useState();
   const [routineReady, setRoutineReady] = useState(false);
 
-  useEffect(() => {
-    const handleBackButton = () => {
-      // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
-      return true;
-    };
+  // useEffect(() => {
+  //   const handleBackButton = () => {
+  //     // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
+  //     return true;
+  //   };
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, []);
+  //   return () => {
+  //     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (routineId) {
@@ -76,11 +78,6 @@ const HomeScreen = ({navigation}) => {
       });
   };
 
-  useEffect(() => {
-    getMyRoutine();
-    getRecentWorkout();
-  }, []);
-
   const getMyRoutine = async () => {
     setRoutine([]);
     const body = {
@@ -96,7 +93,7 @@ const HomeScreen = ({navigation}) => {
           {
             routine_id: value.routine_id,
             routine_name: value.routine_name,
-            body_regions: value.body_regions,
+            major_targets: value.major_targets,
             motion_count: value.motion_count,
           },
         ]);
@@ -112,7 +109,6 @@ const HomeScreen = ({navigation}) => {
     await serverAxios
       .post('/workout/brief/recent', body)
       .then(res => {
-        console.log(res.data);
         setRecentRoutine(res.data);
       })
       .catch(e => console.log(e));
@@ -130,7 +126,7 @@ const HomeScreen = ({navigation}) => {
       <ScrollView
         style={{marginBottom: 32 * height_ratio}}
         showsVerticalScrollIndicator={false}>
-        {!true && (
+        {!connectedDevice && (
           <View style={styles.connectedContainer}>
             <Text style={styles.noConnectionText}>연결된 기기 없음</Text>
             <Text style={styles.noConnectionText2}>
@@ -146,8 +142,8 @@ const HomeScreen = ({navigation}) => {
               }></CustomButton_B>
           </View>
         )}
-        {true && (
-          <View style={{alignItems: 'center'}}>
+        {connectedDevice && (
+          <View style={{alignItems: 'center', marginBottom: 16 * height_ratio}}>
             <CustomButton_B
               style={styles.connectButton}
               content="빠른 운동 시작"
@@ -178,7 +174,7 @@ const HomeScreen = ({navigation}) => {
             </TouchableOpacity>
           </View>
 
-          {!existRoutine && routineReady && (
+          {appcontext.state.routineList.length === 0 && (
             <View style={styles.routineContainer}>
               <Text style={styles.noRoutineText}>생성된 루틴이 없습니다.</Text>
               <Text style={styles.noConnectionText2}>
@@ -191,30 +187,52 @@ const HomeScreen = ({navigation}) => {
               </TouchableOpacity>
             </View>
           )}
-          {routine[0] && routineReady && (
+          {appcontext.state.routineList[0] && (
             <View style={{gap: 12 * height_ratio}}>
               <RoutineBox
-                title={routine[0].routine_name}
-                targets={routine[0].body_regions}
-                numEx={routine[0].motion_count}
+                title={appcontext.state.routineList[0].routine_name}
+                targets={appcontext.state.routineList[0].body_regions}
+                numEx={appcontext.state.routineList[0].motion_count}
                 onPress={() => {
+                  console.log(appcontext.state.routineDetailList);
                   navigation.push('RoutineDetail', {
                     isRoutineDetail: true,
-                    routine_id: routine[0].routine_id,
-                    routineName: routine[0].routine_name,
+                    routine_id: appcontext.state.routineList[0].routine_id,
+                    routine_index: appcontext.state.routineList.findIndex(
+                      e =>
+                        e.routine_id ===
+                        appcontext.state.routineList[0].routine_id,
+                    ),
+                    routine_detail_index:
+                      appcontext.state.routineDetailList.findIndex(
+                        e =>
+                          e.routine_id ===
+                          appcontext.state.routineList[0].routine_id,
+                      ),
+                    routineName: appcontext.state.routineList[0].routine_name,
                     motion_index_base: 0,
                   });
                 }}></RoutineBox>
-              {routine[1] && (
+              {appcontext.state.routineList[1] && (
                 <RoutineBox
-                  title={routine[1].routine_name}
-                  targets={routine[1].body_regions}
-                  numEx={routine[1].motion_count}
+                  title={appcontext.state.routineList[1].routine_name}
+                  targets={appcontext.state.routineList[1].body_regions}
+                  numEx={appcontext.state.routineList[1].motion_count}
                   onPress={() => {
                     navigation.push('RoutineDetail', {
                       isRoutineDetail: true,
-                      routine_id: routine[1].routine_id,
-                      routineName: routine[1].routine_name,
+                      routine_index: appcontext.state.routineList.findIndex(
+                        e =>
+                          e.routine_id ===
+                          appcontext.state.routineList[1].routine_id,
+                      ),
+                      routine_detail_index:
+                        appcontext.state.routineDetailList.findIndex(
+                          e =>
+                            e.routine_id ===
+                            appcontext.state.routineList[1].routine_id,
+                        ),
+
                       motion_index_base: 0,
                     });
                   }}></RoutineBox>
@@ -224,14 +242,14 @@ const HomeScreen = ({navigation}) => {
         </View>
 
         <Text style={styles.subtitleText}>최근 수행한 운동</Text>
-        {recentRoutine.length === 0 && (
+        {!appcontext.state.workoutList[0] && (
           <View style={styles.routineContainer}>
             <Text style={styles.noRoutineText}>
               최근 운동한 기록이 없습니다.
             </Text>
           </View>
         )}
-        {recentRoutine.length > 0 && (
+        {appcontext.state.workoutList[0] && (
           <View>
             <View>
               <Text
@@ -239,13 +257,14 @@ const HomeScreen = ({navigation}) => {
                   fontSize: 14 * height_ratio,
                   marginTop: 12 * height_ratio,
                 }}>
-                {recentRoutine[0].start_time.split(' ')[0]}
+                {appcontext.state.workoutList[0].date}
               </Text>
-              {recentRoutine.map((value, key) => (
+              {appcontext.state.workoutList[0].data.map((value, key) => (
                 <TouchableOpacity
                   key={key}
                   onPress={() =>
                     navigation.navigate('WorkoutDetail', {
+                      index: 0,
                       workout_id: value.workout_id,
                       title: value.title,
                       start_time:
@@ -268,7 +287,7 @@ const HomeScreen = ({navigation}) => {
                 </TouchableOpacity>
               ))}
             </View>
-            <View style={{height: 90 * height_ratio}}></View>
+            <View style={{height: 60 * height_ratio}}></View>
           </View>
         )}
       </ScrollView>
@@ -284,6 +303,9 @@ const HomeScreen = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('MainSetting')}>
           <Setting height={24 * height_ratio} width={24 * width_ratio} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.push('Community')}>
+          <Users name="users" size={20 * height_ratio} color="#808080" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

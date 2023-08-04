@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     borderTopLeftRadius: 24 * height_ratio,
     borderTopRightRadius: 24 * height_ratio,
+    paddingBottom: 32 * height_ratio,
   },
 
   modeTitleContainer: {
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-
     padding: 0,
     backgroundColor: '#ffffff',
   },

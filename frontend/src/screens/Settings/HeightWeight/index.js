@@ -54,7 +54,6 @@ const HeightWeight = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    console.log(appcontext.state.userHeight);
     if (appcontext.state.userHeight <= 0 || appcontext.state.userWeight <= 0) {
       setSaveDisable(true);
     } else setSaveDisable(false);

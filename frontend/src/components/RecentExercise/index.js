@@ -1,6 +1,9 @@
 import React, {useEffect} from 'react';
 import styles from './styles';
 import {Text, View, Image, TouchableOpacity, Dimensions} from 'react-native';
+import Timer from 'react-native-vector-icons/MaterialCommunityIcons';
+import Lightning from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fire from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //svg
 import Time from '../../assets/svg/icons/time.svg';
@@ -12,6 +15,7 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const RecentExercise = props => {
   const value = props.data;
+
   return (
     <View>
       <View style={styles.performedContainer}>
@@ -20,11 +24,11 @@ const RecentExercise = props => {
           <Text style={styles.timeText}>
             {value.start_time.split(' ')[1].split(':')[0] +
               ':' +
-              value.start_time.split(' ')[1].split(':')[1]}{' '}
+              value.start_time.split(' ')[1].split(':')[0]}{' '}
             -{' '}
             {value.end_time.split(' ')[1].split(':')[0] +
               ':' +
-              value.end_time.split(' ')[1].split(':')[1]}
+              value.end_time.split(' ')[1].split(':')[0]}
           </Text>
           <View
             style={{

@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Dimensions,
   SafeAreaView,
-  Platform,
   Modal,
   TextInput,
   FlatList,
@@ -30,8 +29,8 @@ const CustomMotion = ({navigation}) => {
   const [modal2, setModal2] = useState(false);
   const [modal3, setModal3] = useState(false);
   const [modal4, setModal4] = useState(false);
-  const [tempmainMuscle, setTempMainMuscle] = useState('');
-  const [mainMuscle, setMainMuscle] = useState('');
+  const [tempmainMuscle, setTempMainMuscle] = useState([]);
+  const [mainMuscle, setMainMuscle] = useState([]);
   const [tempSubMuscle, setTempSubMuscle] = useState([]);
   const [subMuscle, setSubMuscle] = useState([]);
   const [tempWorkoutWay, setTempWorkoutWay] = useState('');
@@ -85,27 +84,41 @@ const CustomMotion = ({navigation}) => {
 
   const renderItem = item => {
     return (
-      <TouchableOpacity onPress={() => setTempMainMuscle(item.item)}>
+      <TouchableOpacity
+        onPress={() => {
+          if (tempmainMuscle.includes(item.item)) {
+            setTempMainMuscle(
+              tempmainMuscle.filter(muscle => muscle !== item.item),
+            );
+          } else {
+            setTempMainMuscle([...tempmainMuscle, item.item]);
+          }
+        }}>
         <View
           style={{
+            marginBottom: 8,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
             width: '100%',
             height: 56 * height_ratio,
-            backgroundColor: item.item === tempmainMuscle ? '#f5f5f5' : 'white',
+            backgroundColor: tempmainMuscle.includes(item.item)
+              ? '#f5f5f5'
+              : 'white',
           }}>
           <View style={styles.restContainer}>
             <Text
               style={{
                 fontSize: 16 * height_ratio,
-                color: item.item === tempmainMuscle ? '#5252fa' : '#242424',
+                color: tempmainMuscle.includes(item.item)
+                  ? '#5252fa'
+                  : '#242424',
               }}>
               {item.item}
             </Text>
           </View>
           <View style={styles.restChecker}>
-            {item.item === tempmainMuscle && (
+            {tempmainMuscle.includes(item.item) && (
               <Check height={16 * height_ratio} width={16 * width_ratio} />
             )}
           </View>
@@ -118,7 +131,6 @@ const CustomMotion = ({navigation}) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log(item.index);
           if (tempSubMuscle.includes(item.item)) {
             setTempSubMuscle(
               tempSubMuscle.filter(muscle => muscle !== item.item),
@@ -126,8 +138,6 @@ const CustomMotion = ({navigation}) => {
           } else {
             setTempSubMuscle([...tempSubMuscle, item.item]);
           }
-
-          console.log(tempSubMuscle);
         }}>
         <View
           style={{
@@ -228,16 +238,39 @@ const CustomMotion = ({navigation}) => {
     const body = {
       user_id: appcontext.state.userid,
       motion_name: motionName,
-      body_region: mainMuscle,
+      body_region: mainMuscle.join(', '),
       sub_muscle: subMuscle.join(', '),
       sequence: workoutWay,
       grip: tool,
       description: '',
     };
-    console.log(body);
     await serverAxios
       .post('/motion/custom', body)
-      .then(res => {})
+      .then(res => {
+        const newMotionItem = {
+          add_on: null,
+          body_region: mainMuscle.join(', '),
+          count: 0,
+          description: motionName + ' Description',
+          grip: tool,
+          image_url: null,
+          isFav: false,
+          main_muscle: null,
+          motion_english_name: motionName,
+          motion_id: res.data,
+          motion_name: motionName,
+          motion_range_max: 100,
+          motion_range_min: 40,
+          sequence: null,
+          sub_muscle: subMuscle.join(', '),
+          user_id: appcontext.state.userid,
+        };
+
+        appcontext.actions.setMotionList(prevMotionList => [
+          ...prevMotionList,
+          newMotionItem,
+        ]);
+      })
       .catch(e => console.log(e));
 
     navigation.push('AddMotion', {
@@ -257,7 +290,7 @@ const CustomMotion = ({navigation}) => {
             </View>
             <View>
               <FlatList
-                data={appcontext.state.muscleList}
+                data={appcontext.state.bodyRegionList}
                 renderItem={renderItem}></FlatList>
             </View>
             <View style={styles.modeButtonContainer}>
@@ -290,7 +323,7 @@ const CustomMotion = ({navigation}) => {
             </View>
             <View>
               <FlatList
-                data={appcontext.state.muscleList}
+                data={appcontext.state.bodyRegionList}
                 renderItem={renderItem2}></FlatList>
             </View>
             <View style={styles.modeButtonContainer}>
@@ -401,7 +434,7 @@ const CustomMotion = ({navigation}) => {
                   color: '#242424',
                   fontSize: 14 * height_ratio,
                 }}>
-                {mainMuscle}
+                {mainMuscle.join(', ')}
               </Text>
               <Right></Right>
             </View>
@@ -456,7 +489,7 @@ const CustomMotion = ({navigation}) => {
           </View>
         </TouchableOpacity>
       </ScrollView>
-      <View style={{position: 'absolute', bottom: 0}}>
+      <View style={{position: 'absolute', bottom: 16}}>
         <CustomButton_B
           disabled={allSelection}
           content="커스텀 동작 추가 완료"

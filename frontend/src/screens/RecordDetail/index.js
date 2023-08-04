@@ -20,12 +20,9 @@ const RecordDetail = ({navigation, route}) => {
 
   const handleDeletePress = async () => {
     const targeturl = '/workout/delete/record/' + route.params.record.record_id;
-    console.log(targeturl);
     await serverAxios
       .delete(targeturl)
-      .then(res => {
-        console.log(res.data);
-      })
+      .then(res => {})
       .catch(e => {
         console.log(e);
       });

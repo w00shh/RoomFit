@@ -82,6 +82,23 @@ const WorkoutItem = props => {
     // });
     props.setMotionList(updatedMotionList);
   };
+
+  const handleSaveWeight = (weight, set_id, target_motion_id) => {
+    if (props.motionList[0]) {
+      let updatedMotionList = [...props.motionList];
+      updatedMotionList[target_motion_id].sets[set_id].weight = weight;
+      props.setMotionList(updatedMotionList);
+    }
+  };
+
+  const handleSaveReps = (reps, set_id, target_motion_id) => {
+    if (props.motionList[0]) {
+      let updatedMotionList = [...props.motionList];
+      updatedMotionList[target_motion_id].sets[set_id].reps = reps;
+      props.setMotionList(updatedMotionList);
+    }
+  };
+
   return (
     <View
       style={{
@@ -136,7 +153,9 @@ const WorkoutItem = props => {
               reps={value.reps}
               mode={value.mode}
               isDoing={value.isDoing}
-              isDone={value.isDone}></SetItem>
+              isDone={value.isDone}
+              handleSaveWeight={handleSaveWeight}
+              handleSaveReps={handleSaveReps}></SetItem>
           ))}
       </View>
 

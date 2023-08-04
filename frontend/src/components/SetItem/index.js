@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import styles from './styles';
 import {
   Text,
@@ -79,19 +79,6 @@ const SetItem = props => {
     }
   };
 
-  useEffect(() => {
-    if (props.motionList) {
-      const updatedMotionList = [...props.motionList];
-      updatedMotionList[props.target_motion_id].sets[props.set_id] = {
-        weight: weight,
-        reps: reps,
-        mode: props.motionList[props.target_motion_id].sets[props.set_id].mode,
-        isDoing: isDoing,
-        isDone: isDone,
-      };
-    }
-  }, [weight, reps]);
-
   return props.isKey ? (
     <View style={styles.setContainer}>
       <View style={styles.titleKey}>
@@ -168,7 +155,14 @@ const SetItem = props => {
           inputMode="numeric"
           keyboardType="numeric"
           value={isWeightEmpty ? '' : String(weight)}
-          onChangeText={handleWeightChange}></TextInput>
+          onChangeText={handleWeightChange}
+          onEndEditing={() => {
+            props.handleSaveWeight(
+              weight,
+              props.set_id,
+              props.target_motion_id,
+            );
+          }}></TextInput>
         <Text style={styles.unitText}>kg</Text>
       </View>
       <View style={styles.itemBox}>
@@ -177,12 +171,15 @@ const SetItem = props => {
           inputMode="numeric"
           keyboardType="numeric"
           value={isRepsEmpty ? '' : String(reps)}
-          onChangeText={handleRepsChange}></TextInput>
+          onChangeText={handleRepsChange}
+          onEndEditing={() => {
+            props.handleSaveReps(reps, props.set_id, props.target_motion_id);
+          }}></TextInput>
         <View style={styles.unitContainer}>
           <Text style={styles.unitText}>회</Text>
         </View>
       </View>
-      {/* <Text>isDoing: {String(props.isDoing)}</Text>-=
+      {/* <Text>isDoing: {String(props.isDoing)}</Text>
       <Text>isDone: {String(props.isDone)}</Text> */}
       <TouchableWithoutFeedback onPress={handleModeSelectPress}>
         <View

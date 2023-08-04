@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5252fa',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignSelf: 'center',
     alignItems: 'center',
     borderRadius: 12,
     width: 358 * width_ratio,
@@ -442,6 +443,80 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     margin: 0,
     padding: 0,
+  },
+  shareWorkoutModalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    gap: 8 * height_ratio,
+  },
+
+  workoutSharingModal: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    borderRadius: 8,
+    //gap: 16 * height_ratio,
+  },
+
+  popuptopContainer: {
+    height: 24 * height_ratio,
+  },
+  titleText: {
+    fontSize: 16 * height_ratio,
+    fontWeight: '700',
+    color: '#242424',
+  },
+  workoutRecordContainer: {
+    flexDirection: 'column',
+    width: '100%',
+    gap: 16 * height_ratio,
+    paddingVertical: 16 * height_ratio,
+    paddingHorizontal: 16 * width_ratio,
+    backgroundColor: '#242424',
+    borderTopLeftRadius: 6 * height_ratio,
+    borderTopRightRadius: 6 * height_ratio,
+  },
+  workoutRecordTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  workoutRecordBottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 40 * height_ratio,
+  },
+  workoutRecordMotion: {
+    gap: 4 * height_ratio,
+    justifyContent: 'flex-end',
+  },
+  boldText: {
+    fontSize: 14 * height_ratio,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  normalText: {
+    fontSize: 14 * height_ratio,
+    color: '#fff',
+  },
+  descriptionText: {
+    fontSize: 14 * height_ratio,
+    color: '#242424',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    gap: 12 * width_ratio,
+    paddingVertical: 16 * height_ratio,
+  },
+  inputContainer: {
+    flexDirection: 'column',
+    width: 280 * width_ratio,
+    height: 48 * height_ratio,
+    justifyContent: 'center',
+    paddingHorizontal: 16 * width_ratio,
+    borderRadius: 6 * height_ratio,
+    backgroundColor: '#dfdfdf',
   },
 });
 

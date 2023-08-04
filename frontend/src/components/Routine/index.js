@@ -10,37 +10,37 @@ const height_ratio = Dimensions.get('screen').height / 844;
 
 const RoutineBox = props => {
   return (
-    <View style={styles.routineContainer}>
-      <View style={{flexDirection: 'column'}}>
-        <Text style={styles.titleText}>{props.title}</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: 4 * width_ratio,
-            alignItems: 'center',
-          }}>
-          <Text style={styles.targetText}>{props.targets}</Text>
+    <TouchableOpacity onPress={props.onPress}>
+      <View style={styles.routineContainer}>
+        <View style={{flexDirection: 'column'}}>
+          <Text style={styles.titleText}>{props.title}</Text>
           <View
             style={{
-              width: 1 * width_ratio,
-              height: 12 * height_ratio,
-              backgroundColor: '#DFDFDF',
-              borderRadius: 100,
-            }}
-          />
-          <Text style={styles.targetText}>{props.numEx}개의 운동</Text>
+              flexDirection: 'row',
+              gap: 4 * width_ratio,
+              alignItems: 'center',
+            }}>
+            <Text style={styles.targetText}>{props.targets}</Text>
+            <View
+              style={{
+                width: 1 * width_ratio,
+                height: 12 * height_ratio,
+                backgroundColor: '#DFDFDF',
+                borderRadius: 100,
+              }}
+            />
+            <Text style={styles.targetText}>{props.numEx}개의 운동</Text>
+          </View>
         </View>
-      </View>
-      <TouchableOpacity onPress={props.onPress}>
+
         <Right
           height={24 * height_ratio}
           width={24 * width_ratio}
           style={{
             marginLeft: 4 * width_ratio,
-            marginRight: 8 * width_ratio,
           }}></Right>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 

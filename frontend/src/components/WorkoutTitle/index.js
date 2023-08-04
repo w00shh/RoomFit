@@ -1,11 +1,12 @@
 import React, {useContext, useEffect} from 'react';
 import {Image, Text, TouchableOpacity, View, Dimensions} from 'react-native';
 import styles from './styles';
+import {AppContext} from '../../contexts/AppProvider';
 
 //svg
 import Handle from '../../assets/svg/buttons/single/handle.svg';
 import Drop from '../../assets/svg/buttons/single/drop.svg';
-import {AppContext} from '../../contexts/AppProvider';
+import DefaultImage from '../../assets/svg/icons/default_workout.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -16,15 +17,22 @@ const WorkoutTitle = props => {
     <View style={styles.workoutTitleContainer}>
       <View style={styles.descriptionContainer}>
         <View style={styles.imageContainer}>
-          <Image
-            source={{
-              uri: props.motion.image_url,
-            }}
-            style={{
-              width: 48 * width_ratio,
-              height: 48 * height_ratio,
-            }}></Image>
+          {props.motion.image_url ? (
+            <Image
+              source={{
+                uri: props.motion.image_url,
+              }}
+              style={{
+                width: 48 * width_ratio,
+                height: 48 * height_ratio,
+              }}></Image>
+          ) : (
+            <DefaultImage
+              width={48 * width_ratio}
+              height={48 * height_ratio}></DefaultImage>
+          )}
         </View>
+        {/* <Text>{props.motion.motion_index}</Text> */}
         <View style={styles.nameContainer}>
           <Text style={styles.koreanText}>{props.motion.motion_name}</Text>
           <TouchableOpacity

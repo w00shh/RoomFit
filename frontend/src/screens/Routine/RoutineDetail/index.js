@@ -5,9 +5,11 @@ import {
   TouchableOpacity,
   TextInput,
   Modal,
-  ScrollView,
   FlatList,
   Dimensions,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 import WorkoutItem from '../../../components/WorkoutItem';
@@ -20,13 +22,13 @@ import {
   GestureHandlerRootView,
   gestureHandlerRootHOC,
 } from 'react-native-gesture-handler';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MotionRangeModal from '../../../components/Modal/MotionRange';
 
 //svg
 import Modify from '../../../assets/svg/buttons/single/modify.svg';
 import Back from '../../../assets/svg/buttons/single/back.svg';
 import {Divider} from '../../../components/divider';
-import DefaultImage from '../../../assets/svg/icons/default_workout.svg';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -42,9 +44,17 @@ const RoutineDetail = ({navigation, route}) => {
   );
 
   const [motionList, setMotionList] = useState([]);
-  const [routineId, setRoutineId] = useState(route.params.routine_id);
+  const [routineId, setRoutineId] = useState(
+    appcontext.state.routineDetailList[route.params.routine_detail_index]
+      .routine_id,
+  );
   const [workoutId, setWorkoutId] = useState();
-  const [routineName, setRoutineName] = useState(route.params.routineName);
+  const [routineName, setRoutineName] = useState(
+    route.params.routineName
+      ? route.params.routineName
+      : appcontext.state.routineDetailList[route.params.routine_detail_index]
+          .routine_name,
+  );
   const [isRoutineName, setIsRoutineName] = useState(false);
   const [isRoutineNameModalVisible, setIsRoutineNameModalVisible] =
     useState(false);
@@ -60,6 +70,8 @@ const RoutineDetail = ({navigation, route}) => {
     modeName: '기본',
     modeDescription: '설명',
   });
+
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   function Item({mode}) {
     return (
@@ -113,10 +125,25 @@ const RoutineDetail = ({navigation, route}) => {
     };
     await serverAxios
       .post('/routine/save', body)
-      .then(res => {})
+      .then(res => {
+        let updatedRoutineList = appcontext.state.routineList;
+        updatedRoutineList[route.params.routine_index].routine_id =
+          res.data[0].routine_id;
+        updatedRoutineList[route.params.routine_index].routine_name =
+          res.data[0].routine_name;
+        updatedRoutineList[route.params.routine_index].motion_count =
+          res.data[0].motion_count;
+        updatedRoutineList[route.params.routine_index].body_regions =
+          res.data[0].body_regions;
+        appcontext.actions.setRoutineList(updatedRoutineList);
+      })
       .catch(e => {
         console.log(e);
       });
+    let updatedRoutineDetailList = appcontext.state.routineDetailList;
+    updatedRoutineDetailList[route.params.routine_detail_index].motionList =
+      motionList;
+    appcontext.actions.setRoutineDetailList(updatedRoutineDetailList);
 
     navigation.push('MyRoutine');
   };
@@ -170,41 +197,36 @@ const RoutineDetail = ({navigation, route}) => {
         </TouchableOpacity>
       ),
     });
-  }, [isRoutineName, isSaveDisabled, motionList]);
-
-  const getRoutineDetailMotionList = async () => {
-    const targeturl = '/routine/detail/' + route.params.routine_id;
-
-    await serverAxios
-      .get(targeturl)
-      .then(res => {
-        res.data.motionList.forEach((value, key) => {
-          setMotionList(currentMotionList => [
-            ...currentMotionList,
-            {
-              motion_index: motionIndexBase + key,
-              isMotionDone: false,
-              isMotionDoing: false,
-              doingSetIndex: 0,
-              isFav: value.isFav,
-              motion_range_min: value.motion_range_min,
-              motion_range_max: value.motion_range_max,
-              motion_id: value.motion_id,
-              motion_name: value.motion_name,
-              image_url: value.image_url,
-              sets: value.sets,
-            },
-          ]);
-        });
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+  }, [isRoutineName, isSaveDisabled, motionList, routineName]);
 
   useEffect(() => {
     if (route.params.isRoutineDetail) {
-      getRoutineDetailMotionList();
+      //getRoutineDetailMotionList();
+      appcontext.state.routineDetailList[
+        route.params.routine_detail_index
+      ].motionList.forEach((value, key) => {
+        let updatedSets = value.sets;
+        updatedSets.forEach((value2, key2) => {
+          value2.isDoing = false;
+          value2.isDone = false;
+        });
+        setMotionList(currentMotionList => [
+          ...currentMotionList,
+          {
+            motion_index: motionIndexBase + key,
+            isMotionDone: false,
+            isMotionDoing: false,
+            doingSetIndex: 0,
+            isFav: value.isFav,
+            motion_range_min: value.motion_range_min,
+            motion_range_max: value.motion_range_max,
+            motion_id: value.motion_id,
+            motion_name: value.motion_name,
+            image_url: value.image_url,
+            sets: updatedSets,
+          },
+        ]);
+      });
     } else {
       setMotionList(route.params.motionList);
       setIsSaveDisabled(false);
@@ -277,6 +299,8 @@ const RoutineDetail = ({navigation, route}) => {
 
   const handleAddMotionPress = () => {
     navigation.push('AddMotion', {
+      routine_index: route.params.routine_index,
+      routine_detail_index: route.params.routine_detail_index,
       isRoutine: true,
       isRoutineDetail: true,
       routine_id: routineId,
@@ -289,6 +313,8 @@ const RoutineDetail = ({navigation, route}) => {
   useEffect(() => {
     if (workoutId) {
       navigation.navigate('WorkoutStartSplash', {
+        routine_index: route.params.routine_index,
+        routine_detail_index: route.params.routine_detail_index,
         isRoutineDetail: true,
         isQuickWorkout: false,
         routine_id: routineId,
@@ -418,7 +444,9 @@ const RoutineDetail = ({navigation, route}) => {
           <DraggableFlatList
             data={motionList}
             renderItem={renderItem}
-            keyExtractor={item => item.motion_index}
+            keyExtractor={(item, index) =>
+              item.motion_index.toString() + index.toString()
+            }
             onDragEnd={({data}) => setMotionList(data)}
             showsVerticalScrollIndicator={false}
           />
@@ -430,6 +458,7 @@ const RoutineDetail = ({navigation, route}) => {
           <CustomButton_W
             width={171 * width_ratio}
             content="+ 동작 추가"
+            marginVertical={16 * height_ratio}
             onPress={handleAddMotionPress}
             disabled={false}></CustomButton_W>
         </View>
@@ -437,6 +466,7 @@ const RoutineDetail = ({navigation, route}) => {
           <CustomButton_B
             width={171 * width_ratio}
             content="루틴 운동 시작"
+            marginVertical={16 * height_ratio}
             onPress={handleStartWorkoutPress}
             disabled={false}></CustomButton_B>
         </View>

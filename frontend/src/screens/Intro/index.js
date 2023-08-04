@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import {
   Text,
   View,
@@ -27,19 +27,20 @@ const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
 
 const Intro = ({navigation}) => {
+  const isRef = useRef(false);
   appcontext = useContext(AppContext);
-  useEffect(() => {
-    const handleBackButton = () => {
-      // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
-      return true;
-    };
+  // useEffect(() => {
+  //   const handleBackButton = () => {
+  //     // 뒤로가기 버튼 동작을 막기 위해 아무 작업도 수행하지 않습니다.
+  //     return true;
+  //   };
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+  //   BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    };
-  }, []);
+  //   return () => {
+  //     BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const handleDeepLink = async () => {
@@ -63,7 +64,12 @@ const Intro = ({navigation}) => {
       if (params.user_id) {
         appcontext.actions.setIsLogin(true);
         appcontext.actions.setUserid(params.user_id);
-        appcontext.actions.setUsernickname(params.user_id);
+        appcontext.actions.setUsernickname(params.user_name);
+        appcontext.actions.setUseremail(params.email);
+
+        handleGetAllRoutine(params.user_id);
+        handleGetAllWorkoutList(params.user_id);
+        handleGetMotionList(params.user_id);
 
         saveLogin(params.user_id);
         navigation.reset({routes: [{name: 'HomeScreen'}]});
@@ -77,6 +83,94 @@ const Intro = ({navigation}) => {
     //   Linking.removeEventListener('url', handleUrl);
     // };
   }, []);
+
+  const handleGetAllRoutine = async userId => {
+    const body = {
+      user_id: userId,
+      isHome: false,
+    };
+    await serverAxios.post('/routine/load', body).then(res => {
+      res.data.map((value, key) => {
+        appcontext.actions.setRoutineList(currentRoutine => [
+          ...currentRoutine,
+          {
+            routine_id: value.routine_id,
+            routine_name: value.routine_name,
+            body_regions: value.body_regions,
+            motion_count: value.motion_count,
+          },
+        ]);
+        handleGetAllRoutineDetail(value.routine_id);
+      });
+    });
+  };
+
+  const handleGetAllRoutineDetail = async routineID => {
+    const targetUrl = 'routine/detail/' + routineID;
+    const res = await serverAxios.get(targetUrl);
+    const newData = res.data;
+
+    appcontext.actions.setRoutineDetailList(prevList => [...prevList, newData]);
+  };
+
+  const handleGetMotionList = async userId => {
+    const body = {
+      user_id: userId,
+    };
+    await serverAxios
+      .post('/motion', body)
+      .then(res => {
+        appcontext.actions.setMotionList(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const handleGetAllWorkoutList = async userId => {
+    const body = {
+      user_id: userId,
+    };
+    await serverAxios
+      .post('/workout/brief', body)
+      .then(res => {
+        appcontext.actions.setWorkoutList(groupDataByDate(res.data));
+      })
+      .catch(e => console.log(e));
+  };
+
+  const groupDataByDate = data => {
+    const groupedData = data.reduce((acc, exercise) => {
+      const {date, ...exerciseInfo} = exercise;
+      if (!acc[date.split(' ')[0]]) {
+        acc[date] = [];
+      }
+      acc[date].push(exerciseInfo);
+      return acc;
+    }, {});
+
+    return Object.keys(groupedData).map(date => ({
+      date,
+      data: groupedData[date],
+    }));
+  };
+
+  useEffect(() => {
+    if (isRef.current) {
+      if (
+        appcontext.state.routineList.length ===
+        appcontext.state.routineDetailList.length
+      ) {
+        navigation.navigate('HomeScreen');
+      }
+    } else {
+      isRef.current = true;
+    }
+  }, [
+    appcontext.state.routineDetailList,
+    appcontext.state.workoutList,
+    appcontext.state.routineList,
+  ]);
 
   const saveLogin = async userId => {
     try {
@@ -96,9 +190,9 @@ const Intro = ({navigation}) => {
     await serverAxios
       .get('/account/user-info?user_id=' + appcontext.state.userid)
       .then(res => {
-        console.log(res.data);
-        if (res.data.user_name)
+        if (res.data.user_name) {
           appcontext.actions.setUsernickname(res.data.user_name);
+        }
         if (res.data.birth) appcontext.actions.setUserBirth(res.data.birth);
         if (res.data.gender) appcontext.actions.setUserGender(res.data.gender);
         if (res.data.height) appcontext.actions.setUserHeight(res.data.height);
@@ -127,12 +221,13 @@ const Intro = ({navigation}) => {
             Platform.OS === 'ios' ? 64 * height_ratio : 32 * height_ratio,
         }}></View>
       <Intro_Img height={352 * height_ratio} width={320 * width_ratio} />
-
-      <Logo
-        style={styles.mainLogo}
-        height={80 * height_ratio}
-        width={232 * width_ratio}
-      />
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen2')}>
+        <Logo
+          style={styles.mainLogo}
+          height={80 * height_ratio}
+          width={232 * width_ratio}
+        />
+      </TouchableOpacity>
 
       {/* <TouchableOpacity
         onPress={() => navigation.navigate('HomeScreen')}

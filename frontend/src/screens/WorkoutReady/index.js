@@ -24,6 +24,7 @@ import {
 } from 'react-native-gesture-handler';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import MotionRangeModal from '../../components/Modal/MotionRange';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const width_ratio = Dimensions.get('screen').width / 390;
 const height_ratio = Dimensions.get('screen').height / 844;
@@ -248,7 +249,9 @@ const WorkoutReady = ({navigation, route}) => {
         <DraggableFlatList
           data={motionList}
           renderItem={renderItem}
-          keyExtractor={item => item.motion_index}
+          keyExtractor={(item, index) =>
+            item.motion_index.toString() + index.toString()
+          }
           onDragEnd={({data}) => setMotionList(data)}
           showsVerticalScrollIndicator={false}
         />
@@ -259,6 +262,7 @@ const WorkoutReady = ({navigation, route}) => {
           <CustomButton_W
             width={171 * width_ratio}
             content="+ 동작 추가"
+            marginVertical={16 * height_ratio}
             onPress={() => {
               handleAddMotionPress();
             }}
@@ -268,6 +272,7 @@ const WorkoutReady = ({navigation, route}) => {
           <CustomButton_B
             width={171 * width_ratio}
             content="운동 시작"
+            marginVertical={16 * height_ratio}
             onPress={handleStartWorkoutPress}
             disabled={false}></CustomButton_B>
         </View>

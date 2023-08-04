@@ -67,14 +67,11 @@ const ProfileSetting = ({navigation}) => {
   }, [appcontext.state.usernickname]);
 
   const handleSaveButton = async () => {
-    console.log(appcontext.state.usernickname);
     const body = {
       user_id: appcontext.state.userid,
       user_name: appcontext.state.usernickname,
     };
     await serverAxios.put('/account/update', body).then(res => {
-      console.log(res.data.success);
-
       navigation.navigate('MainSetting');
     });
   };
@@ -85,7 +82,6 @@ const ProfileSetting = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log(appcontext.state.usernickname);
     appcontext.actions.setUsernickname(appcontext.state.usernickname);
   }, [appcontext.state.usernickname]);
 

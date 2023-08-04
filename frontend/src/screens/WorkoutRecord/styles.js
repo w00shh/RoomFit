@@ -104,6 +104,41 @@ const styles = StyleSheet.create({
     color: '#242424',
     fontWeight: '700',
   },
+  dropdownContainer: {
+    position: 'absolute',
+    top: 10,
+  },
+  dropdownContainerStyle: {
+    height: 40 * height_ratio,
+    width: 200 * width_ratio,
+  },
+  dropdownStyle: {
+    backgroundColor: '#fafafa',
+    paddingHorizontal: 10 * width_ratio,
+  },
+  dropdownDropStyle: {
+    backgroundColor: '#fafafa',
+    paddingHorizontal: 10 * width_ratio,
+  },
+  dropdownItemStyle: {
+    justifyContent: 'flex-start',
+  },
+  selectedItemContainer: {
+    marginTop: 60 * height_ratio, // Dropdown이 겹치지 않도록 간격을 두어 선택된 항목이 가려지지 않도록 함
+  },
+  selectedItemText: {
+    fontSize: 16 * height_ratio,
+    fontWeight: 'bold',
+  },
+  dropdown: {
+    width: 85 * width_ratio,
+    backgroundColor: 'white',
+    borderColor: '#242424',
+    borderWidth: 1 * height_ratio,
+    borderRadius: 8 * height_ratio,
+    marginBottom: 10 * height_ratio,
+    minHeight: 40 * height_ratio,
+  },
 });
 
 export default styles;

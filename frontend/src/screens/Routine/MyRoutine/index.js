@@ -24,10 +24,6 @@ const MyRoutine = ({navigation}) => {
   const [selected, setSelected] = useState(new Map());
 
   useEffect(() => {
-    handleGetAllRoutine();
-  }, []);
-
-  useEffect(() => {
     navigation.setOptions({
       headerLeft: () =>
         !isEdit && (
@@ -49,28 +45,6 @@ const MyRoutine = ({navigation}) => {
       ),
     });
   }, [isEdit]);
-
-  const handleGetAllRoutine = async () => {
-    setRoutine([]);
-    setIsEdit(false);
-    const body = {
-      user_id: appcontext.state.userid,
-      isHome: false,
-    };
-    await serverAxios.post('/routine/load', body).then(res => {
-      res.data.map((value, key) => {
-        setRoutine(currentRoutine => [
-          ...currentRoutine,
-          {
-            routine_id: value.routine_id,
-            routine_name: value.routine_name,
-            body_regions: value.body_regions,
-            motion_count: value.motion_count,
-          },
-        ]);
-      });
-    });
-  };
 
   useEffect(() => {
     if (routineId) {
@@ -102,10 +76,19 @@ const MyRoutine = ({navigation}) => {
     const body = {
       routine_ids: Array.from(selected.keys()),
     };
+
+    Array.from(selected.keys()).map((value, key) => {
+      appcontext.actions.setRoutineList(
+        appcontext.state.routineList.filter(e => e.routine_id !== value),
+      );
+      appcontext.actions.setRoutineDetailList(
+        appcontext.state.routineDetailList.filter(e => e.routine_id !== value),
+      );
+    });
     await serverAxios
       .put('/routine/delete', body)
       .then(res => {
-        handleGetAllRoutine();
+        //handleGetAllRoutine();
       })
       .catch(e => {
         console.log(e);
@@ -135,9 +118,9 @@ const MyRoutine = ({navigation}) => {
 
   return (
     <View style={styles.pageContainer}>
-      {routine[0] &&
+      {appcontext.state.routineList[0] &&
         !isEdit &&
-        routine.map((value, key) => (
+        appcontext.state.routineList.map((value, key) => (
           <View key={key}>
             <RoutineBox
               title={value.routine_name}
@@ -146,16 +129,21 @@ const MyRoutine = ({navigation}) => {
               onPress={() => {
                 navigation.push('RoutineDetail', {
                   isRoutineDetail: true,
-                  routine_id: value.routine_id,
-                  routineName: value.routine_name,
+                  routine_index: appcontext.state.routineList.findIndex(
+                    e => e.routine_id === value.routine_id,
+                  ),
+                  routine_detail_index:
+                    appcontext.state.routineDetailList.findIndex(
+                      e => e.routine_id === value.routine_id,
+                    ),
                   motion_index_base: 0,
                 });
               }}></RoutineBox>
           </View>
         ))}
-      {routine[0] &&
+      {appcontext.state.routineList[0] &&
         isEdit &&
-        routine.map((value, key) => (
+        appcontext.state.routineList.map((value, key) => (
           <View
             key={key}
             style={{
